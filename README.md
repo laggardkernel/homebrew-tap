@@ -59,3 +59,11 @@ unbound
 - `--with-python@2`
 
 vim
+- `--with-client-server`, (recommended on remote server only)
+- `--with-gettext`, default
+- `--with-lua`, default
+- `--with-luajit`
+- `--with-override-system-vi`
+- `--with-python@2`, (python3 is enabled by default)
+- `--with-tcl`
+- `--without-python`
