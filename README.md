@@ -4,8 +4,9 @@ Collection of custom and deprecated formulae.
 ## Installation
 
 ```bash
-brew tap laggardkernel/homebrew-tap
-brew install laggardkernel/homebrew-tap/<formula>
+brew tap laggardkernel/tap
+brew install laggardkernel/tap/<formula>
+# optional, brew tap-pin laggardkernel/tap
 ```
 
 ## Formulae
