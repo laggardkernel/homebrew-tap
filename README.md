@@ -22,7 +22,9 @@ libass
 - `--with-fontconfig` option
 
 libcaca
-- `--with-imlb2` option
+- `--with-imlib2` option
+
+[sans](https://github.com/puxxustc/sans)
 
 unbound
 - `--with-python@2`
