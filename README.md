@@ -6,7 +6,7 @@ Collection of custom and deprecated formulae.
 ```bash
 brew tap laggardkernel/tap
 brew install laggardkernel/tap/<formula>
-# optional, brew tap-pin laggardkernel/tap
+# not recommended, brew tap-pin laggardkernel/tap
 ```
 
 ## Formulae
@@ -22,7 +22,10 @@ libass
 - `--with-fontconfig` option
 
 libcaca
-- `--with-imlib2` option
+- `--with-imlib2` option (X11 is needed)
+
+openssh
+- `--with-libressl`
 
 [sans](https://github.com/puxxustc/sans)
 
