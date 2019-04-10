@@ -10,13 +10,16 @@ brew install laggardkernel/tap/<formula>
 ```
 
 ## Formulae
-curl
+~~curl~~
 - `with-rtmpdump,` build with RTMP support
 - `with-libssh2,` build with scp and sftp support
 - `with-c-ares,` build with C-Ares async DNS support
 - `with-gssapi,` build with GSSAPI/Kerberos authentication support.
 - `with-libmetalink,` build with libmetalink support.
 - `with-nghttp2,` build with HTTP/2 support (requires OpenSSL)
+
+curl-openssl
+- `with-openssl@1.1`, build with openssl 1.1. (tls 1.3 enabled)
 
 libass
 - `--with-fontconfig` option
