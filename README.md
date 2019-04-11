@@ -27,6 +27,9 @@ libass
 libcaca
 - `--with-imlib2` option (X11 is needed)
 
+nginx
+- `with-openssl@1.1`, enable tls 1.3 support through openssl 1.1
+
 openssh
 - `--with-libressl`
 
