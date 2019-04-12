@@ -26,7 +26,8 @@ class Curl < Formula
   option "with-c-ares", "Build with C-Ares async DNS support"
   option "with-gssapi", "Build with GSSAPI/Kerberos authentication support."
   option "with-libmetalink", "Build with libmetalink support."
-  option "with-nghttp2", "Build with HTTP/2 support (requires OpenSSL)"
+  option "with-libressl", "Build with LibreSSL instead of Secure Transport or OpenSSL"
+  option "with-nghttp2", "Build with HTTP/2 support (requires OpenSSL or LibreSSL)"
 
   deprecated_option "with-rtmp" => "with-rtmpdump"
   deprecated_option "with-ssh" => "with-libssh2"
@@ -34,7 +35,7 @@ class Curl < Formula
 
   # HTTP/2 support requires OpenSSL 1.0.2+ or LibreSSL 2.1.3+ for ALPN Support
   # which is currently not supported by Secure Transport (DarwinSSL).
-  if MacOS.version < :mountain_lion || build.with?("nghttp2")
+  if MacOS.version < :mountain_lion || (build.with?("nghttp2") && build.without?("libressl"))
     depends_on "openssl"
   else
     option "with-openssl", "Build with OpenSSL instead of Secure Transport"
@@ -45,10 +46,20 @@ class Curl < Formula
   depends_on "c-ares" => :optional
   depends_on "libmetalink" => :optional
   depends_on "libssh2" => :optional
+  depends_on "libressl" => :optional
   depends_on "nghttp2" => :optional
   depends_on "rtmpdump" => :optional
 
   def install
+    # Fail if someone tries to use both SSL choices.
+    # Long-term, handle conflicting options case in core code.
+    if build.with?("libressl") && build.with?("openssl")
+      odie <<-EOS.undent
+      --with-openssl and --with-libressl are both specified and
+      curl can only use one at a time.
+      EOS
+    end
+
     system "./buildconf" if build.head?
 
     # Allow to build on Lion, lowering from the upstream setting of 10.8
@@ -64,7 +75,12 @@ class Curl < Formula
     # cURL has a new firm desire to find ssl with PKG_CONFIG_PATH instead of using
     # "--with-ssl" any more. "when possible, set the PKG_CONFIG_PATH environment
     # variable instead of using this option". Multi-SSL choice breaks w/o using it.
-    if MacOS.version < :mountain_lion || build.with?("openssl") || build.with?("nghttp2")
+    if build.with? "libressl"
+      ENV.prepend_path "PKG_CONFIG_PATH", "#{Formula["libressl"].opt_lib}/pkgconfig"
+      args << "--with-ssl=#{Formula["libressl"].opt_prefix}"
+      args << "--with-ca-bundle=#{etc}/libressl/cert.pem"
+      args << "--with-ca-path=#{etc}/libressl/certs"
+    elsif MacOS.version < :mountain_lion || build.with?("openssl") || build.with?("nghttp2")
       ENV.prepend_path "PKG_CONFIG_PATH", "#{Formula["openssl"].opt_lib}/pkgconfig"
       args << "--with-ssl=#{Formula["openssl"].opt_prefix}"
       args << "--with-ca-bundle=#{etc}/openssl/cert.pem"
