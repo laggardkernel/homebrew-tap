@@ -21,13 +21,16 @@ class Curl < Formula
 
   keg_only :provided_by_macos
 
-  option "with-rtmpdump", "Build with RTMP support"
-  option "with-libssh2", "Build with scp and sftp support"
+  option "with-brotli", "Build with lossless compression support"
   option "with-c-ares", "Build with C-Ares async DNS support"
-  option "with-gssapi", "Build with GSSAPI/Kerberos authentication support."
-  option "with-libmetalink", "Build with libmetalink support."
+  option "with-gssapi", "Build with GSSAPI/Kerberos authentication support"
+  option "with-libidn", "Build with international domain name support"
+  option "with-libmetalink", "Build with libmetalink support"
+  option "with-libssh2", "Build with scp and sftp support"
   option "with-libressl", "Build with LibreSSL instead of Secure Transport or OpenSSL"
   option "with-nghttp2", "Build with HTTP/2 support (requires OpenSSL or LibreSSL)"
+  option "with-openldap", "Build with OpenLDAP support"
+  option "with-rtmpdump", "Build with RTMP support"
 
   deprecated_option "with-rtmp" => "with-rtmpdump"
   deprecated_option "with-ssh" => "with-libssh2"
@@ -43,11 +46,14 @@ class Curl < Formula
   end
 
   depends_on "pkg-config" => :build
+  depends_on "brotli" => :optional
   depends_on "c-ares" => :optional
+  depends_on "libidn" => :optional
   depends_on "libmetalink" => :optional
   depends_on "libssh2" => :optional
   depends_on "libressl" => :optional
   depends_on "nghttp2" => :optional
+  depends_on "openldap" => :optional
   depends_on "rtmpdump" => :optional
 
   def install
@@ -91,9 +97,10 @@ class Curl < Formula
       args << "--without-ca-path"
     end
 
-    args << (build.with?("libssh2") ? "--with-libssh2" : "--without-libssh2")
-    args << (build.with?("libmetalink") ? "--with-libmetalink" : "--without-libmetalink")
     args << (build.with?("gssapi") ? "--with-gssapi" : "--without-gssapi")
+    args << (build.with?("libidn") ? "--with-libidn2" : "--without-libidn2")
+    args << (build.with?("libmetalink") ? "--with-libmetalink" : "--without-libmetalink")
+    args << (build.with?("libssh2") ? "--with-libssh2" : "--without-libssh2")
     args << (build.with?("rtmpdump") ? "--with-librtmp" : "--without-librtmp")
 
     if build.with? "c-ares"
