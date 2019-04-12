@@ -21,6 +21,9 @@ brew install laggardkernel/tap/<formula>
 curl-openssl
 - `with-openssl@1.1`, build with openssl 1.1. (tls 1.3 enabled)
 
+httpd
+- `with-openssl@1.1`, enable tls 1.3 in Apache
+
 libass
 - `--with-fontconfig` option
 
