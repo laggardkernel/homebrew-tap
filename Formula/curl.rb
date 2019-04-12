@@ -34,7 +34,7 @@ class Curl < Formula
 
   # HTTP/2 support requires OpenSSL 1.0.2+ or LibreSSL 2.1.3+ for ALPN Support
   # which is currently not supported by Secure Transport (DarwinSSL).
-  if build.with?("nghttp2")
+  if MacOS.version < :mountain_lion || build.with?("nghttp2")
     depends_on "openssl"
   else
     option "with-openssl", "Build with OpenSSL instead of Secure Transport"
@@ -51,20 +51,20 @@ class Curl < Formula
   def install
     system "./buildconf" if build.head?
 
+    # Allow to build on Lion, lowering from the upstream setting of 10.8
+    ENV.append_to_cflags "-mmacosx-version-min=10.7" if MacOS.version <= :lion
+
     args = %W[
       --disable-debug
       --disable-dependency-tracking
       --disable-silent-rules
       --prefix=#{prefix}
-      --with-darwinssl
-      --without-ca-bundle
-      --without-ca-path
     ]
 
     # cURL has a new firm desire to find ssl with PKG_CONFIG_PATH instead of using
     # "--with-ssl" any more. "when possible, set the PKG_CONFIG_PATH environment
     # variable instead of using this option". Multi-SSL choice breaks w/o using it.
-    if build.with?("openssl") || build.with?("nghttp2")
+    if MacOS.version < :mountain_lion || build.with?("openssl") || build.with?("nghttp2")
       ENV.prepend_path "PKG_CONFIG_PATH", "#{Formula["openssl"].opt_lib}/pkgconfig"
       args << "--with-ssl=#{Formula["openssl"].opt_prefix}"
       args << "--with-ca-bundle=#{etc}/openssl/cert.pem"
