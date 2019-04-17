@@ -30,12 +30,10 @@ class Nghttp2 < Formula
   depends_on "jansson"
   depends_on "jemalloc"
   depends_on "libev"
+  depends_on "libevent"
   if build.with?("openssl@1.1")
-    depends_on "laggardkernel/tap/libevent" => "with-openssl@1.1"
-    # depends_on "libevent"
     depends_on "openssl@1.1"
   else
-    depends_on "libevent"
     depends_on "openssl"
   end
   depends_on "python" => :optional
