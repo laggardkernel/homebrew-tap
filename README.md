@@ -10,7 +10,7 @@ brew install laggardkernel/tap/<formula>
 ```
 
 ## Formulae
-~~curl~~
+curl
 - `with-brotli`, lossless compression support
 - `with-c-ares`, C-Ares async DNS support
 - `with-gssapi`, GSSAPI/Kerberos authentication support
@@ -35,8 +35,12 @@ libass
 libcaca
 - `--with-imlib2` option (X11 is needed)
 
+nghttp2
+- `with-openssl@1.1`, OpenSSL 1.1
+- `with-python`, Python3 bindings
+
 nginx
-- `with-openssl@1.1`, enable tls 1.3 support through openssl 1.1
+- `with-openssl@1.1`, enable tls 1.3 support through OpenSSL 1.1
 
 openssh
 - `--with-libressl`
