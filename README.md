@@ -6,7 +6,7 @@ Collection of custom and deprecated formulae.
 ```bash
 brew tap laggardkernel/tap
 brew install laggardkernel/tap/<formula>
-# not recommended, brew tap-pin laggardkernel/tap
+# brew tap-pin laggardkernel/tap # deprecated
 ```
 
 ## Formulae
@@ -24,10 +24,10 @@ curl
 - `with-rtmpdump`, RTMP support
 
 curl-openssl
-- `with-openssl@1.1`, OpenSSL 1.1. (tls 1.3 enabled)
+- `with-openssl@1.1`, OpenSSL 1.1 (TLS 1.3)
 
 httpd
-- `with-openssl@1.1`, enable tls 1.3 in Apache
+- `with-openssl@1.1`, OpenSSL 1.1 (TLS 1.3)
 
 libass
 - `--with-fontconfig` option
@@ -40,7 +40,11 @@ nghttp2
 - `with-python`, Python3 bindings
 
 nginx
-- `with-openssl@1.1`, enable tls 1.3 support through OpenSSL 1.1
+- `with-openssl@1.1`, OpenSSL 1.1 (TLS 1.3)
+
+nginx-full (fork of [denji/homebrew-nginx/nginx-full](https://github.com/denji/homebrew-nginx))
+- `with-openssl@1.1`, OpenSSL 1.1
+- ...
 
 openssh
 - `--with-libressl`
