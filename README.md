@@ -53,3 +53,5 @@ openssh
 
 unbound
 - `--with-python@2`
+
+vim
