@@ -7,23 +7,15 @@ class RangerFm < Formula
   sha256 "0ec62031185ad1f40b9faebd5a2d517c8597019c2eee919e3f1c60ce466d8625"
   head "https://github.com/ranger/ranger.git"
 
-  # depends_on "python@2"
-
-  # resource "Pillow" do
-  #   url "https://files.pythonhosted.org/packages/81/1a/6b2971adc1bca55b9a53ed1efa372acff7e8b9913982a396f3fa046efaf8/Pillow-6.0.0.tar.gz"
-  #   sha256 "809c0a2ce9032cbcd7b5313f71af4bdc5c8c771cb86eb7559afd954cab82ebb5"
-  # end
+  # Depends on python@2 for the time being, cause:
+  # 1. ranger based on python 3 breaks iTerm image preview, see
+  #    https://github.com/ranger/ranger/issues/1546
+  # 2. Use Homebrew python@2 instead of system on is recommended by the community
+  #    https://github.com/Homebrew/homebrew-core/issues/26287
+  depends_on "python@2"
 
   def install
     virtualenv_install_with_resources
-
-    # venv = virtualenv_create(libexec, "python3")
-    # system libexec/"bin/pip", "install", "-v", "--no-binary", ":all:",
-    #                           "--ignore-installed", buildpath
-    # system libexec/"bin/pip", "uninstall", "-y", name
-    # venv.pip_install "Pillow"
-    # venv.pip_install_and_link buildpath
-
     man1.install "doc/ranger.1"
     doc.install "examples"
   end
