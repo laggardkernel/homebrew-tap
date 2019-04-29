@@ -8,9 +8,9 @@ class RangerFm < Formula
   head "https://github.com/ranger/ranger.git"
 
   # Depends on python@2 for the time being, cause:
-  # 1. ranger based on python 3 breaks iTerm image preview, see
+  # 1. ranger based on python 3 breaks iTerm image preview
   #    https://github.com/ranger/ranger/issues/1546
-  # 2. Use Homebrew python@2 instead of system on is recommended by the community
+  # 2. Using python@2 instead of the system one is recommended by the community
   #    https://github.com/Homebrew/homebrew-core/issues/26287
   depends_on "python@2"
 

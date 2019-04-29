@@ -49,6 +49,9 @@ nginx-full (fork of [denji/homebrew-nginx/nginx-full](https://github.com/denji/h
 openssh
 - `--with-libressl`
 
+ranger-fm
+- `ranger` with `Pillow` (supported by image preview in kitty)
+
 [sans](https://github.com/puxxustc/sans)
 
 unbound
