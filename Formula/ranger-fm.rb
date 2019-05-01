@@ -21,6 +21,7 @@ class RangerFm < Formula
   end
 
   def post_install
+    system libexec/"bin/pip", "install", "-U", "chardet"
     system libexec/"bin/pip", "install", "-U", "Pillow"
   end
 
