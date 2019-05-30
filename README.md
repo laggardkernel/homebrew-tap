@@ -29,6 +29,8 @@ curl-openssl
 httpd
 - `with-openssl@1.1`, OpenSSL 1.1 (TLS 1.3)
 
+iterm2-zmodem
+
 libass
 - `--with-fontconfig` option
 
