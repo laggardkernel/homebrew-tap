@@ -37,10 +37,6 @@ libass
 libcaca
 - `--with-imlib2` option (X11 is needed)
 
-nghttp2
-- `with-openssl@1.1`, OpenSSL 1.1
-- `with-python`, Python3 bindings
-
 nginx
 - `with-openssl@1.1`, OpenSSL 1.1 (TLS 1.3)
 

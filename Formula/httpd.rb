@@ -16,12 +16,11 @@ class Httpd < Formula
   if build.with?("openssl@1.1")
     depends_on "laggardkernel/tap/apr-util" => "with-openssl@1.1"
     depends_on "openssl@1.1"
-    depends_on "laggardkernel/tap/nghttp2" => "with-openssl@1.1"
   else
     depends_on "apr-util"
     depends_on "openssl"
-    depends_on "nghttp2"
   end
+  depends_on "nghttp2"
   depends_on "brotli"
   depends_on "pcre"
 
