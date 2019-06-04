@@ -47,6 +47,8 @@ nginx-full (fork of [denji/homebrew-nginx/nginx-full](https://github.com/denji/h
 openssh
 - `--with-libressl`
 
+poetry
+
 ranger-fm with optional dependencies
 - `chardet` for better encoding detection
 - `Pillow` (depended by image preview in kitty)
