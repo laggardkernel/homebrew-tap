@@ -5,12 +5,6 @@ class Stubby < Formula
   sha256 "634b0b9fb8f36416e210fa65800a6c1672bcf9f4f276a042ccf89567ad8ef781"
   head "https://github.com/getdnsapi/stubby.git", :branch => "develop"
 
-  bottle do
-    sha256 "aa05e8445978d4d7391addd20666f7ab141e9587e4585d7873052acb68aed123" => :mojave
-    sha256 "e336da47ce50d92a0c3f445db4200dad8f99ba406ef454abfffb4085601e9e71" => :high_sierra
-    sha256 "685cec7e37bf310b77da3680fa81d1bfc920928289c4905eb5c6899e40f6f801" => :sierra
-  end
-
   depends_on "autoconf" => :build
   depends_on "automake" => :build
   depends_on "libtool" => :build
@@ -18,6 +12,16 @@ class Stubby < Formula
   depends_on "libyaml"
 
   def install
+    # # install executable into sbin
+    # inreplace %w[src/Makefile.am].each do |s|
+    #   s.gsub! "bin_PROGRAMS = stubby", "sbin_PROGRAMS = stubby", false
+    # end
+
+    # enable TLS v1.3 by default
+    inreplace %w[stubby.yml.example].each do |s|
+      s.gsub! "# tls_min_version: GETDNS_TLS1_2", "tls_min_version: GETDNS_TLS1_3", false
+    end
+
     system "autoreconf", "-fiv"
     system "./configure", "--disable-dependency-tracking",
                           "--disable-silent-rules",
@@ -45,10 +49,12 @@ class Stubby < Formula
           <string>-C</string>
           <string>#{etc}/stubby/stubby.yml</string>
         </array>
+        <key>UserName</key>
+        <string>root</string>
         <key>StandardErrorPath</key>
-        <string>#{var}/log/stubby/stubby.log</string>
+        <string>/dev/null</string>
         <key>StandardOutPath</key>
-        <string>#{var}/log/stubby/stubby.log</string>
+        <string>/dev/null</string>
       </dict>
     </plist>
   EOS
@@ -86,8 +92,8 @@ class Stubby < Formula
   end
 
   def caveats; <<~EOS
-  To enable TLS v1.3 support, set
-    tls_min_version: GETDNS_TLS1_3
+  TLS v1.3 is enabled as the minimum version, to disable it, set
+    tls_min_version: GETDNS_TLS1_2
   in your config file stubby.yml.
   EOS
   end
