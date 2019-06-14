@@ -55,6 +55,8 @@ ranger-fm with optional dependencies
 
 [sans](https://github.com/puxxustc/sans)
 
+stubby, with TLS v1.3 support
+
 unbound
 - `--with-python@2`
 
