@@ -21,7 +21,11 @@ class RangerFm < Formula
   end
 
   def post_install
+    # chardet, improve encoding detection
     system libexec/"bin/pip", "install", "-U", "chardet"
+    # python-bidi, correct display of RTL file names
+    system libexec/"bin/pip", "install", "-U", "python-bidi"
+    # Pillow, image display for kitty
     system libexec/"bin/pip", "install", "-U", "Pillow"
   end
 
