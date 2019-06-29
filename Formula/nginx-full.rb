@@ -114,7 +114,7 @@ class NginxFull < Formula
   option "with-openssl@1.1", "Build with OpenSSL 1.1"
 
   depends_on "pcre"
-  if build.with?("homebrew-libressl")
+  if build.with?("libressl")
     depends_on "libressl"
   elsif build.with?("openssl@1.1")
     depends_on "openssl@1.1"
