@@ -3,14 +3,14 @@ class Nginx < Formula
   homepage "https://nginx.org/"
   # Use "mainline" releases only (odd minor version number), not "stable"
   # See https://www.nginx.com/blog/nginx-1-12-1-13-released/ for why
-  url "https://nginx.org/download/nginx-1.17.1.tar.gz"
-  sha256 "6f1825b4514e601579986035783769c456b888d3facbab78881ed9b58467e73e"
+  url "https://nginx.org/download/nginx-1.17.2.tar.gz"
+  sha256 "5e333687464e1d6dfb86fc22d653b99a6798dda40093b33186eeeec5a97e69ec"
   head "https://hg.nginx.org/nginx/", :using => :hg
 
   bottle do
-    sha256 "a1114fd86181db06ebb31c5f3fb5e666fafb3d10e0e65ed0f327f1d15be1336e" => :mojave
-    sha256 "87caa6a053be172e1d1ace01d33613535b74176e61f0c0c2287ab78d9e785e7e" => :high_sierra
-    sha256 "1153fc38272ef722190b62f14637ce857c04a28cd50578ccf3dbcd42698d8892" => :sierra
+    sha256 "22adca1539c3b266cd8728a2dbc4f48c99bba5e00eef8e651fd125efeb1574c5" => :mojave
+    sha256 "a4ee5edd2549a314629ebe33acb73da523569b24a247e59ea8b7fca016255131" => :high_sierra
+    sha256 "369a8f3ab1d8794356cf30a80d2117a240107d0860e2bf36d697b6130616e8db" => :sierra
   end
 
   option "with-openssl@1.1", "Build with OpenSSL 1.1"
