@@ -111,15 +111,12 @@ class NginxFull < Formula
   # rubocop:enable AlignHash
 
   option "with-libressl", "Include LibreSSL instead of OpenSSL via Homebrew"
-  option "with-openssl@1.1", "Build with OpenSSL 1.1"
 
   depends_on "pcre"
   if build.with?("libressl")
     depends_on "libressl"
-  elsif build.with?("openssl@1.1")
-    depends_on "openssl@1.1"
   else
-    depends_on "openssl"
+    depends_on "openssl@1.1"
   end
   depends_on "gd" => :optional
   depends_on "geoip" => :optional
@@ -225,12 +222,9 @@ class NginxFull < Formula
     if build.with?("libressl")
       cc_opt += " -I#{Formula["libressl"].include}"
       ld_opt += " -L#{Formula["libressl"].lib}"
-    elsif build.with?("openssl@1.1")
+    else
       cc_opt += " -I#{Formula["openssl@1.1"].include}"
       ld_opt += " -L#{Formula["openssl@1.1"].lib}"
-    else
-      cc_opt += " -I#{Formula["openssl"].include}"
-      ld_opt += " -L#{Formula["openssl"].lib}"
     end
 
     if build.with?("xsltproc-module")

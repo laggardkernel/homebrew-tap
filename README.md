@@ -1,6 +1,17 @@
 # Custom Formulae
 Collection of custom and deprecated formulae.
 
+## News
+
+<details>
+  <summary>Big changes made in this repo.</summary>
+
+- 08-30-2019
+  - Formulae with option `--with-openssl@1.1` is being removed cause formulae
+      from Homebrew-core are moving to openssl@1.1.
+
+</details>
+
 ## Installation
 
 ```bash
@@ -36,13 +47,6 @@ libass
 
 libcaca
 - `--with-imlib2` option (X11 is needed)
-
-nginx
-- `with-openssl@1.1`, OpenSSL 1.1 (TLS 1.3)
-
-nginx-full (fork of [denji/homebrew-nginx/nginx-full](https://github.com/denji/homebrew-nginx))
-- `with-openssl@1.1`, OpenSSL 1.1
-- ...
 
 openssh
 - `--with-libressl`
