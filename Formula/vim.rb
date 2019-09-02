@@ -2,14 +2,14 @@ class Vim < Formula
   desc "Vi 'workalike' with many additional features"
   homepage "https://www.vim.org/"
   # vim should only be updated every 50 releases on multiples of 50
-  url "https://github.com/vim/vim/archive/v8.1.1900.tar.gz"
-  sha256 "ea643c410261bc9a162e6f24712f4a4523deaf12c308a633922c780d844eb5ea"
+  url "https://github.com/vim/vim/archive/v8.1.1950.tar.gz"
+  sha256 "a3bda39dcf1988d7533d64ab9e61ccdfbc114c760ef7011c6f81fed7ebe8ceb2"
   head "https://github.com/vim/vim.git"
 
   bottle do
-    sha256 "5f5dde8706f010d8f971d12451b0da424f89bb62a574ef39488415d8400afaa7" => :mojave
-    sha256 "e2a35e64d9c9c6d468d159bf31cacf079023d09dc123bb598bc18ab6ff93f7f5" => :high_sierra
-    sha256 "2311233209172f3eb4fe30cddac8829b596d550d685d7e11e9efa6f5a7233d9e" => :sierra
+    sha256 "4b0b4ebcf20c8ba4a3283d9c36e04cb3fbdb680dd476a27cfb974f3e58675de5" => :mojave
+    sha256 "b10f7cec1a7cc1356714e73b218bb05d4888ba2945647edc478229dc99be0b33" => :high_sierra
+    sha256 "84378f9214994778c11bb9b14418b8d2c30015910983333d715be04f3f6255b2" => :sierra
   end
 
   option "with-override-system-vi", "Override system vi"
