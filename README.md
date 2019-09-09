@@ -34,12 +34,6 @@ curl
 - `with-openssl@1.1`, OpenSSL 1.1 support
 - `with-rtmpdump`, RTMP support
 
-curl-openssl
-- `with-openssl@1.1`, OpenSSL 1.1 (TLS 1.3)
-
-httpd
-- `with-openssl@1.1`, OpenSSL 1.1 (TLS 1.3)
-
 iterm2-zmodem
 
 libass
@@ -60,9 +54,6 @@ ranger-fm with optional dependencies
 [sans](https://github.com/puxxustc/sans)
 
 stubby, with TLS v1.3 support
-
-unbound
-- `--with-python@2`
 
 vim
 - `--with-client-server`, (recommended on remote server only)
