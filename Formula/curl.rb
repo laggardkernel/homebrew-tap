@@ -39,13 +39,11 @@ class Curl < Formula
 
   # HTTP/2 support requires OpenSSL 1.0.2+ or LibreSSL 2.1.3+ for ALPN Support
   # which is currently not supported by Secure Transport (DarwinSSL).
-  if build.with?("openssl@1.1")
+  if build.with?("openssl@1.1") || MacOS.version < :mountain_lion || (build.with?("nghttp2") && build.without?("libressl"))
     depends_on "openssl@1.1"
-  elsif MacOS.version < :mountain_lion || (build.with?("nghttp2") && build.without?("libressl"))
-    depends_on "openssl"
   else
-    option "with-openssl", "Build with OpenSSL instead of Secure Transport"
-    depends_on "openssl" => :optional
+    option "with-openssl@1.1", "Build with OpenSSL instead of Secure Transport"
+    depends_on "openssl@1.1" => :optional
   end
 
   depends_on "pkg-config" => :build
@@ -60,17 +58,11 @@ class Curl < Formula
   depends_on "rtmpdump" => :optional
 
   def install
-    if build.with?("openssl@1.1")
-      openssl = Formula["openssl@1.1"]
-    else
-      openssl = Formula["openssl"]
-    end
-
     # Fail if someone tries to use both SSL choices.
     # Long-term, handle conflicting options case in core code.
-    if build.with?("libressl") && defined?(openssl)
+    if build.with?("libressl") && build.with?("openssl@1.1")
       odie <<~EOS
-      --with-openssl and --with-libressl are both specified and
+      --with-openssl@1.1 and --with-libressl are both specified and
       curl can only use one at a time.
       EOS
     end
@@ -95,11 +87,12 @@ class Curl < Formula
       args << "--with-ssl=#{Formula["libressl"].opt_prefix}"
       args << "--with-ca-bundle=#{etc}/libressl/cert.pem"
       args << "--with-ca-path=#{etc}/libressl/certs"
-    elsif MacOS.version < :mountain_lion || defined?(openssl) || build.with?("nghttp2")
-      ENV.prepend_path "PKG_CONFIG_PATH", "#{openssl.opt_lib}/pkgconfig"
-      args << "--with-ssl=#{openssl.opt_prefix}"
-      args << "--with-ca-bundle=#{etc}/openssl/cert.pem"
-      args << "--with-ca-path=#{etc}/openssl/certs"
+    elsif MacOS.version < :mountain_lion || build.with?("openssl@1.1") || build.with?("nghttp2")
+      ENV.prepend_path "PKG_CONFIG_PATH", "#{Formula["openssl@1.1"].opt_lib}/pkgconfig"
+      args << "--with-ssl=#{Formula["openssl@1.1"].opt_prefix}"
+      args << "--with-ca-bundle=#{etc}/openssl@1.1/cert.pem"
+      args << "--with-ca-path=#{etc}/openssl@1.1/certs"
+      args << "--without-libpsl"
     else
       args << "--with-secure-transport"
       args << "--without-ca-bundle"
