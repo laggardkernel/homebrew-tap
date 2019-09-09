@@ -101,7 +101,7 @@ class Curl < Formula
       args << "--with-ca-bundle=#{etc}/openssl/cert.pem"
       args << "--with-ca-path=#{etc}/openssl/certs"
     else
-      args << "--with-darwinssl"
+      args << "--with-secure-transport"
       args << "--without-ca-bundle"
       args << "--without-ca-path"
     end
