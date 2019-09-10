@@ -41,6 +41,8 @@ git-log-compact
 - `HEAD` only
 - fork `cxw42/git-log-compact` but not the original one is used for more options
 
+git-open from paulirish/git-open support open repo, branch, issue from terminal.
+
 iterm2-zmodem
 
 libass
