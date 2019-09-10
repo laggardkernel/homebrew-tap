@@ -21,6 +21,8 @@ brew install laggardkernel/tap/<formula>
 ```
 
 ## Formulae
+bing-wallpaper (`HEAD` only)
+
 curl
 - `with-brotli`, lossless compression support
 - `with-c-ares`, C-Ares async DNS support
@@ -47,7 +49,7 @@ openssh
 
 poetry
 
-ranger-fm with optional dependencies
+ranger-fm with optional dependencies (`HEAD` only)
 - `chardet` for better encoding detection
 - `Pillow` (depended by image preview in kitty)
 
