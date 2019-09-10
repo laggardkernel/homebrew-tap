@@ -21,7 +21,8 @@ brew install laggardkernel/tap/<formula>
 ```
 
 ## Formulae
-bing-wallpaper (`HEAD` only)
+bing-wallpaper
+- `--head`, `HEAD` only
 
 curl
 - `with-brotli`, lossless compression support
@@ -36,6 +37,10 @@ curl
 - `with-openssl@1.1`, OpenSSL 1.1 support
 - `with-rtmpdump`, RTMP support
 
+git-log-compact
+- `HEAD` only
+- fork `cxw42/git-log-compact` but not the original one is used for more options
+
 iterm2-zmodem
 
 libass
@@ -49,7 +54,8 @@ openssh
 
 poetry
 
-ranger-fm with optional dependencies (`HEAD` only)
+ranger-fm with optional dependencies
+- `HEAD` only
 - `chardet` for better encoding detection
 - `Pillow` (depended by image preview in kitty)
 
