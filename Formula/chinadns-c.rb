@@ -27,10 +27,20 @@ class ChinadnsC < Formula
   end
 
   def caveats; <<~EOS
-    Homebrew services are run as LaunchAgents. To make chinadns service work
-    as expected, you need to run it as LaunchDaemon.
+    It's not recommended to run ChinaDNS alone, a forwarding DNS server
+    with cache support, like dnsmasq or unbound, should put before it.
 
-      sudo cp -f #{plist_path} /Library/LaunchDaemons/
+    By default, chinadns runs on localhost (127.0.0.1), port 5300,
+    balancing traffic across a set of resolvers. If you would like to
+    change these settings, you will have to edit the plist service file:
+
+    Homebrew services are run as LaunchAgents by current user.
+    To make chinadns service work on privileged port, like port 53,
+    you need to run it as a "global" daemon in /Library/LaunchAgents.
+
+      sudo cp -f #{plist_path} /Library/LaunchAgents/
+
+    Dont' use `sudo brew services`. This very command will ruin the file perms.
   EOS
   end
 
