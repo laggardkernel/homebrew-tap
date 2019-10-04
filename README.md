@@ -6,6 +6,9 @@ Collection of custom and deprecated formulae.
 <details>
   <summary>Big changes made in this repo.</summary>
 
+- 10-04-2019
+  - Remove formula `libcaca`, cause dependency `imlib2` is added in formula in
+      homebrew-core
 - 08-30-2019
   - Formulae with option `--with-openssl@1.1` is being removed cause formulae
       from Homebrew-core are moving to openssl@1.1.
@@ -50,9 +53,6 @@ iterm2-zmodem
 
 libass
 - `--with-fontconfig` option
-
-libcaca
-- `--with-imlib2` option (X11 is needed)
 
 openssh
 - `--with-libressl`
