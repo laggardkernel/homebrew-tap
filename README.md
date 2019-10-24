@@ -31,17 +31,21 @@ chinadns-c, fork [aa65535/ChinaDNS][aa65535/ChinaDNS]
 - more exact [17mon/china_ip_list][17mon/china_ip_list] is recommended
 
 curl
-- `with-brotli`, lossless compression support
-- `with-c-ares`, C-Ares async DNS support
-- `with-gssapi`, GSSAPI/Kerberos authentication support
-- `with-libidn`, international domain name support
-- `with-libmetalink`, Metalink XML support
-- `with-libssh2`, scp and sftp support
-- `with-libressl`, LibreSSL instead of Secure Transport or OpenSSL
-- `with-nghttp2`, HTTP/2 support (requires OpenSSL or LibreSSL)
-- `with-openldap`, OpenLDAP support
-- `with-openssl@1.1`, OpenSSL 1.1 support
-- `with-rtmpdump`, RTMP support
+- `--with-brotli`, lossless compression support
+- `--with-c-ares`, C-Ares async DNS support
+- `--with-gssapi`, GSSAPI/Kerberos authentication support
+- `--with-libidn`, international domain name support
+- `--with-libmetalink`, Metalink XML support
+- `--with-libssh2`, scp and sftp support
+- `--with-libressl`, LibreSSL instead of Secure Transport or OpenSSL
+- `--with-nghttp2`, HTTP/2 support (requires OpenSSL or LibreSSL)
+- `--with-openldap`, OpenLDAP support
+- `--with-openssl@1.1`, OpenSSL 1.1 support
+- `--with-rtmpdump`, RTMP support
+
+dnsmasq
+- `--with-dnssec`
+- `--with-libidn`
 
 git-log-compact
 - `HEAD` only
