@@ -70,6 +70,8 @@ ranger-fm with optional dependencies
 
 [sans][sans]
 
+[shdns][shdns], A port of ChinaDNS (DNS filter) in golang with IPv6 support.
+
 vim
 - `--with-client-server`, (recommended on remote server only)
 - `--with-gettext`, default
@@ -88,3 +90,4 @@ vim
 [17mon/china_ip_list]: https://github.com/17mon/china_ip_list
 [cxw42/git-log-compact]: https://github.com/cxw42/git-log-compact
 [sans]: https://github.com/puxxustc/sans
+[shdns]: https://github.com/domosekai/shdns

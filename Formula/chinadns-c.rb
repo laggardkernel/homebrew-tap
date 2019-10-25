@@ -27,12 +27,12 @@ class ChinadnsC < Formula
   end
 
   def caveats; <<~EOS
-    It's not recommended to run ChinaDNS alone, a forwarding DNS server
+    It's not recommended to run ChinaDNS alone. A forwarding DNS server
     with cache support, like dnsmasq or unbound, should put before it.
 
-    By default, chinadns runs on localhost (127.0.0.1), port 5300,
-    balancing traffic across a set of resolvers. If you would like to
-    change these settings, you will have to edit the plist service file:
+    Caveat: port 5353 is taken by mDNSResponder. ChinaDNS runs on
+    localhost (127.0.0.1), port 5300, balancing traffic across a set of resolvers.
+    If you would like to change these settings, edit the plist service file.
 
     Homebrew services are run as LaunchAgents by current user.
     To make chinadns service work on privileged port, like port 53,
