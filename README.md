@@ -70,8 +70,6 @@ ranger-fm with optional dependencies
 
 [sans][sans]
 
-stubby, with TLS v1.3 support
-
 vim
 - `--with-client-server`, (recommended on remote server only)
 - `--with-gettext`, default
