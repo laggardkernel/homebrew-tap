@@ -61,6 +61,8 @@ iterm2-zmodem
 libass
 - `--with-fontconfig` option
 
+license, [cjbassi][license]'s fork
+
 openssh
 - `--with-libressl`
 
@@ -93,5 +95,6 @@ vim
 [curedns]: https://github.com/semigodking/cdns
 [17mon/china_ip_list]: https://github.com/17mon/china_ip_list
 [cxw42/git-log-compact]: https://github.com/cxw42/git-log-compact
+[license]: https://github.com/cjbassi/license
 [sans]: https://github.com/puxxustc/sans
 [shdns]: https://github.com/domosekai/shdns
