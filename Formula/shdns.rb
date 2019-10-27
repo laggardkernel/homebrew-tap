@@ -37,7 +37,7 @@ class Shdns < Formula
 
   def caveats; <<~EOS
     It's not recommended to run shdns alone. A forwarding DNS server
-    with cache support, like dnsmasq or unbound, should put before it.
+    with cache support, like dnsmasq or unbound, should be put before it.
 
     Caveat: port 5353 is taken by mDNSResponder. Shdns runs on
     localhost (127.0.0.1), port 5300, balancing traffic across a set of resolvers.
@@ -53,7 +53,7 @@ class Shdns < Formula
   EOS
   end
 
-  plist_options :manual => "shdns -l4 /usr/loca/etc/shdns/cnipv4.txt -l6 /usr/loca/etc/shdns/cnipv4.txt -d 114.114.114.114,114.114.115.115 -f 208.67.222.222:443,208.67.222.220:443 -t -w 40 -b 127.0.0.1:5300"
+  plist_options :manual => "shdns -l4 /usr/local/etc/shdns/cnipv4.txt -l6 /usr/local/etc/shdns/cnipv4.txt -d 114.114.114.114,114.114.115.115 -f 208.67.222.222:443,208.67.222.220:443 -t -w 40 -b 127.0.0.1:5300"
 
   def plist; <<~EOS
     <?xml version="1.0" encoding="UTF-8"?>

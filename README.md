@@ -30,6 +30,9 @@ bing-wallpaper
 chinadns-c, fork [aa65535/ChinaDNS][aa65535/ChinaDNS]
 - more exact [17mon/china_ip_list][17mon/china_ip_list] is recommended
 
+[cdns][curedns], filter poisoned result with EDNS option.
+- fails to build from `HEAD` for the time being
+
 curl
 - `--with-brotli`, lossless compression support
 - `--with-c-ares`, C-Ares async DNS support
@@ -87,6 +90,7 @@ vim
 - [Formula API](https://rubydoc.brew.sh/Formula)
 
 [aa65535/ChinaDNS]: https://github.com/aa65535/ChinaDNS
+[curedns]: https://github.com/semigodking/cdns
 [17mon/china_ip_list]: https://github.com/17mon/china_ip_list
 [cxw42/git-log-compact]: https://github.com/cxw42/git-log-compact
 [sans]: https://github.com/puxxustc/sans

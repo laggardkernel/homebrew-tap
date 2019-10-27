@@ -28,7 +28,7 @@ class ChinadnsC < Formula
 
   def caveats; <<~EOS
     It's not recommended to run ChinaDNS alone. A forwarding DNS server
-    with cache support, like dnsmasq or unbound, should put before it.
+    with cache support, like dnsmasq or unbound, should be put before it.
 
     Caveat: port 5353 is taken by mDNSResponder. ChinaDNS runs on
     localhost (127.0.0.1), port 5300, balancing traffic across a set of resolvers.
