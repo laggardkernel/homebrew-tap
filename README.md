@@ -92,6 +92,12 @@ ranger-fm with optional dependencies
 ### ShDNS
 [shdns][shdns], A port of ChinaDNS (DNS filter) in golang with IPv6 support.
 
+### V2ray2Clash
+[v2ray2clash]:[v2ray2clash] a web API used to convert v2ray, ssr subscription lists into clash format.
+
+v2ray2clash
+- `--HEAD`
+
 ### Vim
 vim
 - `--with-client-server`, (recommended on remote server only)
@@ -114,3 +120,4 @@ vim
 [license]: https://github.com/cjbassi/license
 [sans]: https://github.com/puxxustc/sans
 [shdns]: https://github.com/domosekai/shdns
+[v2ray2clash]: https://github.com/ne1llee/v2ray2clash
