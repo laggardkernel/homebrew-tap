@@ -24,15 +24,19 @@ brew install laggardkernel/tap/<formula>
 ```
 
 ## Formulae
+### Bing Wallpaper
 bing-wallpaper
 - `--head`, `HEAD` only
 
+### ChinaDNS
 chinadns-c, fork [aa65535/ChinaDNS][aa65535/ChinaDNS]
 - more exact [17mon/china_ip_list][17mon/china_ip_list] is recommended
 
+### CureDNS
 [cdns][curedns], filter poisoned result with EDNS option.
 - fails to build from `HEAD` for the time being
 
+### cURL
 curl
 - `--with-brotli`, lossless compression support
 - `--with-c-ares`, C-Ares async DNS support
@@ -46,37 +50,49 @@ curl
 - `--with-openssl@1.1`, OpenSSL 1.1 support
 - `--with-rtmpdump`, RTMP support
 
+### DNSmasq
 dnsmasq
 - `--with-dnssec`
 - `--with-libidn`
 
+### Git Log Compact
 git-log-compact
 - `HEAD` only
 - fork [cxw42/git-log-compact][cxw42/git-log-compact] but not the original one is used for more options
 
+### Git Open
 git-open from paulirish/git-open support open repo, branch, issue from terminal.
 
+### iTerm2 ZModem
 iterm2-zmodem
 
+### Libass
 libass
 - `--with-fontconfig` option
 
+### License
 license, [cjbassi][license]'s fork
 
+### OpenSSH
 openssh
 - `--with-libressl`
 
+### Poetry
 poetry
 
+### Ranger
 ranger-fm with optional dependencies
 - `HEAD` only
 - `chardet` for better encoding detection
 - `Pillow` (depended by image preview in kitty)
 
+### sans
 [sans][sans]
 
+### ShDNS
 [shdns][shdns], A port of ChinaDNS (DNS filter) in golang with IPv6 support.
 
+### Vim
 vim
 - `--with-client-server`, (recommended on remote server only)
 - `--with-gettext`, default
