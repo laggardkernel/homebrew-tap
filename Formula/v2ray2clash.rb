@@ -4,9 +4,8 @@ class V2ray2clash < Formula
   desc "Convert V2ray, SSR subscriptions to Clash subscriptions"
   homepage "https://github.com/ne1llee/v2ray2clash"
   head "https://github.com/ne1llee/v2ray2clash.git"
-  # No newer release yet.
-  # url "https://github.com/ne1llee/v2ray2clash/archive/v1.0.2.tar.gz"
-  # sha256 "10e80b381d05ebadb0c1ecbbb8fa7e3c8adfe0e4e5710097c9bd5eeaa9abb3fd"
+  url "https://github.com/ne1llee/v2ray2clash/archive/v1.0.3.tar.gz"
+  sha256 "2a48d79852b625da6bd975aa195e1582ea3a32428c3cf0f6f0f7f8031a32cdf2"
 
   depends_on "go" => :build
 
@@ -49,6 +48,7 @@ class V2ray2clash < Formula
     Usage:
       http://127.0.0.1:5050/v2ray2clash?sub_link=foobar
       http://127.0.0.1:5050/ssr2clashr?sub_link=foobar
+      http://127.0.0.1:5050/v2ray2qunx?sub_link=foobar
 
     Open the link in a browser, or download the output rule file with curl,
       curl http://127.0.0.1:5050/v2ray2clash?sub_link=foobar -o clash.conf
