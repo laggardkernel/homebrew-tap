@@ -71,7 +71,14 @@ libass
 - `--with-fontconfig` option
 
 ### License
-license, [cjbassi][license]'s fork
+license, [jfoster's fork][license]
+
+### MEOW
+[MEOW][MEOW], fork of proxy cow. Proxy or direct connect according to geolocation of the
+IP address.
+
+meow
+- `--HEAD` only
 
 ### OpenSSH
 openssh
@@ -117,7 +124,8 @@ vim
 [curedns]: https://github.com/semigodking/cdns
 [17mon/china_ip_list]: https://github.com/17mon/china_ip_list
 [cxw42/git-log-compact]: https://github.com/cxw42/git-log-compact
-[license]: https://github.com/cjbassi/license
+[license]: https://github.com/jfoster/license
+[MEOW]: https://github.com/netheril96/MEOW
 [sans]: https://github.com/puxxustc/sans
 [shdns]: https://github.com/domosekai/shdns
 [v2ray2clash]: https://github.com/ne1llee/v2ray2clash
