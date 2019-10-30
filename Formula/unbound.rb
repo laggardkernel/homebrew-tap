@@ -5,12 +5,10 @@ class Unbound < Formula
   sha256 "3d3e25fb224025f0e732c7970e5676f53fd1764c16d6a01be073a13e42954bb0"
   head "https://github.com/NLnetLabs/unbound.git"
 
-  deprecated_option "with-python" => "with-python@2"
-
   depends_on "libevent"
   depends_on "openssl@1.1"
-  depends_on "python@2" => :optional
-  depends_on "swig" if build.with? "python@2"
+  depends_on "python" => :optional
+  depends_on "swig" if build.with? "python"
 
   def install
     args = %W[
@@ -24,13 +22,13 @@ class Unbound < Formula
       --enable-event-api
     ]
 
-    if build.with? "python@2"
-      ENV.prepend "LDFLAGS", `python-config --ldflags`.chomp
-      ENV.prepend "PYTHON_VERSION", "2.7"
+    if build.with? "python"
+      ENV.prepend "LDFLAGS", `#{Formula["python"].opt_prefix}/bin/python3-config --ldflags`.chomp
+      ENV.prepend "PYTHON_VERSION", "3.7"
 
       args << "--with-pyunbound"
       args << "--with-pythonmodule"
-      args << "PYTHON_SITE_PKG=#{lib}/python2.7/site-packages"
+      args << "PYTHON_SITE_PKG=#{lib}/python3.7/site-packages"
     end
 
     args << "--with-libexpat=#{MacOS.sdk_path}/usr" if MacOS.sdk_path_if_needed
