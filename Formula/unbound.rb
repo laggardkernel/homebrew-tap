@@ -18,6 +18,9 @@ class Unbound < Formula
       --sysconfdir=#{etc}
       --with-libevent=#{Formula["libevent"].opt_prefix}
       --with-ssl=#{Formula["openssl@1.1"].opt_prefix}
+      --enable-subnet
+      --enable-tfo-client
+      --enable-tfo-server
       --enable-event-api
     ]
 
