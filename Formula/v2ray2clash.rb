@@ -4,8 +4,8 @@ class V2ray2clash < Formula
   desc "Convert V2ray, SSR subscriptions to Clash subscriptions"
   homepage "https://github.com/ne1llee/v2ray2clash"
   head "https://github.com/ne1llee/v2ray2clash.git"
-  url "https://github.com/ne1llee/v2ray2clash/archive/v1.0.3.tar.gz"
-  sha256 "2a48d79852b625da6bd975aa195e1582ea3a32428c3cf0f6f0f7f8031a32cdf2"
+  url "https://github.com/ne1llee/v2ray2clash/archive/v1.0.4.tar.gz"
+  sha256 "23d5598adb98fddf0d48a2660e64a031507d56d753a0575fad51185e95f14967"
 
   depends_on "go" => :build
 
