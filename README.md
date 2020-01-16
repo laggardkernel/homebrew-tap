@@ -80,6 +80,10 @@ IP address.
 meow
 - `--HEAD` only
 
+### Nali CLI
+[nali-cli](https://github.com/SukkaW/nali-cli)
+> Parse geoinfo of IP Address without leaving your terminal
+
 ### OpenSSH
 openssh
 - `--with-libressl`
