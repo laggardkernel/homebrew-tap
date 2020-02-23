@@ -50,10 +50,14 @@ curl
 - `--with-openssl@1.1`, OpenSSL 1.1 support
 - `--with-rtmpdump`, RTMP support
 
+### curl-doh
+
 ### DNSmasq
 dnsmasq
 - `--with-dnssec`
 - `--with-libidn`
+
+### doh-proxy
 
 ### Git Log Compact
 git-log-compact
