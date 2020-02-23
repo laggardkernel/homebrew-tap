@@ -4,8 +4,8 @@ class NaliCli < Formula
   desc "Parse geoinfo of IP Address without leaving your terminal"
   homepage "https://nali.skk.moe"
   # npm v nali-cli dist.tarball
-  url "https://registry.npm.taobao.org/nali-cli/download/nali-cli-1.0.0.tgz"
-  sha256 "47066db13308699408efd982f21a52a3bdc26a0bede5f6d8d5956aae77f35a88"
+  url "https://registry.npm.taobao.org/nali-cli/download/nali-cli-2.0.0.tgz"
+  sha256 "aae02df85d6bb12527188cd89aa9cc241105b5f3a26763c44577e7346041e624"
 
   depends_on "node"
 
