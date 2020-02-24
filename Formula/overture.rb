@@ -1,8 +1,8 @@
 class Overture < Formula
   desc "A customized DNS forwarder written in Go"
   homepage "https://github.com/shawn1m/overture"
-  url "https://github.com/shawn1m/overture/releases/download/v1.6-rc6/overture-darwin-amd64.zip"
-  sha256 "4d9ff20dbe2c68217a1c9fd3fe7ba51baf42357e3ab4da58b72d8e8c2e0a5c04"
+  url "https://github.com/shawn1m/overture/releases/download/v1.6-rc9/overture-darwin-amd64.zip"
+  sha256 "95a913267c56e7512b07708b97549993e6890cddb5774243df6695087bc70806"
   head "https://github.com/shawn1m/overture.git"
 
   bottle :unneeded
