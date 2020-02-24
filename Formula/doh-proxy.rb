@@ -7,6 +7,8 @@ class DohProxy < Formula
   sha256 "d7f17652327bdad6399364d263d4d2f1728a7ebb159dccb22f67eef66fecbfbb"
   head "https://github.com/facebookexperimental/doh-proxy.git"
 
+  conflicts_with "dns-over-https", :because => "both install binaries `doh-proxy`, `doh-client`"
+
   depends_on "python"
 
   # aioh2 is fucking dead, install from git drectly

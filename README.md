@@ -57,6 +57,8 @@ dnsmasq
 - `--with-dnssec`
 - `--with-libidn`
 
+### dns-over-https
+
 ### doh-proxy
 
 ### Git Log Compact
