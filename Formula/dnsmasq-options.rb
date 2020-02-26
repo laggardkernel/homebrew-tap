@@ -1,4 +1,4 @@
-class Dnsmasq < Formula
+class DnsmasqOptions < Formula
   desc "Lightweight DNS forwarder and DHCP server"
   homepage "http://www.thekelleys.org.uk/dnsmasq/doc.html"
   url "http://www.thekelleys.org.uk/dnsmasq/dnsmasq-2.80.tar.gz"

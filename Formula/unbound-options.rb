@@ -1,4 +1,4 @@
-class Unbound < Formula
+class UnboundOptions < Formula
   desc "Validating, recursive, caching DNS resolver"
   homepage "https://www.unbound.net"
   url "https://nlnetlabs.nl/downloads/unbound/unbound-1.9.4.tar.gz"

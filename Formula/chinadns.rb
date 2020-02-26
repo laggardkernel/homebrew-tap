@@ -1,4 +1,4 @@
-class ChinadnsC < Formula
+class Chinadns < Formula
   desc "Port of ChinaDNS to C: fix irregularities with DNS in China"
   homepage "https://github.com/aa65535/ChinaDNS"
   url "https://github.com/aa65535/ChinaDNS/archive/v1.3.3.tar.gz"
