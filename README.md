@@ -6,6 +6,8 @@ Collection of custom and deprecated formulae.
 <details>
   <summary>Big changes made in this repo.</summary>
 
+- 02-28-2020
+  - Drops cask `melloW`, which is maintained in Homebrew Cask repo
 - 02-26-2020
   - Rename some formulae to avoid name conflicting after `brew tap-pin` is
       obsolete
