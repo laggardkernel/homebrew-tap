@@ -120,6 +120,9 @@ ranger-fm with optional dependencies
 ### ShDNS
 [shdns][shdns], A port of ChinaDNS (DNS filter) in golang with IPv6 support.
 
+### tmux
+`tmux-options`, tmux with a higher 30fps.
+
 ### V2ray2Clash
 [v2ray2clash]:[v2ray2clash] a web API used to convert v2ray, ssr subscription lists into clash format.
 

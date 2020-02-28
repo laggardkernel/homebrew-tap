@@ -1,3 +1,6 @@
+# References
+#   https://github.com/Homebrew/homebrew-core/commit/f75cb092032c2eb921ba0bcdcf6a45af5cf86714
+#   https://github.com/Homebrew/homebrew-core/pull/33065/files
 class FfmpegOptions < Formula
   desc "Play, record, convert, and stream audio and video"
   homepage "https://ffmpeg.org/"
