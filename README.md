@@ -123,7 +123,9 @@ ranger-fm with optional dependencies
 [shdns][shdns], A port of ChinaDNS (DNS filter) in golang with IPv6 support.
 
 ### tmux
-`tmux-options`, tmux with a higher 30fps.
+`tmux-options`
+
+- `--with-fps=`, `--with-fps=30` custom FPS 30, default 10
 
 ### V2ray2Clash
 [v2ray2clash]:[v2ray2clash] a web API used to convert v2ray, ssr subscription lists into clash format.
@@ -147,6 +149,7 @@ v2ray2clash
 ## References
 - [Formula Cookbook](https://docs.brew.sh/Formula-Cookbook)
 - [Formula API](https://rubydoc.brew.sh/Formula)
+- [example-formula.rb](https://github.com/syhw/homebrew/blob/master/Library/Contributions/example-formula.rb)
 
 [aa65535/ChinaDNS]: https://github.com/aa65535/ChinaDNS
 [curedns]: https://github.com/semigodking/cdns

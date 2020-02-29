@@ -1,5 +1,5 @@
 class TmuxOptions < Formula
-  desc "Terminal multiplexer with higher FPS"
+  desc "Terminal multiplexer with custom FPS"
   homepage "https://tmux.github.io/"
   url "https://github.com/tmux/tmux/releases/download/3.0a/tmux-3.0a.tar.gz"
   sha256 "4ad1df28b4afa969e59c08061b45082fdc49ff512f30fc8e43217d7b0e5f8db9"
@@ -14,6 +14,8 @@ class TmuxOptions < Formula
     depends_on "libtool" => :build
   end
 
+  option "with-fps=", "FPS (default 10)"
+
   depends_on "pkg-config" => :build
   depends_on "libevent"
   depends_on "ncurses"
@@ -24,8 +26,12 @@ class TmuxOptions < Formula
   end
 
   def install
-    inreplace "tty.c" do |s|
-      s.gsub! /^#define TTY_BLOCK_INTERVAL .*$/, '#define TTY_BLOCK_INTERVAL (33333 /* 30fps */)'
+    if ! (ARGV.value("with-fps").nil? || ARGV.value("with-fps").empty?)
+      fps=ARGV.value("with-fps").to_i
+      redraw_interval=(1000000/fps).round
+      inreplace "tty.c" do |s|
+        s.gsub! /^#define TTY_BLOCK_INTERVAL .*$/, "#define TTY_BLOCK_INTERVAL (#{redraw_interval} /* #{fps} fps */)"
+      end
     end
 
     system "sh", "autogen.sh" if build.head?
