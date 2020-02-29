@@ -14,6 +14,11 @@ class TmuxOptions < Formula
     depends_on "libtool" => :build
   end
 
+  devel do
+    url "https://github.com/tmux/tmux/releases/download/3.1/tmux-3.1-rc.tar.gz"
+    sha256 "9fd91ff2048c9a445e99698e20e20bb64a4b5fd316d2a842b1726de6bc49f9b6"
+  end
+
   option "with-fps=", "FPS (default 10)"
 
   depends_on "pkg-config" => :build
