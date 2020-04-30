@@ -1,8 +1,8 @@
 class TmuxOptions < Formula
   desc "Terminal multiplexer with custom FPS"
   homepage "https://tmux.github.io/"
-  url "https://github.com/tmux/tmux/releases/download/3.0a/tmux-3.0a.tar.gz"
-  sha256 "4ad1df28b4afa969e59c08061b45082fdc49ff512f30fc8e43217d7b0e5f8db9"
+  url "https://github.com/tmux/tmux/releases/download/3.1a/tmux-3.1a.tar.gz"
+  sha256 "10687cbb02082b8b9e076cf122f1b783acc2157be73021b4bedb47e958f4e484"
 
   bottle :unneeded
 
@@ -14,12 +14,12 @@ class TmuxOptions < Formula
     depends_on "libtool" => :build
   end
 
-  devel do
-    url "https://github.com/tmux/tmux/releases/download/3.1/tmux-3.1-rc.tar.gz"
-    sha256 "9fd91ff2048c9a445e99698e20e20bb64a4b5fd316d2a842b1726de6bc49f9b6"
-  end
+  # devel do
+  #   url "https://github.com/tmux/tmux/releases/download/3.1/tmux-3.1-rc.tar.gz"
+  #   sha256 "9fd91ff2048c9a445e99698e20e20bb64a4b5fd316d2a842b1726de6bc49f9b6"
+  # end
 
-  option "with-fps=", "FPS (default 10)"
+  option "with-fps=", "FPS (default 20)"
 
   depends_on "pkg-config" => :build
   depends_on "libevent"
@@ -33,10 +33,13 @@ class TmuxOptions < Formula
   def install
     if ! (ARGV.value("with-fps").nil? || ARGV.value("with-fps").empty?)
       fps=ARGV.value("with-fps").to_i
-      redraw_interval=(1000000/fps).round
-      inreplace "tty.c" do |s|
-        s.gsub! /^#define TTY_BLOCK_INTERVAL .*$/, "#define TTY_BLOCK_INTERVAL (#{redraw_interval} /* #{fps} fps */)"
-      end
+    else
+      fps=20
+    end
+
+    redraw_interval=(1000000/fps).round
+    inreplace "tty.c" do |s|
+      s.gsub! /^#define TTY_BLOCK_INTERVAL .*$/, "#define TTY_BLOCK_INTERVAL (#{redraw_interval} /* #{fps} fps */)"
     end
 
     system "sh", "autogen.sh" if build.head?
