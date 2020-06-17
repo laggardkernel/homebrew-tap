@@ -4,8 +4,8 @@
 class FfmpegOptions < Formula
   desc "Play, record, convert, and stream audio and video"
   homepage "https://ffmpeg.org/"
-  url "https://ffmpeg.org/releases/ffmpeg-4.2.3.tar.xz"
-  sha256 "9df6c90aed1337634c1fb026fb01c154c29c82a64ea71291ff2da9aacb9aad31"
+  url "https://ffmpeg.org/releases/ffmpeg-4.3.tar.xz"
+  sha256 "1d0ad06484f44bcb97eba5e93c40bcb893890f9f64aeb43e46cd9bb4cbd6795d"
   head "https://github.com/FFmpeg/FFmpeg.git"
 
   bottle :unneeded
@@ -18,13 +18,14 @@ class FfmpegOptions < Formula
   option "with-openssl", "Enable SSL support"
   option "with-zeromq", "Enable using libzeromq to receive commands sent through a libzeromq client"
   option "with-zimg", "Enable z.lib zimg library"
-  option "with-srt", "Enable SRT library"
+  # option "with-srt", "Enable SRT library"
   option "with-libvmaf", "Enable libvmaf scoring library"
 
   depends_on "nasm" => :build
   depends_on "pkg-config" => :build
   depends_on "texi2html" => :build
   depends_on "aom"
+  depends_on "dav1d"
   depends_on "fontconfig"
   depends_on "freetype"
   depends_on "frei0r"
@@ -44,6 +45,7 @@ class FfmpegOptions < Formula
   depends_on "sdl2"
   depends_on "snappy"
   depends_on "speex"
+  depends_on "srt"
   depends_on "tesseract"
   depends_on "theora"
   depends_on "webp"
@@ -54,6 +56,23 @@ class FfmpegOptions < Formula
 
   uses_from_macos "bzip2"
   uses_from_macos "zlib"
+
+  depends_on "chromaprint" => :optional
+  depends_on "fdk-aac" => :optional
+  depends_on "game-music-emu" => :optional
+  depends_on "libbs2b" => :optional
+  depends_on "libcaca" => :optional
+  depends_on "libgsm" => :optional
+  depends_on "libmodplug" => :optional
+  depends_on "librsvg" => :optional
+  depends_on "libssh" => :optional
+  depends_on "libvmaf" => :optional
+  depends_on "openh264" => :optional
+  depends_on "openssl" => :optional
+  depends_on "two-lame" => :optional
+  depends_on "wavpack" => :optional
+  depends_on "zeromq" => :optional
+  depends_on "zimg" => :optional
 
   def install
     args = %W[
@@ -70,10 +89,12 @@ class FfmpegOptions < Formula
       --enable-gpl
       --enable-libaom
       --enable-libbluray
+      --enable-libdav1d
       --enable-libmp3lame
       --enable-libopus
       --enable-librubberband
       --enable-libsnappy
+      --enable-libsrt
       --enable-libtesseract
       --enable-libtheora
       --enable-libvidstab
@@ -108,7 +129,7 @@ class FfmpegOptions < Formula
     args << "--enable-libmodplug" if build.with? "libmodplug"
     args << "--enable-libopenh264" if build.with? "openh264"
     args << "--enable-librsvg" if build.with? "librsvg"
-    args << "--enable-libsrt" if build.with? "srt"
+    # args << "--enable-libsrt" if build.with? "srt"
     args << "--enable-libssh" if build.with? "libssh"
     args << "--enable-libtwolame" if build.with? "two-lame"
     args << "--enable-libvmaf" if build.with? "libvmaf"
@@ -119,7 +140,7 @@ class FfmpegOptions < Formula
     args << "--enable-openssl" if build.with? "openssl"
     args << "--enable-videotoolbox" if MacOS.version >= :mountain_lion
 
-    # Undecided
+    # Deprecated?
     # if build.with? "openjpeg"
     #   args << "--enable-libopenjpeg"
     #   args << "--disable-decoder=jpeg2000"
