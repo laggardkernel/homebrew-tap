@@ -6,6 +6,7 @@ class FfmpegOptions < Formula
   homepage "https://ffmpeg.org/"
   url "https://ffmpeg.org/releases/ffmpeg-4.3.tar.xz"
   sha256 "1d0ad06484f44bcb97eba5e93c40bcb893890f9f64aeb43e46cd9bb4cbd6795d"
+  revision 2
   head "https://github.com/FFmpeg/FFmpeg.git"
 
   bottle :unneeded
