@@ -1,8 +1,9 @@
 class TmuxOptions < Formula
   desc "Terminal multiplexer with custom FPS"
   homepage "https://tmux.github.io/"
-  url "https://github.com/tmux/tmux/releases/download/3.1a/tmux-3.1a.tar.gz"
-  sha256 "10687cbb02082b8b9e076cf122f1b783acc2157be73021b4bedb47e958f4e484"
+  url "https://github.com/tmux/tmux/releases/download/3.1b/tmux-3.1b.tar.gz"
+  sha256 "d93f351d50af05a75fe6681085670c786d9504a5da2608e481c47cf5e1486db9"
+  license "ISC"
 
   bottle :unneeded
 
