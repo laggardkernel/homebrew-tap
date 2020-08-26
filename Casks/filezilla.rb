@@ -7,8 +7,6 @@ cask 'filezilla' do
   name 'FileZilla'
   homepage 'https://filezilla-project.org/'
 
-  depends_on macos: '>= :mavericks'
-
   app 'FileZilla.app'
 
   zap trash: [
