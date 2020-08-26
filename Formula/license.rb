@@ -6,11 +6,11 @@ class License < Formula
   # url "https://github.com/jfoster/license/archive/v1.0.0.tar.gz"
   # sha256 "7918b695695aa5c8489ab5838ba57cebf64d608646fc8f828b4a250ad910cf08"
 
-  # Use the fork from jfoster, which is newer
+  # Use the fork from jfoster, which uses platform specific data folder
   homepage "https://github.com/jfoster/license"
   head "https://github.com/jfoster/license.git"
   url "https://github.com/jfoster/license/archive/v1.0.1.tar.gz"
-  sha256 "c7a9707538cd3c91fd8a98889d9e0daab3824b9d646beb3d22d53792decb1665"
+  sha256 "24a3fab58b03098d4a5192c36ab668b7a680008ba336902ce5f6a65ce1b859a7"
 
   depends_on "go" => :build
 
