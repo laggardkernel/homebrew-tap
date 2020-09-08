@@ -3,8 +3,8 @@ require "language/go"
 class Shdns < Formula
   desc "A port of ChinaDNS (DNS filter) in golang with IPv6 support"
   homepage "https://github.com/domosekai/shdns"
-  url "https://github.com/domosekai/shdns/archive/v0.8.1.tar.gz"
-  sha256 "6d93a2b4612d10d49f87a665c058976a2e943900e314598efce9fefb91a1f96c"
+  url "https://github.com/domosekai/shdns/archive/v0.8.2.tar.gz"
+  sha256 "62dca37dae8f384b3f151f7719b5b6bf4109fc57c59ce801eb24273b253e851a"
   head "https://github.com/domosekai/shdns.git"
 
   depends_on "go" => :build
