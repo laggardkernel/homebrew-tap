@@ -1,39 +1,20 @@
-require "language/go"
-
-class Shdns < Formula
+class ShdnsBin < Formula
   desc "A port of ChinaDNS (DNS filter) in golang with IPv6 support"
   homepage "https://github.com/domosekai/shdns"
-  url "https://github.com/domosekai/shdns/archive/v0.8.2.tar.gz"
-  sha256 "62dca37dae8f384b3f151f7719b5b6bf4109fc57c59ce801eb24273b253e851a"
+  url "https://github.com/domosekai/shdns/releases/download/v0.8.2/shdns-0.8.2-20200907-macos-amd64.tar.gz"
+  sha256 "14fce0093f4146fa5e83a7cff84d3561bc860d407767d418ba4801c2f926ef14"
   head "https://github.com/domosekai/shdns.git"
 
   conflicts_with "shdns", :because => "both install `shdns` binaries"
 
   bottle :unneeded
 
-  depends_on "go" => :build
-
-  go_resource "golang.org/x/net" do
-    # https://go.googlesource.com/net.git/+/refs/heads/release-branch.go1.15
-    url "https://go.googlesource.com/net.git",
-      :revision => "ab34263943818b32f575efc978a3d24e80b04bd7"
-  end
-
   def install
-    ENV["GOPATH"] = buildpath
-    path = buildpath/"src/github.com/domosekai/shdns"
-    path.install Dir["*"]
-    Language::Go.stage_deps resources, buildpath/"src"
-
-    cd path do
-      system "go", "build", "-o", bin/"shdns"
-
-      # bin.install "shdns" # replaced by
-      prefix.install_metafiles
-      (etc/"shdns").mkpath
-      etc.install "cnipv4.txt" => "shdns/cnipv4.txt"
-      etc.install "cnipv6.txt" => "shdns/cnipv6.txt"
-    end
+    bin.install "shdns"
+    # prefix.install_metafiles
+    (etc/"shdns").mkpath
+    etc.install "cnipv4.txt" => "shdns/cnipv4.txt"
+    etc.install "cnipv6.txt" => "shdns/cnipv6.txt"
   end
 
   test do
