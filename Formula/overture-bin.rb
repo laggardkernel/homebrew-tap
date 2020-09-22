@@ -1,4 +1,4 @@
-class Overture < Formula
+class OvertureBin < Formula
   desc "A customized DNS forwarder written in Go"
   homepage "https://github.com/shawn1m/overture"
   url "https://github.com/shawn1m/overture/releases/download/v1.6.1/overture-darwin-amd64.zip"
