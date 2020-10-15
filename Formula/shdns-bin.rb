@@ -1,8 +1,8 @@
 class ShdnsBin < Formula
   desc "A port of ChinaDNS (DNS filter) in golang with IPv6 support"
   homepage "https://github.com/domosekai/shdns"
-  url "https://github.com/domosekai/shdns/releases/download/v0.8.2/shdns-0.8.2-20200907-macos-amd64.tar.gz"
-  sha256 "14fce0093f4146fa5e83a7cff84d3561bc860d407767d418ba4801c2f926ef14"
+  url "https://github.com/domosekai/shdns/releases/download/v0.8.3/shdns-0.8.3-20201011-macos-amd64.tar.gz"
+  sha256 "0eb53472a1c9410d93a5e33ca8b31d19985e1e5589df671303959eb10a14893c"
   head "https://github.com/domosekai/shdns.git"
 
   conflicts_with "shdns", :because => "both install `shdns` binaries"

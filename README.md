@@ -122,6 +122,10 @@ ranger-fm with optional dependencies
 ### ShDNS
 [shdns][shdns], A port of ChinaDNS (DNS filter) in golang with IPv6 support.
 
+```bash
+brew install shdns-bin
+```
+
 ### tmux
 `tmux-options`
 
