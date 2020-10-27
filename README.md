@@ -29,6 +29,9 @@ brew install laggardkernel/tap/<formula>
 ```
 
 ## Formulae
+### Aria2
+aria2-options: aria2 without header 'Want-Digest'
+
 ### Bing Wallpaper
 bing-wallpaper
 - `--head`, `HEAD` only
