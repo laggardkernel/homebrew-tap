@@ -30,7 +30,10 @@ brew install laggardkernel/tap/<formula>
 
 ## Formulae
 ### Aria2
-aria2-options: aria2 without header 'Want-Digest'
+aria2-options
+
+- Header 'Want-Digest' is removed
+- `--with-gnutls` (no TLSv1.3 support in appletls)
 
 ### Bing Wallpaper
 bing-wallpaper
