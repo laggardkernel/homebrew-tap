@@ -49,10 +49,9 @@ class Aria2Options < Formula
       args << "--without-appletls"
       args << "--without-openssl"
     elsif build.with? "openssl"
-      # TODO: fix openssl build
-      ENV.prepend_path "PKG_CONFIG_PATH", "#{Formula["openssl@1.1"].opt_lib}/pkgconfig"
-      # args << "--with-openssl=#{Formula["openssl@1.1"].opt_prefix}"  # not work
       args << "--with-openssl"
+      # ENV.prepend_path "PKG_CONFIG_PATH", "#{Formula["openssl@1.1"].opt_lib}/pkgconfig"
+      args << "--with-openssl-prefix=#{Formula["openssl@1.1"].opt_prefix}"
       args << "--with-ca-bundle=#{etc}/openssl@1.1/cert.pem"
       args << "--without-appletls"
       args << "--without-gnutls"
