@@ -83,6 +83,9 @@ git-log-compact
 ### Git Open
 git-open from paulirish/git-open support open repo, branch, issue from terminal.
 
+### Grc
+Rust implementation of git-cz, standard git commit.
+
 ### iTerm2 ZModem
 iterm2-zmodem
 
