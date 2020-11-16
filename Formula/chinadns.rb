@@ -16,10 +16,12 @@ class Chinadns < Formula
     system "./configure", "--prefix=#{prefix}"
     system "make", "install"
 
-    # Move config files from prefix/"share" into etc
-    mkdir_p etc/"chinadns"
-    cp_r Dir[prefix/"share/*"], etc/"chinadns"
-    rm_rf prefix/"share"
+    # Config files are moved into prefix/"share" by installer
+    # etc.install "#{prefix}/share" => "chinadns"
+    # chnroute.txt, iplist.txt
+    mkdir_p "etc/chinadns"
+    cp_r Dir["*.txt"], "etc/chinadns/"
+    etc.install "etc/chinadns"
   end
 
   test do
