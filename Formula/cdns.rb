@@ -33,9 +33,17 @@ class Cdns < Formula
       s.gsub! '"ip_port": "203.80.96.10"', '"ip_port": "8.8.4.4:53"'
     end
 
-    (etc/"cdns").mkpath
+    share_dst = "#{prefix}/share/cdns"
+    mkdir_p share_dst
+    cp "config.json.example", "#{share_dst}/config.json"
 
-    etc.install "config.json.example" => "cdns/config.json"
+    etc_dst = "#{prefix}/etc/cdns"
+    mkdir_p etc_dst
+    cp_r Dir["#{share_dst}/*"], etc_dst
+
+    etc.install etc_dst
+    # equivalent to
+    # etc.install "#{etc_dst}/"
   end
 
   test do
