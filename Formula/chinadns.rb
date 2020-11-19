@@ -11,17 +11,37 @@ class Chinadns < Formula
   depends_on "autoconf" => :build
   depends_on "automake" => :build
 
+  resource "china_ip_list" do
+    url "https://raw.githubusercontent.com/17mon/china_ip_list/master/china_ip_list.txt"
+  end
+
   def install
     system "./autogen.sh" # if build.head?
     system "./configure", "--prefix=#{prefix}"
     system "make", "install"
 
-    # Config files are moved into prefix/"share" by installer
+    # Config files are moved into prefix/"share" by installer, move it
     # etc.install "#{prefix}/share" => "chinadns"
     # chnroute.txt, iplist.txt
-    mkdir_p "etc/chinadns"
-    cp_r Dir["*.txt"], "etc/chinadns/"
-    etc.install "etc/chinadns"
+    share_dst = "#{prefix}/share/chinadns"
+    mkdir_p share_dst
+    mv Dir["#{prefix}/share/*.txt"], "#{share_dst}/"
+    resource("china_ip_list").stage {
+      cp "china_ip_list.txt", "#{share_dst}/"
+    }
+
+    etc_temp = "#{buildpath}/etc_temp"
+    cp_r "#{share_dst}/.", etc_temp
+    # Conf installation borrowed from php.rb
+    Dir.chdir("#{etc_temp}") do
+      config_path = etc/"chinadns"
+      Dir.glob(["*.txt"]).each do |dst|
+        dst_default = config_path/"#{dst}.default"
+        rm dst_default if dst_default.exist?
+        config_path.install dst
+      end
+    end
+    rm_rf "#{etc_temp}"
   end
 
   test do

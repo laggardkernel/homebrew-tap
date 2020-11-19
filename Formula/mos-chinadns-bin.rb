@@ -5,19 +5,35 @@ class MosChinadnsBin < Formula
   url "https://github.com/IrineSistiana/mos-chinadns/releases/download/v1.5.6/mos-chinadns-darwin-amd64.zip"
   sha256 "6bd6d24ef72d743ee67dcfa193c3e8875b1740f4c2e6c583a5345b9f15eb20f4"
 
+  conflicts_with "mos-chinadns", :because => "same package"
+
+  resource "china_ip_list" do
+    url "https://raw.githubusercontent.com/17mon/china_ip_list/master/china_ip_list.txt"
+  end
+
   def install
     bin.install "mos-chinadns"
 
-    mkdir_p "etc/mos-chinadns"
-    cp_r Dir["*.list"], "etc/mos-chinadns/"
-    cp_r Dir["*.yaml"], "etc/mos-chinadns/"
-    etc.install "etc/mos-chinadns"
+    share_dst = "#{prefix}/share/mos-chinadns"
+    mkdir_p "#{share_dst}"
+    cp_r Dir["*.list"], "#{share_dst}/"
+    cp_r Dir["*.yaml"], "#{share_dst}/"
+    resource("china_ip_list").stage {
+      cp "china_ip_list.txt", "#{share_dst}/"
+    }
 
-    # Make a backup of confs into share
-    mkdir_p "etc/mos-chinadns"
-    cp_r Dir["*.list"], "etc/mos-chinadns/"
-    cp_r Dir["*.yaml"], "etc/mos-chinadns/"
-    share.install Dir["etc/mos-chinadns"]
+    etc_temp = "#{buildpath}/etc_temp"
+    cp_r "#{share_dst}/.", etc_temp
+    # Conf installation borrowed from php.rb
+    Dir.chdir("#{etc_temp}") do
+      config_path = etc/"mos-chinadns"
+      Dir.glob(["*.yaml", "*.list", "*.txt"]).each do |dst|
+        dst_default = config_path/"#{dst}.default"
+        rm dst_default if dst_default.exist?
+        config_path.install dst
+      end
+    end
+    rm_rf "#{etc_temp}"
   end
 
   test do
@@ -52,10 +68,10 @@ class MosChinadnsBin < Formula
         <key>ProgramArguments</key>
         <array>
             <string>#{opt_bin}/mos-chinadns</string>
-            <string>-c</string>
-            <string>#{etc}/mos-chinadns/config.yaml</string>
             <string>-dir</string>
             <string>#{etc}/mos-chinadns</string>
+            <string>-c</string>
+            <string>#{etc}/mos-chinadns/config.yaml</string>
         </array>
         <key>RunAtLoad</key>
         <true/>
