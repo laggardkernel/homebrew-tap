@@ -8,10 +8,12 @@ cask 'oracle-jdk8' do
   #                'oraclelicense' => 'accept-securebackup-cookie',
   #              }
   # homepage "https://www.oracle.com/technetwork/java/javase/downloads/jdk#{version.minor}-downloads.html"
-  version "1.8.0_251"
-  sha256 "eef71e68ce9c2c7e3d7e910616e555b219cdd98f4fa59709279a40b639f1d212"
+
+  version "1.8.0_271"
+  sha256 "f624b7a6b43c3f8529e334446b7e0de22df2a2e0dccab842d1a78d87f27f076e"
   java_update = version.sub(%r{.*_(\d+)}, '\1')
-  url "http://download.macromedia.com/pub/coldfusion/java/java#{version.minor}/JDK#{version.minor}u#{java_update}/jdk-#{version.minor}u#{java_update}-macosx-x64.dmg"
+
+  url "http://download.macromedia.com/pub/coldfusion/java/java#{version.minor}/#{version.minor}u#{java_update}/jdk/jdk-#{version.minor}u#{java_update}-macosx-x64.dmg"
   name "Java Standard Edition Development Kit"
   homepage "https://www.adobe.com/support/coldfusion/downloads.html#additionalThirdPartyInstallers"
 
