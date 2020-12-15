@@ -51,7 +51,7 @@ class MosChinadnsBin < Formula
   EOS
   end
 
-  plist_options :manual => "mos-chinadns -c /usr/local/etc/mos-chinadns/config.yaml"
+  plist_options :manual => "mos-chinadns -dir /usr/local/etc/mos-chinadns -c /usr/local/etc/mos-chinadns/config.yaml"
 
   def plist; <<~EOS
     <?xml version="1.0" encoding="UTF-8"?>
