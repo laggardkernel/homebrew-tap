@@ -2,7 +2,7 @@ class MosdnsBin < Formula
   desc "Flexible forwarding DNS client"
   homepage "https://github.com/IrineSistiana/mosdns"
   version "0.16.0"
-  url "https://github.com/IrineSistiana/mosdns/releases/download/v0.16.0/mosdns-darwin-amd64.zip"
+  url "https://github.com/IrineSistiana/mosdns/releases/download/v#{version}/mosdns-darwin-amd64.zip"
   sha256 "73e36ac16f44a74c5bbb10a226c6caed24ad072413fcf7bb2d5e41289ca289d9 "
 
   conflicts_with "mosdns", :because => "same package"
