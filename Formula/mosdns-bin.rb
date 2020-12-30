@@ -1,9 +1,9 @@
 class MosdnsBin < Formula
   desc "Flexible forwarding DNS client"
   homepage "https://github.com/IrineSistiana/mosdns"
-  version "0.20.0"
+  version "0.21.0"
   url "https://github.com/IrineSistiana/mosdns/releases/download/v#{version}/mosdns-darwin-amd64.zip"
-  sha256 "b9e795e1d0e91306b61b53d3f79e25c83d31d81ee97f94b31810fce791b86ddb"
+  sha256 "c0533b986b7cdeb67676895344b2f393beebea8e61d42ff30dab5ff0fca14c81"
 
   livecheck do
     url "https://github.com/IrineSistiana/mosdns/releases/latest"
@@ -43,6 +43,11 @@ class MosdnsBin < Formula
       end
     end
     rm_rf "#{etc_temp}"
+  end
+
+  def post_install
+    (var/"log/mosdns").mkpath
+    chmod 0755, var/"log/mosdns"
   end
 
   test do
