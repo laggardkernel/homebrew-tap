@@ -2,13 +2,14 @@
 # - https://github.com/Homebrew/homebrew-core/commit/f75cb092032c2eb921ba0bcdcf6a45af5cf86714
 # - https://github.com/Homebrew/homebrew-core/pull/33065/files
 # - https://github.com/homebrew-ffmpeg/homebrew-ffmpeg/blob/master/Formula/ffmpeg.rb
+# - https://github.com/homebrew-ffmpeg/homebrew-ffmpeg/blob/master/Formula/ffmpeg.rb
 class FfmpegOptions < Formula
   desc "Play, record, convert, and stream audio and video"
   homepage "https://ffmpeg.org/"
   # None of these parts are used by default, you have to explicitly pass `--enable-gp>
   # to configure to activate them. In this case, FFmpeg's license changes to GPL v2+.
   license "GPL-2.0-or-later"
-  revision 4
+  revision 6
   head "https://github.com/FFmpeg/FFmpeg.git"
 
   stable do
@@ -31,7 +32,9 @@ class FfmpegOptions < Formula
   bottle :unneeded
 
   option "with-chromaprint", "Enable the Chromaprint audio fingerprinting library"
+  option "with-decklink", "Enable DeckLink support"
   option "with-fdk-aac", "Enable the Fraunhofer FDK AAC library"
+  option "with-game-music-emu", "Enable Game Music Emu (GME) support"
   option "with-librsvg", "Enable SVG files as inputs via librsvg"
   option "with-libssh", "Enable SFTP protocol via libssh"
   option "with-openh264", "Enable OpenH264 library"
@@ -48,7 +51,6 @@ class FfmpegOptions < Formula
   depends_on "fontconfig"
   depends_on "freetype"
   depends_on "frei0r"
-  depends_on "gnutls"
   depends_on "lame"
   depends_on "libass"
   depends_on "libbluray"
@@ -78,6 +80,12 @@ class FfmpegOptions < Formula
   uses_from_macos "libxml2"
   uses_from_macos "zlib"
 
+  if build.with? "openssl"
+    depends_on "openssl"
+  else
+    depends_on "gnutls"
+  end
+
   depends_on "chromaprint" => :optional
   depends_on "fdk-aac" => :optional
   depends_on "game-music-emu" => :optional
@@ -89,7 +97,6 @@ class FfmpegOptions < Formula
   depends_on "libssh" => :optional
   depends_on "libvmaf" => :optional
   depends_on "openh264" => :optional
-  depends_on "openssl" => :optional
   depends_on "two-lame" => :optional
   depends_on "wavpack" => :optional
   depends_on "zeromq" => :optional
@@ -105,8 +112,6 @@ class FfmpegOptions < Formula
       --cc=#{ENV.cc}
       --host-cflags=#{ENV.cflags}
       --host-ldflags=#{ENV.ldflags}
-      --enable-ffplay
-      --enable-gnutls
       --enable-gpl
       --enable-libaom
       --enable-libbluray
@@ -143,6 +148,12 @@ class FfmpegOptions < Formula
       --disable-indev=jack
     ]
 
+    if build.with? "openssl"
+      args << "--enable-openssl"
+    else
+      args << "--enable-gnutls"
+    end
+
     args << "--enable-chromaprint" if build.with? "chromaprint"
     args << "--enable-libbs2b" if build.with? "libbs2b"
     args << "--enable-libcaca" if build.with? "libcaca"
@@ -159,20 +170,21 @@ class FfmpegOptions < Formula
     args << "--enable-libwavpack" if build.with? "wavpack"
     args << "--enable-libzimg" if build.with? "zimg"
     args << "--enable-libzmq" if build.with? "zeromq"
-    args << "--enable-opencl" if MacOS.version > :lion
-    args << "--enable-openssl" if build.with? "openssl"
-    args << "--enable-videotoolbox" if MacOS.version >= :mountain_lion
 
-    # Deprecated?
-    # if build.with? "openjpeg"
-    #   args << "--enable-libopenjpeg"
-    #   args << "--disable-decoder=jpeg2000"
-    #   args << "--extra-cflags=" + `pkg-config --cflags libopenjp2`.chomp
-    # end
+    if OS.mac?
+      args << "--enable-opencl" if MacOS.version > :lion
+      args << "--enable-videotoolbox" if MacOS.version >= :mountain_lion
+    end
 
     # These librares are GPL-incompatible, and require ffmpeg be built with
     # the "--enable-nonfree" flag, which produces unredistributable libraries
-    args << "--enable-nonfree" if build.with?("fdk-aac") || build.with?("openssl")
+    args << "--enable-nonfree" if build.with?("decklink") || build.with?("fdk-aac") || build.with?("openssl")
+
+    if build.with? "decklink"
+      args << "--enable-decklink"
+      args << "--extra-cflags=-I#{include}"
+      args << "--extra-ldflags=-L#{include}"
+    end
 
     system "./configure", *args
     system "make", "install"
