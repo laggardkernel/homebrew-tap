@@ -2,18 +2,20 @@ class VimOptions < Formula
   desc "Vi 'workalike' with many additional features"
   homepage "https://www.vim.org/"
   # vim should only be updated every 50 releases on multiples of 50
-  url "https://github.com/vim/vim/archive/v8.2.1450.tar.gz"
-  sha256 "63eeb50557b882643ae6352a7e965bcd13b85b5f3a562cc9f4d984996011c45e"
+  url "https://github.com/vim/vim/archive/v8.2.2300.tar.gz"
+  sha256 "fb426946fc61399222c57b4358ce243863ee7d70a816d7e7c2b6db9a8b356d54"
   license "Vim"
   head "https://github.com/vim/vim.git"
 
   bottle do
-    sha256 "6f9077037cd60262e1b92301d39d276a2cfbb22f757cf1659f4398b9b46da34
-2" => :catalina
-    sha256 "950f835f3c6bd825d4d2604660a9dd4c6fb54ed01daa73a687f2afbb63b4cca
-8" => :mojave
-    sha256 "306a56c61abda3d854e5e830b9a66bcc85f1619a026539f445425befa284289
-e" => :high_sierra
+    sha256 "5f850477c11a6b036a78278e0050f9de3033d7532d352565fc30d18d0184721c"
+ => :big_sur
+    sha256 "32b310f3772fa023216c250fd7dc5aba5624e6ca62473537198c5609f633b2e9"
+ => :arm64_big_sur
+    sha256 "143bbd20d066609bc66784bd1bbd2b4c0abf99cb81a1503667aded50aff9b923"
+ => :catalina
+    sha256 "967a88f53158d9d7705a28fa142b661fb9b93adea0eab97e801913bf9024d63e"
+ => :mojave
   end
 
   option "with-override-system-vi", "Override system vi"
@@ -111,9 +113,9 @@ e" => :high_sierra
                           "--mandir=#{man}",
                           "--enable-multibyte",
                           "--with-tlib=ncurses",
+                          "--with-compiledby=Homebrew",
                           "--enable-cscope",
                           "--enable-terminal",
-                          "--with-compiledby=Homebrew",
                           *opts
     system "make"
     # Parallel install could miss some symlinks
