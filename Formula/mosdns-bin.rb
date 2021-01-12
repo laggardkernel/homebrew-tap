@@ -1,9 +1,9 @@
 class MosdnsBin < Formula
   desc "Flexible forwarding DNS client"
   homepage "https://github.com/IrineSistiana/mosdns"
-  version "0.22.1"
+  version "0.25.1"
   url "https://github.com/IrineSistiana/mosdns/releases/download/v#{version}/mosdns-darwin-amd64.zip"
-  sha256 "8144cf9dca74471815a2360bed07e22ec5081e1c969fdb14541e84451dae86bd"
+  sha256 "090f0745050d93c62f56a70451a80afa69e547bc9b1780ce152c81456e2a97e8"
 
   livecheck do
     url "https://github.com/IrineSistiana/mosdns/releases/latest"
@@ -89,6 +89,10 @@ class MosdnsBin < Formula
         </array>
         <key>RunAtLoad</key>
         <true/>
+        <key>StandardErrorPath</key>
+        <string>#{var}/log/mosdns/mosdns.log</string>
+        <key>StandardOutPath</key>
+        <string>#{var}/log/mosdns/mosdns.log</string>
     </dict>
     </plist>
   EOS
