@@ -9,8 +9,8 @@ cask 'oracle-jdk8' do
   #              }
   # homepage "https://www.oracle.com/technetwork/java/javase/downloads/jdk#{version.minor}-downloads.html"
 
-  version "1.8.0_271"
-  sha256 "f624b7a6b43c3f8529e334446b7e0de22df2a2e0dccab842d1a78d87f27f076e"
+  version "1.8.0_281"
+  sha256 "cf09453ad1f6c84b4018d39a526c213a644415471af1e90b7e5d18633cfe3b08"
   java_update = version.sub(%r{.*_(\d+)}, '\1')
 
   url "http://download.macromedia.com/pub/coldfusion/java/java#{version.minor}/#{version.minor}u#{java_update}/jdk/jdk-#{version.minor}u#{java_update}-macosx-x64.dmg"
