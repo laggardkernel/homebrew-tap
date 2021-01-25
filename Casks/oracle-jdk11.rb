@@ -1,8 +1,8 @@
 cask 'oracle-jdk11' do
-  version "11.0.9"
-  sha256 "d1723d62776b228552f3176946db52a8d8288fa5c4e2714bb361432e6cb2b4dd"
+  version "11.0.10"
+  sha256 "99a62756676329bb02299f6e4e486cd264213a8ffb1d26cf6e00a3c9c3d0b5fb"
 
-  url "http://download.macromedia.com/pub/coldfusion/java/java#{version.major}/#{version.major}#{version.minor}#{version.patch}/jdk-#{version}_osx-x64_bin.dmg"
+  url "http://download.macromedia.com/pub/coldfusion/java/java#{version.major}/#{version.major}#{version.patch}/jdk-#{version}_osx-x64_bin.dmg"
   name 'Java Standard Edition Development Kit'
   homepage "https://www.adobe.com/support/coldfusion/downloads.html#additionalThirdPartyInstallers"
 
