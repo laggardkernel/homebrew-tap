@@ -5,6 +5,11 @@ class MosdnsBin < Formula
   url "https://github.com/IrineSistiana/mosdns/releases/download/v#{version}/mosdns-darwin-amd64.zip"
   sha256 "cea2f3323c9fbc359c648cd9c68dfca8421d7fa34de596a3ed3ba6a684865cc2"
 
+  head do
+    url "https://github.com/IrineSistiana/mosdns/releases/download/v1.3.2/mosdns-darwin-amd64.zip"
+    # sha256 "53a1c48b5197a458bdadb9883d172feea20822d5a6d4399287bbb5b7e97b13f8"
+  end
+
   livecheck do
     url "https://github.com/IrineSistiana/mosdns/releases/latest"
     regex(%r{href=.*?/tag/v?(\d+(?:\.\d+)+[a-z]?)["' >]}i)
