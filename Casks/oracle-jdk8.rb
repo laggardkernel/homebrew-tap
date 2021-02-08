@@ -1,21 +1,21 @@
-# References
-# url "https://mirrors.huaweicloud.com/java/jdk/8u202-b08/jdk-8u202-macosx-x64.dmg"
 cask 'oracle-jdk8' do
-  # version '1.8.0_192-b12,750e1c8617c5452694857ad95c3ee230'  # from oracle
-  # java_update = version.sub(%r{.*_(\d+)-.*}, '\1')
-  # url "https://download.oracle.com/otn-pub/java/jdk/#{version.minor}u#{version.before_comma.split('_').last}/#{version.after_comma}/jdk-#{version.minor}u#{java_update}-macosx-x64.dmg",
-  #     cookies: {
-  #                'oraclelicense' => 'accept-securebackup-cookie',
-  #              }
-  # homepage "https://www.oracle.com/technetwork/java/javase/downloads/jdk#{version.minor}-downloads.html"
-
-  version "1.8.0_281"
+  version '1.8.0_281-b09,89d678f2be164786b292527658ca1605'
   sha256 "cf09453ad1f6c84b4018d39a526c213a644415471af1e90b7e5d18633cfe3b08"
-  java_update = version.sub(%r{.*_(\d+)}, '\1')
-
-  url "http://download.macromedia.com/pub/coldfusion/java/java#{version.minor}/#{version.minor}u#{java_update}/jdk/jdk-#{version.minor}u#{java_update}-macosx-x64.dmg"
   name "Java Standard Edition Development Kit"
-  homepage "https://www.adobe.com/support/coldfusion/downloads.html#additionalThirdPartyInstallers"
+
+  # Download from Oracle
+  java_update = version.sub(%r{.*_(\d+)-.*}, '\1')
+  url "https://download.oracle.com/otn-pub/java/jdk/#{version.minor}u#{version.before_comma.split('_').last}/#{version.after_comma}/jdk-#{version.minor}u#{java_update}-macosx-x64.dmg",
+      cookies: {
+                 'oraclelicense' => 'accept-securebackup-cookie',
+               }
+  homepage "https://www.oracle.com/java/technologies/javase-downloads.html#JDK#{version.minor}"
+
+  # # Download from Adobe
+  # java_update = version.sub(%r{.*_(\d+)-?.*}, '\1')
+  # url "http://download.macromedia.com/pub/coldfusion/java/java#{version.minor}/JDK#{version.minor}u#{java_update}/jdk-#{version.minor}u#{java_update}-macosx-x64.dmg"
+  # name "Java Standard Edition Development Kit"
+  # homepage "https://www.adobe.com/support/coldfusion/downloads.html#additionalThirdPartyInstallers"
 
   # auto_updates true: JDK does not auto-update
 
