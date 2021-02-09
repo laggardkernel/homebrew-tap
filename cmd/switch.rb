@@ -15,6 +15,7 @@ module Homebrew
     Homebrew::CLI::Parser.new do
       usage_banner <<~EOS
         `switch` <formula> <version>
+
         Symlink all of the specified <version> of <formula>'s installation into Homebrew's prefix.
       EOS
 
@@ -62,3 +63,6 @@ module Homebrew
     end
   end
 end
+
+
+# https://github.com/Homebrew/brew/pull/9209/files#diff-26706512ec52a22b56d7a5313ead6332cc0472077811324b62c0498f2298e25e
