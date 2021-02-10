@@ -1,8 +1,9 @@
 class GitGrc < Formula
   desc "Standardized Git submission tool"
   homepage "https://github.com/sdttttt/gcr"
-  url "https://github.com/sdttttt/gcr/archive/v0.9.1.tar.gz"
-  sha256 "e33d20e788746bbff30f60babe76b99518cc813aa12241f3c1895ad42732c1c1"
+  version "1.0.0"
+  url "https://github.com/sdttttt/gcr/archive/v#{version}.tar.gz"
+  sha256 "d44b1386cf5c1285d7e2f6f3e4324979939afdf1d2a30382db621996af85522e"
   license "MIT"
 
   bottle :unneeded
