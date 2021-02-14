@@ -25,14 +25,19 @@ class Aria2Options < Formula
   def install
     ENV.cxx11
 
-    # Hide identity
-    # src/HttpRequest.cc Line 250
-    # Wawnt-Digest
+    ### Hide identity
+    # Remove Wawnt-Digest: src/HttpRequest.cc Line 250
     inreplace "src/HttpRequest.cc", "if (!noWantDigest_)", "if (false)"
-    # Accept
-    # headers for metalink, --disable-metalink
+
+    # Remove default metalink accept header: build wit --disable-metalink
+    # Accept: */*,application/metalink4+xml,application/metalink+xml
     # inreplace "src/HttpRequest.cc", "if (acceptMetalink_)", "if (false)"
+    # Remove default header when metalink is disabled: Accept: */*
     # inreplace "src/HttpRequest.cc", 'builtinHds.emplace_back("Accept:", acceptTypes);', '// builtinHds.emplace_back("Accept:", acceptTypes);'
+
+    # Remove the limit of max-connection-per-server
+    # https://github.com/aria2/aria2/pull/1431/files
+    inreplace "src/OptionHandlerFactory.cc", ", 1, 16, ", ", 1, -1, "
 
     args = %W[
       --disable-dependency-tracking
@@ -49,6 +54,8 @@ class Aria2Options < Formula
       args << "--without-appletls"
       args << "--without-openssl"
     elsif build.with? "openssl"
+      # aria2 failed to be built with openssl, both on Linux and macOS
+      # protocol error: https://github.com/aria2/aria2/issues/1494
       args << "--with-openssl"
       # ENV.prepend_path "PKG_CONFIG_PATH", "#{Formula["openssl@1.1"].opt_lib}/pkgconfig"
       args << "--with-openssl-prefix=#{Formula["openssl@1.1"].opt_prefix}"
