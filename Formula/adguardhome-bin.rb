@@ -1,9 +1,9 @@
 class AdguardhomeBin < Formula
   desc "Network-wide ads & trackers blocking DNS server"
   homepage "https://github.com/AdguardTeam/AdGuardHome"
-  version "0.105.0"
+  version "0.105.1"
   url "https://github.com/AdguardTeam/AdGuardHome/releases/download/v#{version}/AdGuardHome_darwin_amd64.zip"
-  sha256 "a47f2c3743549275da5e9b3589ad7ec668a1ef198276727d4f49fb45c41753e2"
+  sha256 "81d900fc962d7e567c7a24925dc52ca71e57b6fda4adb5ae64671aaf3787dd8b"
 
   conflicts_with "adguardhome", :because => "same package"
 
