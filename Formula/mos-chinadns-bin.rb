@@ -1,7 +1,7 @@
 class MosChinadnsBin < Formula
   desc "Cross-platform DNS routing app"
   homepage "https://github.com/IrineSistiana/mos-chinadns"
-  version "1.5.6"
+  version "1.5.6"  # latest version 1.5.7 need to be compiled from source
   url "https://github.com/IrineSistiana/mos-chinadns/releases/download/v#{version}/mos-chinadns-darwin-amd64.zip"
   sha256 "6bd6d24ef72d743ee67dcfa193c3e8875b1740f4c2e6c583a5345b9f15eb20f4"
 
