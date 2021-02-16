@@ -1,9 +1,9 @@
 class OvertureBin < Formula
   desc "A customized DNS forwarder written in Go"
   homepage "https://github.com/shawn1m/overture"
-  version "1.6.1"
+  version "1.7"
   url "https://github.com/shawn1m/overture/releases/download/v#{version}/overture-darwin-amd64.zip"
-  sha256 "eac96e3dcda549a4d49cadd54ddc07de9fa828321d72721d7f992fe259bfdd8a"
+  sha256 "4e59ed4557c05825130937cfd3c18a7510910f5b2bf0561c4db2c66e7ab81ee2"
   head "https://github.com/shawn1m/overture.git"
 
   bottle :unneeded
@@ -11,20 +11,28 @@ class OvertureBin < Formula
   def install
     bin.install "overture-darwin-amd64" => "overture"
 
-    (etc/"overture").mkpath
-    # etc.install "config.json" => "overture/config.json"
+    config_path = etc/"overture"
+    config_path.mkpath
+    # etc.install "config.yml" => "overture/config.yml"
 
     # https://stackoverflow.com/questions/690794/ruby-arrays-w-vs-w
-    %W[
-      config.json
-      domain_alternative_sample
-      domain_primary_sample
-      domain_ttl_sample
-      hosts_sample
-      ip_network_alternative_sample
-      ip_network_primary_sample
-    ].each do |i|
-      etc.install "#{i}" => "overture/#{i}"
+    # %W[
+    #   domain_alternative_sample
+    #   domain_primary_sample
+    #   domain_ttl_sample
+    #   hosts_sample
+    #   ip_network_alternative_sample
+    #   ip_network_primary_sample
+    # ].each do |dst|
+    Dir.glob(["*_sample"]).each do |dst|
+      # etc.install "#{dst}" => "overture/#{dst}"
+      config_path.install dst
+    end
+
+    Dir.glob(["*.yml", "*.yaml"]).each do |dst|
+      dst_default = config_path/"#{dst}.default"
+      rm dst_default if dst_default.exist?
+      config_path.install dst
     end
   end
 
@@ -55,7 +63,7 @@ class OvertureBin < Formula
         <array>
           <string>#{opt_bin}/overture</string>
           <string>-c</string>
-          <string>#{etc}/overture/config.json</string>
+          <string>#{etc}/overture/config.yml</string>
         </array>
         <key>KeepAlive</key>
         <dict>
