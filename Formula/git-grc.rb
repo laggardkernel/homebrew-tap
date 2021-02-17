@@ -12,10 +12,11 @@ class GitGrc < Formula
 
   def install
     system "cargo", "install", *std_cargo_args
-    # For use of "git cz"
-    cd(bin) do
-      ln_s "grc", "git-cz"
-    end
+    # TODO: gcr or grc, one of which is a mistake made by the project author
+    # # Cancel git-cz linkage, conflict_with "commitizen"
+    # cd(bin) do
+    #   ln_s "grc", "git-cz"
+    # end
   end
 
   test do
