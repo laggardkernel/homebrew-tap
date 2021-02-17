@@ -26,8 +26,8 @@ class MosdnsBin < Formula
   def install
     bin.install "mosdns"
 
-    # rename config-template.yaml
-    mv "config-template.yaml", "config.yaml"
+    # rename config-template.yaml, seems unneeded >= 1.5.0
+    mv "config-template.yaml", "config.yaml" if File.file?("config-template.yaml")
     share_dst = "#{prefix}/share/mosdns"
     mkdir_p "#{share_dst}"
     cp_r Dir["*.list"], "#{share_dst}/"
