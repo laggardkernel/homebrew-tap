@@ -1,9 +1,9 @@
 class MosdnsBin < Formula
   desc "Flexible forwarding DNS client"
   homepage "https://github.com/IrineSistiana/mosdns"
-  version "1.5.1"
+  version "1.5.2"
   url "https://github.com/IrineSistiana/mosdns/releases/download/v#{version}/mosdns-darwin-amd64.zip"
-  sha256 "f3a935a4f02844d98b29a1015dfd34f73262778cc1174a1d8f3f280ce0af4d7f"
+  sha256 "748cb89bae7aa761875f100ad9c1facff68290b9a37ea51e01676f0660ce0823"
 
   head do
     url "https://github.com/IrineSistiana/mosdns/releases/download/v1.5.1/mosdns-darwin-amd64.zip"

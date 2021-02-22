@@ -1,9 +1,16 @@
 class TmuxOptions < Formula
   desc "Terminal multiplexer with custom FPS"
   homepage "https://tmux.github.io/"
-  url "https://github.com/tmux/tmux/releases/download/3.1b/tmux-3.1b.tar.gz"
-  sha256 "d93f351d50af05a75fe6681085670c786d9504a5da2608e481c47cf5e1486db9"
+  url "https://github.com/tmux/tmux/releases/download/3.1c/tmux-3.1c.tar.gz"
+  sha256 "918f7220447bef33a1902d4faff05317afd9db4ae1c9971bef5c787ac6c88386"
   license "ISC"
+  revision 1
+
+  livecheck do
+    url :stable
+    strategy :github_latest
+    regex(%r{href=.*?/tag/v?(\d+(?:\.\d+)+[a-z]?)["' >]}i)
+  end
 
   bottle :unneeded
 
@@ -15,25 +22,34 @@ class TmuxOptions < Formula
     depends_on "libtool" => :build
   end
 
+  # Obsolete: devel block support is dropped
   # devel do
-  #   url "https://github.com/tmux/tmux/releases/download/3.1/tmux-3.1-rc.tar.gz"
-  #   sha256 "9fd91ff2048c9a445e99698e20e20bb64a4b5fd316d2a842b1726de6bc49f9b6"
+  #   url "https://github.com/tmux/tmux/releases/download/3.2-rc/tmux-3.2-rc3.tar.gz"
+  #   sha256 ""
   # end
 
-  option "with-fps=", "FPS (default 20)"
+  # option "with-fps=", "FPS (default 20)"
+  option "with-fps-60", "FPS 60 (default 20)"
 
   depends_on "pkg-config" => :build
   depends_on "libevent"
   depends_on "ncurses"
 
+  # Old versions of macOS libc disagree with utf8proc character widths.
+  # https://github.com/tmux/tmux/issues/2223
+  depends_on "utf8proc" if MacOS.version >= :high_sierra
+
   resource "completion" do
-    url "https://raw.githubusercontent.com/imomaliev/tmux-bash-completion/homebrew_1.0.0/completions/tmux"
-    sha256 "05e79fc1ecb27637dc9d6a52c315b8f207cf010cdcee9928805525076c9020ae"
+    url "https://raw.githubusercontent.com/imomaliev/tmux-bash-completion/f5d53239f7658f8e8fbaf02535cc369009c436d6/completions/tmux"
+    sha256 "b5f7bbd78f9790026bbff16fc6e3fe4070d067f58f943e156bd1a8c3c99f6a6f"
   end
 
   def install
-    if ! (ARGV.value("with-fps").nil? || ARGV.value("with-fps").empty?)
-      fps=ARGV.value("with-fps").to_i
+    # Deprecate: ARGV
+    # if ! (ARGV.value("with-fps").nil? || ARGV.value("with-fps").empty?)
+    #   fps=ARGV.value("with-fps").to_i
+    if build.with? "fps-60"
+      fps=60
     else
       fps=20
     end
@@ -46,10 +62,12 @@ class TmuxOptions < Formula
     system "sh", "autogen.sh" if build.head?
 
     args = %W[
-      --disable-Dependency-tracking
+      --disable-dependency-tracking
       --prefix=#{prefix}
       --sysconfdir=#{etc}
     ]
+
+    args << "--enable-utf8proc" if MacOS.version >= :high_sierra
 
     ENV.append "LDFLAGS", "-lresolv"
     system "./configure", *args
@@ -70,3 +88,10 @@ class TmuxOptions < Formula
     system "#{bin}/tmux", "-V"
   end
 end
+
+# Deprecate ARGV
+# https://github.com/Homebrew/brew/issues/1803
+# https://github.com/Homebrew/brew/issues/7093
+# https://github.com/Homebrew/brew/issues/5730
+# https://github.com/Homebrew/brew/pull/6857
+# Even Homebrew.args is private?
