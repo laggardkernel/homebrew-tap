@@ -6,8 +6,11 @@ Collection of custom and deprecated formulae.
 <details>
   <summary>Big changes made in this repo.</summary>
 
+- 12-01-2020
+  - `Homebrew.args` is deprecated in 2.6.0. Pass value into formula build with
+      `--with-key=value` is not possible anymore.
 - 02-28-2020
-  - Drops cask `melloW`, which is maintained in Homebrew Cask repo
+  - Drops cask `mellow`, which is maintained in Homebrew Cask repo
 - 02-26-2020
   - Rename some formulae to avoid name conflicting after `brew tap-pin` is
       obsolete
@@ -28,7 +31,13 @@ brew install laggardkernel/tap/<formula>
 # brew tap-pin laggardkernel/tap # deprecated
 ```
 
+## External Commands
+- `brew switch`, the old goodie dropped by brew in 2.6.0
+- `brew fix-perm`, fix formula file perms broke by `sudo brew services`
+
 ## Formulae
+Check the `Formula/` folder directly. No longer bother to introduce them here.
+
 ### Aria2
 aria2-options
 

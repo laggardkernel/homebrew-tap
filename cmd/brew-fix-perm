@@ -1,0 +1,114 @@
+#!/usr/bin/env bash
+# vim: ft=bash fdm=marker foldlevel=0 sw=2 ts=2 sts=2 et
+# References
+# - https://docs.brew.sh/External-Commands
+
+# Bash unofficial strict mode
+# http://redsymbol.net/articles/unofficial-bash-strict-mode/
+# #!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
+
+# CWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+typeset -gA OPTS
+# OPTS[script]="${BASH_SOURCE[0]}"
+OPTS[script]="${BASH_SOURCE[0]##*/}"
+OPTS[author]="laggardkernel"
+OPTS[version]="1.0.2"
+
+# HOMEBREW_PREFIX var is provided by homebrew, only when the script is run as
+# brew sub-command.
+if [[ -z "$HOMEBREW_PREFIX" ]]; then
+  ARCH="$(uname -m)"
+  # https://developer.apple.com/forums/thread/668206
+  if [[ "$ARCH" == "arm64" ]]; then
+    HOMEBREW_PREFIX="/opt"
+  else
+    HOMEBREW_PREFIX="/usr/local"
+  fi
+fi
+
+function version {
+  cat << EOL >&2
+${OPTS[script]} ${OPTS[version]} by ${OPTS[author]}
+https://github.com/laggardkernel/homebrew-tap/
+EOL
+}
+
+function usage {
+  cat << EOF >&2
+Fix formula files permission broke by using 'sudo brew services'
+
+Usage:
+  ${OPTS[script]} [command/option]
+
+Example:
+  ${OPTS[script]} formula [formula2]
+
+Commands/Options:
+  formula            Name of formula
+  help               Disable this help screen
+  -v, --version      Display version information and exit
+
+Caveat: 
+  root password is needed cause the script is basically doing 'sudo chown'.
+
+EOF
+# homebrew external commands don't support custom usage banner in shell script
+# which means -h, --help don't work when used as a sub-command of `brew`
+}
+
+function fix {
+  local formula item items
+
+  if [[ $# -eq 1 ]] && [[ "$1" == "prefix" ]]; then
+    echo "Fixing the whole prefix dir ${HOMEBREW_PREFIX} ..."
+    echo "sudo chown -R $USER:admin '${HOMEBREW_PREFIX}/*'"
+    sudo chown -R "$USER":admin "${HOMEBREW_PREFIX}/*"
+
+  else
+    for formula in "$@"; do
+      if ! [[ -d  "${HOMEBREW_PREFIX}/Cellar/${formula}" ]]; then
+        echo "Skip formula ${formula}, not found" >/dev/null
+        continue
+      fi
+      items=(
+        "${HOMEBREW_PREFIX}/Cellar/${formula}"
+        "${HOMEBREW_PREFIX}/opt/${formula}"
+        "${HOMEBREW_PREFIX}/var/homebrew/linked/${formula}"
+      )
+      echo "Fixing file perms for ${formula} ..."
+      for item in "${items[@]}"; do
+        echo " ${item}"
+        sudo chown -R "$USER":admin "$item"
+      done
+    done
+  fi
+
+  echo "Done"
+}
+
+# Menu/entry
+if [[ $# -eq 0 ]]; then
+  usage
+else
+  case "$1" in
+    -h|--help|help)
+      usage
+      exit 0
+      ;;
+    -v|--version)
+      version
+      exit 0
+      ;;
+    *)
+      fix "$@"
+      ;;
+    # *)
+    #   (>&2 printf "Unknown parameter: %s\n" "$1")
+    #   usage
+    #   exit 1
+    #   ;;
+  esac
+fi
