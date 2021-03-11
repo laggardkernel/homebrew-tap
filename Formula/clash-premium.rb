@@ -1,9 +1,9 @@
 class ClashPremium < Formula
   desc "Rule-based tunnel in Go, the pre-built premium version"
-  homepage "https://github.com/Dreamacro/clash"
-  version "2021.02.21"
+  homepage "https://github.com/Dreamacro/clash/releases/tag/premium"
+  version "2021.03.10"
   url "https://github.com/Dreamacro/clash/releases/download/premium/clash-darwin-amd64-#{version}.gz"
-  sha256 "522a03dde8c40826bd5824464c7ae37b7f8bea0f857b9e8c5ed385e49826f0e3"
+  sha256 "01a3b0173291206e81c6d0245f40e2f483ea0a537a19967d62da5386e913158c"
 
   bottle :unneeded
 
