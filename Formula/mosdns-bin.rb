@@ -61,7 +61,7 @@ class MosdnsBin < Formula
 
       sudo cp -f #{plist_path} /Library/LaunchAgents/
 
-    Dont' use `sudo brew services`. This very command will ruin the file perms.
+    After using `sudo` with `brew services`. Run `brew fix-perm`.
   EOS
   end
 

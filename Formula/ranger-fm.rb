@@ -27,6 +27,7 @@ class RangerFm < Formula
     system libexec/"bin/pip", "install", "-U", "python-bidi"
     # Pillow, image display for kitty
     system libexec/"bin/pip", "install", "-U", "Pillow"
+    # Pillow-SIMD is hard to build cause too many dependencies
   end
 
   test do
