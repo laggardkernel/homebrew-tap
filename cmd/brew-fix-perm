@@ -15,7 +15,7 @@ typeset -gA OPTS
 # OPTS[script]="${BASH_SOURCE[0]}"
 OPTS[script]="${BASH_SOURCE[0]##*/}"
 OPTS[author]="laggardkernel"
-OPTS[version]="1.0.3"
+OPTS[version]="1.1.0"
 
 # HOMEBREW_PREFIX var is provided by homebrew, only when the script is run as
 # brew sub-command.
@@ -48,6 +48,7 @@ Example:
 
 Commands/Options:
   formula            Name of formula
+  all                Auto search and fix perm for broken formulae
   help               Disable this help screen
   -v, --version      Display version information and exit
 
@@ -60,37 +61,43 @@ EOF
 }
 
 function fix {
-  local formula item items
-
-  if [[ "$1" == "prefix" ]] || [[ "$1" == "all" ]] && [[ $# -eq 1 ]]; then
-    # TODO: why calling prefix fix causes stderr lost
-    # echo "Fixing the whole prefix dir ${HOMEBREW_PREFIX} ..."
-    # echo "sudo chown -R $USER:admin '${HOMEBREW_PREFIX}/*'"
-    # sudo chown -R "$USER":admin "${HOMEBREW_PREFIX}"/*
-    cat << EOL
-Wanna fix the whole prefix dir ${HOMEBREW_PREFIX}? Run the cmd manually,
-  sudo chown -R $USER:admin ${HOMEBREW_PREFIX}/*
-EOL
+  local formula formulae item items
+  if [[ "$1" == "all" ]] && [[ $# -eq 1 ]]; then
+    echo "Auto search broken formulae in ${HOMEBREW_PREFIX} ..."
+    formulae=($(find "${HOMEBREW_PREFIX}/opt" -type l -user root))
+    formulae=("${formulae[@]##*/}")
   else
-    for formula in "$@"; do
-      if ! [[ -d  "${HOMEBREW_PREFIX}/Cellar/${formula}" ]]; then
-        echo "Skip formula ${formula}, not found" >/dev/null
-        continue
-      fi
-      items=(
-        "${HOMEBREW_PREFIX}/Cellar/${formula}"
-        "${HOMEBREW_PREFIX}/opt/${formula}"
-        "${HOMEBREW_PREFIX}/var/homebrew/linked/${formula}"
-      )
-      echo "Fixing file perms for ${formula} ..."
-      for item in "${items[@]}"; do
-        echo " ${item}"
-        sudo chown -R "$USER":admin "$item"
-      done
-    done
-    echo "Done"
+    formulae=("$@")
   fi
+
+  if (( ${#formulae[@]} )); then
+    if ! sudo -v; then
+      echo "Unable to run as superuser"
+      return 1
+    fi
+  else
+    echo "No broken formula is found"
+    return 0
+  fi
+
+  for formula in "${formulae[@]}"; do
+    if ! [[ -d  "${HOMEBREW_PREFIX}/Cellar/${formula}" ]]; then
+      echo "Skip formula ${formula}, not found" >/dev/null
+      continue
+    fi
+    items=(
+      "${HOMEBREW_PREFIX}/Cellar/${formula}"
+      "${HOMEBREW_PREFIX}/opt/${formula}"
+      "${HOMEBREW_PREFIX}/var/homebrew/linked/${formula}"
+    )
+    echo "Fixing file perms for ${formula} ..."
+    for item in "${items[@]}"; do
+      echo " ${item}"
+      sudo chown -R "$USER":admin "$item"
+    done
+  done
 }
+
 
 # Menu/entry
 if [[ $# -eq 0 ]]; then
