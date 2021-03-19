@@ -1,9 +1,9 @@
 class MosdnsBin < Formula
   desc "Flexible forwarding DNS client"
   homepage "https://github.com/IrineSistiana/mosdns"
-  version "1.6.3"
+  version "1.6.5"
   url "https://github.com/IrineSistiana/mosdns/releases/download/v#{version}/mosdns-darwin-amd64.zip"
-  sha256 "651ded9d61beae80c83eb925c33b37193bacf6f7431281729b318acb5d3a308e"
+  sha256 "96489d108b8453bac24c2d4737e09a8d563df5758dd0511226d453a85c84423d"
 
   livecheck do
     url "https://github.com/IrineSistiana/mosdns/releases/latest"
@@ -14,8 +14,13 @@ class MosdnsBin < Formula
 
   conflicts_with "mosdns", :because => "same package"
 
+  # TODO: drop one cidr list?
   resource "china_ip_list" do
     url "https://raw.githubusercontent.com/17mon/china_ip_list/master/china_ip_list.txt"
+  end
+
+  resource "geoip2-cn-txt" do
+    url "https://cdn.jsdelivr.net/gh/Hackl0us/GeoIP2-CN@release/CN-ip-cidr.txt"
   end
 
   def install
@@ -29,6 +34,9 @@ class MosdnsBin < Formula
     cp_r Dir["*.yaml"], "#{share_dst}/"
     resource("china_ip_list").stage {
       cp "china_ip_list.txt", "#{share_dst}/"
+    }
+    resource("geoip2-cn-txt").stage {
+      cp "CN-ip-cidr.txt", "#{share_dst}/"
     }
 
     etc_temp = "#{buildpath}/etc_temp"
