@@ -3,6 +3,7 @@ class Chinadns < Formula
   homepage "https://github.com/aa65535/ChinaDNS"
   url "https://github.com/aa65535/ChinaDNS/archive/v1.3.3.tar.gz"
   sha256 "74e53af32f8aa2ca7e63697385f12d89a06c486641556cfd8bc3f085d87e55ad"
+  revision 1
 
   head do
     url "https://github.com/aa65535/ChinaDNS.git"
@@ -11,8 +12,13 @@ class Chinadns < Formula
   depends_on "autoconf" => :build
   depends_on "automake" => :build
 
+  # TODO: drop one cidr list?
   resource "china_ip_list" do
     url "https://raw.githubusercontent.com/17mon/china_ip_list/master/china_ip_list.txt"
+  end
+
+  resource "geoip2-cn-txt" do
+    url "https://cdn.jsdelivr.net/gh/Hackl0us/GeoIP2-CN@release/CN-ip-cidr.txt"
   end
 
   def install
@@ -28,6 +34,9 @@ class Chinadns < Formula
     mv Dir["#{prefix}/share/*.txt"], "#{share_dst}/"
     resource("china_ip_list").stage {
       cp "china_ip_list.txt", "#{share_dst}/"
+    }
+    resource("geoip2-cn-txt").stage {
+      cp "CN-ip-cidr.txt", "#{share_dst}/"
     }
 
     etc_temp = "#{buildpath}/etc_temp"
