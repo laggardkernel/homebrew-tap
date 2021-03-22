@@ -1,9 +1,9 @@
 class FilebrowserBin < Formula
   desc "Web File Browser"
   homepage "https://github.com/filebrowser/filebrowser"
-  version "2.13.0"
+  version "2.14.1"
   url "https://github.com/filebrowser/filebrowser/releases/download/v#{version}/darwin-amd64-filebrowser.tar.gz"
-  sha256 "8d849794cc391a1273fc2c8c3d0857f1cfa28ef50e075990122f48f9797cd51b"
+  sha256 "791e2d8711e5deae10b08e242d87bf962eecbe2dde45760bd362a9561b785fa3"
 
   bottle :unneeded
 
