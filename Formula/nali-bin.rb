@@ -1,9 +1,9 @@
 class NaliBin < Formula
   desc "An offline tool for querying IP geographic information and CDN provider."
   homepage "https://github.com/zu1k/nali"
-  version "0.2.2"
+  version "0.2.3"
   url "https://github.com/zu1k/nali/releases/download/v#{version}/nali-darwin-amd64-v#{version}.gz"
-  sha256 "7a43e78bed7d3e21a920cda1783c40fcbcb010cf9d910dbdde9b38f0fff3b0fa"
+  sha256 "fb6ef5c19b4b71ab00504e374f868e93a05578d61b769333d20e3e7567038327"
 
   livecheck do
     url "https://github.com/zu1k/nali/releases/latest"
