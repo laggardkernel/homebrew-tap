@@ -10,6 +10,7 @@ class FfmpegOptions < Formula
   # to configure to activate them. In this case, FFmpeg's license changes to GPL v2+.
   license "GPL-2.0-or-later"
   head "https://github.com/FFmpeg/FFmpeg.git"
+  revision 3
 
   stable do
     url "https://ffmpeg.org/releases/ffmpeg-4.3.2.tar.xz"
