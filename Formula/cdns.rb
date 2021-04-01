@@ -3,9 +3,11 @@ class Cdns < Formula
   # homepage "https://github.com/laggardkernel/cdns"
   # head "https://github.com/laggardkernel/cdns.git"
   homepage "https://github.com/semigodking/cdns"
-  head "https://github.com/semigodking/cdns.git"
   url "https://github.com/semigodking/cdns/archive/release-1.1.tar.gz"
   sha256 "5455c91bc48cbc3443c2f8fa6b251b775a6239744e8e66544c0e957d3b79cc48"
+  head "https://github.com/semigodking/cdns.git"
+  # TODO: head failed to build.
+  #  cdns_init_server(...) bind: Invalid argument
 
   # Caveat: HEAD still fails to be build.
 
@@ -18,6 +20,14 @@ class Cdns < Formula
         s.gsub! "tdestroy(ipv4_blacklist_root, _blacklist_freenode);",
                 "// tdestroy(ipv4_blacklist_root, _blacklist_freenode);"
       end
+
+      # # Another solution for the endian.h problem on macOS
+      # # Since we changed CFLAGS, this is not needed.
+      # # https://stackoverflow.com/q/20813028/5101148
+      # inreplace "dns.h" do |s|
+      #   s.gsub! "#include <endian.h>",
+      #           "#include <machine/endian.h>"
+      # end
     end
 
     ENV.append "CFLAGS", "-I/usr/local/include -L/usr/local/lib -I/usr/include/machine -largp"
