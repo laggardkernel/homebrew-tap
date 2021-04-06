@@ -2,16 +2,17 @@ class VimOptions < Formula
   desc "Vi 'workalike' with many additional features"
   homepage "https://www.vim.org/"
   # vim should only be updated every 25 releases on multiples of 25
-  url "https://github.com/vim/vim/archive/v8.2.2500.tar.gz"
-  sha256 "df3028fd4d375068c8119d76e476381703c99a7379cc4028c2c15d541393734d"
+  url "https://github.com/vim/vim/archive/v8.2.2725.tar.gz"
+  sha256 "a8aca906cf63fdc4264f86c1c39f8164989de0be3dc18553cb23bd6226c361a9"
   license "Vim"
+  revision 1
   head "https://github.com/vim/vim.git"
 
   bottle do
-    sha256 arm64_big_sur: "412086ac24b6b9da1d3d612abea3f0475ee6999918e138c3f2728db5c7a331b2"
-    sha256 big_sur:       "e54a58c050bd5df985c293cc301cf7827560901d232ccdc5d70f223874caeabb"
-    sha256 catalina:      "14f56cecb36ff9020110db1497a754bd0cb95c6071faa38bd766f1058071a06d"
-    sha256 mojave:        "bd27615ff5264d44774e962bb0f5c26696ec85e2ce51849c8adec7ed2d6d71ae"
+    sha256 arm64_big_sur: "ad0f72aa627d2c919482fd0ca8e9da68b54e61d3ffc07d0b553b72649d643d0c"
+    sha256 big_sur:       "c60b5c2a291944db1eef8ae7b7560b40bd96f2622ee7e49af780315e6de6d72b"
+    sha256 catalina:      "09495cfc92c99f521341f99aa5df7a93c8d0d102ecac615a4133740be51cb7ae"
+    sha256 mojave:        "04851f5c6270b6934dbc13c4f0b9580ca13d0453bef18f2d8d7348272b1d3151"
   end
 
   option "with-override-system-vi", "Override system vi"
@@ -37,6 +38,7 @@ class VimOptions < Formula
   depends_on "python" => :recommended if build.without? "python@2"
   depends_on "gettext" => :optional
   depends_on "lua" => :optional
+  depends_on "ncurses"
   depends_on "luajit" => :optional
   depends_on "python@2" => :optional
 
