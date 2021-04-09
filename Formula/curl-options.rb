@@ -1,15 +1,16 @@
 class CurlOptions < Formula
   desc "Get a file from an HTTP, HTTPS or FTP server"
-  homepage "https://curl.haxx.se/"
-  url "https://curl.haxx.se/download/curl-7.71.1.tar.bz2"
-  sha256 "9d52a4d80554f9b0d460ea2be5d7be99897a1a9f681ffafe739169afd6b4f224"
+  homepage "https://curl.se"
+  url "https://curl.se/download/curl-7.76.0.tar.bz2"
+  sha256 "e29bfe3633701590d75b0071bbb649ee5ca4ca73f00649268bd389639531c49a"
+  license "curl"
 
-  bottle do
-    cellar :any
-    sha256 "36dc71f1899b803ab093e727c920b40f91b197402d9c73124c86d02feb0023c5" => :catalina
-    sha256 "99d574c0dec0a50f21ce736d77759038353f2301c7d7a64d5855d311aac4b506" => :mojave
-    sha256 "083d119978d82e86d68567b5fc48faf3d80bf66bf3f6e1c21400a2462d3c460c" => :high_sierra
+  livecheck do
+    url "https://curl.se/download/"
+    regex(/href=.*?curl[._-]v?(.*?)\.t/i)
   end
+
+  bottle :unneeded
 
   head do
     url "https://github.com/curl/curl.git"
@@ -39,11 +40,12 @@ class CurlOptions < Formula
 
   # HTTP/2 support requires OpenSSL 1.0.2+ or LibreSSL 2.1.3+ for ALPN Support
   # which is currently not supported by Secure Transport (DarwinSSL).
-  if build.with?("openssl@1.1") || MacOS.version < :mountain_lion || (build.with?("nghttp2") && build.without?("libressl"))
+  if MacOS.version < :mountain_lion
     depends_on "openssl@1.1"
+  elsif build.with?("libressl")
+    depends_on "libressl"
   else
-    option "with-openssl@1.1", "Build with OpenSSL instead of Secure Transport"
-    depends_on "openssl@1.1" => :optional
+    depends_on "openssl@1.1"
   end
 
   depends_on "pkg-config" => :build
@@ -56,6 +58,10 @@ class CurlOptions < Formula
   depends_on "nghttp2" => :optional
   depends_on "openldap" => :optional
   depends_on "rtmpdump" => :optional
+  depends_on "zstd"
+
+  uses_from_macos "krb5"
+  uses_from_macos "zlib"
 
   def install
     # Fail if someone tries to use both SSL choices.
@@ -77,29 +83,41 @@ class CurlOptions < Formula
       --disable-dependency-tracking
       --disable-silent-rules
       --prefix=#{prefix}
+      --without-ca-bundle
+      --without-ca-path
+      --with-ca-fallback
+      --with-secure-transport
     ]
 
     # cURL has a new firm desire to find ssl with PKG_CONFIG_PATH instead of using
     # "--with-ssl" any more. "when possible, set the PKG_CONFIG_PATH environment
     # variable instead of using this option". Multi-SSL choice breaks w/o using it.
-    if build.with? "libressl"
-      ENV.prepend_path "PKG_CONFIG_PATH", "#{Formula["libressl"].opt_lib}/pkgconfig"
-      args << "--with-ssl=#{Formula["libressl"].opt_prefix}"
-      args << "--with-ca-bundle=#{etc}/libressl/cert.pem"
-      args << "--with-ca-path=#{etc}/libressl/certs"
-    elsif MacOS.version < :mountain_lion || build.with?("openssl@1.1") || build.with?("nghttp2")
-      ENV.prepend_path "PKG_CONFIG_PATH", "#{Formula["openssl@1.1"].opt_lib}/pkgconfig"
+    # ENV.prepend_path "PKG_CONFIG_PATH", "#{Formula["openssl@1.1"].opt_lib}/pkgconfig"
+    if MacOS.version < :mountain_lion
       args << "--with-ssl=#{Formula["openssl@1.1"].opt_prefix}"
-      args << "--with-ca-bundle=#{etc}/openssl@1.1/cert.pem"
-      args << "--with-ca-path=#{etc}/openssl@1.1/certs"
+      args << "--with-default-ssl-backend=openssl"
       args << "--without-libpsl"
+    elsif build.with? "libressl"
+      args << "--with-ssl=#{Formula["libressl"].opt_prefix}"
+      args << "--with-default-ssl-backend=libressl"
     else
-      args << "--with-secure-transport"
-      args << "--without-ca-bundle"
-      args << "--without-ca-path"
+      args << "--with-ssl=#{Formula["openssl@1.1"].opt_prefix}"
+      args << "--with-default-ssl-backend=openssl"
+      args << "--without-libpsl"
     end
 
-    args << (build.with?("gssapi") ? "--with-gssapi" : "--without-gssapi")
+    if build.with? "gssapi"
+      on_macos do
+        args << "--with-gssapi"
+      end
+
+      on_linux do
+        args << "--with-gssapi=#{Formula["krb5"].opt_prefix}"
+      end
+    else
+      args << "--without-gssapi"
+    end
+
     args << (build.with?("libidn") ? "--with-libidn2" : "--without-libidn2")
     args << (build.with?("libmetalink") ? "--with-libmetalink" : "--without-libmetalink")
     args << (build.with?("libssh2") ? "--with-libssh2" : "--without-libssh2")
@@ -129,3 +147,6 @@ class CurlOptions < Formula
     assert_predicate testpath/"certdata.txt", :exist?
   end
 end
+
+# Ref
+# - https://everything.curl.dev/source/build/tls

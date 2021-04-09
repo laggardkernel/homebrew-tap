@@ -1,21 +1,13 @@
-# References
-# - https://github.com/Homebrew/homebrew-core/commit/f75cb092032c2eb921ba0bcdcf6a45af5cf86714
-# - https://github.com/Homebrew/homebrew-core/pull/33065/files
-# - https://github.com/homebrew-ffmpeg/homebrew-ffmpeg/blob/master/Formula/ffmpeg.rb
-# - https://github.com/homebrew-ffmpeg/homebrew-ffmpeg/blob/master/Formula/ffmpeg.rb
 class FfmpegOptions < Formula
   desc "Play, record, convert, and stream audio and video"
   homepage "https://ffmpeg.org/"
+  url "https://ffmpeg.org/releases/ffmpeg-4.3.2.tar.xz"
+  sha256 "46e4e64f1dd0233cbc0934b9f1c0da676008cad34725113fb7f802cfa84ccddb"
   # None of these parts are used by default, you have to explicitly pass `--enable-gp>
   # to configure to activate them. In this case, FFmpeg's license changes to GPL v2+.
   license "GPL-2.0-or-later"
-  head "https://github.com/FFmpeg/FFmpeg.git"
   revision 4
-
-  stable do
-    url "https://ffmpeg.org/releases/ffmpeg-4.3.2.tar.xz"
-    sha256 "46e4e64f1dd0233cbc0934b9f1c0da676008cad34725113fb7f802cfa84ccddb"
-  end
+  head "https://github.com/FFmpeg/FFmpeg.git"
 
   livecheck do
     url "https://ffmpeg.org/download.html"
@@ -32,8 +24,8 @@ class FfmpegOptions < Formula
   option "with-libssh", "Enable SFTP protocol via libssh"
   option "with-openh264", "Enable OpenH264 library"
   option "with-openssl", "Enable SSL support"
-  option "with-zeromq", "Enable using libzeromq to receive commands sent through a libzeromq client"
-  option "with-zimg", "Enable z.lib zimg library"
+  # option "with-zeromq", "Enable using libzeromq to receive commands sent through a libzeromq client"
+  # option "with-zimg", "Enable z.lib zimg library"
   # option "with-srt", "Enable SRT library"
   option "with-libvmaf", "Enable libvmaf scoring library"
 
@@ -68,6 +60,8 @@ class FfmpegOptions < Formula
   depends_on "x265"
   depends_on "xvid"
   depends_on "xz"
+  depends_on "zeromq"
+  depends_on "zimg"
 
   uses_from_macos "bzip2"
   uses_from_macos "libxml2"
@@ -96,8 +90,6 @@ class FfmpegOptions < Formula
   depends_on "openh264" => :optional
   depends_on "two-lame" => :optional
   depends_on "wavpack" => :optional
-  depends_on "zeromq" => :optional
-  depends_on "zimg" => :optional
 
   def install
     args = %W[
@@ -140,10 +132,16 @@ class FfmpegOptions < Formula
       --enable-librtmp
       --enable-libspeex
       --enable-libsoxr
-      --enable-videotoolbox
+      --enable-libzmq
+      --enable-libzimg
       --disable-libjack
       --disable-indev=jack
     ]
+
+    on_macos do
+      # Needs corefoundation, coremedia, corevideo
+      args << "--enable-videotoolbox"
+    end
 
     if build.with? "openssl"
       args << "--enable-openssl"
@@ -160,13 +158,10 @@ class FfmpegOptions < Formula
     args << "--enable-libmodplug" if build.with? "libmodplug"
     args << "--enable-libopenh264" if build.with? "openh264"
     args << "--enable-librsvg" if build.with? "librsvg"
-    # args << "--enable-libsrt" if build.with? "srt"
     args << "--enable-libssh" if build.with? "libssh"
     args << "--enable-libtwolame" if build.with? "two-lame"
     args << "--enable-libvmaf" if build.with? "libvmaf"
     args << "--enable-libwavpack" if build.with? "wavpack"
-    args << "--enable-libzimg" if build.with? "zimg"
-    args << "--enable-libzmq" if build.with? "zeromq"
 
     if OS.mac?
       args << "--enable-opencl" if MacOS.version > :lion
@@ -201,3 +196,9 @@ class FfmpegOptions < Formula
     assert_predicate mp4out, :exist?
   end
 end
+
+# References
+# - https://github.com/Homebrew/homebrew-core/commit/f75cb092032c2eb921ba0bcdcf6a45af5cf86714
+# - https://github.com/Homebrew/homebrew-core/pull/33065/files
+# - https://github.com/homebrew-ffmpeg/homebrew-ffmpeg/blob/master/Formula/ffmpeg.rb
+# - https://github.com/homebrew-ffmpeg/homebrew-ffmpeg/blob/master/Formula/ffmpeg.rb

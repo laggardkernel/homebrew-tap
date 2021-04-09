@@ -8,12 +8,7 @@ class VimOptions < Formula
   revision 1
   head "https://github.com/vim/vim.git"
 
-  bottle do
-    sha256 arm64_big_sur: "ad0f72aa627d2c919482fd0ca8e9da68b54e61d3ffc07d0b553b72649d643d0c"
-    sha256 big_sur:       "c60b5c2a291944db1eef8ae7b7560b40bd96f2622ee7e49af780315e6de6d72b"
-    sha256 catalina:      "09495cfc92c99f521341f99aa5df7a93c8d0d102ecac615a4133740be51cb7ae"
-    sha256 mojave:        "04851f5c6270b6934dbc13c4f0b9580ca13d0453bef18f2d8d7348272b1d3151"
-  end
+  bottle :unneedd
 
   option "with-override-system-vi", "Override system vi"
   option "with-gettext", "Build vim with National Language Support (translated messages, keymaps)"

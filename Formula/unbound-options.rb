@@ -1,9 +1,20 @@
 class UnboundOptions < Formula
   desc "Validating, recursive, caching DNS resolver"
   homepage "https://www.unbound.net"
-  url "https://nlnetlabs.nl/downloads/unbound/unbound-1.9.4.tar.gz"
-  sha256 "3d3e25fb224025f0e732c7970e5676f53fd1764c16d6a01be073a13e42954bb0"
+  url "https://nlnetlabs.nl/downloads/unbound/unbound-1.13.1.tar.gz"
+  sha256 "8504d97b8fc5bd897345c95d116e0ee0ddf8c8ff99590ab2b4bd13278c9f50b8"
+  license "BSD-3-Clause"
   head "https://github.com/NLnetLabs/unbound.git"
+
+  # We check the GitHub repo tags instead of
+  # https://nlnetlabs.nl/downloads/unbound/ since the first-party site has a
+  # tendency to lead to an `execution expired` error.
+  livecheck do
+    url :head
+    regex(/^(?:release-)?v?(\d+(?:\.\d+)+)$/i)
+  end
+
+  bottle :unneeded
 
   depends_on "libevent"
   depends_on "openssl@1.1"
@@ -14,29 +25,35 @@ class UnboundOptions < Formula
     args = %W[
       --prefix=#{prefix}
       --sysconfdir=#{etc}
-      --with-libevent=#{Formula["libevent"].opt_prefix}
-      --with-ssl=#{Formula["openssl@1.1"].opt_prefix}
+      --enable-event-api
       --enable-subnet
       --enable-tfo-client
       --enable-tfo-server
-      --enable-event-api
+      --with-libevent=#{Formula["libevent"].opt_prefix}
+      --with-ssl=#{Formula["openssl@1.1"].opt_prefix}
     ]
+
+    on_macos do
+      args << "--with-libexpat=#{MacOS.sdk_path}/usr" if MacOS.sdk_path_if_needed
+    end
+    on_linux do
+      args << "--with-libexpat=#{Formula["expat"].opt_prefix}"
+    end
 
     if build.with? "python"
       ENV.prepend "LDFLAGS", `#{Formula["python"].opt_prefix}/bin/python3-config --ldflags`.chomp
-      ENV.prepend "PYTHON_VERSION", "3.7"
+      ENV.prepend "PYTHON_VERSION", "3.9"
 
       args << "--with-pyunbound"
       args << "--with-pythonmodule"
-      args << "PYTHON_SITE_PKG=#{lib}/python3.7/site-packages"
+      args << "PYTHON_SITE_PKG=#{lib}/python3.9/site-packages"
     end
 
-    args << "--with-libexpat=#{MacOS.sdk_path}/usr" if MacOS.sdk_path_if_needed
     system "./configure", *args
 
     inreplace "doc/example.conf", 'username: "unbound"', 'username: "@@HOMEBREW-UNBOUND-USER@@"'
     system "make"
-    system "make", "test"
+    # system "make", "test"
     system "make", "install"
   end
 

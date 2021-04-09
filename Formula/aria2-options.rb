@@ -1,11 +1,11 @@
-# ref
-# - http://aria2.github.io/manual/en/html/README.html#dependency
 class Aria2Options < Formula
   desc "aria2 with hidden identity (metalink support disabled)"
   homepage "https://aria2.github.io/"
   url "https://github.com/aria2/aria2/releases/download/release-1.35.0/aria2-1.35.0.tar.xz"
   sha256 "1e2b7fd08d6af228856e51c07173cfcf987528f1ac97e04c5af4a47642617dfd"
-  license "GPL-2.0"
+  license "GPL-2.0-or-later"
+
+  bottle :unneeded
 
   conflicts_with "aria2", :because => "both install binaries `aria2c`"
 
@@ -81,3 +81,6 @@ class Aria2Options < Formula
     assert_predicate testpath/"index.html", :exist?, "Failed to create index.html!"
   end
 end
+
+# ref
+# - http://aria2.github.io/manual/en/html/README.html#dependency
