@@ -5,7 +5,6 @@ class Adguardhome < Formula
   desc "Network-wide ads & trackers blocking DNS server"
   homepage "https://github.com/AdguardTeam/AdGuardHome"
   version "0.106.0-b.1"
-  url "https://github.com/AdguardTeam/AdGuardHome/releases/download/v#{version}/AdGuardHome_darwin_amd64.zip"
   license "GPL-3.0"
 
   bottle :unneeded
@@ -14,27 +13,32 @@ class Adguardhome < Formula
 
   option "without-prebuilt", "Skip prebuilt binary and build from source"
 
+  # sha256: skipped, too complicated
+  if !build.without?("prebuilt")
+    on_macos do
+      url "https://github.com/AdguardTeam/AdGuardHome/releases/download/v#{version}/AdGuardHome_darwin_amd64.zip"
+    end
+    on_linux do
+      url "https://github.com/AdguardTeam/AdGuardHome/releases/download/v#{version}/AdGuardHome_linux_amd64.zip"
+    end
+  else
+    # http downloading is quick than git cloning
+    url "https://github.com/AdguardTeam/AdGuardHome/archive/refs/tags/v#{version}.tar.gz"
+    # Git repo is not cloned into a sub-folder
+    # url "https://github.com/AdguardTeam/AdGuardHome.git", tag: "v#{version}"
+
+    depends_on "go" => :build
+    depends_on "node" => :build
+    depends_on "yarn" => :build
+  end
+
   head do
     # version: HEAD
     url "https://github.com/AdguardTeam/AdGuardHome/archive/refs/heads/master.zip"
     # # Git repo is not cloned into a sub-folder. version, HEAD-1234567
     # url "https://github.com/AdguardTeam/AdGuardHome.git"
 
-    # Warn: build.head doesn't work outside "install"
-    depends_on "go" => :build
-    depends_on "node" => :build
-    depends_on "yarn" => :build
-  end
-
-  # sha256: skipped, too complicated
-  if build.without? "prebuilt"
-    # http downloading is quick than git cloning
-    url "https://github.com/AdguardTeam/AdGuardHome/archive/refs/tags/v#{version}.tar.gz"
-    # Git repo is not cloned into a sub-folder
-    # url "https://github.com/AdguardTeam/AdGuardHome.git", tag: "v#{version}"
-  end
-
-  if build.without? "prebuilt"
+    # Warn: build.head doesn't work under "class"
     depends_on "go" => :build
     depends_on "node" => :build
     depends_on "yarn" => :build
