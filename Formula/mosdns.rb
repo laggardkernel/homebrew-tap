@@ -1,9 +1,10 @@
-class MosdnsBin < Formula
+require "language/go"
+
+class Mosdns < Formula
   desc "Flexible forwarding DNS client"
   homepage "https://github.com/IrineSistiana/mosdns"
   version "1.7.2"
-  url "https://github.com/IrineSistiana/mosdns/releases/download/v#{version}/mosdns-darwin-amd64.zip"
-  sha256 "63799df6e8bd35a5e44b736e5ff66d75e73dd7f40475ed65424513973908bd8d"
+  license "GPL-3.0"
 
   livecheck do
     url "https://github.com/IrineSistiana/mosdns/releases/latest"
@@ -12,7 +13,36 @@ class MosdnsBin < Formula
 
   bottle :unneeded
 
-  conflicts_with "mosdns", :because => "same package"
+  option "without-prebuilt", "Skip prebuilt binary and build from source"
+
+  if !build.without?("prebuilt")
+    on_macos do
+      url "https://github.com/IrineSistiana/mosdns/releases/download/v#{version}/mosdns-darwin-amd64.zip"
+      sha256 "63799df6e8bd35a5e44b736e5ff66d75e73dd7f40475ed65424513973908bd8d"
+    end
+    on_linux do
+      url "https://github.com/IrineSistiana/mosdns/releases/download/v#{version}/mosdns-linux-amd64.zip"
+    end
+  else
+    # http downloading is quick than git cloning
+    url "https://github.com/IrineSistiana/mosdns/archive/refs/tags/v#{version}.tar.gz"
+    # Git repo is not cloned into a sub-folder
+    # url "https://github.com/IrineSistiana/mosdns.git", tag: "v#{version}"
+
+    depends_on "go" => :build
+    depends_on "upx" => :build
+  end
+
+  head do
+    # version: HEAD
+    # url "https://github.com/IrineSistiana/mosdns/archive/refs/heads/main.zip"
+    # Git repo is not cloned into a sub-folder. version, HEAD-1234567
+    url "https://github.com/IrineSistiana/mosdns.git", branch: "main"
+
+    # Warn: build.head doesn't work under "class"
+    depends_on "go" => :build
+    depends_on "upx" => :build
+  end
 
   # TODO: drop one cidr list?
   resource "china_ip_list" do
@@ -24,7 +54,29 @@ class MosdnsBin < Formula
   end
 
   def install
+    if build.without?("prebuilt") || build.head?
+      # Warning: setting GOPATH under CWD, may cause pkg failed to build
+      buildpath_parent = File.dirname(buildpath)
+      if buildpath_parent.start_with? "mosdns"
+        ENV["GOPATH"] = "#{buildpath_parent}/go"
+      else
+        ENV["GOPATH"] = "#{buildpath}/.brew_home/go"
+      end
+      ENV["GOCACHE"] = "#{ENV["GOPATH"]}/go-build"
+
+      # Mimic release.py
+      mkdir_p "#{buildpath}/release"
+      cd "#{buildpath}/release"
+      system "go run ../ -gen config.yaml"
+      # Drop version prefix "v" on purpose, considering "HEAD"
+      system "go", "build", "-ldflags", "-s -w -X main.version=#{version}", "-trimpath", "-o", "mosdns", "../"
+      system "upx -9 -q mosdns"
+      cp "../README.md", "."
+      cp "../LICENSE", "."
+    end
+
     bin.install "mosdns"
+    prefix.install_metafiles
 
     # rename config-template.yaml, seems unneeded >= 1.5.0
     mv "config-template.yaml", "config.yaml" if File.file?("config-template.yaml")

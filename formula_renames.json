@@ -1,4 +1,5 @@
 {
   "adguardhome-bin": "adguardhome",
+  "mosdns-bin": "mosdns",
   "nali-bin": "nali"
 }
