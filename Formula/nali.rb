@@ -16,11 +16,18 @@ class Nali < Formula
   option "without-prebuilt", "Skip prebuilt binary and build from source"
 
   if !build.without?("prebuilt")
-    on_macos do
+    if OS.mac?
       url "https://github.com/zu1k/nali/releases/download/v#{version}/nali-darwin-amd64-v#{version}.gz"
-    end
-    on_linux do
+    elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is_64_bit?
       url "https://github.com/zu1k/nali/releases/download/v#{version}/nali-linux-amd64-v#{version}.gz"
+    elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is_32_bit?
+      url "https://github.com/zu1k/nali/releases/download/v#{version}/nali-linux-386-v#{version}.gz"
+    elsif OS.linux? && Hardware::CPU.arm? && "#{RUBY_PLATFORM}".include?("armv6")
+      url "https://github.com/zu1k/nali/releases/download/v#{version}/nali-linux-armv6-v#{version}.gz"
+    elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_32_bit?
+      url "https://github.com/zu1k/nali/releases/download/v#{version}/nali-linux-armv7-v#{version}.gz"
+    elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
+      url "https://github.com/zu1k/nali/releases/download/v#{version}/nali-linux-armv8-v#{version}.gz"
     end
   else
     # http downloading is quick than git cloning

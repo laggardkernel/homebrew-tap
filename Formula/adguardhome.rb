@@ -15,11 +15,18 @@ class Adguardhome < Formula
 
   # sha256: skipped, too complicated
   if !build.without?("prebuilt")
-    on_macos do
+    if OS.mac?
       url "https://github.com/AdguardTeam/AdGuardHome/releases/download/v#{version}/AdGuardHome_darwin_amd64.zip"
-    end
-    on_linux do
-      url "https://github.com/AdguardTeam/AdGuardHome/releases/download/v#{version}/AdGuardHome_linux_amd64.zip"
+    elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is_64_bit?
+      url "https://github.com/AdguardTeam/AdGuardHome/releases/download/v#{version}/AdGuardHome_linux_amd64.tar.gz"
+    elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is_32_bit?
+      url "https://github.com/AdguardTeam/AdGuardHome/releases/download/v#{version}/AdGuardHome_linux_386.tar.gz"
+    elsif OS.linux? && Hardware::CPU.arm? && "#{RUBY_PLATFORM}".include?("armv6")
+      url "https://github.com/AdguardTeam/AdGuardHome/releases/download/v#{version}/AdGuardHome_linux_armv6.tar.gz"
+    elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_32_bit?
+      url "https://github.com/AdguardTeam/AdGuardHome/releases/download/v#{version}/AdGuardHome_linux_armv7.tar.gz"
+    elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
+      url "https://github.com/AdguardTeam/AdGuardHome/releases/download/v#{version}/AdGuardHome_linux_arm64.tar.gz"
     end
   else
     # http downloading is quick than git cloning
@@ -82,7 +89,7 @@ class Adguardhome < Formula
 
       system "make", "go-deps"
 
-      on_macos do
+      if OS.mac?
         # https://github.com/AdguardTeam/AdGuardHome/issues/2807
         # Dir["#{ENV["GOPATH"]}/pkg/mod/github.com/*/dnsproxy@*/proxy/server_udp.go"].each do |dst|
         #   # inreplace = cp + mod + mv

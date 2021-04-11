@@ -5,19 +5,19 @@ class CondaExec < Formula
 
   bottle :unneeded
 
-  on_macos do
+  if OS.mac?
     url "https://repo.anaconda.com/pkgs/misc/conda-execs/conda-#{version}-osx-64.exe"
     sha256 "664985c0f85291a1be3aee3cd00d3a93dd29ffe191cacfd54e2c84443548a31c"
   end
-  on_linux do
+  if OS.linux?
     url "https://repo.anaconda.com/pkgs/misc/conda-execs/conda-#{version}-linux-64.exe"
   end
 
   head do
-    on_macos do
+    if OS.mac?
       url "https://repo.anaconda.com/pkgs/misc/conda-execs/conda-latest-osx-64.exe"
     end
-    on_linux do
+    if OS.linux?
       url "https://repo.anaconda.com/pkgs/misc/conda-execs/conda-latest-linux-64.exe"
     end
   end

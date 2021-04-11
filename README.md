@@ -43,6 +43,7 @@ Check the `Formula/` folder directly. No longer bother to update introduction he
 - [Formula Cookbook](https://docs.brew.sh/Formula-Cookbook)
 - [Formula API](https://rubydoc.brew.sh/Formula)
 - [example-formula.rb](https://github.com/syhw/homebrew/blob/master/Library/Contributions/example-formula.rb)
+- [Detect OS, CPU arch from GoReleaser](https://github.com/filebrowser/homebrew-tap/blob/master/Formula/filebrowser.rb)
 
 [aa65535/ChinaDNS]: https://github.com/aa65535/ChinaDNS
 [curedns]: https://github.com/semigodking/cdns

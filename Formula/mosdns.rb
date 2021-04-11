@@ -16,12 +16,14 @@ class Mosdns < Formula
   option "without-prebuilt", "Skip prebuilt binary and build from source"
 
   if !build.without?("prebuilt")
-    on_macos do
+    if OS.mac?
       url "https://github.com/IrineSistiana/mosdns/releases/download/v#{version}/mosdns-darwin-amd64.zip"
-      sha256 "63799df6e8bd35a5e44b736e5ff66d75e73dd7f40475ed65424513973908bd8d"
-    end
-    on_linux do
+    elsif OS.linux? && Hardware::CPU.intel?
       url "https://github.com/IrineSistiana/mosdns/releases/download/v#{version}/mosdns-linux-amd64.zip"
+    elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is-32-bit?
+      url "https://github.com/IrineSistiana/mosdns/releases/download/v#{version}/mosdns-linux-arm-7.zip"
+    elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is-64-bit?
+      url "https://github.com/IrineSistiana/mosdns/releases/download/v#{version}/mosdns-linux-arm64.zip"
     end
   else
     # http downloading is quick than git cloning
