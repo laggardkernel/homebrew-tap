@@ -30,37 +30,44 @@ class Adguardhome < Formula
     depends_on "go" => :build
     depends_on "node" => :build
     depends_on "yarn" => :build
+    depends_on "upx" => :build
   end
 
   head do
     # version: HEAD
-    url "https://github.com/AdguardTeam/AdGuardHome/archive/refs/heads/master.zip"
-    # # Git repo is not cloned into a sub-folder. version, HEAD-1234567
-    # url "https://github.com/AdguardTeam/AdGuardHome.git"
+    # url "https://github.com/AdguardTeam/AdGuardHome/archive/refs/heads/master.zip"
+    # Git repo is not cloned into a sub-folder. version, HEAD-1234567
+    url "https://github.com/AdguardTeam/AdGuardHome.git"
 
     # Warn: build.head doesn't work under "class"
     depends_on "go" => :build
     depends_on "node" => :build
     depends_on "yarn" => :build
+    depends_on "upx" => :build
   end
 
   def install
-    # CHANNEL: release, beta, development(default)
-    # VERSION: v{major.minor.patch}
-    if build.head?
-      channel = "development"
-      # version = "0.0.0"
-    elsif "#{version}".include? "beta" or "#{version}".include? "b" \
-        or "#{version}".include? "pre"
-      channel = "beta"
-    else
-      channel = "release"
-    end
-
     if build.without? "prebuilt" or build.head?
-      # Warning: don't put GOPATH in CWD, failed to build cause packr err raised
+      # CHANNEL: release, beta, development(default)
+      # VERSION: v{major.minor.patch}, or HEAD-<commit_id>
+      if build.head?
+        channel = "development"
+      elsif "#{version}".include? "beta" or "#{version}".include? "b" \
+          or "#{version}".include? "pre"
+        channel = "beta"
+      else
+        channel = "release"
+      end
+      version_str = "#{version}".start_with?("HEAD") ? "#{version}" : "v#{version}"
+
+      # Warning: setting GOPATH under CWD, may cause pkg failed to build
+      # packr exc
       buildpath_parent = File.dirname(buildpath)
-      ENV["GOPATH"] = "#{buildpath_parent}/go"
+      if buildpath_parent.start_with? "mosdns"
+        ENV["GOPATH"] = "#{buildpath_parent}/go"
+      else
+        ENV["GOPATH"] = "#{buildpath}/.brew_home/go"
+      end
       ENV["GOCACHE"] = "#{ENV["GOPATH"]}/go-build"
       ENV["PATH"] = "#{ENV["PATH"]}:#{HOMEBREW_PREFIX}/opt/node/libexec/bin"
       # TODO: compile cache folder from node
@@ -74,28 +81,32 @@ class Adguardhome < Formula
       system "make", "js-build"
 
       system "make", "go-deps"
-      # https://github.com/AdguardTeam/AdGuardHome/issues/2807
-      # Dir["#{ENV["GOPATH"]}/pkg/mod/github.com/*/dnsproxy@*/proxy/server_udp.go"].each do |dst|
-      #   # inreplace = cp + mod + mv
-      #   chmod 0666, dst
-      #   chmod 0777, File.dirname(dst)
-      #   inreplace dst do |s|
-      #     s.gsub! "err = proxyutil.UDPSetOptions(udpListen)", "err = nil"
-      #   end
-      #   # system is called in subprocess, seems not current user, read err
-      #   # system "/usr/bin/sed", "-i", "''", "s/err = proxyutil.UDPSetOptions(udpListen)/err = nil/", dst
-      # end
-      Dir["#{ENV["GOPATH"]}/pkg/mod/github.com/*/dnsproxy@*/proxyutil/udp_unix.go"].each do |dst|
-        # Skip setting control msg for ipv4 udp conn, which impact listening addr
-        # err4 := ipv4.NewPacketConn(c).SetControlMessage(ipv4.FlagDst|ipv4.FlagInterface, true)
-        chmod 0666, dst
-        chmod 0777, File.dirname(dst)
-        inreplace dst do |s|
-          s.gsub! /err4\s*:=\s*ipv4.NewPacketConn.+SetControlMessage.+/, "var err4 *int"
+
+      on_macos do
+        # https://github.com/AdguardTeam/AdGuardHome/issues/2807
+        # Dir["#{ENV["GOPATH"]}/pkg/mod/github.com/*/dnsproxy@*/proxy/server_udp.go"].each do |dst|
+        #   # inreplace = cp + mod + mv
+        #   chmod 0666, dst
+        #   chmod 0777, File.dirname(dst)
+        #   inreplace dst do |s|
+        #     s.gsub! "err = proxyutil.UDPSetOptions(udpListen)", "err = nil"
+        #   end
+        #   # system is called in subprocess, seems not current user, read err
+        #   # system "/usr/bin/sed", "-i", "''", "s/err = proxyutil.UDPSetOptions(udpListen)/err = nil/", dst
+        # end
+        Dir["#{ENV["GOPATH"]}/pkg/mod/github.com/*/dnsproxy@*/proxyutil/udp_unix.go"].each do |dst|
+          # Skip setting control msg for ipv4 udp conn, which impact listening addr
+          # err4 := ipv4.NewPacketConn(c).SetControlMessage(ipv4.FlagDst|ipv4.FlagInterface, true)
+          chmod 0666, dst
+          chmod 0777, File.dirname(dst)
+          inreplace dst do |s|
+            s.gsub! /err4\s*:=\s*ipv4.NewPacketConn.+SetControlMessage.+/, "var err4 *int"
+          end
         end
       end
 
-      system "make", "go-build", "CHANNEL=#{channel}", "VERSION=v#{version}"
+      system "make", "go-build", "CHANNEL=#{channel}", "VERSION=#{version_str}"
+      system "upx -9 -q AdGuardHome"
     end
 
     # TODO: lowercase?

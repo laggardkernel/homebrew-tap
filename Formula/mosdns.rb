@@ -54,7 +54,11 @@ class Mosdns < Formula
   end
 
   def install
+    # version_str = "#{version}".start_with?("HEAD") ? "#{version}" : "v#{version}"
+
     if build.without?("prebuilt") || build.head?
+      version_str = "#{version}".start_with?("HEAD") ? "#{version}" : "v#{version}"
+
       # Warning: setting GOPATH under CWD, may cause pkg failed to build
       buildpath_parent = File.dirname(buildpath)
       if buildpath_parent.start_with? "mosdns"
@@ -68,8 +72,7 @@ class Mosdns < Formula
       mkdir_p "#{buildpath}/release"
       cd "#{buildpath}/release"
       system "go run ../ -gen config.yaml"
-      # Drop version prefix "v" on purpose, considering "HEAD"
-      system "go", "build", "-ldflags", "-s -w -X main.version=#{version}", "-trimpath", "-o", "mosdns", "../"
+      system "go", "build", "-ldflags", "-s -w -X main.version=#{version_str}", "-trimpath", "-o", "mosdns", "../"
       system "upx -9 -q mosdns"
       cp "../README.md", "."
       cp "../LICENSE", "."

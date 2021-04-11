@@ -47,14 +47,12 @@ class Nali < Formula
       buildpath_parent = File.dirname(buildpath)
       ENV["GOPATH"] = "#{buildpath_parent}/go"
       ENV["GOCACHE"] = "#{ENV["GOPATH"]}/go-build"
-      ENV["PATH"] = "#{ENV["PATH"]}:#{HOMEBREW_PREFIX}/opt/node/libexec/bin"
 
-      system "go", "build", "-o", bin/"nali"
-    else
-      Dir["nali*"].each do |i|
-        bin.install i => "nali"
-        break
-      end
+      system "go", "build", "-o", "nali"
+    end
+    Dir["nali*"].each do |i|
+      bin.install i => "nali"
+      break
     end
     prefix.install_metafiles
   end
