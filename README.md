@@ -74,14 +74,16 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 
 #### 🔲🔘🔳 Aria2
 
-> aria2-options
+> `aria2-options`
+> TODO: livecheck
+> GPL-2.0-or-later
 
 > - Header 'Want-Digest' is removed
 > - `--with-gnutls` (no TLSv1.3 support in appletls)
 
 #### 🛠 Bing Wallpaper
 
-> bing-wallpaper
+> `bing-wallpaper`
 >
 > - `--head`, `HEAD` only
 
@@ -112,6 +114,8 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 #### 🔲🔘🔳 cURL
 
 > `curl-options`
+> livecheck ✔️
+> curl License
 
 - `--with-brotli`, lossless compression support
 - `--with-c-ares`, C-Ares async DNS support
@@ -156,6 +160,8 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 #### 🔲🔘🔳 FFMpeg
 
 > `ffmpeg-options`
+> livecheck ✔️
+> GPL-2.0-or-later License
 
 #### 🛠 FilebrowserBin
 
@@ -198,6 +204,8 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 #### 🔲🔘🔳 OpenSSH
 
 > `openssh-options`
+> livecheck ✔️
+> SSH-OpenSSH License
 
 > - `--with-libressl`
 
@@ -261,6 +269,9 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 > - `--with-fps=`, `--with-fps=30` custom FPS 30, default 10
 
 #### 🔲🔘🔳 🛡️ Unbound
+
+> livecheck ✔️
+> BSD-3-Clause
 
 #### 🛡️ V2ray2Clash
 
