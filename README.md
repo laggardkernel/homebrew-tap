@@ -1,14 +1,28 @@
 # Custom Formulae
 
-Originnaly cr8d by laggardkernel as a place for Homebrew commands removed from [there](https://github.com/Homebrew/brew). Mac-centric formulas with options (passed away in original Homebrew-core repo). And python and DNS cli-apps.
-This tap will be linuxbrew-core centric, w/o intention to lost homebrew-core compabillity. Python's whistles and bells removed.
+Originnaly cr8d by laggardkernel as a place for:
+
+- Homebrew commands removed from [there](https://github.com/Homebrew/brew).
+
+- Mac-centric formulas with options (passed away in original Homebrew-core repo).
+
+- Python and DNS cli-apps.
+
+This tap will be linuxbrew-core centric, w/o intention to lost homebrew-core
+compabillity.
+
+Python's whistles and bells had removed, options formulas only for Mac also
+had deleted.
 
 ## News
 
 <details>
   <summary>Big changes made in this repo.</summary>
 
-- 2021-04-13 New Readme, first livechecks, pywhistles and casks removed
+- 2021-04-13
+  - New Readme, first watchlists for Homebrew's livecheck
+      pywhistles/casks/formulas w/ options only for Mac had removed.
+  - Backported new updates from original repo.
 - 12-01-2020
   - `Homebrew.args` is deprecated in 2.6.0. Pass value into formula build with
       `--with-key=value` is not possible anymore.
@@ -45,10 +59,6 @@ brew install juplutonic/tap/<formula>
 - 🕗️Coming soon: 3_options_formulas
 
 - 🕗️Coming soon: 4_dns_formulas
-
-- 🕗️Coming soon: Folder Cask deletion, folder Livechecks c8ion
-
-- 🕗️Coming soon: script what with help of $HOMEBREW_LIVECHECK_WATCHLIST (for 1st 4 livecheck watchlists)
 
 - 🕗️Coming soon: 5_maintained_linuxbrew_formulas
 
