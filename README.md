@@ -80,6 +80,7 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 #### 🛡️ Adguard Home DNS
 
 > TODO: livecheck
+
 > GPL-3.0 License
 
 #### 🔲🔘🔳 Aria2
@@ -87,9 +88,11 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 > `aria2-options`
 >
 > - Header 'Want-Digest' is removed
+>
 > - `--with-gnutls` (no TLSv1.3 support in appletls)
 
 > TODO: livecheck
+>
 > GPL-2.0-or-later
 
 #### 🛠 Bing Wallpaper
@@ -117,6 +120,7 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 #### 🛡️ ClashPremium
 
 > TODO: livecheck
+> 
 > GPL-3.0 License
 
 #### 🛡️ CureDNS
@@ -130,18 +134,29 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 > `curl-options`
 >
 > `--with-brotli`, lossless compression support
+> 
 > `--with-c-ares`, C-Ares async DNS support
+> 
 > `--with-gssapi`, GSSAPI/Kerberos authentication support
+> 
 > `--with-libidn`, international domain name support
+> 
 > `--with-libmetalink`, Metalink XML support
+> 
 > `--with-libssh2`, scp and sftp support
+> 
 > `--with-libressl`, LibreSSL instead of Secure Transport or OpenSSL
+> 
 > `--with-nghttp2`, HTTP/2 support (requires OpenSSL or LibreSSL)
+> 
 > `--with-openldap`, OpenLDAP support
+> 
 > `--with-openssl@1.1`, OpenSSL 1.1 support
+> 
 > `--with-rtmpdump`, RTMP support
 
 > livecheck ✔️
+> 
 > curl License
 
 #### 🛡️ curl-doh
@@ -151,6 +166,7 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 > `dnsmasq-options`
 >
 > - `--with-dnssec`
+> 
 > - `--with-libidn`
 
 > TODO: livecheck
@@ -164,6 +180,7 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 > git-log-compact
 >
 > - `HEAD` only
+> 
 > - fork [cxw42/git-log-compact][cxw42/git-log-compact] but not the original one is used for more options
 
 #### 🛠 Git Open
@@ -179,11 +196,13 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 > `ffmpeg-options`
 
 > livecheck ✔️
+> 
 > GPL-2.0-or-later License
 
 #### 🛠 FilebrowserBin
 
 > TODO: livecheck
+> 
 > Apache-2.0 License
 
 #### 🛠 iTerm2 ZModem
@@ -195,11 +214,13 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 > license mit > LICENSE.txt, [nishanths's licence][license]
 
 > TODO: v3.0.0
+> 
 > MIT
 
 #### 🛡️ MEOW
 
 > Fork of proxy cow. Proxy or direct connect according to geolocation of the
+> 
 > IP address [MEOW][meow]
 >
 > - `--HEAD` only
@@ -209,15 +230,19 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 #### 🛡️ MosDNS
 
 > livecheck ✔️
+> 
 > GPL-3.0 License
 
 #### 🛠 mpdscribble
 
-> 🕗️Coming soon, update to 0.23, add livecheck, transfer to linuxbrew-core
+> 🕗️Coming soon:
+>
+> TODO: update to 0.23, add livecheck, transfer to linuxbrew-core
 
 #### 🛠 Nali
 
 > livecheck ✔️
+> 
 > MIT
 
 #### 🔲🔘🔳 OpenSSH
@@ -227,6 +252,7 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 > - `--with-libressl`
 
 > livecheck ✔️
+> 
 > SSH-OpenSSH License
 
 #### 🛡️ Overture
@@ -234,12 +260,15 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 #### 🛠 Pipe-viewer
 
 > 🕗️Coming soon: A lightweight YouTube client for Linux
+> 
 > TODO: transfer to linuxbrew-core
+> 
 > Artistic-2.0 License / GPLv1
 
 #### 🛠 plan9port
 
 > 🕗️Coming soon: [jacobvosmaer's formula][jacobvosmaer_plan9port]
+> 
 > TODO: PR to jacobvosmaer / linuxbrew-core
 
 #### 🛠 QWT
@@ -253,13 +282,15 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 > ranger-fm with optional dependencies
 >
 > - `HEAD` only
+> 
 > - `chardet` for better encoding detection
+> 
 > - `Pillow` (depended by image preview in kitty)
 
 > TODO: Do python 3 errors closed?
 
 #### 🛡️ Routedns
-
+ 
 #### 🛡️ sans
 
 > [sans][sans]
@@ -272,15 +303,20 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 
 #### 🛠 SML NJ
 
-> 🕗️Coming soon: Standard ML of New Jersey
-> TODO: transfer to linuxbrew-core because it now x86_64
+> Standard ML of New Jersey
+> 
+> TODO: livecheck and transfer to linuxbrew-core because it now x86_64
+> 
 > For darwin see [macports][smlnj]
-> BSD
+> 
+> Unknown, Macports writes it's BSD
 
 #### 🛠 sshpass
 
 > 🕗️Coming soon: Sshpass is easier, less secure way to do auth with SSH, mostly for home use.[Site][sshpass]
+> 
 > TODO: liveckeck in (2_maintained_formulas)
+> 
 > GPLv2 License
 
 #### 🔲🔘🔳 tmux
@@ -290,11 +326,13 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 > - `--with-fps=`, `--with-fps=30` custom FPS 30, default 10
 
 > livecheck ✔️
+> 
 > ISC License
 
 #### 🔲🔘🔳 🛡️ Unbound
 
 > livecheck ✔️
+> 
 > BSD-3-Clause
 
 #### 🛡️ V2ray2Clash
