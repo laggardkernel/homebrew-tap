@@ -1,19 +1,19 @@
 # Custom Formulae
+
 Originnaly cr8d by laggardkernel as a place for Homebrew commands removed from [there](https://github.com/Homebrew/brew). Mac-centric formulas with options (passed away in original Homebrew-core repo). And python and DNS cli-apps.
 This tap will be linuxbrew-core centric, w/o intention to lost homebrew-core compabillity. Python's whistles and bells removed.
-
 
 ## News
 
 <details>
   <summary>Big changes made in this repo.</summary>
 
-- 2021-04-13 New Readme 
+- 2021-04-13 New Readme, first livechecks, pywhistles and casks removed
 - 12-01-2020
   - `Homebrew.args` is deprecated in 2.6.0. Pass value into formula build with
       `--with-key=value` is not possible anymore.
-</details>
 
+    </details>
 
 ## Installation
 
@@ -22,25 +22,23 @@ brew tap juplutonic/tap
 brew install juplutonic/tap/<formula>
 ```
 
-
 ## External Commands
 
 - switch ```brew switch```, the old goodie dropped by brew in 2.6.0
 
 - fix-perm ```brew fix-perm```, fix formula file perms broke by ```sudo brew services```
 
-🕗️Coming soon: 
+🕗️Coming soon:
 
     brew-pip [brew pip](https://github.com/josegonzalez/brew-pip) [(my last modificatio)](https://github.com/josegonzalez/brew-pip/pull/2)
 
     brew-gem [brew gem](https://github.com/sportngin/brew-gem) [(my last modification)](https://github.com/sportngin/brew-gem/pull/68)
 
-
 ## Workflow to manage my tap
- 
-- 🕗️Coming soon: 1_brew-pip_brew-gem_formulas 
 
-- 🕗️Coming soon: 2_maintained_formulas 
+- 🕗️Coming soon: 1_brew-pip_brew-gem_formulas
+
+- 🕗️Coming soon: 2_maintained_formulas
 
 - 🕗️Coming soon: 3_options_formulas
 
@@ -54,55 +52,61 @@ brew install juplutonic/tap/<formula>
 
 - 🕗️Coming soon: 6_maintained_linuxbinary_formulas
 
-#### [Livecheck for the last versions][Livecheck for the last versions]
+Command:
+
+```bash
+HOMEBREW_LIVECHECK_WATCHLIST="5_maintained_linuxbrew_formulas" brew livecheck
+```
+
+>[Livecheck for the last versions][Homebrew/Livecheck]
 
 
 ## Formulae
 
 Check the `Formula/` folder directly. No longer bother to introduce them here.
 
-
 #### 🛡️ Adguard Home DNS
 
-
 #### 🔲🔘🔳 Aria2
->aria2-options
 
->- Header 'Want-Digest' is removed
->- `--with-gnutls` (no TLSv1.3 support in appletls)
+> aria2-options
 
+> - Header 'Want-Digest' is removed
+> - `--with-gnutls` (no TLSv1.3 support in appletls)
 
 #### 🛠 Bing Wallpaper
->bing-wallpaper
->- `--head`, `HEAD` only
 
+> bing-wallpaper
+>
+> - `--head`, `HEAD` only
 
 #### 🛠 BrowserSh
->🕗️Coming soon
 
+> 🕗️Coming soon
 
 #### 🛡️ CDNS
 
-
 #### 🛡️ ChinaDNS
->`chinadns`, fork [aa65535/ChinaDNS][aa65535/ChinaDNS]
->- more exact [17mon/china_ip_list][17mon/china_ip_list] is recommended
 
+> `chinadns`, fork [aa65535/ChinaDNS][aa65535/ChinaDNS]
+>
+> - more exact [17mon/china_ip_list][17mon/china_ip_list] is recommended
 
 #### 🛠 Cht.Sh
->🕗️Coming soon
 
+> 🕗️Coming soon
 
 #### 🛡️ ClashPremium
 
-
 #### 🛡️ CureDNS
->[cdns][curedns], filter poisoned result with EDNS option.
->- fails to build from `HEAD` for the time being
 
+> [cdns][curedns], filter poisoned result with EDNS option.
+>
+> - fails to build from `HEAD` for the time being
 
 #### 🔲🔘🔳 cURL
->`curl-options`
+
+> `curl-options`
 
 - `--with-brotli`, lossless compression support
 - `--with-c-ares`, C-Ares async DNS support
@@ -116,160 +120,150 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 - `--with-openssl@1.1`, OpenSSL 1.1 support
 - `--with-rtmpdump`, RTMP support
 
-
 #### 🛡️ curl-doh
 
-
 #### 🔲🔘🔳 🛡️ DNSmasq
->`dnsmasq-options`
 
->- `--with-dnssec`
->- `--with-libidn`
+> `dnsmasq-options`
 
+> - `--with-dnssec`
+> - `--with-libidn`
 
 #### 🛡️ dns-over-https
 
-
 #### 🛡️ doh-proxy
 
-
 #### 🛠 Git Log Compact
->git-log-compact
 
->- `HEAD` only
->- fork [cxw42/git-log-compact][cxw42/git-log-compact] but not the original one is used for more options
+> git-log-compact
 
+> - `HEAD` only
+> - fork [cxw42/git-log-compact][cxw42/git-log-compact] but not the original one is used for more options
 
 #### 🛠 Git Open
->git-open from paulirish/git-open support open repo, branch, issue from terminal.
 
+> git-open from paulirish/git-open support open repo, branch, issue from terminal.
 
 #### 🛠 Grc
->Rust implementation of git-cz, standard git commit.
 
+> Rust implementation of git-cz, standard git commit.
 
 #### 🔲🔘🔳 FFMpeg
->`ffmpeg-options`
 
+> `ffmpeg-options`
 
 #### 🛠 FilebrowserBin
 
-
 #### 🛠 iTerm2 ZModem
->iterm2-zmodem
 
+> iterm2-zmodem
 
 #### 🔲🔘🔳 Libass
->`libass`
 
->- `--with-fontconfig` option
+> `libass`
 
->Library/`keg` only, keep name just as `libass`.
+> - `--with-fontconfig` option
 
+> Library/`keg` only, keep name just as `libass`.
 
 #### 🛠 License
->license mit > LICENSE.txt, [nishanths's licence][license]
->TODO: v3.0.0
->MIT
 
+> license mit > LICENSE.txt, [nishanths's licence][license]
+> TODO: v3.0.0
+> MIT
 
 #### 🛡️ MEOW
->[MEOW][MEOW], fork of proxy cow. Proxy or direct connect according to geolocation of the
->IP address.
 
->- `--HEAD` only
+> Fork of proxy cow. Proxy or direct connect according to geolocation of the
+> IP address [MEOW][meow]
 
+> - `--HEAD` only
 
 #### 🛡️ Mos-ChinaDNS
 
-
 #### 🛡️ MosDNS
 
-
 #### 🛠 mpdscribble
->🕗️Coming soon, update to 0.23, add livecheck, transfer to linuxbrew-core
 
+> 🕗️Coming soon, update to 0.23, add livecheck, transfer to linuxbrew-core
 
 #### 🛠 NaliBin
->livecheck ✔️
 
+> livecheck ✔️
 
 #### 🔲🔘🔳 OpenSSH
->`openssh-options`
 
->- `--with-libressl`
+> `openssh-options`
 
+> - `--with-libressl`
 
 #### 🛡️ Overture
 
-
 #### 🛠 Pipe-viewer
->🕗️Coming soon: A lightweight YouTube client for Linux
->TODO: transfer to linuxbrew-core
->Artistic-2.0 License/GPLv1
 
+> 🕗️Coming soon: A lightweight YouTube client for Linux
+> TODO: transfer to linuxbrew-core
+> Artistic-2.0 License/GPLv1
 
 #### 🛠 plan9port
->🕗️Coming soon: [jacobvosmaer's formula][jacobvosmaer_plan9port]
->TODO: PR to jacobvosmaer / linuxbrew-core 
 
+> 🕗️Coming soon: [jacobvosmaer's formula][jacobvosmaer_plan9port]
+> TODO: PR to jacobvosmaer / linuxbrew-core
 
 #### 🛠 QWT
->🕗️Coming soon
 
+> 🕗️Coming soon
 
 #### 🛡️ Pcap DNS proxy
 
-
 #### 🔲🔘🔳 Ranger
->TODO: Do python 3 errors closed?
->ranger-fm with optional dependencies
 
->- `HEAD` only
->- `chardet` for better encoding detection
->- `Pillow` (depended by image preview in kitty)
+> TODO: Do python 3 errors closed?
+> ranger-fm with optional dependencies
 
+> - `HEAD` only
+> - `chardet` for better encoding detection
+> - `Pillow` (depended by image preview in kitty)
 
 #### 🛡️ Routedns
 
-
 #### 🛡️ sans
->[sans][sans]
 
+> [sans][sans]
 
 #### 🛡️ ShDNS
->[shdns][shdns], A port of ChinaDNS (DNS filter) in golang with IPv6 support.
 
->Only works if shdns-bin is installed (with `brew install`)
+> [shdns][shdns], A port of ChinaDNS (DNS filter) in golang with IPv6 support.
 
+> Only works if shdns-bin is installed (with `brew install`)
 
 #### 🛠 SML NJ
->🕗️Coming soon: Standard ML of New Jersey
->TODO: transfer to linuxbrew-core because it now x86_64
->For darwin see [macports][smlnj]
->BSD
 
+> 🕗️Coming soon: Standard ML of New Jersey
+> TODO: transfer to linuxbrew-core because it now x86_64
+> For darwin see [macports][smlnj]
+> BSD
 
 #### 🛠 sshpass
->🕗️Coming soon: Sshpass is easier, less secure way to do auth with SSH, mostly for home use.[Site][sshpass]
->TODO: liveckeck in (2_maintained_formulas)
->GPLv2
+
+> 🕗️Coming soon: Sshpass is easier, less secure way to do auth with SSH, mostly for home use.[Site][sshpass]
+> TODO: liveckeck in (2_maintained_formulas)
+> GPLv2
 
 #### 🔲🔘🔳 tmux
->`tmux-options`
 
->- `--with-fps=`, `--with-fps=30` custom FPS 30, default 10
+> `tmux-options`
 
+> - `--with-fps=`, `--with-fps=30` custom FPS 30, default 10
 
 #### 🔲🔘🔳 🛡️ Unbound
 
-
 #### 🛡️ V2ray2Clash
->[ne1llee's v2ray2clash][v2ray2clash] a web API used to convert v2ray, ssr subscription lists
+
+> [ne1llee's v2ray2clash][v2ray2clash] a web API used to convert v2ray, ssr subscription lists
 > into clash, QuantumultX format /for VPN creation.
 
->- `--HEAD`
-
+> - `--HEAD`
 
 ## References
 
@@ -278,9 +272,6 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 - [Formula API](https://rubydoc.brew.sh/Formula)
 
 - [example-formula.rb](https://github.com/syhw/homebrew/blob/master/Library/Contributions/example-formula.rb)
-
-- [Livecheck for the last versions](https://docs.brew.sh/Brew-Livecheck)
-
 
 [aa65535/ChinaDNS]: https://github.com/aa65535/ChinaDNS
 
@@ -292,7 +283,9 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 
 [license]: https://github.com/nishanths/license
 
-[MEOW]: https://github.com/netheril96/MEOW
+[Homebrew/Livecheck]: https://docs.brew.sh/Brew-Livecheck
+
+[meow]: https://github.com/netheril96/MEOW
 
 [jacobvosmaer_plan9port]: https://github.com/jacobvosmaer/homebrew-stuff
 
@@ -306,8 +299,8 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 
 [v2ray2clash]: https://github.com/xch04028/v2ray2clash
 
->TODO: Transfer non-DNS binaries to https://github.com/athrunsun/homebrew-linuxbinary
+> TODO: Transfer non-DNS binaries to https://github.com/athrunsun/homebrew-linuxbinary
 
->TODO: Transfer GNU/MIT soft to https://github.com/Homebrew/linuxbrew-core
+> TODO: Transfer GNU/MIT soft to https://github.com/Homebrew/linuxbrew-core
 
->TODO: (Optional) Add Penguin/Apple emoticons per apps.
+> TODO: (Optional) Add Penguin/Apple emoticons per apps.
