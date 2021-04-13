@@ -287,7 +287,7 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 > 
 > - `Pillow` (depended by image preview in kitty)
 
-> TODO: Do python 3 errors closed?
+> TODO: Do python3 errors closed?
 
 #### 🛡️ Routedns
  
@@ -307,7 +307,7 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 > 
 > TODO: livecheck and transfer to linuxbrew-core because it now x86_64
 > 
-> For darwin see [macports][smlnj]
+> For darwin see [macports][smlnjs]
 > 
 > Unknown, Macports writes it's BSD
 
