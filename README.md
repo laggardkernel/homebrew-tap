@@ -69,6 +69,9 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 
 #### 🛡️ Adguard Home DNS
 
+> TODO: livecheck
+> GPL-3.0 License
+
 #### 🔲🔘🔳 Aria2
 
 > aria2-options
@@ -156,8 +159,8 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 
 #### 🛠 FilebrowserBin
 
->TODO: livecheck
->Apache-2.0 License
+> TODO: livecheck
+> Apache-2.0 License
 
 #### 🛠 iTerm2 ZModem
 
