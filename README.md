@@ -188,6 +188,9 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 
 #### 🛡️ MosDNS
 
+> livecheck ✔️
+> GPL-3.0 License
+
 #### 🛠 mpdscribble
 
 > 🕗️Coming soon, update to 0.23, add livecheck, transfer to linuxbrew-core
@@ -195,6 +198,7 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 #### 🛠 NaliBin
 
 > livecheck ✔️
+> MIT
 
 #### 🔲🔘🔳 OpenSSH
 
@@ -208,7 +212,7 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 
 > 🕗️Coming soon: A lightweight YouTube client for Linux
 > TODO: transfer to linuxbrew-core
-> Artistic-2.0 License/GPLv1
+> Artistic-2.0 License / GPLv1
 
 #### 🛠 plan9port
 
