@@ -166,14 +166,6 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 
 > iterm2-zmodem
 
-#### 🔲🔘🔳 Libass
-
-> `libass`
-
-> - `--with-fontconfig` option
-
-> Library/`keg` only, keep name just as `libass`.
-
 #### 🛠 License
 
 > license mit > LICENSE.txt, [nishanths's licence][license]
