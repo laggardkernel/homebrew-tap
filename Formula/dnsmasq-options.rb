@@ -1,15 +1,22 @@
 class DnsmasqOptions < Formula
   desc "Lightweight DNS forwarder and DHCP server"
   homepage "http://www.thekelleys.org.uk/dnsmasq/doc.html"
-  url "http://www.thekelleys.org.uk/dnsmasq/dnsmasq-2.80.tar.gz"
-  sha256 "9e4a58f816ce0033ce383c549b7d4058ad9b823968d352d2b76614f83ea39adc"
+  url "https://www.thekelleys.org.uk/dnsmasq/dnsmasq-2.85.tar.gz"
+  sha256 "f36b93ecac9397c15f461de9b1689ee5a2ed6b5135db0085916233053ff3f886"
+  license any_of: ["GPL-2.0-only", "GPL-3.0-only"]
+
+  livecheck do
+    url "http://www.thekelleys.org.uk/dnsmasq/"
+    regex(/href=.*?dnsmasq[._-]v?(\d+(?:\.\d+)+)\.t/i)
+  end
 
   bottle do
     rebuild 1
-    sha256 "870a8cbfdfb7d74be6524ccb8432e3c8795234c7b1e0be4eb852aae1d9a0618a" => :catalina
-    sha256 "4d150c19c5c856435f9d38307c4b9fb153f942ea3f19ebf0f80e33f976f4790e" => :mojave
-    sha256 "10122336f50fd20aeb36488b5d4652557eac4da7b921ecf158910b23ad3ec8fb" => :high_sierra
-    sha256 "eac459e515128a405939939da7dd15f4b3f6ad4bede132b18d6d40f84330ae5e" => :sierra
+    sha256 arm64_big_sur: "a5dff893836bb30d9dd1b2ae17a3b5c57936a570014babd188d6d6935fb8cd25"
+    sha256 big_sur:       "d277d696e1432881e4bbbc0d68443fbdec125d0dd83c9041d5d58bcab0acae5e"
+    sha256 catalina:      "945ab265756b63a2040d5bdcc4f8c2c24e379d60ed2e21249b77eade885630ff"
+    sha256 mojave:        "6054ac54814f919df6733c9f8180444b3b199321cbb0616b5ae084afa0ceaf66"
+    sha256 x86_64_linux:  "1d73f8523a27c90ba0634122bf108405523deb5ddd4b0754fcdee94341d28190"
   end
 
   option "with-libidn", "Compile with IDN support"
