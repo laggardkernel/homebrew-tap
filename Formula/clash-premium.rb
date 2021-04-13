@@ -1,9 +1,14 @@
 class ClashPremium < Formula
   desc "Rule-based tunnel in Go, the pre-built premium version"
   homepage "https://github.com/Dreamacro/clash/releases/tag/premium"
-  version "2021.03.10"
-  url "https://github.com/Dreamacro/clash/releases/download/premium/clash-darwin-amd64-#{version}.gz"
-  sha256 "01a3b0173291206e81c6d0245f40e2f483ea0a537a19967d62da5386e913158c"
+  version "2021.04.08"
+  if OS.mac?
+    url "https://github.com/Dreamacro/clash/releases/download/premium/clash-darwin-amd64-#{version}.gz"
+    sha256 "aeb34e064f17a4f059074589f7426c6ab14660ad658563a43043a70ea23e9573"
+  elsif OS.linux?
+    url "https://github.com/Dreamacro/clash/releases/download/premium/clash-linux-amd64-#{version}.gz"
+    sha256 "1010d3b1cadf6078940d1143e48499165fb7d889a3d4cf90d1ab0e71a57fa084"
+  end
 
   bottle :unneeded
 
@@ -64,18 +69,15 @@ class ClashPremium < Formula
     Homebrew services are run as LaunchAgents by current user.
     To start TUN mode, clash should be run as a privileged service,
     you need to run it as a "global" daemon from /Library/LaunchAgents.
-
       sudo cp -f #{plist_path} /Library/LaunchAgents/
-
     Dont' use `sudo brew services`. This very command will ruin the file perms.
-
     A global conf folder `/usr/local/etc/clash` is created, with prebuilt
     dashboard static files. Before you start the launchd service, put a conf
     `config.yaml` and start the service once manually to download MMDB.
   EOS
-  end
+  end if OS.mac?
 
-  plist_options manual: "clash -d /usr/local/etc/clash"
+  plist_options manual: "clash -d $HOMEBREW_PREFIX/etc/clash"
 
   def plist
     <<~EOS
@@ -130,7 +132,7 @@ class ClashPremium < Formula
           cipher: chacha20-ietf-poly1305
     EOS
     system "#{bin}/clash", "-t", "-d", testpath # test config && download Country.mmdb
-    client = fork { exec "#{bin}/clash", "-d", testpath }
+    client = fork {exec "#{bin}/clash", "-d", testpath }
 
     sleep 3
     begin
@@ -142,4 +144,4 @@ class ClashPremium < Formula
       Process.wait client
     end
   end
-end
+end 

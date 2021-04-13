@@ -2,8 +2,13 @@ class FilebrowserBin < Formula
   desc "Web File Browser"
   homepage "https://github.com/filebrowser/filebrowser"
   version "2.14.1"
-  url "https://github.com/filebrowser/filebrowser/releases/download/v#{version}/darwin-amd64-filebrowser.tar.gz"
-  sha256 "791e2d8711e5deae10b08e242d87bf962eecbe2dde45760bd362a9561b785fa3"
+  if OS.mac?
+    url "https://github.com/filebrowser/filebrowser/releases/download/v#{version}/darwin-amd64-filebrowser.tar.gz"
+    sha256 "791e2d8711e5deae10b08e242d87bf962eecbe2dde45760bd362a9561b785fa3"
+  elsif OS.linux?
+    url "https://github.com/filebrowser/filebrowser/releases/download/v#{version}/linux-amd64-filebrowser.tar.gz"
+    sha256 "47207d7c51eb157924c4918da093cb75e687f643545bf3cbd395823cc4794b03"
+  end
 
   bottle :unneeded
 
