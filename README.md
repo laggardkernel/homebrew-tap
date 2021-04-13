@@ -28,6 +28,8 @@ brew install juplutonic/tap/<formula>
 
 - fix-perm ```brew fix-perm```, fix formula file perms broke by ```sudo brew services```
 
+- git-gc `brew git-gc`, copied from ymyzk/homebrew-ymyzk, original tap removed 
+
 🕗️Coming soon:
 
     brew-pip [brew pip](https://github.com/josegonzalez/brew-pip) [(my last modificatio)](https://github.com/josegonzalez/brew-pip/pull/2)

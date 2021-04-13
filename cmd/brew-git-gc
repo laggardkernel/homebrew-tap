@@ -1,0 +1,33 @@
+#!/bin/bash
+get_repo_size() {
+  du -sk .git | awk '{print $1}'
+}
+
+options="$@"
+total_previous_size=0
+total_current_size=0
+
+for dir in "$HOMEBREW_REPOSITORY" "$HOMEBREW_LIBRARY"/Taps/*/*; do
+  [[ -d "$dir/.git" ]] || continue
+  cd "$dir" || continue
+
+  echo "$dir"
+
+  previous_size=$(get_repo_size)
+  (( total_previous_size += previous_size ))
+
+  echo "$ git gc ${options}"
+  git gc ${options}
+
+  current_size=$(get_repo_size)
+  (( total_current_size += current_size ))
+
+  echo "${previous_size}KB -> ${current_size}KB"
+  echo
+done
+echo "Total: ${total_previous_size}KB -> ${total_current_size}KB"
+
+# https://github.com/ymyzk/homebrew-ymyzk/blob/master/cmd/brew-git-gc
+# The original cutsom tap has not been updated since 2018. A lot of formula
+# syntax errors pop up during `brew update`
+
