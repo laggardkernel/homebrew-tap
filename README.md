@@ -28,7 +28,7 @@ brew install juplutonic/tap/<formula>
 
 - fix-perm ```brew fix-perm```, fix formula file perms broke by ```sudo brew services```
 
-- git-gc `brew git-gc`, copied from ymyzk/homebrew-ymyzk, original tap removed 
+- git-gc `brew git-gc`, copied from ymyzk/homebrew-ymyzk, original tap removed
 
 🕗️Coming soon:
 
@@ -155,6 +155,9 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 > `ffmpeg-options`
 
 #### 🛠 FilebrowserBin
+
+>TODO: livecheck
+>Apache-2.0 License
 
 #### 🛠 iTerm2 ZModem
 
