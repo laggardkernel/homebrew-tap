@@ -1,0 +1,7 @@
+libid3tag
+imagemagick
+libdrm
+mpd
+postgresql@10
+ffmpeg
+goreleaser
