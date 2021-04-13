@@ -85,11 +85,12 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 #### 🔲🔘🔳 Aria2
 
 > `aria2-options`
-> TODO: livecheck
-> GPL-2.0-or-later
-
+>
 > - Header 'Want-Digest' is removed
 > - `--with-gnutls` (no TLSv1.3 support in appletls)
+
+> TODO: livecheck
+> GPL-2.0-or-later
 
 #### 🛠 Bing Wallpaper
 
@@ -115,6 +116,9 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 
 #### 🛡️ ClashPremium
 
+> TODO: livecheck
+> GPL-3.0 License
+
 #### 🛡️ CureDNS
 
 > [cdns][curedns], filter poisoned result with EDNS option.
@@ -124,29 +128,32 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 #### 🔲🔘🔳 cURL
 
 > `curl-options`
+>
+> `--with-brotli`, lossless compression support
+> `--with-c-ares`, C-Ares async DNS support
+> `--with-gssapi`, GSSAPI/Kerberos authentication support
+> `--with-libidn`, international domain name support
+> `--with-libmetalink`, Metalink XML support
+> `--with-libssh2`, scp and sftp support
+> `--with-libressl`, LibreSSL instead of Secure Transport or OpenSSL
+> `--with-nghttp2`, HTTP/2 support (requires OpenSSL or LibreSSL)
+> `--with-openldap`, OpenLDAP support
+> `--with-openssl@1.1`, OpenSSL 1.1 support
+> `--with-rtmpdump`, RTMP support
+
 > livecheck ✔️
 > curl License
-
-- `--with-brotli`, lossless compression support
-- `--with-c-ares`, C-Ares async DNS support
-- `--with-gssapi`, GSSAPI/Kerberos authentication support
-- `--with-libidn`, international domain name support
-- `--with-libmetalink`, Metalink XML support
-- `--with-libssh2`, scp and sftp support
-- `--with-libressl`, LibreSSL instead of Secure Transport or OpenSSL
-- `--with-nghttp2`, HTTP/2 support (requires OpenSSL or LibreSSL)
-- `--with-openldap`, OpenLDAP support
-- `--with-openssl@1.1`, OpenSSL 1.1 support
-- `--with-rtmpdump`, RTMP support
 
 #### 🛡️ curl-doh
 
 #### 🔲🔘🔳 🛡️ DNSmasq
 
 > `dnsmasq-options`
-
+>
 > - `--with-dnssec`
 > - `--with-libidn`
+
+> TODO: livecheck
 
 #### 🛡️ dns-over-https
 
@@ -155,7 +162,7 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 #### 🛠 Git Log Compact
 
 > git-log-compact
-
+>
 > - `HEAD` only
 > - fork [cxw42/git-log-compact][cxw42/git-log-compact] but not the original one is used for more options
 
@@ -170,6 +177,7 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 #### 🔲🔘🔳 FFMpeg
 
 > `ffmpeg-options`
+
 > livecheck ✔️
 > GPL-2.0-or-later License
 
@@ -185,6 +193,7 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 #### 🛠 License
 
 > license mit > LICENSE.txt, [nishanths's licence][license]
+
 > TODO: v3.0.0
 > MIT
 
@@ -192,7 +201,7 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 
 > Fork of proxy cow. Proxy or direct connect according to geolocation of the
 > IP address [MEOW][meow]
-
+>
 > - `--HEAD` only
 
 #### 🛡️ Mos-ChinaDNS
@@ -214,10 +223,11 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 #### 🔲🔘🔳 OpenSSH
 
 > `openssh-options`
+>
+> - `--with-libressl`
+
 > livecheck ✔️
 > SSH-OpenSSH License
-
-> - `--with-libressl`
 
 #### 🛡️ Overture
 
@@ -240,12 +250,13 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 
 #### 🔲🔘🔳 Ranger
 
-> TODO: Do python 3 errors closed?
 > ranger-fm with optional dependencies
-
+>
 > - `HEAD` only
 > - `chardet` for better encoding detection
 > - `Pillow` (depended by image preview in kitty)
+
+> TODO: Do python 3 errors closed?
 
 #### 🛡️ Routedns
 
@@ -256,7 +267,7 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 #### 🛡️ ShDNS
 
 > [shdns][shdns], A port of ChinaDNS (DNS filter) in golang with IPv6 support.
-
+>
 > Only works if shdns-bin is installed (with `brew install`)
 
 #### 🛠 SML NJ
@@ -270,13 +281,16 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 
 > 🕗️Coming soon: Sshpass is easier, less secure way to do auth with SSH, mostly for home use.[Site][sshpass]
 > TODO: liveckeck in (2_maintained_formulas)
-> GPLv2
+> GPLv2 License
 
 #### 🔲🔘🔳 tmux
 
 > `tmux-options`
-
+>
 > - `--with-fps=`, `--with-fps=30` custom FPS 30, default 10
+
+> livecheck ✔️
+> ISC License
 
 #### 🔲🔘🔳 🛡️ Unbound
 
@@ -287,7 +301,7 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 
 > [ne1llee's v2ray2clash][v2ray2clash] a web API used to convert v2ray, ssr subscription lists
 > into clash, QuantumultX format /for VPN creation.
-
+>
 > - `--HEAD`
 
 ## References
