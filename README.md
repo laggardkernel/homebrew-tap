@@ -198,7 +198,7 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 
 > 🕗️Coming soon, update to 0.23, add livecheck, transfer to linuxbrew-core
 
-#### 🛠 NaliBin
+#### 🛠 Nali
 
 > livecheck ✔️
 > MIT
