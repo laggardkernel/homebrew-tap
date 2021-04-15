@@ -6,6 +6,12 @@ class Adguardhome < Formula
   homepage "https://github.com/AdguardTeam/AdGuardHome"
   version "0.106.0-b.1"
   license "GPL-3.0"
+  head "https://github.com/AdguardTeam/AdGuardHome.git"
+
+  livecheck do
+    url :head
+    regex(^v(\d+(?:\.\d+)+)(?:-\S+(\.\d+))?$)
+  end
 
   bottle :unneeded
 
@@ -19,7 +25,7 @@ class Adguardhome < Formula
       url "https://github.com/AdguardTeam/AdGuardHome/releases/download/v#{version}/AdGuardHome_darwin_amd64.zip"
     end
     on_linux do
-      url "https://github.com/AdguardTeam/AdGuardHome/releases/download/v#{version}/AdGuardHome_linux_amd64.zip"
+      url "https://github.com/AdguardTeam/AdGuardHome/releases/download/v#{version}/AdGuardHome_linux_amd64.tar.gz"
     end
   else
     # http downloading is quick than git cloning
@@ -107,7 +113,7 @@ class Adguardhome < Formula
 
   def post_install
     (var/"log/adguardhome").mkpath
-    chmod 0755, var"log/adguardhome"
+    chmod 0755, var/"log/adguardhome"
   end
 
   def caveats; <<~EOS
