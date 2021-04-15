@@ -65,7 +65,7 @@ brew install juplutonic/tap/<formula>
 Command:
 
 ```bash
-HOMEBREW_LIVECHECK_WATCHLIST="3_options_formulas" brew livecheck
+brew livecheck < Livechecks/3_options_formulas
 ```
 
 >[Livecheck for the last versions][Homebrew/Livecheck]
@@ -78,7 +78,7 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 #### 🛡️ Adguard Home DNS
 
 > TODO: livecheck
-
+>
 > GPL-3.0 License
 
 #### 🔲🔘🔳 Aria2
@@ -89,7 +89,7 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 >
 > - `--with-gnutls` (no TLSv1.3 support in appletls)
 
-> TODO: livecheck
+> livecheck ✔️
 >
 > GPL-2.0-or-later
 
@@ -194,6 +194,28 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 #### 🔲🔘🔳 FFMpeg
 
 > `ffmpeg-options`
+>
+> --with-chromaprint - the Chromaprint audio fingerprinting library
+>
+> --with-decklink - DeckLink support
+>
+> --with-fdk-aac - the Fraunhofer FDK AAC library
+>
+> --with-game-musi-emu - Game Music Emu (GME) support
+>
+> --with-librsvg - SVG files as inputs via librsvg
+>
+> --with-libssh - SFTP protocol via libssh
+>
+> --with-openh264 - OpenH264 library
+>
+> --with-openssl - SSL support
+>
+> --with-zeromq - using libzeromq to receive commands sent through a ZeroMQ client
+>
+> --with-zimg - z.lib zimg library
+>
+> --with-libvmaf - libvmaf scoring library
 
 > livecheck ✔️
 >
@@ -235,9 +257,13 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 
 #### 🛠 mpdscribble
 
-> 🕗️Coming soon:
+> `MPD scrobbler`
+
+> TODO: transfer to linuxbrew-core
 >
-> TODO: update to 0.23, add livecheck, transfer to linuxbrew-core
+> livecheck ✔️
+>
+> GPL-2.0 License
 
 #### 🛠 Nali
 
@@ -256,6 +282,12 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 > SSH-OpenSSH License
 
 #### 🛡️ Overture
+
+> TODO: linux install
+>
+> livecheck ✔️
+>
+> MIT
 
 #### 🛠 Pipe-viewer
 
@@ -287,7 +319,9 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 >
 > - `Pillow` (depended by image preview in kitty)
 
-> TODO: Do python3 errors closed?
+> TODO: add livecheck, do python3 errors closed?
+>
+> GPL-3.0 License
 
 #### 🛡️ Routedns
 
