@@ -6,36 +6,10 @@ class Adguardhome < Formula
   homepage "https://github.com/AdguardTeam/AdGuardHome"
   version "0.106.0-b.1"
   license "GPL-3.0"
-  head "https://github.com/AdguardTeam/AdGuardHome.git"
 
   livecheck do
-    url :head
-    regex(^v(\d+(?:\.\d+)+)(?:-\S+(\.\d+))?$)
-  end
-
-  bottle :unneeded
-
-  # conflicts_with "adguardhome-bin", :because => "same package"
-
-  option "without-prebuilt", "Skip prebuilt binary and build from source"
-
-  # sha256: skipped, too complicated
-  if !build.without?("prebuilt")
-    on_macos do
-      url "https://github.com/AdguardTeam/AdGuardHome/releases/download/v#{version}/AdGuardHome_darwin_amd64.zip"
-    end
-    on_linux do
-      url "https://github.com/AdguardTeam/AdGuardHome/releases/download/v#{version}/AdGuardHome_linux_amd64.tar.gz"
-    end
-  else
-    # http downloading is quick than git cloning
-    url "https://github.com/AdguardTeam/AdGuardHome/archive/refs/tags/v#{version}.tar.gz"
-    # Git repo is not cloned into a sub-folder
-    # url "https://github.com/AdguardTeam/AdGuardHome.git", tag: "v#{version}"
-
-    depends_on "go" => :build
-    depends_on "node" => :build
-    depends_on "yarn" => :build
+    url "https://github.com/AdguardTeam/AdGuardHome.git"
+    regex(/^v(\d+(?:\.\d+)+)(?:-\S+(\.\d+))?$/i)
   end
 
   head do
@@ -50,20 +24,45 @@ class Adguardhome < Formula
     depends_on "yarn" => :build
   end
 
+  bottle :unneeded
+
+  # conflicts_with "adguardhome-bin", :because => "same package"
+
+  option "without-prebuilt", "Skip prebuilt binary and build from source"
+
+  # sha256: skipped, too complicated
+  if build.without?("prebuilt")
+
+    # http downloading is quick than git cloning
+    url "https://github.com/AdguardTeam/AdGuardHome/archive/refs/tags/v#{version}.tar.gz"
+    # Git repo is not cloned into a sub-folder
+    # url "https://github.com/AdguardTeam/AdGuardHome.git", tag: "v#{version}"
+
+    depends_on "go" => :build
+    depends_on "node" => :build
+    depends_on "yarn" => :build
+    elseon_macos do
+      url "https://github.com/AdguardTeam/AdGuardHome/releases/download/v#{version}/AdGuardHome_darwin_amd64.zip"
+    end
+    on_linux do
+      url "https://github.com/AdguardTeam/AdGuardHome/releases/download/v#{version}/AdGuardHome_linux_amd64.tar.gz"
+    end
+  end
+
   def install
     # CHANNEL: release, beta, development(default)
     # VERSION: v{major.minor.patch}
-    if build.head?
-      channel = "development"
-      # version = "0.0.0"
-    elsif "#{version}".include? "beta" or "#{version}".include? "b" \
-        or "#{version}".include? "pre"
-      channel = "beta"
-    else
-      channel = "release"
-    end
+    channel = if build.head?
+                "development"
+              # version = "0.0.0"
+              elsif version.to_s.include?("beta") || version.to_s.include?("b") \
+        || version.to_s.include?("pre")
+                "beta"
+              else
+                "release"
+              end
 
-    if build.without? "prebuilt" or build.head?
+    if build.without?("prebuilt") || build.head?
       # Warning: don't put GOPATH in CWD, failed to build cause packr err raised
       buildpath_parent = File.dirname(buildpath)
       ENV["GOPATH"] = "#{buildpath_parent}/go"
@@ -72,7 +71,7 @@ class Adguardhome < Formula
       # TODO: compile cache folder from node
       # - v8-compile-cache-501
       # - /private/tmp//private/tmp/yarn--
-      ENV["V8_COMPILE_CACHE_CACHE_DIR"] = "#{buildpath_parent}/v8-compile-cache"  # not work
+      ENV["V8_COMPILE_CACHE_CACHE_DIR"] = "#{buildpath_parent}/v8-compile-cache" # not work
 
       # Use Makefile, steps split on purpose for debugging this formula
       # system "make", "js-deps", "NPM=#{HOMEBREW_PREFIX}/opt/node/libexec/bin/npm"
@@ -97,7 +96,7 @@ class Adguardhome < Formula
         chmod 0666, dst
         chmod 0777, File.dirname(dst)
         inreplace dst do |s|
-          s.gsub! /err4\s*:=\s*ipv4.NewPacketConn.+SetControlMessage.+/, "var err4 *int"
+          s.gsub!(/err4\s*:=\s*ipv4.NewPacketConn.+SetControlMessage.+/, "var err4 *int")
         end
       end
 
@@ -116,57 +115,58 @@ class Adguardhome < Formula
     chmod 0755, var/"log/adguardhome"
   end
 
-  def caveats; <<~EOS
-    https://github.com/AdguardTeam/AdGuardHome/wiki/Getting-Started.
-    Recommend saving config in #{etc}/adguardhome dir.
-      sudo AdGuardHome -w #{etc}/adguardhome
-    AdGuardHome executable could control the launchd service by itself.
-      sudo AdGuardHome -w #{etc}/adguardhome -s start
-      sudo AdGuardHome -w #{etc}/adguardhome -s stop
-    Launchd profile provided by this formula serves the same purpose.
-    Caveat:
-    1. Use `sudo` if AdGuardHome listens at a privileged port.
-    2. If the service is started with `sudo brew services`. Run `brew fix-perm`
-       to fix the broken file perms. Not needed for `sudo AdGuardHome -s`.
-  EOS
+  def caveats
+    <<~EOS
+      https://github.com/AdguardTeam/AdGuardHome/wiki/Getting-Started.
+      Recommend saving config in #{etc}/adguardhome dir.
+        sudo AdGuardHome -w #{etc}/adguardhome
+      AdGuardHome executable could control the launchd service by itself.
+        sudo AdGuardHome -w #{etc}/adguardhome -s start
+        sudo AdGuardHome -w #{etc}/adguardhome -s stop
+      Launchd profile provided by this formula serves the same purpose.
+      Caveat:
+      1. Use `sudo` if AdGuardHome listens at a privileged port.
+      2. If the service is started with `sudo brew services`. Run `brew fix-perm`
+         to fix the broken file perms. Not needed for `sudo AdGuardHome -s`.
+    EOS
   end
 
   # #{etc} is not supported here
-  plist_options :manual => "sudo AdGuardHome -w /usr/local/etc/adguardhome"
+  plist_options manual: "sudo AdGuardHome -w /usr/local/etc/adguardhome"
 
-  def plist; <<~EOS
-    <?xml version="1.0" encoding="UTF-8"?>
-    <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-    <plist version="1.0">
-    <dict>
-      <key>Label</key>
-      <string>#{plist_name}</string>
-      <key>ProgramArguments</key>
-      <array>
-        <string>#{opt_bin}/AdGuardHome</string>
-        <string>-w</string>
-        <string>#{etc}/adguardhome</string>
-      </array>
-      <key>WorkingDirectory</key>
-      <string>#{etc}/adguardhome</string>
-      <key>StandardErrorPath</key>
-      <string>#{var}/log/adguardhome/adguardhome.log</string>
-      <key>StandardOutPath</key>
-      <string>#{var}/log/adguardhome/adguardhome.log</string>
-      <key>RunAtLoad</key>
-      <true/>
-      <key>KeepAlive</key>
+  def plist
+    <<~EOS
+      <?xml version="1.0" encoding="UTF-8"?>
+      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+      <plist version="1.0">
       <dict>
-        <key>SuccessfulExit</key>
-        <false/>
+        <key>Label</key>
+        <string>#{plist_name}</string>
+        <key>ProgramArguments</key>
+        <array>
+          <string>#{opt_bin}/AdGuardHome</string>
+          <string>-w</string>
+          <string>#{etc}/adguardhome</string>
+        </array>
+        <key>WorkingDirectory</key>
+        <string>#{etc}/adguardhome</string>
+        <key>StandardErrorPath</key>
+        <string>#{var}/log/adguardhome/adguardhome.log</string>
+        <key>StandardOutPath</key>
+        <string>#{var}/log/adguardhome/adguardhome.log</string>
+        <key>RunAtLoad</key>
+        <true/>
+        <key>KeepAlive</key>
+        <dict>
+          <key>SuccessfulExit</key>
+          <false/>
+        </dict>
       </dict>
-    </dict>
-    </plist>
-  EOS
+      </plist>
+    EOS
   end
 
   test do
     system "#{bin}/AdGuardHome", "--version"
   end
-
 end
