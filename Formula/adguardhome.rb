@@ -4,7 +4,7 @@ require "language/go"
 class Adguardhome < Formula
   desc "Network-wide ads & trackers blocking DNS server"
   homepage "https://github.com/AdguardTeam/AdGuardHome"
-  version "0.106.0-b.1"
+  version "0.106.0-b.2"
   license "GPL-3.0"
 
   bottle :unneeded
