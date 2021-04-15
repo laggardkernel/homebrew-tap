@@ -6,20 +6,20 @@ class UnboundOptions < Formula
   license "BSD-3-Clause"
   head "https://github.com/NLnetLabs/unbound.git"
 
-  # We check the GitHub repo tags instead of
-  # https://nlnetlabs.nl/downloads/unbound/ since the first-party site has a
-  # tendency to lead to an `execution expired` error.
   livecheck do
-    url :head
-    regex(/^(?:release-)?v?(\d+(?:\.\d+)+)$/i)
+    url "https://nlnetlabs.nl/downloads/unbound/"
+    regex(/href=.*?unbound[._-]?(\d+(?:\.\d+)+)\S*\.t/i)
   end
 
   bottle :unneeded
 
   depends_on "libevent"
+  depends_on "nghttp2"
   depends_on "openssl@1.1"
   depends_on "python" => :optional
   depends_on "swig" if build.with? "python"
+
+  uses_from_macos "expat"
 
   def install
     args = %W[
@@ -30,6 +30,7 @@ class UnboundOptions < Formula
       --enable-tfo-client
       --enable-tfo-server
       --with-libevent=#{Formula["libevent"].opt_prefix}
+      --with-libnghttp2=#{Formula["nghttp2"].opt_prefix}
       --with-ssl=#{Formula["openssl@1.1"].opt_prefix}
     ]
 
@@ -53,7 +54,6 @@ class UnboundOptions < Formula
 
     inreplace "doc/example.conf", 'username: "unbound"', 'username: "@@HOMEBREW-UNBOUND-USER@@"'
     system "make"
-    # system "make", "test"
     system "make", "install"
   end
 

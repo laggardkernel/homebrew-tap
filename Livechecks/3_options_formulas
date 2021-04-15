@@ -1,5 +1,7 @@
 aria2-options
 curl-options
+dnsmasq-options
 ffmpeg-options
 openssh-options
+tmux-options
 unbound-options

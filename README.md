@@ -1,39 +1,42 @@
 # Custom Formulae
 
-Originnaly cr8d by laggardkernel as a place for:
+Originally cr8d by laggardkernel as a place for:
 
 - Homebrew commands removed from [there](https://github.com/Homebrew/brew).
 
 - Mac-centric formulas with options (passed away in original Homebrew-core repo).
 
-- Python and DNS cli-apps.
+- DNS cli-apps, Python package managment.
 
-This tap will be linuxbrew-core centric, w/o intention to lost homebrew-core
+This tap will be more Linuxbrew-core centric, w/o intention to lose darwin platform
 compabillity.
 
-Python's whistles and bells had removed, options formulas only for Mac also
+All Python's whistles and bells had removed, formulas-with-options only for Mac also
 had deleted.
 
 ## News
 
 <details>
   <summary>Big changes made in this repo.</summary>
-
+  <pre>
+- 2021-04-15 mpdscribble formula
+- 2021-04-14 smlnj formula, truoble to get in work on linux
 - 2021-04-13
   - New Readme, first watchlists for Homebrew's livecheck
       pywhistles/casks/formulas w/ options only for Mac had removed.
   - Backported new updates from original repo.
 - 12-01-2020
-  - `Homebrew.args` is deprecated in 2.6.0. Pass value into formula build with
+  - `Homebrew.args` is deprecated in 2.6.0.
+      Pass value into formula build with
       `--with-key=value` is not possible anymore.
-
+  </pre>
     </details>
 
 ## Installation
 
 ```bash
-brew tap juplutonic/tap
-brew install juplutonic/tap/<formula>
+brew tap juplutonic/homebrew-tap
+brew install juplutonic/homebrew-tap/<formula>
 ```
 
 ## External Commands
@@ -44,19 +47,18 @@ brew install juplutonic/tap/<formula>
 
 - git-gc `brew git-gc`, copied from ymyzk/homebrew-ymyzk, original tap removed
 
-🕗️Coming soon:
+- pip `brew-pip`, [brew pip](https://github.com/josegonzalez/brew-pip) [(my last modification)](https://github.com/josegonzalez/brew-pip/pull/2)
 
-    brew-pip [brew pip](https://github.com/josegonzalez/brew-pip) [(my last modificatio)](https://github.com/josegonzalez/brew-pip/pull/2)
+- gem `brew-gem`, [brew gem](https://github.com/sportngin/brew-gem) [(my last modification)](https://github.com/sportngin/brew-gem/pull/68)
 
-    brew-gem [brew gem](https://github.com/sportngin/brew-gem) [(my last modification)](https://github.com/sportngin/brew-gem/pull/68)
-
-## Workflow to manage my tap
-
+## The workflow to manage my tap
+Check the `Livechecks/` folder for watchlists:
+* * *
 - 🕗️Coming soon: 1_brew-pip_brew-gem_formulas
 
-- 🕗️Coming soon: 2_maintained_formulas
+- 2_maintained_formulas
 
-- 🕗️Coming soon: 3_options_formulas
+- 3_options_formulas
 
 - 🕗️Coming soon: 4_dns_formulas
 
@@ -64,23 +66,21 @@ brew install juplutonic/tap/<formula>
 
 - 🕗️Coming soon: 6_maintained_linuxbinary_formulas
 
-Command:
+Command [(more info about usage of the Homebrew Livecheck)][Homebrew/Livecheck]:
 
 ```bash
-HOMEBREW_LIVECHECK_WATCHLIST="5_maintained_linuxbrew_formulas" brew livecheck
+brew livecheck < Livechecks/3_options_formulas
 ```
-
->[Livecheck for the last versions][Homebrew/Livecheck]
-
 
 ## Formulae
 
-Check the `Formula/` folder directly. No longer bother to introduce them here.
+  Check the `Formula/` folder:
+* * *
 
 #### 🛡️ Adguard Home DNS
 
 > TODO: livecheck
-
+>
 > GPL-3.0 License
 
 #### 🔲🔘🔳 Aria2
@@ -91,7 +91,7 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 >
 > - `--with-gnutls` (no TLSv1.3 support in appletls)
 
-> TODO: livecheck
+> livecheck ✔️
 >
 > GPL-2.0-or-later
 
@@ -99,7 +99,7 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 
 > `bing-wallpaper`
 >
-> - `--head`, `HEAD` only
+> `HEAD` only
 
 #### 🛠 BrowserSh
 
@@ -169,7 +169,9 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 >
 > - `--with-libidn`
 
-> TODO: livecheck
+> livecheck ✔️
+>
+> GPL-2.0-only or GPL-3.0-only
 
 #### 🛡️ dns-over-https
 
@@ -194,6 +196,28 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 #### 🔲🔘🔳 FFMpeg
 
 > `ffmpeg-options`
+>
+> --with-chromaprint - the Chromaprint audio fingerprinting library
+>
+> --with-decklink - DeckLink support
+>
+> --with-fdk-aac - the Fraunhofer FDK AAC library
+>
+> --with-game-musi-emu - Game Music Emu (GME) support
+>
+> --with-librsvg - SVG files as inputs via librsvg
+>
+> --with-libssh - SFTP protocol via libssh
+>
+> --with-openh264 - OpenH264 library
+>
+> --with-openssl - SSL support
+>
+> --with-zeromq - using libzeromq to receive commands sent through a ZeroMQ client
+>
+> --with-zimg - z.lib zimg library
+>
+> --with-libvmaf - libvmaf scoring library
 
 > livecheck ✔️
 >
@@ -201,31 +225,39 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 
 #### 🛠 FilebrowserBin
 
-> TODO: livecheck
+> livecheck  ✔️
 >
 > Apache-2.0 License
 
-#### 🛠 iTerm2 ZModem
+#### 🛡️ iTerm2 ZModem
 
-> iterm2-zmodem
+> iterm2-zmodem the script to send/recive files, remote machine needs `lrzsz` to be installed.
+>
+> - `HEAD` only
+
+> No license
 
 #### 🛠 License
 
-> license mit > LICENSE.txt, [nishanths's licence][license]
+> [It is nishanths's licence script][license], usage:
+>
+> license mit > LICENSE.txt
 
-> TODO: v3.0.0
+> livecheck ✔️
 >
 > MIT
 
 #### 🛡️ MEOW
 
-> Fork of proxy cow. Proxy or direct connect according to geolocation of the
+> Fork of proxy cow. Proxy or direct connect according to geolocation. Uses whitelist mode.
 >
 > IP address [MEOW][meow]
 >
 > - `--HEAD` only
 
-#### 🛡️ Mos-ChinaDNS
+> TODO: livecheck
+>
+> BSD-2-Clause License
 
 #### 🛡️ MosDNS
 
@@ -235,9 +267,13 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 
 #### 🛠 mpdscribble
 
-> 🕗️Coming soon:
+> `MPD scrobbler`
+
+> TODO: transfer to linuxbrew-core
 >
-> TODO: update to 0.23, add livecheck, transfer to linuxbrew-core
+> livecheck ✔️
+>
+> GPL-2.0 License
 
 #### 🛠 Nali
 
@@ -257,19 +293,31 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 
 #### 🛡️ Overture
 
+> TODO: linux install
+>
+> livecheck ✔️
+>
+> MIT
+
 #### 🛠 Pipe-viewer
 
-> 🕗️Coming soon: A lightweight YouTube client for Linux
->
+> A lightweight YouTube client for Linux
+
 > TODO: transfer to linuxbrew-core
+>
+> livecheck ✔️
 >
 > Artistic-2.0 License / GPLv1
 
 #### 🛠 plan9port
 
-> 🕗️Coming soon: [jacobvosmaer's formula][jacobvosmaer_plan9port]
+> Standalone `Plan 9 from User Space` wirking over 9p protocol, [updated jacobvosmaer's formula][jacobvosmaer_plan9port]
 >
-> TODO: PR to jacobvosmaer / linuxbrew-core
+> TODO: PR to jacobvosmaer / linuxbrew-core,
+
+> livecheck ✔️
+>
+> MIT
 
 #### 🛠 QWT
 
@@ -287,7 +335,9 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 >
 > - `Pillow` (depended by image preview in kitty)
 
-> TODO: Do python3 errors closed?
+> TODO: add livecheck, do python3 errors closed?
+>
+> GPL-3.0 License
 
 #### 🛡️ Routedns
 
@@ -304,18 +354,20 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 #### 🛠 SML NJ
 
 > Standard ML of New Jersey
->
-> TODO: livecheck and transfer to linuxbrew-core because it now x86_64
+
+> TODO: transfer to linuxbrew-core because it now x86_64
 >
 > For darwin see [macports][smlnjs]
+>
+> livecheck ✔️
 >
 > BSD like
 
 #### 🛠 sshpass
 
-> 🕗️Coming soon: Sshpass is easier, less secure way to do auth with SSH, mostly for home use.[Site][sshpass]
->
-> TODO: liveckeck in (2_maintained_formulas)
+> Sshpass is easier, less secure way to do auth with SSH, mostly for home use. See [homepage][sshpass]
+
+> livecheck ✔️
 >
 > GPLv2 License
 
@@ -340,7 +392,9 @@ Check the `Formula/` folder directly. No longer bother to introduce them here.
 > [ne1llee's v2ray2clash][v2ray2clash] a web API used to convert v2ray, ssr subscription lists
 > into clash, QuantumultX format /for VPN creation.
 >
-> - `--HEAD`
+> `HEAD` only
+
+* * *
 
 ## References
 
