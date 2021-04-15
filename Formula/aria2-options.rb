@@ -5,6 +5,11 @@ class Aria2Options < Formula
   sha256 "1e2b7fd08d6af228856e51c07173cfcf987528f1ac97e04c5af4a47642617dfd"
   license "GPL-2.0-or-later"
 
+  livecheck do
+    url "https://github.com/aria2/aria2/releases/latest"
+    regex(%r{href=.*?/tag/release[._-]?(\d+(?:\.\d+)+[a-z]?)["' >]}i)
+  end
+  
   bottle :unneeded
 
   conflicts_with "aria2", :because => "both install binaries `aria2c`"

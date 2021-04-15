@@ -5,6 +5,12 @@ class OvertureBin < Formula
   url "https://github.com/shawn1m/overture/releases/download/v#{version}/overture-darwin-amd64.zip"
   sha256 "4e59ed4557c05825130937cfd3c18a7510910f5b2bf0561c4db2c66e7ab81ee2"
   head "https://github.com/shawn1m/overture.git"
+  license "MIT"
+
+  livecheck do
+    url "https://github.com/shawn1m/overture/releases/latest"
+    regex(%r{href=.*?/tag/v?(\d+(?:\.\d+)+[a-z]?)["' >]}i)
+  end
 
   bottle :unneeded
 
