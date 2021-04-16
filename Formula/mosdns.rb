@@ -101,9 +101,16 @@ class Mosdns < Formula
     # Conf installation borrowed from php.rb
     Dir.chdir("#{etc_temp}") do
       config_path = etc/"mosdns"
-      Dir.glob(["*.yaml", "*.list", "*.txt"]).each do |dst|
+      Dir.glob(["*.yaml"]).each do |dst|
         dst_default = config_path/"#{dst}.default"
         rm dst_default if dst_default.exist?
+        config_path.install dst
+      end
+      # mv Dir.glob(["*.list", "*.txt"]), config_path, force: true
+      Dir.glob(["*.list", "*.txt"]).each do |dst|
+        dst_default = config_path/"#{dst}.default"
+        rm dst_default if dst_default.exist?
+        rm config_path/"#{dst}" if (config_path/"#{dst}").exist?
         config_path.install dst
       end
     end

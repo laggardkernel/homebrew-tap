@@ -47,6 +47,7 @@ class Chinadns < Formula
       Dir.glob(["*.txt"]).each do |dst|
         dst_default = config_path/"#{dst}.default"
         rm dst_default if dst_default.exist?
+        rm config_path/"#{dst}" if (config_path/"#{dst}").exist?
         config_path.install dst
       end
     end
