@@ -1,8 +1,8 @@
 class TmuxOptions < Formula
   desc "Terminal multiplexer with custom FPS"
   homepage "https://tmux.github.io/"
-  url "https://github.com/tmux/tmux/releases/download/3.1c/tmux-3.1c.tar.gz"
-  sha256 "918f7220447bef33a1902d4faff05317afd9db4ae1c9971bef5c787ac6c88386"
+  url "https://github.com/tmux/tmux/releases/download/3.2/tmux-3.2.tar.gz"
+  sha256 "664d345338c11cbe429d7ff939b92a5191e231a7c1ef42f381cebacb1e08a399"
   license "ISC"
   revision 1
 
@@ -37,7 +37,7 @@ class TmuxOptions < Formula
 
   # Old versions of macOS libc disagree with utf8proc character widths.
   # https://github.com/tmux/tmux/issues/2223
-  depends_on "utf8proc" if MacOS.version >= :high_sierra
+  depends_on "utf8proc" if OS.mac? && MacOS.version >= :high_sierra
 
   resource "completion" do
     url "https://raw.githubusercontent.com/imomaliev/tmux-bash-completion/f5d53239f7658f8e8fbaf02535cc369009c436d6/completions/tmux"
@@ -45,9 +45,9 @@ class TmuxOptions < Formula
   end
 
   def install
-    fps = build.with? "fps-60" ? 60 : 20
+    fps = build.with?('fps-60') ? 60 : 20
 
-    redraw_interval=(1_000_000/fps).round
+    redraw_interval=(1_000_000.0/fps).round
     inreplace "tty.c" do |s|
       s.gsub!(/^#define TTY_BLOCK_INTERVAL .*$/, "#define TTY_BLOCK_INTERVAL (#{redraw_interval} /* #{fps} fps */)")
     end
@@ -60,7 +60,7 @@ class TmuxOptions < Formula
       --sysconfdir=#{etc}
     ]
 
-    args << "--enable-utf8proc" if MacOS.version >= :high_sierra
+    args << "--enable-utf8proc" if OS.mac? && MacOS.version >= :high_sierra
 
     ENV.append "LDFLAGS", "-lresolv"
     system "./configure", *args
