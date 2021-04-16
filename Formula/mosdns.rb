@@ -3,7 +3,7 @@ require "language/go"
 class Mosdns < Formula
   desc "Flexible forwarding DNS client"
   homepage "https://github.com/IrineSistiana/mosdns"
-  version "1.7.2"
+  version "1.8.0"
   license "GPL-3.0"
 
   livecheck do
