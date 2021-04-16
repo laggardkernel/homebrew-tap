@@ -68,8 +68,8 @@ class CurlOptions < Formula
     # Long-term, handle conflicting options case in core code.
     if build.with?("libressl") && build.with?("openssl@1.1")
       odie <<~EOS
-      --with-openssl@1.1 and --with-libressl are both specified and
-      curl can only use one at a time.
+        --with-openssl@1.1 and --with-libressl are both specified and
+        curl can only use one at a time.
       EOS
     end
 
@@ -123,11 +123,11 @@ class CurlOptions < Formula
     args << (build.with?("libssh2") ? "--with-libssh2" : "--without-libssh2")
     args << (build.with?("rtmpdump") ? "--with-librtmp" : "--without-librtmp")
 
-    if build.with? "c-ares"
-      args << "--enable-ares=#{Formula["c-ares"].opt_prefix}"
-    else
-      args << "--disable-ares"
-    end
+    args << if build.with? "c-ares"
+              "--enable-ares=#{Formula["c-ares"].opt_prefix}"
+            else
+              "--disable-ares"
+            end
 
     system "./configure", *args
     system "make", "install"
