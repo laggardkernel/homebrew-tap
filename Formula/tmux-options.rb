@@ -45,18 +45,11 @@ class TmuxOptions < Formula
   end
 
   def install
-    # Deprecate: ARGV
-    # if ! (ARGV.value("with-fps").nil? || ARGV.value("with-fps").empty?)
-    #   fps=ARGV.value("with-fps").to_i
-    if build.with? "fps-60"
-      fps=60
-    else
-      fps=20
-    end
+    fps = build.with? "fps-60" ? 60 : 20
 
-    redraw_interval=(1000000/fps).round
+    redraw_interval=(1_000_000/fps).round
     inreplace "tty.c" do |s|
-      s.gsub! /^#define TTY_BLOCK_INTERVAL .*$/, "#define TTY_BLOCK_INTERVAL (#{redraw_interval} /* #{fps} fps */)"
+      s.gsub!(/^#define TTY_BLOCK_INTERVAL .*$/, "#define TTY_BLOCK_INTERVAL (#{redraw_interval} /* #{fps} fps */)")
     end
 
     system "sh", "autogen.sh" if build.head?
@@ -78,10 +71,11 @@ class TmuxOptions < Formula
     bash_completion.install resource("completion")
   end
 
-  def caveats; <<~EOS
-    Example configuration has been installed to:
-      #{opt_pkgshare}
-  EOS
+  def caveats
+    <<~OUTPUT
+      Example configuration has been installed to:
+        #{opt_pkgshare}
+    OUTPUT
   end
 
   test do
