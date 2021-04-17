@@ -5,7 +5,6 @@ class TmuxOptions < Formula
   url "https://github.com/tmux/tmux/releases/download/#{version}/tmux-#{version}.tar.gz"
   # sha256 ""
   license "ISC"
-  revision 1
 
   livecheck do
     url :stable
