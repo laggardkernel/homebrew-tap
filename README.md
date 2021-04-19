@@ -1,4 +1,5 @@
 # Custom Formulae
+
 Collection of custom and deprecated formulae.
 
 ## News
@@ -32,14 +33,17 @@ brew install laggardkernel/tap/<formula>
 ```
 
 ## External Commands
+
 - `brew switch`, the old goodie dropped by brew in 2.6.0
 - `brew fix-perm`, fix formula file perms broke by `sudo brew services`
 - `brew git-gc`, copied from ymyzk/homebrew-ymyzk, original tap died
 
 ## Formulae
+
 Check the `Formula/` folder directly. No longer bother to update introduction here.
 
 ## References
+
 - [Formula Cookbook](https://docs.brew.sh/Formula-Cookbook)
 - [Formula API](https://rubydoc.brew.sh/Formula)
 - [example-formula.rb](https://github.com/syhw/homebrew/blob/master/Library/Contributions/example-formula.rb)
