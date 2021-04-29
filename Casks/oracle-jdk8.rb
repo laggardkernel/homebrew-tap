@@ -1,6 +1,6 @@
 cask 'oracle-jdk8' do
-  version '1.8.0_281-b09,89d678f2be164786b292527658ca1605'
-  sha256 "cf09453ad1f6c84b4018d39a526c213a644415471af1e90b7e5d18633cfe3b08"
+  version '1.8.0_291-b10,d7fc238d0cbf4b0dac67be84580cfb4b'
+  sha256 "632c4fbbec39846651c65f5c93d2035567046fd60bc0e58ef431218dffa8cc15"
   name "Java Standard Edition Development Kit"
 
   # Download from Oracle
