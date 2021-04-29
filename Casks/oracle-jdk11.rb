@@ -1,6 +1,6 @@
 cask 'oracle-jdk11' do
-  version "11.0.10,8:020c4a6d33b74f6a9d2bc6fbf189da81"
-  sha256 "99a62756676329bb02299f6e4e486cd264213a8ffb1d26cf6e00a3c9c3d0b5fb"
+  version "11.0.11,9:ab2da78f32ed489abb3ff52fd0a02b1c"
+  sha256 "d4519ad54bd92c6477fc04b1c15927629b707593ef9f0ab205017e922db24a38"
   name 'Java Standard Edition Development Kit'
 
   # Download from Oracle
