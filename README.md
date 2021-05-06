@@ -37,6 +37,7 @@ brew install laggardkernel/tap/<formula>
 - `brew switch`, the old goodie dropped by brew in 2.6.0
 - `brew fix-perm`, fix formula file perms broke by `sudo brew services`
 - `brew git-gc`, copied from ymyzk/homebrew-ymyzk, original tap died
+- `brew bat formula`, `bat` path hardcoding removed
 
 ## Formulae
 
