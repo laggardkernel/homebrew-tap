@@ -76,7 +76,7 @@ class Chinadns < Formula
   EOS
   end
 
-  plist_options :manual => "chinadns -c /usr/local/etc/chinadns/chnroute.txt -b 127.0.0.1 -p 5300 -s 114.114.114.114,208.67.222.222#443 -m"
+  plist_options :manual => "chinadns -c #{HOMEBREW_PREFIX}/etc/chinadns/chnroute.txt -b 127.0.0.1 -p 5300 -s 114.114.114.114,208.67.222.222#443 -m"
 
   def plist; <<~EOS
     <?xml version="1.0" encoding="UTF-8"?>

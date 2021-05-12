@@ -149,7 +149,7 @@ class Adguardhome < Formula
   end
 
   # #{etc} is not supported here
-  plist_options :manual => "sudo AdGuardHome -w /usr/local/etc/adguardhome"
+  plist_options :manual => "sudo AdGuardHome -w #{HOMEBREW_PREFIX}/etc/adguardhome"
 
   def plist; <<~EOS
     <?xml version="1.0" encoding="UTF-8"?>

@@ -137,7 +137,7 @@ class Mosdns < Formula
   EOS
   end
 
-  plist_options :manual => "mosdns -dir /usr/local/etc/mosdns -c /usr/local/etc/mosdns/config.yaml"
+  plist_options :manual => "mosdns -dir #{HOMEBREW_PREFIX}/etc/mosdns -c /usr/local/etc/mosdns/config.yaml"
 
   def plist; <<~EOS
     <?xml version="1.0" encoding="UTF-8"?>

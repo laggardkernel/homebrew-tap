@@ -71,7 +71,7 @@ class Cdns < Formula
   EOS
   end
 
-  plist_options :manual => "cdns -c /usr/local/etc/cdns/config.json"
+  plist_options :manual => "cdns -c #{HOMEBREW_PREFIX}/etc/cdns/config.json"
 
   def plist; <<~EOS
     <?xml version="1.0" encoding="UTF-8"?>

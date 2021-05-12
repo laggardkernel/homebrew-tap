@@ -12,6 +12,7 @@ class FilebrowserBin < Formula
   def install
     Dir.glob(["filebrowser*"]).each do |dst|
       bin.install "#{dst}" => "filebrowser"
+      break
     end
 
     share_dst = "#{prefix}/share/filebrowser"
@@ -58,7 +59,7 @@ class FilebrowserBin < Formula
   end
 
   # #{etc} is not supported here
-  plist_options :manual => "filebrowser -c /usr/local/etc/filebrowser/.filebrowser.json"
+  plist_options :manual => "filebrowser -c #{HOMEBREW_PREFIX}/etc/filebrowser/.filebrowser.json"
 
   def plist; <<~EOS
     <?xml version="1.0" encoding="UTF-8"?>

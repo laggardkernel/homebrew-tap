@@ -75,7 +75,7 @@ class ClashPremium < Formula
   EOS
   end
 
-  plist_options manual: "clash -d /usr/local/etc/clash"
+  plist_options manual: "clash -d #{HOMEBREW_PREFIX}/etc/clash"
 
   def plist
     <<~EOS
