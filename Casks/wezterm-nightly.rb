@@ -3,7 +3,7 @@ cask "wezterm-nightly" do
   sha256 :no_check
 
   url "https://github.com/wez/wezterm/releases/download/nightly/WezTerm-macos-nightly.zip"
-  name "kitty"
+  name "WezTerm"
   desc "A GPU-accelerated cross-platform terminal emulator and multiplexer written by @wez and implemented in Rust"
   homepage "https://wezfurlong.org/wezterm/"
 
@@ -34,4 +34,14 @@ cask "wezterm-nightly" do
     "~/.config/wezterm",
     "~/Library/Saved Application State/com.github.wez.wezterm.savedState",
   ]
+
+  def caveats; <<~EOS
+    Cask #{token} related executables like 'wezterm', 'wezterm-gui',
+    'wezterm-mux-server' are linked into
+      /usr/local/bin/ for x86 Mac,
+      /opt/homebrew/bin/ for M1 Mac.
+
+    Removal of them is ensured by 'brew uninstall --cask #{token}'.
+  EOS
+  end
 end
