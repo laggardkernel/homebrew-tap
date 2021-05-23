@@ -1,22 +1,15 @@
 class OpensshOptions < Formula
   desc "OpenBSD freely-licensed SSH connectivity tools"
   homepage "https://www.openssh.com/"
-  url "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-8.5p1.tar.gz"
-  mirror "https://mirror.vdms.io/pub/OpenBSD/OpenSSH/portable/openssh-8.5p1.tar.gz"
-  version "8.5p1"
-  sha256 "f52f3f41d429aa9918e38cf200af225ccdd8e66f052da572870c89737646ec25"
+  url "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-8.6p1.tar.gz"
+  mirror "https://mirror.vdms.io/pub/OpenBSD/OpenSSH/portable/openssh-8.6p1.tar.gz"
+  version "8.6p1"
+  sha256 "c3e6e4da1621762c850d03b47eed1e48dff4cc9608ddeb547202a234df8ed7ae"
   license "SSH-OpenSSH"
 
   livecheck do
     url "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/"
     regex(/href=.*?openssh[._-]v?(\d+(?:\.\d+)+(?:p\d+)?)\.t/i)
-  end
-
-  bottle do
-    sha256 arm64_big_sur: "512393b02e5939a1f81f45ad968b0cd3602af9ddfecbacb6160bdb46b9d9f2fd"
-    sha256 big_sur:       "072d30cb24b4b9f9fb87096202cb007129a3299d0954cf06216b0b14a40f7d78"
-    sha256 catalina:      "1c6012ada90081236cbb95788c430623787a78ec4ce842d5990a092aa0031249"
-    sha256 mojave:        "d6b021979acbdcd9d803747977d58c9a1d23c906ceea2575b514233380c8a2ad"
   end
 
   # Please don't resubmit the keychain patch option. It will never be accepted.
