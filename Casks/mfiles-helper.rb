@@ -1,17 +1,20 @@
 cask "mfiles-helper" do
-  version "2.1.0"
-  # sha256
+  version "2.2.0,20210408"
+  sha256 "a09d7b7974bdf1d6f42476269a5a21157af1f3c7c23683d31405e78cb9ac8efd"
+  # version_scheme 1 # not needed in Cask
 
-  url "http://mfiles.maokebing.com/mfiles-helper-2.1.0-macos-20092601.dmg"
+  url "http://mfiles.maokebing.com/mfiles-helper-#{version.before_comma}-macos-#{version.after_comma}.dmg"
   name "MFiles Helper"
   desc "Sharing files easily within local network"
   homepage "http://mfiles.maokebing.com/"
 
   livecheck do
     url "http://mfiles.maokebing.com/"
-    regex(/href=['"]?mfiles[._-]helper[._-]v?(\d+(?:\.\d+)+)[._-]macos[._-].+?['"]?/i)
+    regex(/href=['"]?mfiles[._-]helper[._-]v?(\d+(?:\.\d+)+)[._-]macos[._-](\d+)\.dmg/i)
     strategy :page_match do |page, regex|
-      page.scan(regex).flatten.uniq
+      page.scan(regex).map { |match|
+        match&.first + "," + match&.second
+      }
     end
   end
 
