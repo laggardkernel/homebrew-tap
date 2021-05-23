@@ -1,6 +1,6 @@
 cask 'filezilla' do
-  version '3.46.3'
-  sha256 '4fc40ff94a61ff0cefdb459e0637fafa1fadcf6cc51bf135841c79131e0b6391'
+  version "3.54.1"
+  sha256 "7e8282515e6bb7dfba108e656507bae872a65fee3a1f65386dcc3f1beebd9200"
 
   url "https://download.filezilla-project.org/client/FileZilla_#{version}_macosx-x86.app.tar.bz2"
   appcast 'https://filezilla-project.org/versions.php?type=client'
@@ -21,6 +21,15 @@ cask 'filezilla' do
     '~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/de.filezilla.sfl*',
     '~/Library/Saved Application State/de.filezilla.savedState',
     '~/Library/Preferences/de.filezilla.plist',
-    '~/.config/filezilla',
+    # '~/.config/filezilla',
   ]
+
+  def caveats; <<~EOS
+    Sites and settings stored in '~/.config/filezilla' will not be removed even with
+    'brew uninstall --zap'. The decision of whether to remove it is left for users.
+  EOS
+  end
 end
+# Reason why it's be deleted from homebrew-cask
+# https://github.com/Homebrew/homebrew-cask/pull/55583#issuecomment-443929273
+# https://github.com/Homebrew/homebrew-cask/commit/3a68bc709920a28d81e84afd764e5ac74f146830
