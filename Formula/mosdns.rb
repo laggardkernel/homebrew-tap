@@ -6,11 +6,6 @@ class Mosdns < Formula
   version "1.8.6"
   license "GPL-3.0"
 
-  livecheck do
-    url "https://github.com/IrineSistiana/mosdns/releases/latest"
-    regex(%r{href=.*?/tag/v?(\d+(?:\.\d+)+[a-z]?)["' >]}i)
-  end
-
   bottle :unneeded
 
   option "without-prebuilt", "Skip prebuilt binary and build from source"

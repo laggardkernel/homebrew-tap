@@ -7,12 +7,20 @@ cask 'filezilla' do
   name 'FileZilla'
   homepage 'https://filezilla-project.org/'
 
+  livecheck do
+    url "https://download.filezilla-project.org/client/"
+    regex(/href=['"]?FileZilla[._-]v?(\d+(?:\.\d+)+)[._-]macosx?[._-].+?['"]?/i)
+    strategy :page_match do |page, regex|
+      page.scan(regex).flatten.uniq
+    end
+  end
+
   app 'FileZilla.app'
 
   zap trash: [
-               '~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/de.filezilla.sfl*',
-               '~/Library/Saved Application State/de.filezilla.savedState',
-               '~/Library/Preferences/de.filezilla.plist',
-               '~/.config/filezilla',
-             ]
+    '~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/de.filezilla.sfl*',
+    '~/Library/Saved Application State/de.filezilla.savedState',
+    '~/Library/Preferences/de.filezilla.plist',
+    '~/.config/filezilla',
+  ]
 end

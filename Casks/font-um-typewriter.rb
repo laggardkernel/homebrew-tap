@@ -8,6 +8,14 @@ cask 'font-um-typewriter' do
   name 'UM Typewriter'
   homepage 'https://ctan.org/tex-archive/fonts/umtypewriter'
 
+  livecheck do
+    url "https://ctan.org/tex-archive/fonts/umtypewriter"
+    regex(%r{Version.+?(\d{3}[.-]\d{3})}i)
+    strategy :page_match do |page, regex|
+      page.scan(regex).flatten.uniq.sort
+    end
+  end
+
   font 'umtypewriter/UMTypewriter-Bold.otf'
   font 'umtypewriter/UMTypewriter-BoldItalic.otf'
   font 'umtypewriter/UMTypewriter-Italic.otf'

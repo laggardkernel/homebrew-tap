@@ -7,8 +7,16 @@ cask "mfiles-helper" do
   desc "Sharing files easily within local network"
   homepage "http://mfiles.maokebing.com/"
 
+  livecheck do
+    url "http://mfiles.maokebing.com/"
+    regex(/href=['"]?mfiles[._-]helper[._-]v?(\d+(?:\.\d+)+)[._-]macos[._-].+?['"]?/i)
+    strategy :page_match do |page, regex|
+      page.scan(regex).flatten.uniq
+    end
+  end
+
   auto_updates false
-  depends_on macos: ">= :sierra"
+  depends_on macos: ">= :yosemite"
 
   app "MFiles Helper.app"
 

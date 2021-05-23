@@ -3,7 +3,13 @@ class CondaExec < Formula
   homepage "https://repo.anaconda.com/pkgs/misc/conda-execs/"
   version "4.7.12"
 
+  livecheck do
+    skip "Package unmaintained"
+  end
+
   bottle :unneeded
+
+  deprecate! date: "2020-01-01", because: :unmaintained
 
   if OS.mac?
     url "https://repo.anaconda.com/pkgs/misc/conda-execs/conda-#{version}-osx-64.exe"

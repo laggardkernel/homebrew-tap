@@ -4,6 +4,15 @@ class ClashPremium < Formula
   version "2021.05.08"
   url "https://github.com/Dreamacro/clash/releases/download/premium/clash-darwin-amd64-#{version}.gz"
   # sha256 ""
+  license "GPL-3.0"
+
+  livecheck do
+    url "https://github.com/Dreamacro/clash/releases/tag/premium"
+    regex(/(\d{4}[.-]\d{2}[.-]\d{2})/)
+    strategy :page_match do |page, regex|
+      page.scan(regex).flatten.uniq.sort
+    end
+  end
 
   bottle :unneeded
 

@@ -6,11 +6,6 @@ class Nali < Formula
   version "0.2.4"
   license "MIT"
 
-  livecheck do
-    url "https://github.com/zu1k/nali/releases/latest"
-    regex(%r{href=.*?/tag/v?(\d+(?:\.\d+)+[a-z]?)["' >]}i)
-  end
-
   bottle :unneeded
 
   option "without-prebuilt", "Skip prebuilt binary and build from source"

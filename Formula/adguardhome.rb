@@ -7,6 +7,12 @@ class Adguardhome < Formula
   version "0.106.3"
   license "GPL-3.0"
 
+  livecheck do
+    # latest strategy avoids rc release accepted newer than later release
+    url :stable
+    strategy :github_latest
+  end
+
   bottle :unneeded
 
   # conflicts_with "adguardhome-bin", :because => "same package"
