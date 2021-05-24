@@ -1,0 +1,22 @@
+# EditorConfig is awesome: https://EditorConfig.org
+# Ref
+# - https://github.com/Homebrew/brew/blob/master/.editorconfig
+# - https://github.com/Homebrew/homebrew-cask/blob/master/.editorconfig
+
+root = true
+
+[*]
+indent_style = space
+indent_size = 2
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[Formula/**.rb]
+# trailing whitespace is crucial for patches
+trim_trailing_whitespace = false
+
+[**.md]
+trim_trailing_whitespace = true
+x-soft-wrap-text = true

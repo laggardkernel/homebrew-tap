@@ -7,6 +7,8 @@ Collection of custom and deprecated formulae.
 <details>
   <summary>Big changes made in this repo.</summary>
 
+- 05-23-2021
+  - Fix checkalive
 - 12-01-2020
   - `Homebrew.args` is deprecated in 2.6.0. Passing value into formula build with
       `--with-key=value` is not possible anymore.
@@ -48,7 +50,9 @@ Check the `Formula/` folder directly. No longer bother to update introduction he
 - [Formula Cookbook](https://docs.brew.sh/Formula-Cookbook)
 - [Formula API](https://rubydoc.brew.sh/Formula)
 - [example-formula.rb](https://github.com/syhw/homebrew/blob/master/Library/Contributions/example-formula.rb)
+- [Cask Cookbook](https://docs.brew.sh/Cask-Cookbook)
 - [Detect OS, CPU arch from GoReleaser](https://github.com/filebrowser/homebrew-tap/blob/master/Formula/filebrowser.rb)
+- [`brew checkalive`](https://docs.brew.sh/Brew-Livecheck)
 
 [aa65535/ChinaDNS]: https://github.com/aa65535/ChinaDNS
 [curedns]: https://github.com/semigodking/cdns

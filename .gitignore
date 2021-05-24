@@ -44,6 +44,7 @@ Temporary Items
 ### Windows ###
 # Windows thumbnail cache files
 Thumbs.db
+Thumbs.db:encryptable
 ehthumbs.db
 ehthumbs_vista.db
 
@@ -80,6 +81,7 @@ tramp
 # Org-mode
 .org-id-locations
 *_archive
+ltximg/**
 
 # flymake-mode
 *_flymake.*
@@ -120,6 +122,7 @@ flycheck_*.el
 ### Vim ###
 # Swap
 [._]*.s[a-v][a-z]
+!*.svg  # comment out if you don't need vector files
 [._]*.sw[a-p]
 [._]s[a-rt-v][a-z]
 [._]ss[a-gi-z]
@@ -127,6 +130,7 @@ flycheck_*.el
 
 # Session
 Session.vim
+Sessionx.vim
 
 # Temporary
 .netrwhist
@@ -136,48 +140,16 @@ tags
 # Persistent undo
 [._]*.un~
 
-### SublimeText ###
-# Cache files for Sublime Text
-*.tmlanguage.cache
-*.tmPreferences.cache
-*.stTheme.cache
-
-# Workspace files are user-specific
-*.sublime-workspace
-
-# Project files should be checked into the repository, unless a significant
-# proportion of contributors will probably not be using Sublime Text
-# *.sublime-project
-
-# SFTP configuration file
-sftp-config.json
-
-# Package control specific files
-Package Control.last-run
-Package Control.ca-list
-Package Control.ca-bundle
-Package Control.system-ca-bundle
-Package Control.cache/
-Package Control.ca-certs/
-Package Control.merged-ca-bundle
-Package Control.user-ca-bundle
-oscrypto-ca-bundle.crt
-bh_unicode_properties.cache
-
-# Sublime-github package stores a github token in this file
-# https://packagecontrol.io/packages/sublime-github
-GitHub.sublime-settings
-
 ### VisualStudioCode ###
 .vscode/*
-!.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
-!.vscode/extensions.json
+*.code-workspace
 
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
 .history
+.ionide
 
 ### Ruby ###
 *.gem
@@ -194,6 +166,9 @@ GitHub.sublime-settings
 
 # Used by dotenv library to load environment variables.
 # .env
+
+# Ignore Byebug command history file.
+.byebug_history
 
 ## Specific to RubyMotion:
 .dat*
@@ -230,4 +205,10 @@ build-iPhoneSimulator/
 
 # unless supporting rvm < 1.11.0 or doing something fancy, ignore this:
 .rvmrc
+
+# Used by RuboCop. Remote config files pulled in from inherit_from directive.
+# .rubocop-https?--*
+
+### dotenv ###
+.env
 
