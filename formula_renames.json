@@ -1,5 +1,6 @@
 {
   "adguardhome-bin": "adguardhome",
+  "filebrowser-bin": "filebrowser",
   "mosdns-bin": "mosdns",
   "nali-bin": "nali"
 }
