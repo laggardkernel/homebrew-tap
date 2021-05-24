@@ -58,7 +58,6 @@ class FilebrowserBin < Formula
   EOS
   end
 
-  # #{etc} is not supported here
   plist_options :manual => "filebrowser -c #{HOMEBREW_PREFIX}/etc/filebrowser/.filebrowser.json"
 
   def plist; <<~EOS

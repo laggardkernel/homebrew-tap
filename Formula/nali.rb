@@ -35,9 +35,9 @@ class Nali < Formula
 
   head do
     # version: HEAD
-    url "https://github.com/zu1k/nali/archive/refs/heads/master.zip"
-    # # Git repo is not cloned into a sub-folder. version, HEAD-1234567
-    # url "https://github.com/zu1k/nali.git"
+    # url "https://github.com/zu1k/nali/archive/refs/heads/master.zip"
+    # Git repo is not cloned into a sub-folder. version, HEAD-1234567
+    url "https://github.com/zu1k/nali.git"
 
     # Warn: build.head doesn't work under "class"
     depends_on "go" => :build
@@ -45,17 +45,18 @@ class Nali < Formula
 
   def install
     if build.without?("prebuilt") || build.head?
-      # Warning: don't put GOPATH in CWD, failed to build cause packr err raised
+      # Warning: putting GOPATH in CWD may fail to build cause packr err raised
       buildpath_parent = File.dirname(buildpath)
-      ENV["GOPATH"] = "#{buildpath_parent}/go"
+      if File.basename(buildpath_parent).start_with? "nali"
+        ENV["GOPATH"] = "#{buildpath_parent}/go"
+      else
+        ENV["GOPATH"] = "#{buildpath}/.brew_home/go"
+      end
       ENV["GOCACHE"] = "#{ENV["GOPATH"]}/go-build"
 
       system "go", "build", "-o", "nali"
     end
-    Dir["nali*"].each do |i|
-      bin.install i => "nali"
-      break
-    end
+    bin.install Dir["nali*"][0] => "nali"
     prefix.install_metafiles
   end
 

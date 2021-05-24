@@ -48,9 +48,9 @@ class Adguardhome < Formula
 
   head do
     # version: HEAD
-    # url "https://github.com/AdguardTeam/AdGuardHome/archive/refs/heads/master.zip"
+    url "https://github.com/AdguardTeam/AdGuardHome/archive/refs/heads/master.zip"
     # Git repo is not cloned into a sub-folder. version, HEAD-1234567
-    url "https://github.com/AdguardTeam/AdGuardHome.git"
+    # url "https://github.com/AdguardTeam/AdGuardHome.git"
 
     # Warn: build.head doesn't work under "class"
     depends_on "go" => :build
@@ -73,16 +73,17 @@ class Adguardhome < Formula
       end
       version_str = "#{version}".start_with?("HEAD") ? "#{version}" : "v#{version}"
 
-      # Warning: setting GOPATH under CWD, may cause pkg failed to build
-      # packr exc
+      # Warning: setting GOPATH under CWD may cause pkg failed to build cause packr exc
+      # Only encounter once during writing the formula, later resolved
       buildpath_parent = File.dirname(buildpath)
-      if buildpath_parent.start_with? "mosdns"
+      if File.basename(buildpath_parent).start_with? "adguardhome"
         ENV["GOPATH"] = "#{buildpath_parent}/go"
       else
         ENV["GOPATH"] = "#{buildpath}/.brew_home/go"
       end
       ENV["GOCACHE"] = "#{ENV["GOPATH"]}/go-build"
       ENV["PATH"] = "#{ENV["PATH"]}:#{HOMEBREW_PREFIX}/opt/node/libexec/bin"
+      ENV["PATH"] = "#{ENV["PATH"]}:#{HOMEBREW_PREFIX}/lib/node_modules/npm/bin"
       # TODO: compile cache folder from node
       # - v8-compile-cache-501
       # - /private/tmp//private/tmp/yarn--
@@ -118,7 +119,7 @@ class Adguardhome < Formula
         end
       end
 
-      system "make", "go-build", "CHANNEL=#{channel}", "VERSION=#{version_str}"
+      system "make", "CHANNEL=#{channel}", "VERSION=#{version_str}", "go-build"
       system "upx -9 -q AdGuardHome"
     end
 
@@ -154,7 +155,6 @@ class Adguardhome < Formula
   EOS
   end
 
-  # #{etc} is not supported here
   plist_options :manual => "sudo AdGuardHome -w #{HOMEBREW_PREFIX}/etc/adguardhome"
 
   def plist; <<~EOS

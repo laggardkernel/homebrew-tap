@@ -56,9 +56,8 @@ class Mosdns < Formula
     if build.without?("prebuilt") || build.head?
       version_str = "#{version}".start_with?("HEAD") ? "#{version}" : "v#{version}"
 
-      # Warning: setting GOPATH under CWD, may cause pkg failed to build
       buildpath_parent = File.dirname(buildpath)
-      if buildpath_parent.start_with? "mosdns"
+      if File.basename(buildpath_parent).start_with? "mosdns"
         ENV["GOPATH"] = "#{buildpath_parent}/go"
       else
         ENV["GOPATH"] = "#{buildpath}/.brew_home/go"
