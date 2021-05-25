@@ -11,11 +11,10 @@ cask 'oracle-jdk11' do
 
   livecheck do
     url "https://www.oracle.com/java/technologies/javase-jdk11-downloads.html"
-    regex(%r{data-file=.+?/jdk/([^/]+)/([^/]+).+?osx?.+?\.dmg}i)
+    regex(%r{data-file=.+?/(\d+(?:\.\d+)*)(\+|%2B)(\d+(?:\.\d+)*)/(.+)/jdk-(\d+(?:.\d+)*).*?osx.*?\.dmg}i)
     strategy :page_match do |page, regex|
-      page.scan(regex).map { |match|
-        match&.first.sub("%2B", ",") + ":" + match&.second
-      }
+      match = page.match(regex)
+      "#{match[1]},#{match[3]}:#{match[4]}"
     end
   end
 
@@ -24,40 +23,30 @@ cask 'oracle-jdk11' do
 
   pkg "JDK #{version.before_comma}.pkg"
 
-  postflight do
-    system_command '/bin/ln',
-      args: ['-nsf', '--', "/Library/Java/JavaVirtualMachines/jdk-#{version.before_comma}.jdk/Contents/Home", '/Library/Java/Home'],
-      sudo: true
-    system_command '/bin/ln',
-      args: ['-nsf', '--', "/Library/Java/JavaVirtualMachines/jdk-#{version.before_comma}.jdk/Contents/MacOS", '/Library/Java/MacOS'],
-      sudo: true
-    system_command '/bin/mkdir',
-      args: ['-p', '--', "/Library/Java/JavaVirtualMachines/jdk-#{version.before_comma}.jdk/Contents/Home/bundle/Libraries"],
-      sudo: true
-    system_command '/bin/ln',
-      args: ['-nsf', '--', "/Library/Java/JavaVirtualMachines/jdk-#{version.before_comma}.jdk/Contents/Home/lib/server/libjvm.dylib", "/Library/Java/JavaVirtualMachines/jdk-#{version.before_comma}.jdk/Contents/Home/bundle/Libraries/libserver.dylib"],
-      sudo: true
-  end
-
-  uninstall_preflight do
+  # Uninstall doc in postflight to avoid doing 'sudo rm' in sub 'brew uninstall'
+  # Password input prompt can't be popped up in a recursive brew call?
+  uninstall_postflight do
     if File.exist?("#{HOMEBREW_PREFIX}/Caskroom/oracle-jdk11-javadoc")
-      system_command 'brew', args: ['cask', 'uninstall', 'oracle-jdk11-javadoc']
+      system_command "#{HOMEBREW_PREFIX}/bin/brew", args: ['uninstall', '--cask', 'oracle-jdk11-javadoc']
     end
   end
 
   uninstall pkgutil: "com.oracle.jdk-#{version.before_comma}",
-    delete:  [
-      "/Library/Java/JavaVirtualMachines/jdk-#{version.before_comma}.jdk/Contents",
-      '/Library/Java/Home',
-      '/Library/Java/MacOS',
-    ],
-    rmdir: "/Library/Java/JavaVirtualMachines/jdk-#{version.before_comma}.jdk"
-
+    delete: "/Library/Java/JavaVirtualMachines/jdk-#{version.before_comma}.jdk"
   caveats do
     license 'https://www.oracle.com/technetwork/java/javase/terms/license/javase-license.html'
   end
 end
+# Related commits
 # https://github.com/Homebrew/homebrew-cask/commit/2bb687a5503f802022559b15987dc919d59cb28d
 # https://github.com/Homebrew/homebrew-cask/pull/57655
 # https://github.com/Homebrew/homebrew-cask/commit/4ba1e78fe8319e0f590048bf6070ad269c646bf2
+# Remove workarounds in Java cask
+# https://github.com/Homebrew/homebrew-cask/pull/58510
+# https://github.com/Homebrew/homebrew-cask-versions/pull/6949
+# Don't remove /Library/Java/JavaVirtualMachines
+# https://github.com/Homebrew/homebrew-cask/commit/7392cc0a5042aa53913285a99212f9c6955702db
+# Cleanup deployment stack, JRE, etc in JDK 11
+# https://github.com/Homebrew/homebrew-cask/pull/52605
+# Alternative download resource
 # https://www.adobe.com/support/coldfusion/downloads.html#additionalThirdPartyInstallers

@@ -35,34 +35,14 @@ cask 'oracle-jdk8' do
     system_command '/usr/libexec/PlistBuddy',
       args: ['-c', 'Add :JavaVM:JVMCapabilities: string Applets', "/Library/Java/JavaVirtualMachines/jdk#{version.split('-')[0]}.jdk/Contents/Info.plist"],
       sudo: true
-    system_command '/bin/ln',
-      args: ['-nsf', '--', "/Library/Java/JavaVirtualMachines/jdk#{version.split('-')[0]}.jdk/Contents/Home", '/Library/Java/Home'],
-      sudo: true
-    system_command '/bin/mkdir',
-      args: ['-p', '--', "/Library/Java/JavaVirtualMachines/jdk#{version.split('-')[0]}.jdk/Contents/Home/bundle/Libraries"],
-      sudo: true
-    system_command '/bin/ln',
-      args: ['-nsf', '--', "/Library/Java/JavaVirtualMachines/jdk#{version.split('-')[0]}.jdk/Contents/Home/jre/lib/server/libjvm.dylib", "/Library/Java/JavaVirtualMachines/jdk#{version.split('-')[0]}.jdk/Contents/Home/bundle/Libraries/libserver.dylib"],
-      sudo: true
-
-    if MacOS.version <= :mavericks
-      system_command '/bin/rm',
-        args: ['-rf', '--', '/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK'],
-        sudo: true
-      system_command '/bin/ln',
-        args: ['-nsf', '--', "/Library/Java/JavaVirtualMachines/jdk#{version.split('-')[0]}.jdk/Contents", '/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK'],
-        sudo: true
-    end
   end
 
-  uninstall_preflight do
+  # Uninstall doc in postflight to avoid doing 'sudo rm' in sub 'brew uninstall'
+  # Password input prompt can't be popped up in a recursive brew call?
+  uninstall_postflight do
     if File.exist?("#{HOMEBREW_PREFIX}/Caskroom/oracle-jdk8-javadoc")
-      system_command 'brew', args: ['cask', 'uninstall', 'oracle-jdk8-javadoc']
+      system_command "#{HOMEBREW_PREFIX}/bin/brew", args: ['uninstall', '--cask', 'oracle-jdk8-javadoc']
     end
-
-    # if File.exist?("#{HOMEBREW_PREFIX}/Caskroom/jce-unlimited-strength-policy")
-    #   system_command 'brew', args: ['cask', 'uninstall', 'jce-unlimited-strength-policy']
-    # end
   end
 
   uninstall pkgutil:   [
@@ -79,30 +59,30 @@ cask 'oracle-jdk8' do
   ],
   delete: [
     '/Library/Internet Plug-Ins/JavaAppletPlugin.plugin',
-    "/Library/Java/JavaVirtualMachines/jdk#{version.split('-')[0]}.jdk/Contents",
+    "/Library/Java/JavaVirtualMachines/jdk#{version.split('-')[0]}.jdk",
     '/Library/PreferencePanes/JavaControlPanel.prefPane',
-    '/Library/Java/Home',
-    if MacOS.version <= :mavericks
-      [
-        '/usr/lib/java/libjdns_sd.jnilib',
-        '/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK',
-      ]
-    end,
-  ].keep_if { |v| !v.nil? }
+  ]
 
-  zap delete: [
+  zap trash: [
+    # From 1.9
+    # https://github.com/Homebrew/homebrew-cask/commit/b1a4ec15579ab373e7d9adfccdae5416b645553f
+    '/Library/Application Support/Oracle/Java',
+    '/Library/Preferences/com.oracle.java.Deployment.plist',
+    '/Library/Preferences/com.oracle.java.Helper-Tool.plist',
+    # Original from 1.8
+    '~/Library/Application Support/Java/',
+    '~/Library/Application Support/Oracle/Java',
     '~/Library/Caches/com.oracle.java.Java-Updater',
     '~/Library/Caches/Oracle.MacJREInstaller',
     '~/Library/Caches/net.java.openjdk.cmd',
-  ],
-  trash: [
-    '~/Library/Application Support/Java/',
-    '~/Library/Application Support/Oracle/Java',
     '~/Library/Preferences/com.oracle.java.Java-Updater.plist',
     '~/Library/Preferences/com.oracle.java.JavaAppletPlugin.plist',
     '~/Library/Preferences/com.oracle.javadeployment.plist',
   ],
-  rmdir: '~/Library/Application Support/Oracle/'
+  rmdir: [
+    '/Library/Application Support/Oracle/',
+    '~/Library/Application Support/Oracle/',
+  ]
 
   caveats do
     license 'https://www.oracle.com/technetwork/java/javase/terms/license/index.html'
@@ -115,7 +95,14 @@ cask 'oracle-jdk8' do
     EOS
   end
 end
+# Related commits
 # ~~https://github.com/Homebrew/homebrew-cask/commit/4a0f29a4e51355106dc0264360d9779cf59991e3~~
-# https://github.com/Homebrew/homebrew-cask/commit/b1a4ec15579ab373e7d9adfccdae5416b645553f
 # https://github.com/Homebrew/homebrew-cask/blob/ecc181b05e72042f6a799bbc8754e06dceda6b62/Casks/java.rb
+# https://github.com/Homebrew/homebrew-cask/commit/b1a4ec15579ab373e7d9adfccdae5416b645553f
+# Remove workarounds in Java cask
+# https://github.com/Homebrew/homebrew-cask/pull/58510
+# https://github.com/Homebrew/homebrew-cask-versions/pull/6949
+# Cleanup deployment stack, JRE, etc in JDK 11
+# https://github.com/Homebrew/homebrew-cask/pull/52605
+# Alternative download resource
 # https://www.adobe.com/support/coldfusion/downloads.html#additionalThirdPartyInstallers

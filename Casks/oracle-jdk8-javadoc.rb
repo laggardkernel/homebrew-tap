@@ -20,26 +20,16 @@ cask 'oracle-jdk8-javadoc' do
     end
   end
 
-  postflight do
-    `/usr/libexec/java_home -v #{version.before_comma.split('-').first} -X | grep -B0 -A1 JVMHomePath | sed -n -e 's/[[:space:]]*<string>\\(.*\\)<\\/string>/\\1/p'`.split("\n").each do |path|
-      system_command '/bin/cp',
-        args: ['-rp', "#{staged_path}/docs", "#{path}/"],
-        sudo: true
-    end
-  end
+  artifact 'docs', target: "/Library/Java/JavaVirtualMachines/jdk#{version.split('-')[0]}.jdk/Contents/Home/docs"
 
-  uninstall_postflight do
-    `/usr/libexec/java_home -v #{version.before_comma.split('-').first} -X | grep -B0 -A1 JVMHomePath | sed -n -e 's/[[:space:]]*<string>\\(.*\\)<\\/string>/\\1/p'`.split("\n").each do |path|
-      next unless File.exist?("#{path}/docs")
-
-      system_command '/bin/rm',
-        args: ['-rf', "#{path}/docs"],
-        sudo: true
-    end
-  end
+  uninstall delete: "/Library/Java/JavaVirtualMachines/jdk#{version.split('-')[0]}.jdk/Contents/Home/docs"
 
   caveats do
     license 'https://www.oracle.com/technetwork/java/javase/terms/license/javase-license.html'
   end
 end
+# Related commits
 # https://github.com/Homebrew/homebrew-cask/commit/1446709cebe573d5225366d2f88105e9900f9306
+# Remove workarounds in Java cask
+# https://github.com/Homebrew/homebrew-cask/pull/58510
+# https://github.com/Homebrew/homebrew-cask-versions/pull/6949
