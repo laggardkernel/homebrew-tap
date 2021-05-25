@@ -39,6 +39,12 @@ cask 'oracle-jdk11' do
       sudo: true
   end
 
+  uninstall_preflight do
+    if File.exist?("#{HOMEBREW_PREFIX}/Caskroom/oracle-jdk11-javadoc")
+      system_command 'brew', args: ['cask', 'uninstall', 'oracle-jdk11-javadoc']
+    end
+  end
+
   uninstall pkgutil: "com.oracle.jdk-#{version.before_comma}",
     delete:  [
       "/Library/Java/JavaVirtualMachines/jdk-#{version.before_comma}.jdk/Contents",
