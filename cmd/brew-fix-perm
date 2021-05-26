@@ -23,7 +23,7 @@ if [[ -z "$HOMEBREW_PREFIX" ]]; then
   ARCH="$(uname -m)"
   # https://developer.apple.com/forums/thread/668206
   if [[ "$ARCH" == "arm64" ]]; then
-    HOMEBREW_PREFIX="/opt"
+    HOMEBREW_PREFIX="/opt/homebrew"
   else
     HOMEBREW_PREFIX="/usr/local"
   fi
@@ -52,7 +52,7 @@ Commands/Options:
   help               Disable this help screen
   -v, --version      Display version information and exit
 
-Caveat: 
+Caveat:
   root password is needed cause the script is basically doing 'sudo chown'.
 
 EOF
