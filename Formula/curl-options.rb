@@ -19,8 +19,6 @@ class CurlOptions < Formula
     regex(/href=.*?curl[._-]v?(.*?)\.t/i)
   end
 
-  bottle :unneeded
-
   head do
     url "https://github.com/curl/curl.git"
 
@@ -28,6 +26,8 @@ class CurlOptions < Formula
     depends_on "automake" => :build
     depends_on "libtool" => :build
   end
+
+  bottle :unneeded
 
   keg_only :provided_by_macos
 
@@ -58,16 +58,16 @@ class CurlOptions < Formula
   end
 
   depends_on "pkg-config" => :build
+  depends_on "zstd"
   depends_on "brotli" => :optional
   depends_on "c-ares" => :optional
   depends_on "libidn" => :optional
   depends_on "libmetalink" => :optional
-  depends_on "libssh2" => :optional
   depends_on "libressl" => :optional
+  depends_on "libssh2" => :optional
   depends_on "nghttp2" => :optional
   depends_on "openldap" => :optional
   depends_on "rtmpdump" => :optional
-  depends_on "zstd"
 
   uses_from_macos "krb5"
   uses_from_macos "zlib"
@@ -77,8 +77,8 @@ class CurlOptions < Formula
     # Long-term, handle conflicting options case in core code.
     if build.with?("libressl") && build.with?("openssl@1.1")
       odie <<~EOS
-      --with-openssl@1.1 and --with-libressl are both specified and
-      curl can only use one at a time.
+        --with-openssl@1.1 and --with-libressl are both specified and
+        curl can only use one at a time.
       EOS
     end
 
@@ -132,10 +132,10 @@ class CurlOptions < Formula
     args << (build.with?("libssh2") ? "--with-libssh2" : "--without-libssh2")
     args << (build.with?("rtmpdump") ? "--with-librtmp" : "--without-librtmp")
 
-    if build.with? "c-ares"
-      args << "--enable-ares=#{Formula["c-ares"].opt_prefix}"
+    args << if build.with? "c-ares"
+      "--enable-ares=#{Formula["c-ares"].opt_prefix}"
     else
-      args << "--disable-ares"
+      "--disable-ares"
     end
 
     system "./configure", *args

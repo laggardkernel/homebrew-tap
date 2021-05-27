@@ -1,36 +1,9 @@
 class Filebrowser < Formula
-  desc "File Browser is a create-your-own-cloud-kind of software where you can install it on a server, direct it to a path and then access your files through a nice web interface"
+  desc "Provides a file managing interface within a specified directory"
   homepage "https://filebrowser.org"
   version "2.15.0"
   # sha256
   license "MIT"
-
-  bottle :unneeded
-
-  option "without-prebuilt", "Skip prebuilt binary and build from source"
-
-  if !build.without?("prebuilt")
-    if OS.mac? && Hardware::CPU.intel?
-      url "https://github.com/filebrowser/filebrowser/releases/download/v#{version}/darwin-amd64-filebrowser.tar.gz"
-    elsif OS.mac? && Hardware::CPU.arm?
-      url "https://github.com/filebrowser/filebrowser/releases/download/v#{version}/darwin-arm64-filebrowser.tar.gz"
-    elsif OS.linux? && Hardware::CPU.intel?
-      url "https://github.com/filebrowser/filebrowser/releases/download/v#{version}/linux-amd64-filebrowser.tar.gz"
-    elsif OS.linux? && Hardware::CPU.arm? && !Hardware::CPU.is_64_bit?
-      url "https://github.com/filebrowser/filebrowser/releases/download/v#{version}/linux-armv6-filebrowser.tar.gz"
-    elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-      url "https://github.com/filebrowser/filebrowser/releases/download/v#{version}/linux-arm64-filebrowser.tar.gz"
-    end
-  else
-    # http downloading is quick than git cloning
-    url "https://github.com/filebrowser/filebrowser/archive/refs/tags/v#{version}.tar.gz"
-    # Git repo is not cloned into a sub-folder
-    # url "https://github.com/filebrowser/filebrowser.git", tag: "v#{version}"
-
-    depends_on "go" => :build
-    depends_on "node" => :build
-    depends_on "upx" => :build
-  end
 
   head do
     # version: HEAD
@@ -44,10 +17,35 @@ class Filebrowser < Formula
     depends_on "upx" => :build
   end
 
+  bottle :unneeded
+
+  option "without-prebuilt", "Skip prebuilt binary and build from source"
+
+  if build.without?("prebuilt")
+    # http downloading is quick than git cloning
+    url "https://github.com/filebrowser/filebrowser/archive/refs/tags/v#{version}.tar.gz"
+    # Git repo is not cloned into a sub-folder
+    # url "https://github.com/filebrowser/filebrowser.git", tag: "v#{version}"
+
+    depends_on "go" => :build
+    depends_on "node" => :build
+    depends_on "upx" => :build
+  elsif OS.mac? && Hardware::CPU.intel?
+    url "https://github.com/filebrowser/filebrowser/releases/download/v#{version}/darwin-amd64-filebrowser.tar.gz"
+  elsif OS.mac? && Hardware::CPU.arm?
+    url "https://github.com/filebrowser/filebrowser/releases/download/v#{version}/darwin-arm64-filebrowser.tar.gz"
+  elsif OS.linux? && Hardware::CPU.intel?
+    url "https://github.com/filebrowser/filebrowser/releases/download/v#{version}/linux-amd64-filebrowser.tar.gz"
+  elsif OS.linux? && Hardware::CPU.arm? && !Hardware::CPU.is_64_bit?
+    url "https://github.com/filebrowser/filebrowser/releases/download/v#{version}/linux-armv6-filebrowser.tar.gz"
+  elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
+    url "https://github.com/filebrowser/filebrowser/releases/download/v#{version}/linux-arm64-filebrowser.tar.gz"
+  end
+
   def install
-    if build.without? "prebuilt" or build.head?
+    if build.without?("prebuilt") || build.head?
       # File Browser v2.15.0/73ccbe91. HEAD-sha -> HEAD
-      version_str = "#{version}".start_with?("HEAD") ? "HEAD" : "#{version}"
+      version_str = version.to_s.start_with?("HEAD") ? "HEAD" : version.to_s
 
       buildpath_parent = File.dirname(buildpath)
       puts buildpath_parent
@@ -61,10 +59,10 @@ class Filebrowser < Formula
         commit_sha = `git rev-parse --short HEAD`
       end
       ENV["GOCACHE"] = "#{ENV["GOPATH"]}/go-build"
-      ENV.append_path "PATH", "#{Formula["node"].bin}"
+      ENV.append_path "PATH", Formula["node"].bin.to_s
       ENV.append_path "PATH", "#{Formula["node"].libexec}/bin"
 
-      inreplace Dir["Makefile"][0] do |s|
+      inreplace "Makefile" do |s|
         s.gsub! "varsion", "version"
       end
 
@@ -74,12 +72,10 @@ class Filebrowser < Formula
 
       # Version, commit_sha in Makefile are set in different format as in release
       # Set them manually.
-      inreplace Dir["cmd/version.go"][0] do |s|
-        if version_str == "HEAD" || version_str.start_with?("v")
-          s.gsub! "File Browser v", "File Browser "
-        end
+      inreplace "cmd/version.go" do |s|
+        s.gsub! "File Browser v", "File Browser " if version_str == "HEAD" || version_str.start_with?("v")
         if commit_sha == ""
-          s.gsub! /^(.+fmt\.Println.+version\.Version).*?$/, '\1)' # single quote
+          s.gsub!(/^(.+fmt\.Println.+version\.Version).*?$/, '\1)') # single quote
         end
       end
       go_build_ldflags = "-s -w" \
@@ -88,13 +84,13 @@ class Filebrowser < Formula
       go_build_cmd = "GO111MODULE=on CGO_ENABLED=0 go build" \
         + " -ldflags '#{go_build_ldflags}'"
       system go_build_cmd
-      system "upx -9 -q filebrowser"
+      system "upx", "-9", "-q", "filebrowser"
     end
 
     bin.install Dir.glob("filebrowser*")[0] => "filebrowser"
 
-    share_dst = "#{prefix}/share/filebrowser"
-    mkdir_p "#{share_dst}"
+    share_dst = "#{share}/filebrowser"
+    mkdir_p share_dst.to_s
     config_path = etc/"filebrowser"
 
     # https://github.com/filebrowser/filebrowser/blob/master/.docker.json
@@ -127,46 +123,48 @@ class Filebrowser < Formula
     chmod 0755, var/"log/filebrowser"
   end
 
-  def caveats; <<~EOS
-    By default, filebrowser listens on localhost:8080 with auth
-      username: admin
-      password: admin
+  def caveats
+    <<~EOS
+      By default, filebrowser listens on localhost:8080 with auth
+        username: admin
+        password: admin
 
-    Check detail usage at https://filebrowser.org/
-  EOS
+      Check detail usage at https://filebrowser.org/
+    EOS
   end
 
-  plist_options :manual => "filebrowser -c #{HOMEBREW_PREFIX}/etc/filebrowser/.filebrowser.json"
+  plist_options manual: "filebrowser -c #{HOMEBREW_PREFIX}/etc/filebrowser/.filebrowser.json"
 
-  def plist; <<~EOS
-    <?xml version="1.0" encoding="UTF-8"?>
-    <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-    <plist version="1.0">
-    <dict>
-      <key>Label</key>
-      <string>#{plist_name}</string>
-      <key>ProgramArguments</key>
-      <array>
-        <string>#{opt_bin}/filebrowser</string>
-        <string>-c</string>
-        <string>#{etc}/filebrowser/.filebrowser.json</string>
-      </array>
-      <key>WorkingDirectory</key>
-      <string>#{etc}/filebrowser</string>
-      <key>StandardErrorPath</key>
-      <string>#{var}/log/filebrowser/filebrowser.log</string>
-      <key>StandardOutPath</key>
-      <string>#{var}/log/filebrowser/filebrowser.log</string>
-      <key>RunAtLoad</key>
-      <true/>
-      <key>KeepAlive</key>
+  def plist
+    <<~EOS
+      <?xml version="1.0" encoding="UTF-8"?>
+      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+      <plist version="1.0">
       <dict>
-        <key>SuccessfulExit</key>
-        <false/>
+        <key>Label</key>
+        <string>#{plist_name}</string>
+        <key>ProgramArguments</key>
+        <array>
+          <string>#{opt_bin}/filebrowser</string>
+          <string>-c</string>
+          <string>#{etc}/filebrowser/.filebrowser.json</string>
+        </array>
+        <key>WorkingDirectory</key>
+        <string>#{etc}/filebrowser</string>
+        <key>StandardErrorPath</key>
+        <string>#{var}/log/filebrowser/filebrowser.log</string>
+        <key>StandardOutPath</key>
+        <string>#{var}/log/filebrowser/filebrowser.log</string>
+        <key>RunAtLoad</key>
+        <true/>
+        <key>KeepAlive</key>
+        <dict>
+          <key>SuccessfulExit</key>
+          <false/>
+        </dict>
       </dict>
-    </dict>
-    </plist>
-  EOS
+      </plist>
+    EOS
   end
 
   test do

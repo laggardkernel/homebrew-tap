@@ -11,8 +11,8 @@ class Cdns < Formula
 
   # Caveat: HEAD still fails to be build.
 
-  depends_on "cmake" => :build
   depends_on "argp-standalone" => :build
+  depends_on "cmake" => :build
 
   def install
     if build
@@ -43,7 +43,7 @@ class Cdns < Formula
       s.gsub! '"ip_port": "203.80.96.10"', '"ip_port": "8.8.4.4:53"'
     end
 
-    share_dst = "#{prefix}/share/cdns"
+    share_dst = "#{share}/cdns"
     mkdir_p share_dst
     cp "config.json.example", "#{share_dst}/config.json"
 
@@ -56,46 +56,46 @@ class Cdns < Formula
     # etc.install "#{etc_dst}/"
   end
 
-  test do
-    system bin/"cdns", "--help"
-  end
+  def caveats
+    <<~EOS
+      It's not recommended to run cdns alone. A forwarding DNS server
+      with cache support, like dnsmasq or unbound, should be put before it.
 
-  def caveats; <<~EOS
-    It's not recommended to run cdns alone. A forwarding DNS server
-    with cache support, like dnsmasq or unbound, should be put before it.
+      CureDNS runs on localhost (127.0.0.1), port 5355 by default.
+      If you would like to change these settings, edit the plist service file.
 
-    CureDNS runs on localhost (127.0.0.1), port 5355 by default.
-    If you would like to change these settings, edit the plist service file.
-
-      #{etc}/cdns/config.json
-  EOS
-  end
-
-  plist_options :manual => "cdns -c #{HOMEBREW_PREFIX}/etc/cdns/config.json"
-
-  def plist; <<~EOS
-    <?xml version="1.0" encoding="UTF-8"?>
-    <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-    <plist version="1.0">
-      <dict>
-        <key>Label</key>
-        <string>#{plist_name}</string>
-        <key>ProgramArguments</key>
-        <array>
-          <string>#{opt_bin}/cdns</string>
-          <string>-c</string>
-          <string>#{etc}/cdns/config.json</string>
-        </array>
-        <key>KeepAlive</key>
-        <dict>
-          <key>SuccessfulExit</key>
-          <false/>
-        </dict>
-        <key>RunAtLoad</key>
-        <true/>
-      </dict>
-    </plist>
+        #{etc}/cdns/config.json
     EOS
   end
 
+  plist_options manual: "cdns -c #{HOMEBREW_PREFIX}/etc/cdns/config.json"
+  def plist
+    <<~EOS
+      <?xml version="1.0" encoding="UTF-8"?>
+      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+      <plist version="1.0">
+        <dict>
+          <key>Label</key>
+          <string>#{plist_name}</string>
+          <key>ProgramArguments</key>
+          <array>
+            <string>#{opt_bin}/cdns</string>
+            <string>-c</string>
+            <string>#{etc}/cdns/config.json</string>
+          </array>
+          <key>KeepAlive</key>
+          <dict>
+            <key>SuccessfulExit</key>
+            <false/>
+          </dict>
+          <key>RunAtLoad</key>
+          <true/>
+        </dict>
+      </plist>
+    EOS
+  end
+
+  test do
+    system bin/"cdns", "--help"
+  end
 end

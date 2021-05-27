@@ -27,21 +27,21 @@ class VimOptions < Formula
 
   deprecated_option "override-system-vi" => "with-override-system-vi"
 
+  depends_on "ncurses"
   depends_on "perl"
   depends_on "ruby"
   depends_on :x11 if build.with? "client-server"
   depends_on "python" => :recommended if build.without? "python@2"
   depends_on "gettext" => :optional
   depends_on "lua" => :optional
-  depends_on "ncurses"
   depends_on "luajit" => :optional
   depends_on "python@2" => :optional
 
   conflicts_with "ex-vi",
-    :because => "vim and ex-vi both install bin/ex and bin/view"
+    because: "vim and ex-vi both install bin/ex and bin/view"
 
   conflicts_with "macvim",
-    :because => "vim and macvim both install vi* binaries"
+    because: "vim and macvim both install vi* binaries"
 
   def install
     ENV.prepend_path "PATH", Formula["python"].opt_libexec/"bin"
@@ -56,9 +56,7 @@ class VimOptions < Formula
 
     (LANGUAGES_OPTIONAL + LANGUAGES_DEFAULT).each do |language|
       feature = { "python" => "python3", "python@2" => "python" }
-      if build.with? language
-        opts << "--enable-#{feature.fetch(language, language)}interp"
-      end
+      opts << "--enable-#{feature.fetch(language, language)}interp" if build.with? language
     end
 
     if opts.include?("--enable-pythoninterp") && opts.include?("--enable-python3interp")
@@ -71,10 +69,10 @@ class VimOptions < Formula
     opts << "--disable-nls" if build.without? "gettext"
     opts << "--enable-gui=no"
 
-    if build.with? "client-server"
-      opts << "--with-x"
+    opts << if build.with? "client-server"
+      "--with-x"
     else
-      opts << "--without-x"
+      "--without-x"
     end
 
     if build.with?("lua") || build.with?("luajit")
@@ -137,8 +135,6 @@ class VimOptions < Formula
       system bin/"vim", "-T", "dumb", "-s", "commands.vim", "test.txt"
       assert_equal "hello python3", File.read("test.txt").chomp
     end
-    if build.with? "gettext"
-      assert_match "+gettext", shell_output("#{bin}/vim --version")
-    end
+    assert_match "+gettext", shell_output("#{bin}/vim --version") if build.with? "gettext"
   end
 end

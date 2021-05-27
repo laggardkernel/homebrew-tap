@@ -1,8 +1,8 @@
 class NeovimNightly < Formula
   desc "Ambitious Vim-fork focused on extensibility and agility"
   homepage "https://neovim.io/"
-  version "latest"
   url "https://github.com/neovim/neovim/releases/download/nightly/nvim-macos.tar.gz"
+  version "latest"
   # sha256
   license "Apache-2.0"
 
@@ -13,7 +13,7 @@ class NeovimNightly < Formula
   def install
     sources = Dir.entries(".")
     sources -= Dir.glob(".*")
-    cp_r sources, "#{prefix}"
+    cp_r sources, prefix.to_s
   end
 
   test do

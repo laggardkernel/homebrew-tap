@@ -1,12 +1,12 @@
-cask 'oracle-jdk11' do
+cask "oracle-jdk11" do
   version "11.0.11,9:ab2da78f32ed489abb3ff52fd0a02b1c"
   sha256 "d4519ad54bd92c6477fc04b1c15927629b707593ef9f0ab205017e922db24a38"
 
   url "https://download.oracle.com/otn-pub/java/jdk/#{version.before_comma}+#{version.after_comma.before_colon}/#{version.after_colon}/jdk-#{version.before_comma}_osx-x64_bin.dmg",
-    cookies: {
-      'oraclelicense' => 'accept-securebackup-cookie',
-    }
-  name 'Java Standard Edition Development Kit'
+      cookies: {
+        "oraclelicense" => "accept-securebackup-cookie",
+      }
+  name "Java Standard Edition Development Kit"
   homepage "https://www.oracle.com/java/technologies/javase-downloads.html#JDK#{version.major}"
 
   livecheck do
@@ -19,7 +19,7 @@ cask 'oracle-jdk11' do
   end
 
   # auto_updates true: JDK does not auto-update
-  depends_on macos: '>= :yosemite'
+  depends_on macos: ">= :yosemite"
 
   pkg "JDK #{version.before_comma}.pkg"
 
@@ -27,14 +27,15 @@ cask 'oracle-jdk11' do
   # Password input prompt can't be popped up in a recursive brew call?
   uninstall_postflight do
     if File.exist?("#{HOMEBREW_PREFIX}/Caskroom/oracle-jdk11-javadoc")
-      system_command "#{HOMEBREW_PREFIX}/bin/brew", args: ['uninstall', '--cask', 'oracle-jdk11-javadoc']
+      system_command "#{HOMEBREW_PREFIX}/bin/brew", args: ["uninstall", "--cask", "oracle-jdk11-javadoc"]
     end
   end
 
   uninstall pkgutil: "com.oracle.jdk-#{version.before_comma}",
-    delete: "/Library/Java/JavaVirtualMachines/jdk-#{version.before_comma}.jdk"
+            delete:  "/Library/Java/JavaVirtualMachines/jdk-#{version.before_comma}.jdk"
+
   caveats do
-    license 'https://www.oracle.com/technetwork/java/javase/terms/license/javase-license.html'
+    license "https://www.oracle.com/technetwork/java/javase/terms/license/javase-license.html"
   end
 end
 # Related commits

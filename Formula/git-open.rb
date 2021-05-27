@@ -1,5 +1,5 @@
 class GitOpen < Formula
-  desc "Type `git open` to open the GitHub page or website for a repository in your browser."
+  desc "Open the repository homepage from command-line"
   homepage "https://github.com/paulirish/git-open"
   url "https://github.com/paulirish/git-open/archive/v2.1.0.tar.gz"
   sha256 "0cf7f7f55c611c8dfccf0a3135df4032f2ea085491be84fb565cac2d744c4951"

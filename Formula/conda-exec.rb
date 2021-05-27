@@ -7,6 +7,11 @@ class CondaExec < Formula
     skip "Package unmaintained"
   end
 
+  head do
+    url "https://repo.anaconda.com/pkgs/misc/conda-execs/conda-latest-osx-64.exe" if OS.mac?
+    url "https://repo.anaconda.com/pkgs/misc/conda-execs/conda-latest-linux-64.exe" if OS.linux?
+  end
+
   bottle :unneeded
 
   deprecate! date: "2020-01-01", because: :unmaintained
@@ -14,25 +19,12 @@ class CondaExec < Formula
   if OS.mac?
     url "https://repo.anaconda.com/pkgs/misc/conda-execs/conda-#{version}-osx-64.exe"
     sha256 "664985c0f85291a1be3aee3cd00d3a93dd29ffe191cacfd54e2c84443548a31c"
-  end
-  if OS.linux?
+  elsif OS.linux?
     url "https://repo.anaconda.com/pkgs/misc/conda-execs/conda-#{version}-linux-64.exe"
   end
 
-  head do
-    if OS.mac?
-      url "https://repo.anaconda.com/pkgs/misc/conda-execs/conda-latest-osx-64.exe"
-    end
-    if OS.linux?
-      url "https://repo.anaconda.com/pkgs/misc/conda-execs/conda-latest-linux-64.exe"
-    end
-  end
-
   def install
-    Dir["conda*"].each do |i|
-      bin.install i => "conda-exec"
-      break
-    end
+    bin.install Dir["conda*"][0] => "conda-exec"
   end
 
   test do

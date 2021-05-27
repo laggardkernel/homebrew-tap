@@ -1,8 +1,8 @@
 class TmuxOptions < Formula
   desc "Terminal multiplexer with custom FPS"
   homepage "https://tmux.github.io/"
-  version "3.2"
   url "https://github.com/tmux/tmux/releases/download/#{version}/tmux-#{version}.tar.gz"
+  version "3.2"
   # sha256 ""
   license "ISC"
 
@@ -12,8 +12,6 @@ class TmuxOptions < Formula
     regex(%r{href=.*?/tag/v?(\d+(?:\.\d+)+[a-z]?)["' >]}i)
   end
 
-  bottle :unneeded
-
   head do
     url "https://github.com/tmux/tmux.git"
 
@@ -21,6 +19,8 @@ class TmuxOptions < Formula
     depends_on "automake" => :build
     depends_on "libtool" => :build
   end
+
+  bottle :unneeded
 
   # Obsolete: devel block support is dropped
   # devel do
@@ -48,15 +48,15 @@ class TmuxOptions < Formula
     # Deprecate: ARGV
     # if ! (ARGV.value("with-fps").nil? || ARGV.value("with-fps").empty?)
     #   fps=ARGV.value("with-fps").to_i
-    if build.with? "fps-60"
-      fps=60
+    fps = if build.with? "fps-60"
+      60
     else
-      fps=20
+      20
     end
 
-    redraw_interval=(1000000/fps).round
+    redraw_interval=(1_000_000/fps).round
     inreplace "tty.c" do |s|
-      s.gsub! /^#define TTY_BLOCK_INTERVAL .*$/, "#define TTY_BLOCK_INTERVAL (#{redraw_interval} /* #{fps} fps */)"
+      s.gsub!(/^#define TTY_BLOCK_INTERVAL .*$/, "#define TTY_BLOCK_INTERVAL (#{redraw_interval} /* #{fps} fps */)")
     end
 
     system "sh", "autogen.sh" if build.head?
@@ -78,10 +78,11 @@ class TmuxOptions < Formula
     bash_completion.install resource("completion")
   end
 
-  def caveats; <<~EOS
-    Example configuration has been installed to:
-      #{opt_pkgshare}
-  EOS
+  def caveats
+    <<~EOS
+      Example configuration has been installed to:
+        #{opt_pkgshare}
+    EOS
   end
 
   test do

@@ -1,14 +1,14 @@
 class FfmpegOptions < Formula
   desc "Play, record, convert, and stream audio and video"
   homepage "https://ffmpeg.org/"
-  version "4.4"
   url "https://ffmpeg.org/releases/ffmpeg-#{version}.tar.xz"
+  version "4.4"
   sha256 "06b10a183ce5371f915c6bb15b7b1fffbe046e8275099c96affc29e17645d909"
   # None of these parts are used by default, you have to explicitly pass `--enable-gp>
   # to configure to activate them. In this case, FFmpeg's license changes to GPL v2+.
   license "GPL-2.0-or-later"
-  head "https://github.com/FFmpeg/FFmpeg.git"
   revision 1
+  head "https://github.com/FFmpeg/FFmpeg.git"
 
   livecheck do
     url "https://ffmpeg.org/download.html"
@@ -63,6 +63,19 @@ class FfmpegOptions < Formula
   depends_on "xz"
   depends_on "zeromq"
   depends_on "zimg"
+  depends_on "chromaprint" => :optional
+  depends_on "fdk-aac" => :optional
+  depends_on "game-music-emu" => :optional
+  depends_on "libbs2b" => :optional
+  depends_on "libcaca" => :optional
+  depends_on "libgsm" => :optional
+  depends_on "libmodplug" => :optional
+  depends_on "librsvg" => :optional
+  depends_on "libssh" => :optional
+  depends_on "libvmaf" => :optional
+  depends_on "openh264" => :optional
+  depends_on "two-lame" => :optional
+  depends_on "wavpack" => :optional
 
   uses_from_macos "bzip2"
   uses_from_macos "libxml2"
@@ -77,20 +90,6 @@ class FfmpegOptions < Formula
   else
     depends_on "gnutls"
   end
-
-  depends_on "chromaprint" => :optional
-  depends_on "fdk-aac" => :optional
-  depends_on "game-music-emu" => :optional
-  depends_on "libbs2b" => :optional
-  depends_on "libcaca" => :optional
-  depends_on "libgsm" => :optional
-  depends_on "libmodplug" => :optional
-  depends_on "librsvg" => :optional
-  depends_on "libssh" => :optional
-  depends_on "libvmaf" => :optional
-  depends_on "openh264" => :optional
-  depends_on "two-lame" => :optional
-  depends_on "wavpack" => :optional
 
   def install
     args = %W[
@@ -144,10 +143,10 @@ class FfmpegOptions < Formula
       args << "--enable-videotoolbox"
     end
 
-    if build.with? "openssl"
-      args << "--enable-openssl"
+    args << if build.with? "openssl"
+      "--enable-openssl"
     else
-      args << "--enable-gnutls"
+      "--enable-gnutls"
     end
 
     args << "--enable-chromaprint" if build.with? "chromaprint"

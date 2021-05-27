@@ -32,10 +32,10 @@ class LibassOptions < Formula
     args << "--disable-harfbuzz" if build.without? "harfbuzz"
     on_macos do
       # libass uses coretext on macOS, fontconfig on Linux
-      if build.with? "fontconfig"
-        args << "--disable-coretext"
+      args << if build.with? "fontconfig"
+        "--disable-coretext"
       else
-        args << "--disable-fontconfig"
+        "--disable-fontconfig"
       end
     end
 

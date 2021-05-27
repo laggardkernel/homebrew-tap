@@ -14,18 +14,19 @@ class Iterm2Zmodem < Formula
     bin.install "bin/iterm2-zmodem-recv"
   end
 
-  def caveats; <<~EOS
-    Create triggers under Profiles -> Advanced:
+  def caveats
+    <<~EOS
+      Create triggers under Profiles -> Advanced:
 
-      Regular expression: rz waiting to receive.\*\*B0100
-      Action: Run Silent Coprocess
-      Parameters: /usr/local/bin/iterm2-zmodem-send
-      Instant: checked
+        Regular expression: rz waiting to receive.\*\*B0100
+        Action: Run Silent Coprocess
+        Parameters: /usr/local/bin/iterm2-zmodem-send
+        Instant: checked
 
-      Regular expression: \*\*B00000000000000
-      Action: Run Silent Coprocess
-      Parameters: /usr/local/bin/iterm2-zmodem-recv
-      Instant: checked
-  EOS
+        Regular expression: \*\*B00000000000000
+        Action: Run Silent Coprocess
+        Parameters: /usr/local/bin/iterm2-zmodem-recv
+        Instant: checked
+    EOS
   end
 end

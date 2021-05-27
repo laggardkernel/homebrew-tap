@@ -1,14 +1,14 @@
 class ClashPremium < Formula
   desc "Rule-based tunnel in Go, the pre-built premium version"
   homepage "https://github.com/Dreamacro/clash/releases/tag/premium"
-  version "2021.05.08"
   url "https://github.com/Dreamacro/clash/releases/download/premium/clash-darwin-amd64-#{version}.gz"
+  version "2021.05.08"
   # sha256 ""
   license "GPL-3.0"
 
   livecheck do
-    url "https://github.com/Dreamacro/clash/releases/tag/premium"
-    regex(/(\d{4}[.-]\d{2}[.-]\d{2})/)
+    url :homepage
+    regex(/(\d{4}[.-]\d{2}[.-]\d{2})/i)
     strategy :page_match do |page, regex|
       page.scan(regex).flatten.uniq.sort
     end
@@ -16,40 +16,40 @@ class ClashPremium < Formula
 
   bottle :unneeded
 
-  conflicts_with "clash", :because => "premium variant with tun support"
+  conflicts_with "clash", because: "premium variant with tun support"
 
   # resource will auto unpacked
   resource "clash-dashboard" do
     # folder name: clash-dashboard-gh-pages
-    url "https://github.com/Dreamacro/clash-dashboard/archive/gh-pages.zip"
+    url "https://github.com/Dreamacro/clash-dashboard/archive/gh-pages.tar.gz"
   end
 
   resource "yacd" do
     # folder name: yacd-gh-pages
-    url "https://github.com/haishanh/yacd/archive/gh-pages.zip"
+    url "https://github.com/haishanh/yacd/archive/gh-pages.tar.gz"
   end
 
   def install
     # binary name: clash-darwin-amd64-2021.02.21
     Dir.glob(["clash*"]).each do |dst|
-      bin.install "#{dst}" => "clash"
+      bin.install dst.to_s => "clash"
     end
 
     # Dashboards, one copy saved into share
-    share_dst = "#{prefix}/share/clash"
-    mkdir_p "#{share_dst}"
-    resource("clash-dashboard").stage {
+    share_dst = "#{share}/clash"
+    mkdir_p share_dst.to_s
+    resource("clash-dashboard").stage do
       cp_r ".", "#{share_dst}/clash-dashboard"
-    }
-    resource("yacd").stage {
+    end
+    resource("yacd").stage do
       cp_r ".", "#{share_dst}/yacd"
-    }
+    end
 
     # Another copy of the dashboard, to be installed into etc later
     etc_temp = "#{buildpath}/etc_temp"
     cp_r "#{share_dst}/.", etc_temp
 
-    Dir.chdir("#{etc_temp}") do
+    Dir.chdir(etc_temp.to_s) do
       config_path = etc/"clash"
       [
         "clash-dashboard",
@@ -61,7 +61,7 @@ class ClashPremium < Formula
         config_path.install dst
       end
     end
-    rm_rf "#{etc_temp}"
+    rm_rf etc_temp.to_s
   end
 
   def post_install
@@ -69,19 +69,20 @@ class ClashPremium < Formula
     chmod 0755, var/"log/clash"
   end
 
-  def caveats; <<~EOS
-    Homebrew services are run as LaunchAgents by current user.
-    To start TUN mode, clash should be run as a privileged service,
-    you need to run it as a "global" daemon from /Library/LaunchAgents.
+  def caveats
+    <<~EOS
+      Homebrew services are run as LaunchAgents by current user.
+      To start TUN mode, clash should be run as a privileged service,
+      you need to run it as a "global" daemon from /Library/LaunchAgents.
 
-      sudo cp -f #{plist_path} /Library/LaunchAgents/
+        sudo cp -f #{plist_path} /Library/LaunchAgents/
 
-    Dont' use `sudo brew services`. This very command will ruin the file perms.
+      Dont' use `sudo brew services`. This very command will ruin the file perms.
 
-    A global conf folder `/usr/local/etc/clash` is created, with prebuilt
-    dashboard static files. Before you start the launchd service, put a conf
-    `config.yaml` and start the service once manually to download MMDB.
-  EOS
+      A global conf folder `/usr/local/etc/clash` is created, with prebuilt
+      dashboard static files. Before you start the launchd service, put a conf
+      `config.yaml` and start the service once manually to download MMDB.
+    EOS
   end
 
   plist_options manual: "clash -d #{HOMEBREW_PREFIX}/etc/clash"

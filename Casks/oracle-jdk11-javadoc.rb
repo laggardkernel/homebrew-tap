@@ -1,11 +1,12 @@
-cask 'oracle-jdk11-javadoc' do
+cask "oracle-jdk11-javadoc" do
   version "11.0.11,9:ab2da78f32ed489abb3ff52fd0a02b1c"
+
   # sha256
 
   url "https://download.oracle.com/otn-pub/java/jdk/#{version.before_comma}+#{version.after_comma.before_colon}/#{version.after_colon}/jdk-#{version.before_comma}_doc-all.zip",
-    cookies: {
-      'oraclelicense' => 'accept-securebackup-cookie',
-    }
+      cookies: {
+        "oraclelicense" => "accept-securebackup-cookie",
+      }
   name "Java Standard Edition Development Kit Documentation"
   homepage "https://www.oracle.com/java/technologies/javase-downloads.html#JDK#{version.major}"
 
@@ -18,12 +19,12 @@ cask 'oracle-jdk11-javadoc' do
     end
   end
 
-  artifact 'docs', target: "/Library/Java/JavaVirtualMachines/jdk-#{version.before_comma}.jdk/Contents/Home/docs"
+  artifact "docs", target: "/Library/Java/JavaVirtualMachines/jdk-#{version.before_comma}.jdk/Contents/Home/docs"
 
   uninstall delete: "/Library/Java/JavaVirtualMachines/jdk-#{version.before_comma}.jdk/Contents/Home/docs"
 
   caveats do
-    license 'https://www.oracle.com/technetwork/java/javase/terms/license/index.html'
+    license "https://www.oracle.com/technetwork/java/javase/terms/license/index.html"
   end
 end
 # Related commits

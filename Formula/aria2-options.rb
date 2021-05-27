@@ -1,5 +1,5 @@
 class Aria2Options < Formula
-  desc "aria2 with hidden identity (metalink support disabled)"
+  desc "Aria2 with hidden identity (metalink support disabled)"
   homepage "https://aria2.github.io/"
   url "https://github.com/aria2/aria2/releases/download/release-1.35.0/aria2-1.35.0.tar.xz"
   sha256 "1e2b7fd08d6af228856e51c07173cfcf987528f1ac97e04c5af4a47642617dfd"
@@ -7,19 +7,20 @@ class Aria2Options < Formula
 
   bottle :unneeded
 
-  conflicts_with "aria2", :because => "both install binaries `aria2c`"
+  # conflicts_with "aria2", :because => "both install binaries `aria2c`"
 
   # option "with-c-ares", "Build with C-Ares async DNS support"
   option "with-openssl", "Build with openssl support"
   option "with-gnutls", "Build with gnutls support"
 
   depends_on "pkg-config" => :build
-  depends_on "libssh2"
   depends_on "c-ares"
-  depends_on "openssl@1.1" if build.with? "openssl"
   depends_on "gnutls" if build.with? "gnutls"
+  depends_on "libssh2"
+  depends_on "openssl@1.1" if build.with? "openssl"
 
-  uses_from_macos "libxml2"  # libxml2 is preferred over expat
+  # libxml2 is preferred over expat
+  uses_from_macos "libxml2"
   uses_from_macos "zlib"
 
   def install

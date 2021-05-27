@@ -11,41 +11,41 @@ class BingWallpaper < Formula
     bin.install "bing-wallpaper.sh" => "bing-wallpaper"
   end
 
+  def caveats
+    <<~EOS
+      BingWallpaper service is run every 4 hours to download pictures
+      from bing and set them as wallpaper. The default picture storage
+      location is $HOME/Pictures/bing-wallpapers/.
+
+      Check 'bing-wallpaper -h' and modify the service plist for customization.
+    EOS
+  end
+
+  plist_options startup: true
+  def plist
+    <<~EOS
+      <?xml version="1.0" encoding="UTF-8"?>
+      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+      <plist version="1.0">
+      <dict>
+          <key>Label</key>
+          <string>#{plist_name}</string>
+          <key>ProgramArguments</key>
+          <array>
+              <string>#{opt_bin}/bing-wallpaper</string>
+              <string>-s</string>
+              <string>-w</string>
+          </array>
+          <key>RunAtLoad</key>
+          <true/>
+          <key>StartInterval</key>
+          <integer>14400</integer>
+      </dict>
+      </plist>
+    EOS
+  end
+
   test do
-    system "#{bin}/bing-wallpaper --version"
-  end
-
-  def caveats; <<~EOS
-    BingWallpaper service is run every 4 hours to download pictures
-    from bing and set them as wallpaper. The default picture storage
-    location is $HOME/Pictures/bing-wallpapers/.
-
-    Check 'bing-wallpaper -h' and modify the service plist for customization.
-  EOS
-  end
-
-  plist_options :startup => true
-
-  def plist; <<~EOS
-    <?xml version="1.0" encoding="UTF-8"?>
-    <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-    <plist version="1.0">
-    <dict>
-        <key>Label</key>
-        <string>#{plist_name}</string>
-        <key>ProgramArguments</key>
-        <array>
-            <string>#{opt_bin}/bing-wallpaper</string>
-            <string>-s</string>
-            <string>-w</string>
-        </array>
-        <key>RunAtLoad</key>
-        <true/>
-        <key>StartInterval</key>
-        <integer>14400</integer>
-    </dict>
-    </plist>
-  EOS
+    system "#{bin}/bing-wallpaper", "--version"
   end
 end
-

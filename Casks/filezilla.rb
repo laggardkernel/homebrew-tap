@@ -1,11 +1,11 @@
-cask 'filezilla' do
+cask "filezilla" do
   version "3.54.1"
   sha256 "7e8282515e6bb7dfba108e656507bae872a65fee3a1f65386dcc3f1beebd9200"
 
   url "https://download.filezilla-project.org/client/FileZilla_#{version}_macosx-x86.app.tar.bz2"
-  appcast 'https://filezilla-project.org/versions.php?type=client'
-  name 'FileZilla'
-  homepage 'https://filezilla-project.org/'
+  appcast "https://filezilla-project.org/versions.php?type=client"
+  name "FileZilla"
+  homepage "https://filezilla-project.org/"
 
   livecheck do
     url "https://download.filezilla-project.org/client/"
@@ -15,19 +15,20 @@ cask 'filezilla' do
     end
   end
 
-  app 'FileZilla.app'
+  app "FileZilla.app"
 
   zap trash: [
-    '~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/de.filezilla.sfl*',
-    '~/Library/Saved Application State/de.filezilla.savedState',
-    '~/Library/Preferences/de.filezilla.plist',
+    "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/de.filezilla.sfl*",
+    "~/Library/Saved Application State/de.filezilla.savedState",
+    "~/Library/Preferences/de.filezilla.plist",
     # '~/.config/filezilla',
   ]
 
-  def caveats; <<~EOS
-    Sites and settings stored in '~/.config/filezilla' will not be removed even with
-    'brew uninstall --zap'. The decision of whether to remove it is left for users.
-  EOS
+  def caveats
+    <<~EOS
+      Sites and settings stored in '~/.config/filezilla' will not be removed even with
+      'brew uninstall --zap'. The decision of whether to remove it is left for users.
+    EOS
   end
 end
 # Reason why it's be deleted from homebrew-cask

@@ -53,6 +53,7 @@ Check the `Formula/` folder directly. No longer bother to update introduction he
 - [Cask Cookbook](https://docs.brew.sh/Cask-Cookbook)
 - [Detect OS, CPU arch from GoReleaser](https://github.com/filebrowser/homebrew-tap/blob/master/Formula/filebrowser.rb)
 - [`brew checkalive`](https://docs.brew.sh/Brew-Livecheck)
+- `brew style --fix`
 
 [aa65535/ChinaDNS]: https://github.com/aa65535/ChinaDNS
 [curedns]: https://github.com/semigodking/cdns

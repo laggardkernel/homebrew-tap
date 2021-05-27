@@ -1,5 +1,5 @@
 class Sans < Formula
-  desc "A simple anti-spoofing DNS server"
+  desc "Simple anti-spoofing DNS server"
   homepage "https://github.com/puxxustc/sans"
   head "https://github.com/puxxustc/sans.git"
 
@@ -11,7 +11,7 @@ class Sans < Formula
     system "autoreconf", "-if"
     system "./configure", "--prefix=#{prefix}", "--sysconfdir=#{HOMEBREW_PREFIX}/etc", "--mandir=#{man}"
     system "make"
-    system "make install"
+    system "make", "install"
   end
 
   test do

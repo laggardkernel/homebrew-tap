@@ -1,5 +1,5 @@
 class License < Formula
-  desc "Generate software license files on the command line"
+  desc "Generate license files on the command-line"
 
   # homepage "https://github.com/nishanths/license"
   # head "https://github.com/nishanths/license.git"
@@ -8,9 +8,9 @@ class License < Formula
 
   # Use the fork from jfoster, which uses platform specific data folder
   homepage "https://github.com/jfoster/license"
-  head "https://github.com/jfoster/license.git"
   url "https://github.com/jfoster/license/archive/v1.0.1.tar.gz"
   sha256 "24a3fab58b03098d4a5192c36ab668b7a680008ba336902ce5f6a65ce1b859a7"
+  head "https://github.com/jfoster/license.git"
 
   disable! date: "2021-05-22", because: <<~EOS
     (the forked one with XDG Base Directory support) is deleted.

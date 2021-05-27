@@ -70,10 +70,10 @@ class OpensshOptions < Formula
       --with-security-key-builtin
     ]
 
-    if build.with? "libressl"
-      args << "--with-ssl-dir=#{Formula["libressl"].opt_prefix}"
+    args << if build.with? "libressl"
+      "--with-ssl-dir=#{Formula["libressl"].opt_prefix}"
     else
-      args << "--with-ssl-dir=#{Formula["openssl"].opt_prefix}"
+      "--with-ssl-dir=#{Formula["openssl"].opt_prefix}"
     end
 
     system "./configure", *args
