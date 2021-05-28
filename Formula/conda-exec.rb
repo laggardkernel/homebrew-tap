@@ -14,7 +14,7 @@ class CondaExec < Formula
 
   bottle :unneeded
 
-  deprecate! date: "2020-01-01", because: :unmaintained
+  disable! date: "2021-01-01", because: "is unmaintained, please switch to 'conda-standlone'"
 
   if OS.mac?
     url "https://repo.anaconda.com/pkgs/misc/conda-execs/conda-#{version}-osx-64.exe"
