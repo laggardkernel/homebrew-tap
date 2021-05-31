@@ -5,7 +5,7 @@ class CondaStandalone < Formula
   version "4.10.1,he9ea1e4_0"
 
   livecheck do
-    url :stable
+    url "https://anaconda.org/conda-canary/conda-standalone/files"
     regex(%r{href=.*?/osx.*?/conda[_-]standalone[_-]v?(\d+(?:\.\d+)+)[_-](.+?)\.tar\.bz2}i)
     strategy :page_match do |page, regex|
       page.scan(regex).map do |match|
