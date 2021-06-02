@@ -7,9 +7,11 @@ class Adguardhome < Formula
   license "GPL-3.0"
 
   livecheck do
-    # latest strategy avoids rc release accepted newer than later release
-    url :stable
-    strategy :github_latest
+    url "https://github.com/AdguardTeam/AdGuardHome/releases/"
+    regex(%r{href=.*?/tag/v?(\d+(?:\.\d+)+(?:[-_].+?)?)["' >]}i)
+    strategy :page_match do |page, regex|
+      page.scan(regex).flatten.uniq
+    end
   end
 
   head do
@@ -42,7 +44,9 @@ class Adguardhome < Formula
     depends_on "node" => :build
     depends_on "yarn" => :build
     depends_on "upx" => :build
-  elsif OS.mac?
+  elsif OS.mac? && Hardware::CPU.arm?
+    url "https://github.com/AdguardTeam/AdGuardHome/releases/download/v#{version}/AdGuardHome_darwin_arm64.zip"
+  elsif OS.mac? && Hardware::CPU.intel?
     url "https://github.com/AdguardTeam/AdGuardHome/releases/download/v#{version}/AdGuardHome_darwin_amd64.zip"
   elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is_64_bit?
     url "https://github.com/AdguardTeam/AdGuardHome/releases/download/v#{version}/AdGuardHome_linux_amd64.tar.gz"
