@@ -1,8 +1,8 @@
 class TmuxOptions < Formula
   desc "Terminal multiplexer with custom FPS"
   homepage "https://tmux.github.io/"
+  version "3.2a"
   url "https://github.com/tmux/tmux/releases/download/#{version}/tmux-#{version}.tar.gz"
-  version "3.2"
   # sha256 ""
   license "ISC"
 
