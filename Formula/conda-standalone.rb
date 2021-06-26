@@ -1,8 +1,8 @@
 class CondaStandalone < Formula
   desc "Entry point and dependency collection for PyInstaller-based standalone conda"
   homepage "https://anaconda.org/conda-canary/conda-standalone"
-  url "https://anaconda.org/conda-canary/conda-standalone/#{version.to_s.split(",").first}/download/osx-64/conda-standalone-#{version.to_s.split(",").first}-#{version.to_s.split(",").second}.tar.bz2"
   version "4.10.1,he9ea1e4_0"
+  url "https://anaconda.org/conda-canary/conda-standalone/#{version.to_s.split(",").first}/download/osx-64/conda-standalone-#{version.to_s.split(",").first}-#{version.to_s.split(",").second}.tar.bz2"
 
   livecheck do
     url "https://anaconda.org/conda-canary/conda-standalone/files"

@@ -7,6 +7,7 @@ class Adguardhome < Formula
   license "GPL-3.0"
 
   livecheck do
+    # `brew style --fix` keeps converting it to wrong value :stable
     url "https://github.com/AdguardTeam/AdGuardHome/releases/"
     regex(%r{href=.*?/tag/v?(\d+(?:\.\d+)+(?:[-_].+?)?)["' >]}i)
     strategy :page_match do |page, regex|
