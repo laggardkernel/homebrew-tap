@@ -1,6 +1,6 @@
 cask "filezilla" do
-  version "3.54.1"
-  sha256 "7e8282515e6bb7dfba108e656507bae872a65fee3a1f65386dcc3f1beebd9200"
+  version "3.55.0"
+  # sha256 ""
 
   url "https://download.filezilla-project.org/client/FileZilla_#{version}_macosx-x86.app.tar.bz2"
   appcast "https://filezilla-project.org/versions.php?type=client"
