@@ -86,6 +86,9 @@ class Adguardhome < Formula
       ENV["GOCACHE"] = "#{ENV["GOPATH"]}/go-build"
       ENV["PATH"] = "#{ENV["PATH"]}:#{HOMEBREW_PREFIX}/opt/node/libexec/bin"
       ENV["PATH"] = "#{ENV["PATH"]}:#{HOMEBREW_PREFIX}/lib/node_modules/npm/bin"
+      # BUG: Formula["node"] doen't ensure version installed
+      # ENV.append_path "PATH", Formula["node"].bin.to_s
+      # ENV.append_path "PATH", "#{Formula["node"].libexec}/bin"
       # TODO: compile cache folder from node
       # - v8-compile-cache-501
       # - /private/tmp//private/tmp/yarn--

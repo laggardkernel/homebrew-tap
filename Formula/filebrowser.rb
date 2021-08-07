@@ -1,7 +1,7 @@
 class Filebrowser < Formula
   desc "Provides a file managing interface within a specified directory"
   homepage "https://filebrowser.org"
-  version "2.15.0"
+  version "2.16.1"
   # sha256
   license "MIT"
 
@@ -59,12 +59,11 @@ class Filebrowser < Formula
         commit_sha = `git rev-parse --short HEAD`
       end
       ENV["GOCACHE"] = "#{ENV["GOPATH"]}/go-build"
-      ENV.append_path "PATH", Formula["node"].bin.to_s
-      ENV.append_path "PATH", "#{Formula["node"].libexec}/bin"
-
-      inreplace "Makefile" do |s|
-        s.gsub! "varsion", "version"
-      end
+      ENV["PATH"] = "#{ENV["PATH"]}:#{HOMEBREW_PREFIX}/opt/node/libexec/bin"
+      ENV["PATH"] = "#{ENV["PATH"]}:#{HOMEBREW_PREFIX}/lib/node_modules/npm/bin"
+      # BUG: Formula["node"] doen't ensure version installed
+      # ENV.append_path "PATH", Formula["node"].bin.to_s
+      # ENV.append_path "PATH", "#{Formula["node"].libexec}/bin"
 
       # Makefile and .goreleaser.yml
       # Separate fronend, backend bulding for easy debugging
