@@ -1,6 +1,5 @@
 cask "oracle-jdk8-javadoc" do
-  version "1.8.0_291-b10,d7fc238d0cbf4b0dac67be84580cfb4b"
-
+  version "1.8.0_301-b09,d3c52aa6bfa54d3ca74e617f18309292"
   # sha256
 
   java_update = version.sub(/.*_(\d+)-.*/, '\1')
