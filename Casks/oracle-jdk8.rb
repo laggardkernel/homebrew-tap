@@ -37,13 +37,14 @@ cask "oracle-jdk8" do
                    sudo: true
   end
 
-  # Uninstall doc in postflight to avoid doing 'sudo rm' in sub 'brew uninstall'
-  # Password input prompt can't be popped up in a recursive brew call?
-  uninstall_postflight do
-    if File.exist?("#{HOMEBREW_PREFIX}/Caskroom/oracle-jdk8-javadoc")
-      system_command "#{HOMEBREW_PREFIX}/bin/brew", args: ["uninstall", "--cask", "oracle-jdk8-javadoc"]
-    end
-  end
+  # # Uninstall doc in postflight to avoid doing 'sudo rm' in sub 'brew uninstall'
+  # # Password input prompt can't be popped up in a recursive brew call?
+  # uninstall_postflight do
+  #   if File.exist?("#{HOMEBREW_PREFIX}/Caskroom/oracle-jdk8-javadoc")
+  #     system_command "#{HOMEBREW_PREFIX}/bin/brew", args: ["uninstall", "--cask", "oracle-jdk8-javadoc"]
+  #   end
+  # end
+  # NOTE: uninstalling javadoc affects upgrading. Upgrading uninstalls javadoc.
 
   uninstall pkgutil:   [
     "com.oracle.jdk#{version.minor}u#{java_update}",
