@@ -1,6 +1,5 @@
 cask "oracle-jdk11-javadoc" do
-  version "11.0.11,9:ab2da78f32ed489abb3ff52fd0a02b1c"
-
+  version "11.0.12,8:f411702ca7704a54a79ead0c2e0942a3"
   # sha256
 
   url "https://download.oracle.com/otn-pub/java/jdk/#{version.before_comma}+#{version.after_comma.before_colon}/#{version.after_colon}/jdk-#{version.before_comma}_doc-all.zip",
