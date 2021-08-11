@@ -10,10 +10,7 @@ class Tsschecker < Formula
 
   def install
     # binary name: clash-darwin-amd64-2021.02.21
-    Dir.glob(["tsschecker*"]).each do |dst|
-      bin.install dst.to_s => "tsschecker"
-      break
-    end
+    bin.install Dir.glob("tsschecker*")[0] => "tsschecker"
     prefix.install_metafiles
   end
 

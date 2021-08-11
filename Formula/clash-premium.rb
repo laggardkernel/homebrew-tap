@@ -31,9 +31,7 @@ class ClashPremium < Formula
 
   def install
     # binary name: clash-darwin-amd64-2021.02.21
-    Dir.glob(["clash*"]).each do |dst|
-      bin.install dst.to_s => "clash"
-    end
+    bin.install Dir.glob("clash*")[0] => "clash"
 
     # Dashboards, one copy saved into share
     share_dst = "#{share}/clash"
