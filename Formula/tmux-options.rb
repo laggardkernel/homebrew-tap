@@ -56,6 +56,7 @@ class TmuxOptions < Formula
 
     redraw_interval=(1_000_000/fps).round
     inreplace "tty.c" do |s|
+      # #define TTY_BLOCK_INTERVAL (100000 /* 100 milliseconds */)
       s.gsub!(/^#define TTY_BLOCK_INTERVAL .*$/, "#define TTY_BLOCK_INTERVAL (#{redraw_interval} /* #{fps} fps */)")
     end
 
