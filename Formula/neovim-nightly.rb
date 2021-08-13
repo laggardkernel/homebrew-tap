@@ -28,7 +28,7 @@ class NeovimNightly < Formula
   license "Apache-2.0"
 
   livecheck do
-    skip "No version information available"
+    skip "Version unknown before installation"
     # url "https://github.com/neovim/neovim/releases/tag/nightly"
     # regex(/href=[^>]+?>NVIM\s*v?([^<]+?)</i)
     # strategy :page_match do |page, regex|
