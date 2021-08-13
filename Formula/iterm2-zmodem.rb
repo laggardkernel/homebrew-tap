@@ -20,12 +20,12 @@ class Iterm2Zmodem < Formula
 
         Regular expression: rz waiting to receive.\*\*B0100
         Action: Run Silent Coprocess
-        Parameters: /usr/local/bin/iterm2-zmodem-send
+        Parameters: #{HOMEBREW_PREFIX}/bin/iterm2-zmodem-send
         Instant: checked
 
         Regular expression: \*\*B00000000000000
         Action: Run Silent Coprocess
-        Parameters: /usr/local/bin/iterm2-zmodem-recv
+        Parameters: #{HOMEBREW_PREFIX}/bin/iterm2-zmodem-recv
         Instant: checked
     EOS
   end
