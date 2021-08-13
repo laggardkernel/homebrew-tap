@@ -16,8 +16,6 @@ class ClashPremium < Formula
 
   bottle :unneeded
 
-  conflicts_with "clash", because: "premium variant with tun support"
-
   # resource will auto unpacked
   resource "clash-dashboard" do
     # folder name: clash-dashboard-gh-pages

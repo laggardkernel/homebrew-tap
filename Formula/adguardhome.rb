@@ -30,8 +30,6 @@ class Adguardhome < Formula
 
   bottle :unneeded
 
-  # conflicts_with "adguardhome-bin", :because => "same package"
-
   option "without-prebuilt", "Skip prebuilt binary and build from source"
 
   # sha256: skipped, too complicated

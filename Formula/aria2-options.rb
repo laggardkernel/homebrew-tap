@@ -7,8 +7,6 @@ class Aria2Options < Formula
 
   bottle :unneeded
 
-  # conflicts_with "aria2", :because => "both install binaries `aria2c`"
-
   # option "with-c-ares", "Build with C-Ares async DNS support"
   option "with-openssl", "Build with openssl support"
   option "with-gnutls", "Build with gnutls support"
