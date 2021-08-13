@@ -27,8 +27,6 @@ class CurlOptions < Formula
     depends_on "libtool" => :build
   end
 
-  bottle :unneeded
-
   keg_only :provided_by_macos
 
   option "with-brotli", "Build with lossless compression support"

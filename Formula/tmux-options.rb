@@ -20,8 +20,6 @@ class TmuxOptions < Formula
     depends_on "libtool" => :build
   end
 
-  bottle :unneeded
-
   # Obsolete: devel block support is dropped
   # devel do
   #   url "https://github.com/tmux/tmux/releases/download/3.2-rc/tmux-3.2-rc3.tar.gz"

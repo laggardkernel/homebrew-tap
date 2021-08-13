@@ -14,8 +14,6 @@ class UnboundOptions < Formula
     regex(/^(?:release-)?v?(\d+(?:\.\d+)+)$/i)
   end
 
-  bottle :unneeded
-
   depends_on "libevent"
   depends_on "openssl@1.1"
   depends_on "python" => :optional

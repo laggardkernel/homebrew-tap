@@ -5,8 +5,6 @@ class Aria2Options < Formula
   sha256 "1e2b7fd08d6af228856e51c07173cfcf987528f1ac97e04c5af4a47642617dfd"
   license "GPL-2.0-or-later"
 
-  bottle :unneeded
-
   # option "with-c-ares", "Build with C-Ares async DNS support"
   option "with-openssl", "Build with openssl support"
   option "with-gnutls", "Build with gnutls support"

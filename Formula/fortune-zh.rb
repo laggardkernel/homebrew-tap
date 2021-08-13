@@ -38,8 +38,6 @@ class FortuneZh < Formula
     end
   end
 
-  # bottle :unneeded
-
   resource "datfile" do
     url "https://github.com/ruanyf/fortunes/archive/master.tar.gz"
   end
