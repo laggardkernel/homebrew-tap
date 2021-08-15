@@ -1,4 +1,5 @@
 {
+  "license": "jfoster/tap",
   "wezterm": "wez/wezterm",
   "wezterm-nightly": "wez/wezterm"
 }
