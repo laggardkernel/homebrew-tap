@@ -9,7 +9,7 @@ class VersionFetcher
     require "json"
 
     html = URI(@url).open.read
-    regex = /href="\/ruanyf\/fortunes\/commit\/([a-z0-9]+?)">/
+    regex = /href="\/ruanyf\/fortunes\/commit\/([a-z0-9]{7,}+)">/
     m = html.match(regex)
     if m
       m[1][0..6]
