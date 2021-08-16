@@ -99,29 +99,6 @@ class Adguardhome < Formula
 
       system "make", "go-deps"
 
-      if OS.mac?
-        # https://github.com/AdguardTeam/AdGuardHome/issues/2807
-        # Dir["#{ENV["GOPATH"]}/pkg/mod/github.com/*/dnsproxy@*/proxy/server_udp.go"].each do |dst|
-        #   # inreplace = cp + mod + mv
-        #   chmod 0666, dst
-        #   chmod 0777, File.dirname(dst)
-        #   inreplace dst do |s|
-        #     s.gsub! "err = proxyutil.UDPSetOptions(udpListen)", "err = nil"
-        #   end
-        #   # system is called in subprocess, seems not current user, read err
-        #   # system "/usr/bin/sed", "-i", "''", "s/err = proxyutil.UDPSetOptions(udpListen)/err = nil/", dst
-        # end
-        Dir["#{ENV["GOPATH"]}/pkg/mod/github.com/*/dnsproxy@*/proxyutil/udp_unix.go"].each do |dst|
-          # Skip setting control msg for ipv4 udp conn, which impact listening addr
-          # err4 := ipv4.NewPacketConn(c).SetControlMessage(ipv4.FlagDst|ipv4.FlagInterface, true)
-          chmod 0666, dst
-          chmod 0777, File.dirname(dst)
-          inreplace dst do |s|
-            s.gsub!(/err4\s*:=\s*ipv4.NewPacketConn.+SetControlMessage.+/, "var err4 *int")
-          end
-        end
-      end
-
       system "make", "CHANNEL=#{channel}", "VERSION=#{version_str}", "go-build"
       system "upx", "-9", "-q", "AdGuardHome"
     end
