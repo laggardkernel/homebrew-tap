@@ -25,7 +25,6 @@ class CurlOptions < Formula
   option "with-c-ares", "Build with C-Ares async DNS support"
   option "with-gssapi", "Build with GSSAPI/Kerberos authentication support"
   option "with-libidn", "Build with international domain name support"
-  option "with-libmetalink", "Build with Metalink XML support"
   option "with-libssh2", "Build with scp and sftp support"
   option "with-libressl", "Build with LibreSSL instead of Secure Transport or OpenSSL"
   option "with-nghttp2", "Build with HTTP/2 support (requires OpenSSL or LibreSSL)"
@@ -52,7 +51,6 @@ class CurlOptions < Formula
   depends_on "brotli" => :optional
   depends_on "c-ares" => :optional
   depends_on "libidn" => :optional
-  depends_on "libmetalink" => :optional
   depends_on "libressl" => :optional
   depends_on "libssh2" => :optional
   depends_on "nghttp2" => :optional
@@ -118,7 +116,6 @@ class CurlOptions < Formula
     end
 
     args << (build.with?("libidn") ? "--with-libidn2" : "--without-libidn2")
-    args << (build.with?("libmetalink") ? "--with-libmetalink" : "--without-libmetalink")
     args << (build.with?("libssh2") ? "--with-libssh2" : "--without-libssh2")
     args << (build.with?("rtmpdump") ? "--with-librtmp" : "--without-librtmp")
 
