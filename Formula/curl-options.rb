@@ -23,18 +23,12 @@ class CurlOptions < Formula
 
   option "with-brotli", "Build with lossless compression support"
   option "with-c-ares", "Build with C-Ares async DNS support"
-  option "with-gssapi", "Build with GSSAPI/Kerberos authentication support"
-  option "with-libidn", "Build with international domain name support"
-  option "with-libssh2", "Build with scp and sftp support"
   option "with-libressl", "Build with LibreSSL instead of Secure Transport or OpenSSL"
-  option "with-nghttp2", "Build with HTTP/2 support (requires OpenSSL or LibreSSL)"
   option "with-openldap", "Build with OpenLDAP support"
-  option "with-openssl@1.1", "Build with OpenSSL 1.1 support"
-  option "with-rtmpdump", "Build with RTMP support"
+  option "with-openssl", "Build with OpenSSL support"
 
-  deprecated_option "with-rtmp" => "with-rtmpdump"
-  deprecated_option "with-ssh" => "with-libssh2"
   deprecated_option "with-ares" => "with-c-ares"
+  deprecated_option "with-openssl@1.1" => "with-openssl"
 
   # HTTP/2 support requires OpenSSL 1.0.2+ or LibreSSL 2.1.3+ for ALPN Support
   # which is currently not supported by Secure Transport (DarwinSSL).
@@ -47,15 +41,15 @@ class CurlOptions < Formula
   end
 
   depends_on "pkg-config" => :build
+  depends_on "libidn2"
+  depends_on "libssh2"
+  depends_on "nghttp2"
+  depends_on "rtmpdump"
   depends_on "zstd"
   depends_on "brotli" => :optional
   depends_on "c-ares" => :optional
-  depends_on "libidn" => :optional
   depends_on "libressl" => :optional
-  depends_on "libssh2" => :optional
-  depends_on "nghttp2" => :optional
   depends_on "openldap" => :optional
-  depends_on "rtmpdump" => :optional
 
   uses_from_macos "krb5"
   uses_from_macos "zlib"
@@ -63,9 +57,9 @@ class CurlOptions < Formula
   def install
     # Fail if someone tries to use both SSL choices.
     # Long-term, handle conflicting options case in core code.
-    if build.with?("libressl") && build.with?("openssl@1.1")
+    if build.with?("libressl") && build.with?("openssl")
       odie <<~EOS
-        --with-openssl@1.1 and --with-libressl are both specified and
+        --with-openssl and --with-libressl are both specified and
         curl can only use one at a time.
       EOS
     end
@@ -84,7 +78,19 @@ class CurlOptions < Formula
       --without-ca-path
       --with-ca-fallback
       --with-secure-transport
+      --with-libidn2
+      --with-librtmp
+      --with-libssh2
+      --without-libpsl
     ]
+
+    on_macos do
+      args << "--with-gssapi"
+    end
+
+    on_linux do
+      args << "--with-gssapi=#{Formula["krb5"].opt_prefix}"
+    end
 
     # cURL has a new firm desire to find ssl with PKG_CONFIG_PATH instead of using
     # "--with-ssl" any more. "when possible, set the PKG_CONFIG_PATH environment
@@ -93,31 +99,13 @@ class CurlOptions < Formula
     if MacOS.version < :mountain_lion
       args << "--with-ssl=#{Formula["openssl@1.1"].opt_prefix}"
       args << "--with-default-ssl-backend=openssl"
-      args << "--without-libpsl"
     elsif build.with? "libressl"
       args << "--with-ssl=#{Formula["libressl"].opt_prefix}"
       args << "--with-default-ssl-backend=libressl"
     else
       args << "--with-ssl=#{Formula["openssl@1.1"].opt_prefix}"
       args << "--with-default-ssl-backend=openssl"
-      args << "--without-libpsl"
     end
-
-    if build.with? "gssapi"
-      on_macos do
-        args << "--with-gssapi"
-      end
-
-      on_linux do
-        args << "--with-gssapi=#{Formula["krb5"].opt_prefix}"
-      end
-    else
-      args << "--without-gssapi"
-    end
-
-    args << (build.with?("libidn") ? "--with-libidn2" : "--without-libidn2")
-    args << (build.with?("libssh2") ? "--with-libssh2" : "--without-libssh2")
-    args << (build.with?("rtmpdump") ? "--with-librtmp" : "--without-librtmp")
 
     args << if build.with? "c-ares"
       "--enable-ares=#{Formula["c-ares"].opt_prefix}"
@@ -146,3 +134,4 @@ end
 
 # Ref
 # - https://everything.curl.dev/source/build/tls
+# - https://github.com/Homebrew/homebrew-core/pull/58274
