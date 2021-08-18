@@ -23,9 +23,9 @@ class CurlOptions < Formula
 
   option "with-brotli", "Build with lossless compression support"
   option "with-c-ares", "Build with C-Ares async DNS support"
-  option "with-libressl", "Build with LibreSSL instead of Secure Transport or OpenSSL"
   option "with-openldap", "Build with OpenLDAP support"
   option "with-openssl", "Build with OpenSSL support"
+  option "with-gnutls", "Build with GnuTLS support"
 
   deprecated_option "with-ares" => "with-c-ares"
   deprecated_option "with-openssl@1.1" => "with-openssl"
@@ -34,8 +34,8 @@ class CurlOptions < Formula
   # which is currently not supported by Secure Transport (DarwinSSL).
   if MacOS.version < :mountain_lion
     depends_on "openssl@1.1"
-  elsif build.with?("libressl")
-    depends_on "libressl"
+  elsif build.with?("gnutls")
+    depends_on "gnutls"
   else
     depends_on "openssl@1.1"
   end
@@ -48,7 +48,7 @@ class CurlOptions < Formula
   depends_on "zstd"
   depends_on "brotli" => :optional
   depends_on "c-ares" => :optional
-  depends_on "libressl" => :optional
+  depends_on "gnutls" => :optional
   depends_on "openldap" => :optional
 
   uses_from_macos "krb5"
@@ -57,9 +57,9 @@ class CurlOptions < Formula
   def install
     # Fail if someone tries to use both SSL choices.
     # Long-term, handle conflicting options case in core code.
-    if build.with?("libressl") && build.with?("openssl")
+    if build.with?("openssl") && build.with?("gnutls")
       odie <<~EOS
-        --with-openssl and --with-libressl are both specified and
+        --with-openssl and --with-gnutls are both specified and
         curl can only use one at a time.
       EOS
     end
@@ -99,9 +99,9 @@ class CurlOptions < Formula
     if MacOS.version < :mountain_lion
       args << "--with-ssl=#{Formula["openssl@1.1"].opt_prefix}"
       args << "--with-default-ssl-backend=openssl"
-    elsif build.with? "libressl"
-      args << "--with-ssl=#{Formula["libressl"].opt_prefix}"
-      args << "--with-default-ssl-backend=libressl"
+    elsif build.with? "gnutls"
+      args << "--with-gnutls=#{Formula["gnutls"].opt_prefix}"
+      args << "--with-default-ssl-backend=gnutls"
     else
       args << "--with-ssl=#{Formula["openssl@1.1"].opt_prefix}"
       args << "--with-default-ssl-backend=openssl"
