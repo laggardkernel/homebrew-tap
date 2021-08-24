@@ -4,7 +4,7 @@ class Aria2Options < Formula
   license "GPL-2.0-or-later"
 
   stable do
-    version "1.35.0"
+    version "1.36.0"
     url "https://github.com/aria2/aria2/releases/download/release-#{version}/aria2-#{version}.tar.xz"
     # sha256 ""
     depends_on "pkg-config" => :build
@@ -15,7 +15,7 @@ class Aria2Options < Formula
     depends_on "autoconf" => :build
     depends_on "automake" => :build
     depends_on "libtool"  => :build
-    depends_on "gettext" => :build
+    depends_on "gettext"  => :build
   end
 
   # option "with-c-ares", "Build with C-Ares async DNS support"
@@ -71,7 +71,8 @@ class Aria2Options < Formula
       args << "--with-openssl"
       # ENV.prepend_path "PKG_CONFIG_PATH", "#{Formula["openssl@1.1"].opt_lib}/pkgconfig"
       args << "--with-openssl-prefix=#{Formula["openssl@1.1"].opt_prefix}"
-      args << "--with-ca-bundle=#{etc}/openssl@1.1/cert.pem"
+      # args << "--with-ca-bundle=#{etc}/openssl@1.1/cert.pem"
+      args << "--with-ca-bundle=/etc/ssl/cert.pem"
       args << "--without-appletls"
       args << "--without-gnutls"
     else
