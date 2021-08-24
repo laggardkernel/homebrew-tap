@@ -7,6 +7,11 @@ class UnblockNeteaseMusic < Formula
   # sha256 ""
   license "MIT"
 
+  livecheck do
+    url :stable
+    strategy :github_latest
+  end
+
   bottle :unneeded
 
   depends_on "node"

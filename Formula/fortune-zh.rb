@@ -39,6 +39,7 @@ class FortuneZh < Formula
   end
 
   resource "datfile" do
+    # TODO: unable to access variable 'version' in resource block
     url "https://github.com/ruanyf/fortunes/archive/master.tar.gz"
   end
 

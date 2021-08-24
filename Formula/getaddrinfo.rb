@@ -12,10 +12,8 @@ class Getaddrinfo < Formula
     url "https://github.com/acdha/unix_tools/commits/master/bin/getaddrinfo"
     regex(%r{href="/acdha/unix_tools/tree/([a-z0-9]{7,}+)" })
     strategy :page_match do |page, regex|
-      # page.scan(regex).flatten.uniq
-      page.scan(regex).map do |match|
-        match&.first[0..6]
-      end
+      # Only return the 1st commit to avoid alphabetical version comparison
+      page.scan(regex).flatten.first&.slice!(0..6)
     end
   end
 
