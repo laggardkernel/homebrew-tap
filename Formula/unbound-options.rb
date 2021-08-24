@@ -14,10 +14,15 @@ class UnboundOptions < Formula
     regex(/^(?:release-)?v?(\d+(?:\.\d+)+)$/i)
   end
 
+  option "with-python", "Build with Python module"
+
   depends_on "libevent"
+  depends_on "nghttp2"
   depends_on "openssl@1.1"
-  depends_on "python" => :optional
+  depends_on "python@3.9" if build.with? "python"
   depends_on "swig" if build.with? "python"
+
+  uses_from_macos "expat"
 
   def install
     args = %W[
@@ -28,6 +33,7 @@ class UnboundOptions < Formula
       --enable-tfo-client
       --enable-tfo-server
       --with-libevent=#{Formula["libevent"].opt_prefix}
+      --with-libnghttp2=#{Formula["nghttp2"].opt_prefix}
       --with-ssl=#{Formula["openssl@1.1"].opt_prefix}
     ]
 
@@ -39,7 +45,8 @@ class UnboundOptions < Formula
     end
 
     if build.with? "python"
-      ENV.prepend "LDFLAGS", `#{Formula["python"].opt_prefix}/bin/python3-config --ldflags`.chomp
+      ENV.prepend "LDFLAGS", `#{Formula["python@3.9"].opt_prefix}/bin/python3-config --ldflags`.chomp
+      ENV.prepend "CPPFLAGS", `#{Formula["python@3.9"].opt_prefix}/bin/python3-config --cflags`.chomp
       ENV.prepend "PYTHON_VERSION", "3.9"
 
       args << "--with-pyunbound"
