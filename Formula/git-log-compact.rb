@@ -1,14 +1,28 @@
 class GitLogCompact < Formula
   desc "Compact alternative to git log --oneline"
   homepage "https://github.com/cxw42/git-log-compact"
+  version "72e8207"
+  url "https://github.com/cxw42/git-log-compact/archive/#{version}.tar.gz"
+  # sha256 ""
   head "https://github.com/cxw42/git-log-compact.git", branch: "fewer-qx"
+  license "GPL-2.0"
+
+  livecheck do
+    url "https://github.com/cxw42/git-log-compact/commits/fewer-qx/git-log-compact"
+    regex(%r{href="/cxw42/git-log-compact/tree/([a-z0-9]{7,}+)" })
+    strategy :page_match do |page, regex|
+      # Only return the 1st commit to avoid alphabetical version comparison
+      page.scan(regex).flatten.first&.slice!(0..6)
+    end
+  end
 
   bottle :unneeded
 
-  depends_on "perl" if MacOS.version >= :mojave
+  # depends_on "perl" if MacOS.version >= :mojave
 
   def install
     bin.install "git-log-compact"
+    prefix.install_metafiles
   end
 
   def caveats

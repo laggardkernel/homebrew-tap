@@ -1,37 +1,20 @@
-
-class VersionFetcher
-  def initialize
-    @url = "https://raw.githubusercontent.com/cokebar/gfwlist2dnsmasq/master/gfwlist2dnsmasq.sh"
-  end
-
-  def version
-    require "open-uri"
-    require "net/http"
-    require "json"
-
-    html = URI(@url).open.read
-    regex = /version:\s*v?(\d+(?:\.\d+)+[a-z]?).*/i
-
-    m = html.match(regex)
-    if m
-      m[1]
-    else
-      "latest"
-    end
-  end
-end
-
 class Gfwlist2dnsmasq < Formula
   desc "Shell script which convert gfwlist into dnsmasq rules."
   homepage "https://github.com/cokebar/gfwlist2dnsmasq"
-  url "https://github.com/cokebar/gfwlist2dnsmasq/archive/master.tar.gz"
-  version VersionFetcher.new.version.to_s
-  # sha256
+  version "202e52f"
+  url "https://github.com/cokebar/gfwlist2dnsmasq/archive/#{version}.tar.gz"
+  # sha256 ""
   head "https://github.com/cokebar/gfwlist2dnsmasq.git"
   license "GPL-3.0"
+  version_scheme 1
 
   livecheck do
-    skip "Version unknown before installation"
+    url "https://github.com/cokebar/gfwlist2dnsmasq/commits/master/gfwlist2dnsmasq.sh"
+    regex(%r{href="/cokebar/gfwlist2dnsmasq/tree/([a-z0-9]{7,}+)" })
+    strategy :page_match do |page, regex|
+      # Only return the 1st commit to avoid alphabetical version comparison
+      page.scan(regex).flatten.first&.slice!(0..6)
+    end
   end
 
   bottle :unneeded
