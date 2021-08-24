@@ -11,18 +11,18 @@ Collection of custom and deprecated formulae.
   - Fix checkalive
 - 12-01-2020
   - `Homebrew.args` is deprecated in 2.6.0. Passing value into formula build with
-      `--with-key=value` is not possible anymore.
+    `--with-key=value` is not possible anymore.
 - 02-28-2020
   - Drops cask `mellow`, which is now maintained in Homebrew Cask repo
 - 02-26-2020
   - Rename some formulae to avoid name conflicting after `brew tap-pin` is
-      obsolete
+    obsolete
 - 10-04-2019
   - Remove formula `libcaca`, cause dependency `imlib2` is added in formula in
-      homebrew-core
+    homebrew-core
 - 08-30-2019
   - Formulae with option `--with-openssl@1.1` is being removed cause formulae
-      from Homebrew-core are moving to openssl@1.1.
+    from Homebrew-core are moving to openssl@1.1.
 
 </details>
 
@@ -38,7 +38,7 @@ brew install laggardkernel/tap/<formula>
 
 - `brew switch`, the old goodie dropped by brew in 2.6.0
 - `brew fix-perm`, fix formula file perms broke by `sudo brew services`
-- `brew git-gc`, copied from ymyzk/homebrew-ymyzk, original tap died
+- `brew git-gc`, copied from ymyzk/homebrew-ymyzk, original tap unmaintained
 - `brew bat formula`, `bat` path hardcoding removed
 
 ## Formulae
