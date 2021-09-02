@@ -21,9 +21,7 @@ class CurlOptions < Formula
 
   keg_only :provided_by_macos
 
-  option "with-brotli", "Build with lossless compression support"
   option "with-c-ares", "Build with C-Ares async DNS support"
-  option "with-openldap", "Build with OpenLDAP support"
   option "with-openssl", "Build with OpenSSL support"
   option "with-gnutls", "Build with GnuTLS support"
 
@@ -39,9 +37,11 @@ class CurlOptions < Formula
   end
 
   depends_on "pkg-config" => :build
+  depends_on "brotli"
   depends_on "libidn2"
   depends_on "libssh2"
   depends_on "nghttp2"
+  depends_on "openldap"
   depends_on "rtmpdump"
   depends_on "zstd"
   depends_on "brotli" => :optional
