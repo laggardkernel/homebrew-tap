@@ -13,6 +13,8 @@ class LibassOptions < Formula
     depends_on "libtool" => :build
   end
 
+  keg_only "libass with option support conflicts with the homebrew-core one"
+
   option "with-fontconfig", "Disable CoreText backend in favor of the more traditional fontconfig (macOS only)"
 
   depends_on "nasm" => :build
@@ -20,7 +22,7 @@ class LibassOptions < Formula
 
   depends_on "freetype"
   depends_on "fribidi"
-  depends_on "harfbuzz" => :recommended
+  depends_on "harfbuzz"
   depends_on "fontconfig" => :optional
 
   on_linux do
@@ -28,10 +30,14 @@ class LibassOptions < Formula
   end
 
   def install
-    args = %W[--disable-dependency-tracking --prefix=#{prefix}]
-    args << "--disable-harfbuzz" if build.without? "harfbuzz"
+    system "autoreconf", "-i" if build.head?
+    args = %W[
+      --disable-dependency-tracking
+      --prefix=#{prefix}
+    ]
+
+    # libass uses coretext on macOS, fontconfig on Linux
     on_macos do
-      # libass uses coretext on macOS, fontconfig on Linux
       args << if build.with? "fontconfig"
         "--disable-coretext"
       else
@@ -39,9 +45,26 @@ class LibassOptions < Formula
       end
     end
 
-    system "autoreconf", "-i" if build.head?
     system "./configure", *args
     system "make", "install"
+  end
+
+  def caveats
+    <<~EOS
+      '--with-fontconfig' disables CoreText backend in favor of the more traditional
+      fontconfig (default on linuxbrew). The difference is, libass with CoreText
+      backend uses font's "FullName" to search the font, while libass with fontconfig
+      backend uses "PostScriptName". Taking font "方正准圆" for example, the FullName
+      is "方正准圆_GBK" and PostScriptName is "FZY3K--GBK1-0".
+      Obviously, for any fansub, FullName is preferred over PostScriptName.
+
+      The problem is 'libass' in homebrew-core is compiled with CoreText for macOS.
+      The same happens with the 'libass' library used by IINA.
+
+      References
+
+      - https://github.com/iina/iina/issues/2711
+    EOS
   end
 
   test do
