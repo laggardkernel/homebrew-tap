@@ -1,26 +1,40 @@
 class Cdns < Formula
   desc "Cure your poinsoned DNS with EDNS option detection"
-  # homepage "https://github.com/laggardkernel/cdns"
-  # head "https://github.com/laggardkernel/cdns.git"
   homepage "https://github.com/semigodking/cdns"
-  url "https://github.com/semigodking/cdns/archive/release-1.1.tar.gz"
-  sha256 "5455c91bc48cbc3443c2f8fa6b251b775a6239744e8e66544c0e957d3b79cc48"
+  # HEAD only, no regular release
+  version "1.1"
+  url "https://github.com/semigodking/cdns/archive/release-#{version}.tar.gz"
+  # sha256 ""
+  license "Apache-2.0"
   head "https://github.com/semigodking/cdns.git"
-  # TODO: head failed to build.
-  #  cdns_init_server(...) bind: Invalid argument
+  # TODO: head failed to build: cdns_init_server(...) bind: Invalid argument
 
-  # Caveat: HEAD still fails to be build.
-
-  depends_on "argp-standalone" => :build
   depends_on "cmake" => :build
+  # Makefile: LIBS := -levent -lm -largp
+  # /usr/lib/libm.dylib
+  depends_on "argp-standalone"
+  depends_on "libevent"
+  # TODO: Marked dependencies :build if build the pkg statically
 
   def install
-    if build
+    if OS.mac?
       inreplace "blacklist.c" do |s|
         s.gsub! "tdestroy(ipv4_blacklist_root, _blacklist_freenode);",
                 "// tdestroy(ipv4_blacklist_root, _blacklist_freenode);"
       end
+      if build.head?
+        inreplace "Makefile" do |s|
+          s.gsub! "-static -static-libgcc", "-Bstatic"
+        end
+        version_str = version.to_s.start_with?("HEAD") ? version.to_s : "v#{version}"
+        inreplace "main.c" do |s|
+          s.gsub!(/cdns - version:.+?\\n/, format('cdns - version: %s\n', version_str))
+        end
+      end
 
+      ENV.prepend "CFLAGS", "-I#{HOMEBREW_PREFIX}/include -I/usr/include/machine"
+      # CFLAGS used in Makefile, pass LDFLAGS with CFLAGS
+      ENV.append "CFLAGS", "-L#{HOMEBREW_PREFIX}/lib"
       # # Another solution for the endian.h problem on macOS
       # # Since we changed CFLAGS, this is not needed.
       # # https://stackoverflow.com/q/20813028/5101148
@@ -30,16 +44,17 @@ class Cdns < Formula
       # end
     end
 
-    ENV.append "CFLAGS", "-I/usr/local/include -L/usr/local/lib -I/usr/include/machine -largp"
-    mkdir "build" do
-      system "cmake", *std_cmake_args, ".."
-      system "make", "install", "PREFIX=#{prefix}"
-    end
+    # if build.head?
+    #   system "cmake", *std_cmake_args, ".."
+    #   system "make", "install", "PREFIX=#{prefix}"
+    # end
+    system "make"
+    bin.install "cdns"
 
     inreplace "config.json.example" do |s|
       s.gsub! '"daemon": true', '"daemon": false'
       s.gsub! '"log": "syslog:daemon"', '"log": "stderr"'
-      s.gsub! '"listen_port": 1053', '"listen_port": 5355'
+      # s.gsub! '"listen_port": 1053', '"listen_port": 5355'
       s.gsub! '"ip_port": "203.80.96.10"', '"ip_port": "8.8.4.4:53"'
     end
 
@@ -54,6 +69,7 @@ class Cdns < Formula
     etc.install etc_dst
     # equivalent to
     # etc.install "#{etc_dst}/"
+    prefix.install_metafiles
   end
 
   def caveats
@@ -99,3 +115,4 @@ class Cdns < Formula
     system bin/"cdns", "--help"
   end
 end
+# https://github.com/semigodking/cdns/issues/15

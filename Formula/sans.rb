@@ -1,7 +1,9 @@
 class Sans < Formula
   desc "Simple anti-spoofing DNS server"
   homepage "https://github.com/puxxustc/sans"
+  # HEAD only, no regular release
   head "https://github.com/puxxustc/sans.git"
+  license "GPL-3.0"
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
@@ -15,6 +17,7 @@ class Sans < Formula
   end
 
   test do
-    system "true"
+    system "sans", "--help"
   end
 end
+# https://github.com/puxxustc/sans/blob/master/contrib/homebrew/sans.rb
