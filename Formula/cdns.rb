@@ -6,30 +6,41 @@ class Cdns < Formula
   url "https://github.com/semigodking/cdns/archive/release-#{version}.tar.gz"
   # sha256 ""
   license "Apache-2.0"
+  revision 1
   head "https://github.com/semigodking/cdns.git"
-  # TODO: head failed to build: cdns_init_server(...) bind: Invalid argument
 
+  depends_on "argp-standalone" => :build
   depends_on "cmake" => :build
   # Makefile: LIBS := -levent -lm -largp
   # /usr/lib/libm.dylib
-  depends_on "argp-standalone"
+  # TODO: the static build makes on sense, still depends on libevent dynamically.
   depends_on "libevent"
-  # TODO: Marked dependencies :build if build the pkg statically
 
   def install
-    if OS.mac?
-      inreplace "blacklist.c" do |s|
-        s.gsub! "tdestroy(ipv4_blacklist_root, _blacklist_freenode);",
-                "// tdestroy(ipv4_blacklist_root, _blacklist_freenode);"
+    # TODO: backport static build on stable version, remove in next release
+    if build.stable?
+      inreplace "Makefile" do |s|
+        s.gsub! '$(CC) -o $@ $(CFLAGS) $^ $(LIBS)',
+          "$(CC) -o $@ $(CFLAGS) $^ $(LIBS)\n	$(CC) -static -static-libgcc -s -o $@-static $(CFLAGS) $^ $(LIBS)"
       end
+    end
+
+    if OS.mac?
+      # TODO: head failed to run: cdns_init_server(...) bind: Invalid argument
       if build.head?
-        inreplace "Makefile" do |s|
-          s.gsub! "-static -static-libgcc", "-Bstatic"
-        end
         version_str = version.to_s.start_with?("HEAD") ? version.to_s : "v#{version}"
         inreplace "main.c" do |s|
           s.gsub!(/cdns - version:.+?\\n/, format('cdns - version: %s\n', version_str))
         end
+      end
+
+      inreplace "Makefile" do |s|
+        s.gsub! "-static -static-libgcc", "-Bstatic"
+      end
+
+      inreplace "blacklist.c" do |s|
+        s.gsub! "tdestroy(ipv4_blacklist_root, _blacklist_freenode);",
+                "// tdestroy(ipv4_blacklist_root, _blacklist_freenode);"
       end
 
       ENV.prepend "CFLAGS", "-I#{HOMEBREW_PREFIX}/include -I/usr/include/machine"
@@ -50,6 +61,7 @@ class Cdns < Formula
     # end
     system "make"
     bin.install "cdns"
+    bin.install "cdns-static"
 
     inreplace "config.json.example" do |s|
       s.gsub! '"daemon": true', '"daemon": false'
@@ -77,8 +89,8 @@ class Cdns < Formula
       It's not recommended to run cdns alone. A forwarding DNS server
       with cache support, like dnsmasq or unbound, should be put before it.
 
-      CureDNS runs on localhost (127.0.0.1), port 5355 by default.
-      If you would like to change these settings, edit the plist service file.
+      CureDNS runs on localhost (127.0.0.1), port 1053 by default.
+      If you would like to change these settings, edit the config file.
 
         #{etc}/cdns/config.json
     EOS
