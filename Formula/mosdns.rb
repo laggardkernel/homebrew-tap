@@ -120,7 +120,8 @@ class Mosdns < Formula
 
         sudo cp -f #{plist_path} /Library/LaunchAgents/
 
-      After using `sudo` with `brew services`. Run `brew fix-perm`.
+      If you prefer using `sudo brew services`. Run `brew fix-perm` after it
+      to fix the ruined file permissions.
     EOS
   end
 

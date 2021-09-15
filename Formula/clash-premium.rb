@@ -73,7 +73,8 @@ class ClashPremium < Formula
 
         sudo cp -f #{plist_path} /Library/LaunchAgents/
 
-      Dont' use `sudo brew services`. This very command will ruin the file perms.
+      If you prefer using `sudo brew services`. Run `brew fix-perm` after it
+      to fix the ruin file permissions.
 
       A global conf folder `/usr/local/etc/clash` is created, with prebuilt
       dashboard static files. Before you start the launchd service, put a conf
