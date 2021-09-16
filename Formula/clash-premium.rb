@@ -27,6 +27,11 @@ class ClashPremium < Formula
     url "https://github.com/haishanh/yacd/archive/gh-pages.tar.gz"
   end
 
+  resource "mmdb" do
+    # alecthw/mmdb_china_ip_list but not Hackl0us/GeoIP2-CN for global support
+    url "https://cdn.jsdelivr.net/gh/alecthw/mmdb_china_ip_list@release/Country.mmdb"
+  end
+
   def install
     # binary name: clash-darwin-amd64-2021.02.21
     bin.install Dir.glob("clash*")[0] => "clash"
@@ -40,6 +45,9 @@ class ClashPremium < Formula
     resource("yacd").stage do
       cp_r ".", "#{share_dst}/yacd"
     end
+    resource("mmdb").stage do
+      cp "Country.mmdb", "#{share_dst}/"
+    end
 
     # Another copy of the dashboard, to be installed into etc later
     etc_temp = "#{buildpath}/etc_temp"
@@ -50,6 +58,7 @@ class ClashPremium < Formula
       [
         "clash-dashboard",
         "yacd",
+        "Country.mmdb",
       ].each do |dst|
         # Skip saving as *.default, overwrite existing dashboards directly
         # dst_default = config_path/"#{dst}.default"
