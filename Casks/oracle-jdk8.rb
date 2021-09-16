@@ -8,11 +8,13 @@ cask "oracle-jdk8" do
         "oraclelicense" => "accept-securebackup-cookie",
       }
   name "Java Standard Edition Development Kit"
-  homepage "https://www.oracle.com/java/technologies/javase-downloads.html#JDK#{version.minor}"
+  homepage "https://www.oracle.com/java/technologies/downloads/#java8-mac"
 
   livecheck do
-    url "https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html"
-    regex(%r{data-file=.+?/jdk/([^/]+)/([^/]+).+?macosx?.+?\.dmg}i)
+    # The separate doc download page still exists. Maybe we should use that
+    # url "https://www.oracle.com/java/technologies/javase-jdk8-doc-downloads.html"
+    url "https://www.oracle.com/java/technologies/downloads/#java8-mac"
+    regex(%r{data-file=.+?/jdk/([^/]+)/([^/]+)/jdk-8u\d+-macosx?.+?\.dmg}i)
     strategy :page_match do |page, regex|
       page.scan(regex).map do |match|
         match&.first.sub(/^8u/, "1.8.0_") + "," + match&.second

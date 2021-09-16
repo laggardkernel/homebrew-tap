@@ -7,11 +7,13 @@ cask "oracle-jdk11" do
         "oraclelicense" => "accept-securebackup-cookie",
       }
   name "Java Standard Edition Development Kit"
-  homepage "https://www.oracle.com/java/technologies/javase-downloads.html#JDK#{version.major}"
+  homepage "https://www.oracle.com/java/technologies/downloads/#java11-mac"
 
   livecheck do
-    url "https://www.oracle.com/java/technologies/javase-jdk11-downloads.html"
-    regex(%r{data-file=.+?/(\d+(?:\.\d+)*)(\+|%2B)(\d+(?:\.\d+)*)/(.+)/jdk-(\d+(?:.\d+)*).*?osx.*?\.dmg}i)
+    # The separate doc download page still exists. Maybe we should use that
+    # url "https://www.oracle.com/java/technologies/javase-jdk11-doc-downloads.html"
+    url "https://www.oracle.com/java/technologies/downloads/#java11-mac"
+    regex(%r{data-file=.+?/(\d+(?:\.\d+)*)(\+|%2B)(\d+(?:\.\d+)*)/(.+)/jdk-(11(?:.\d+)*).*?osx.*?\.dmg}i)
     strategy :page_match do |page, regex|
       match = page.match(regex)
       "#{match[1]},#{match[3]}:#{match[4]}"
