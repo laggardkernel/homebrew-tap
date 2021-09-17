@@ -1,8 +1,9 @@
 class LibassOptions < Formula
   desc "Subtitle renderer for the ASS/SSA subtitle format"
   homepage "https://github.com/libass/libass"
-  url "https://github.com/libass/libass/releases/download/0.15.1/libass-0.15.1.tar.xz"
-  sha256 "1cdd39c9d007b06e737e7738004d7f38cf9b1e92843f37307b24e7ff63ab8e53"
+  version "0.15.2"
+  url "https://github.com/libass/libass/releases/download/#{version}/libass-#{version}.tar.xz"
+  # sha256 ""
   license "ISC"
 
   head do
@@ -19,7 +20,6 @@ class LibassOptions < Formula
 
   depends_on "nasm" => :build
   depends_on "pkg-config" => :build
-
   depends_on "freetype"
   depends_on "fribidi"
   depends_on "harfbuzz"
