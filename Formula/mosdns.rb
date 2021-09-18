@@ -1,7 +1,7 @@
 class Mosdns < Formula
   desc "Flexible forwarding DNS client"
   homepage "https://github.com/IrineSistiana/mosdns"
-  version "1.8.6"
+  version "1.8.7"
   license "GPL-3.0"
 
   head do
@@ -19,7 +19,7 @@ class Mosdns < Formula
 
   option "without-prebuilt", "Skip prebuilt binary and build from source"
 
-  if build.without?("prebuilt")
+  if build.without?("prebuilt") || ( OS.mac? && Hardware::CPU.arm? )
     # http downloading is quick than git cloning
     url "https://github.com/IrineSistiana/mosdns/archive/refs/tags/v#{version}.tar.gz"
     # Git repo is not cloned into a sub-folder
@@ -27,7 +27,7 @@ class Mosdns < Formula
 
     depends_on "go" => :build
     depends_on "upx" => :build
-  elsif OS.mac?
+  elsif OS.mac? && Hardware::CPU.intel?
     url "https://github.com/IrineSistiana/mosdns/releases/download/v#{version}/mosdns-darwin-amd64.zip"
   elsif OS.linux? && Hardware::CPU.intel?
     url "https://github.com/IrineSistiana/mosdns/releases/download/v#{version}/mosdns-linux-amd64.zip"

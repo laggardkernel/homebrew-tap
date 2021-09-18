@@ -28,8 +28,9 @@ class ClashPremium < Formula
   end
 
   resource "mmdb" do
-    # alecthw/mmdb_china_ip_list but not Hackl0us/GeoIP2-CN for global support
-    url "https://cdn.jsdelivr.net/gh/alecthw/mmdb_china_ip_list@release/Country.mmdb"
+    # Alternative: alecthw/mmdb_china_ip_list, which has global support
+    # url "https://cdn.jsdelivr.net/gh/alecthw/mmdb_china_ip_list@release/Country.mmdb"
+    url "https://cdn.jsdelivr.net/gh/Hackl0us/GeoIP2-CN@release/Country.mmdb"
   end
 
   def install
