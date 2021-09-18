@@ -8,12 +8,17 @@ class VersionFetcher
     require "net/http"
     require "json"
 
-    html = URI(@url).open.read
-    regex = /href=[^>]+?>NVIM\s*v?([^<]+?)</i
-    m = html.match(regex)
-    if m
-      m[1]
-    else
+    begin
+      html = URI(@url).open.read
+      regex = /href=[^>]+?>NVIM\s*v?([^<]+?)</i
+      m = html.match(regex)
+      if m
+        m[1]
+      else
+        "latest"
+      end
+    rescue OpenURI::HTTPError => e
+      # '404 Not Found' may be raise if the nightly build failed
       "latest"
     end
   end
