@@ -1,6 +1,6 @@
 cask "mfiles-helper" do
-  version "2.2.0,20210408"
-  sha256 "a09d7b7974bdf1d6f42476269a5a21157af1f3c7c23683d31405e78cb9ac8efd"
+  version "2.2.1,20210916"
+  sha256 "2049f40eb7594cc2cb90baece68a21024b2aa9bfb6eacbc0ac76f24ab5b6dcdd"
 
   # version_scheme 1 # not needed in Cask
 
@@ -22,7 +22,7 @@ cask "mfiles-helper" do
   auto_updates false
   depends_on macos: ">= :yosemite"
 
-  app "MFiles Helper.app"
+  app "爱传送.app", target: "MFiles Helper.app"
 
   zap trash: [
     "/Users/wyh/Library/Preferences/com.windtune.itransfer.plist",
