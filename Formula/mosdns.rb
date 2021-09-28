@@ -1,7 +1,7 @@
 class Mosdns < Formula
   desc "Flexible forwarding DNS client"
   homepage "https://github.com/IrineSistiana/mosdns"
-  version "1.8.7"
+  version "2.0.0-alpha2"
   license "GPL-3.0"
 
   head do
@@ -16,6 +16,14 @@ class Mosdns < Formula
   end
 
   bottle :unneeded
+
+  livecheck do
+    url 'https://github.com/IrineSistiana/mosdns/releases/'
+    regex(%r{href=.*?/releases/tag/v?(\d+(?:\.\d+)+(-[^>]+)?)">}i)
+    strategy :page_match do |page|
+      page.scan(regex).map { |match| match&.first }
+    end
+  end
 
   option "without-prebuilt", "Skip prebuilt binary and build from source"
 
