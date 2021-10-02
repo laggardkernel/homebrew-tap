@@ -2,7 +2,6 @@ class LuaLanguageServer < Formula
   desc "Language Server for Lua and coded by Lua, the sumneko.lua ext for VSCode"
   homepage "https://github.com/sumneko/lua-language-server"
   version "2.3.7"
-  url "https://marketplace.visualstudio.com/_apis/public/gallery/publishers/sumneko/vsextensions/lua/#{version}/vspackage"
   license "MIT"
 
   livecheck do
@@ -16,18 +15,66 @@ class LuaLanguageServer < Formula
     end
   end
 
-  # TODO: build from source, skip prebuilt
-  #  https://github.com/sumneko/lua-language-server/wiki/Build-and-Run-(Standalone)
+  head do
+    # Clone to get submodules. Note git repo is not cloned into a sub-folder.
+    url "https://github.com/sumneko/lua-language-server.git", branch: "master"
+    depends_on "ninja" => :build
+  end
+
+  bottle :unneeded
+
+  option "without-prebuilt", "Skip prebuilt binary and build from source"
+
+  if build.without?("prebuilt")
+    url "https://github.com/sumneko/lua-language-server.git", tag: version.to_s
+    depends_on "ninja" => :build
+  else
+    url "https://marketplace.visualstudio.com/_apis/public/gallery/publishers/sumneko/vsextensions/lua/#{version}/vspackage"
+  end
 
   def install
-    # the vsix is in fact tar.gz
-    system "tar", "-xvf", "sumneko.lua-#{version}.vsix"
+    if build.without?("prebuilt") || build.head?
+      cd "./3rd/luamake" do
+        # HOME is /private/tmp/lua-language-server-*/.brew_home during compiling.
+        inreplace "./3rd/bee.lua/test/test_filesystem.lua" do |s|
+          s.gsub! "function test_fs:test_appdata_path()", "function appdata_path()"
+        end
+        # Don't follow the official guide to use "./compile/install.sh", which
+        #  modifies the shell init files.
+        if OS.mac?
+          system "ninja", "-f", "compile/ninja/macos.ninja"
+        elsif OS.linux?
+          system "ninja", "-f", "compile/ninja/linux.ninja"
+        end
+      end
+      system "./3rd/luamake/luamake", "rebuild"
+      mkdir_p "./extension/server/"
+      [
+        "bin",
+        "locale",
+        "meta",
+        "script",
+        "debugger.lua",
+        "main.lua",
+        "platform.lua",
+      ].each do |s|
+        cp_r "./#{s}", "./extension/server"
+      end
+    else
+      # the vsix is in fact tar.gz
+      system "tar", "-xvf", "sumneko.lua-#{version}.vsix"
+    end
+
     if OS.mac?
-      bin.install "extension/server/bin/macOS/lua-language-server"
-      lib.install Dir["extension/server/bin/macOS/*.so"]
+      cd "extension/server/bin/macOS" do
+        bin.install "lua-language-server"
+        lib.install Dir["*.so"]
+      end
     elsif OS.linux?
-      bin.install "extension/server/bin/Linux/lua-language-server"
-      lib.install Dir["extension/server/bin/Linux/*.so"]
+      cd "extension/server/bin/Linux" do
+        bin.install "lua-language-server"
+        lib.install Dir["*.so"]
+      end
     end
     rm_rf "extension/server/bin"
     share.install "extension/server" => "lua-language-server"
@@ -49,3 +96,5 @@ class LuaLanguageServer < Formula
     system "#{bin}/lua-language-server", "-v"
   end
 end
+# - https://github.com/sumneko/lua-language-server/wiki/Build-and-Run-(Standalone)
+# - https://github.com/saadparwaiz1/homebrew-personal/blob/main/Formula/lua-language-server.rb
