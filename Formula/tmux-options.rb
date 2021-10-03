@@ -1,16 +1,16 @@
 class TmuxOptions < Formula
   desc "Terminal multiplexer with custom FPS"
   homepage "https://tmux.github.io/"
-  version "3.2a"
+  version "3.3-rc"
   url "https://github.com/tmux/tmux/releases/download/#{version}/tmux-#{version}.tar.gz"
   # sha256 ""
   license "ISC"
-  revision 1
 
   stable do
-    # Remove in 3.3. Fix passthrough of big chunk of data
-    # https://github.com/tmux/tmux/issues/2814#issuecomment-895800423
-    patch :DATA
+    patch :p0 do
+      # TEMP: fix cursor blinking (or cnorm?) within tmux
+      url "https://github.com/tmux/tmux/files/7265967/tmux-cursor.diff.txt"
+    end
   end
 
   livecheck do
@@ -113,16 +113,3 @@ end
 # https://github.com/Homebrew/brew/issues/5730
 # https://github.com/Homebrew/brew/pull/6857
 # Even Homebrew.args is private?
-
-__END__
-diff -u -p -r a/tty.c b/tty.c
---- a/tty.c	6 Aug 2021 07:32:21 -0000	1.397
-+++ b/tty.c	10 Aug 2021 07:33:57 -0000
-@@ -2041,6 +2041,7 @@ tty_set_selection(struct tty *tty, const
-
- 	b64_ntop(buf, len, encoded, size);
- 	tty_putcode_ptr2(tty, TTYC_MS, "", encoded);
-+	tty->client->redraw = EVBUFFER_LENGTH(tty->out);
-
- 	free(encoded);
- }
