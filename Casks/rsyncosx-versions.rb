@@ -16,6 +16,20 @@ cask "rsyncosx-versions" do
     url "https://github.com/rsyncOSX/RsyncOSX/releases/download/v#{version}/RsyncOSX.#{version}.dmg"
   end
 
+  livecheck do
+    url "https://github.com/rsyncOSX/RsyncOSX/releases"
+    strategy :page_match do |page|
+      if MacOS.version <= :mojave
+        "6.4.2"
+      elsif MacOS.version <= :catalina
+        "6.5.8"
+      else
+        regex(%r{href=.*?tree\/v?(\d+(?:\.\d+)*)}i)
+        page.scan(regex).map { |match| match&.first }
+      end
+    end
+  end
+
   name "RsyncOSX"
   desc "GUI for rsync"
   homepage "https://github.com/rsyncOSX/RsyncOSX"
