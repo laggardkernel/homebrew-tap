@@ -64,10 +64,11 @@ module Homebrew
   end
 end
 
-# https://github.com/Homebrew/brew/pull/9209/files#diff-26706512ec52a22b56d7a5313ead6332cc0472077811324b62c0498f2298e25e
+# https://github.com/Homebrew/discussions/discussions/339#discussioncomment-246650
+# https://github.com/Homebrew/brew/pull/9209
 #
-# Homebrew/brew@d1f3e39 Update commands to generate usage banner
-# Homebrew/brew@3323724 cmd: indicate multiple named args in usage banner
-# Homebrew/brew@74fb058 More deprecations for Homebrew 2.7.0.
-# Homebrew/brew@5be4c9b Upgrade `typed` sigils.
-# Homebrew/brew@d496f5c Deprecations for Homebrew 2.6.0
+# https://github.com/Homebrew/brew/commit/d1f3e39 Update commands to generate usage banner
+# https://github.com/Homebrew/brew/commit/3323724 cmd: indicate multiple named args in usage banner
+# https://github.com/Homebrew/brew/commit/74fb058 More deprecations for Homebrew 2.7.0.
+# https://github.com/Homebrew/brew/commit/5be4c9b Upgrade `typed` sigils.
+# https://github.com/Homebrew/brew/commit/d496f5c Deprecations for Homebrew 2.6.0
