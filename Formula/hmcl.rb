@@ -35,7 +35,7 @@ class Hmcl < Formula
       #  Just 'cd' into it. https://github.com/huanghongxun/HMCL/issues/317
       [ -d "$GAMEDIR" ] || mkdir -p "$GAMEDIR"
       cd "$HOME/.local/share"
-      java -jar "#{opt_prefix}/share/hmcl/HMCL.jar"
+      java -jar "#{opt_prefix}/share/hmcl/HMCL.jar" "$@"
     EOS
     bin.install "hmcl"
 
