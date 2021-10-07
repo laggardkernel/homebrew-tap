@@ -8,15 +8,18 @@ class Amidst < Formula
   bottle :unneeded
 
   def install
-    mkdir_p "./#{name}"
-    mv Dir["#{name}-*.jar"][0], "./#{name}/#{name}.jar"
-    share.install "#{name}"
+    pkg_name="amidst"
+    bin_name="amidst"
 
-    (buildpath/"#{name}").write <<~EOS
+    mkdir_p "./#{pkg_name}"
+    mv Dir["#{bin_name}-*.jar"][0], "./#{pkg_name}/#{bin_name}.jar"
+    share.install "#{pkg_name}"
+
+    (buildpath/"#{bin_name.downcase}").write <<~EOS
       #!/bin/sh
-      java -jar "#{opt_prefix}/share/#{name}/#{name}.jar" "$@"
+      java -jar "#{opt_prefix}/share/#{pkg_name}/#{bin_name}.jar" "$@"
     EOS
-    bin.install "#{name}"
+    bin.install "#{bin_name.downcase}"
 
     prefix.install_metafiles
   end

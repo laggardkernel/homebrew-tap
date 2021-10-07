@@ -8,11 +8,14 @@ class Mcaselector < Formula
   bottle :unneeded
 
   def install
-    mkdir_p "./#{name}"
-    mv Dir["#{name}-*.jar"][0], "./#{name}/#{name}.jar"
-    share.install "#{name}"
+    pkg_name="mcaselector"
+    bin_name="mcaselector"
 
-    (buildpath/"#{name}").write <<~EOS
+    mkdir_p "./#{pkg_name}"
+    mv Dir["#{bin_name}-*.jar"][0], "./#{pkg_name}/#{bin_name}.jar"
+    share.install "#{pkg_name}"
+
+    (buildpath/"#{bin_name.downcase}").write <<~EOS
       #!/bin/sh
       # Pre-compiled with newer (JDK 16)
       # https://stackoverflow.com/a/7334780/5101148
@@ -20,12 +23,12 @@ class Mcaselector < Formula
       version="${version%%.*}"
       if [ "$version" -lt 16 ]; then
         export JAVA_HOME="#{HOMEBREW_PREFIX}/opt/java"
-        /usr/bin/java -jar "#{opt_prefix}/share/#{name}/#{name}.jar" "$@"
+        /usr/bin/java -jar "#{opt_prefix}/share/#{pkg_name}/#{bin_name}.jar" "$@"
       else
-        java -jar "#{opt_prefix}/share/#{name}/#{name}.jar" "$@"
+        java -jar "#{opt_prefix}/share/#{pkg_name}/#{bin_name}.jar" "$@"
       fi
     EOS
-    bin.install "#{name}"
+    bin.install "#{bin_name.downcase}"
 
     prefix.install_metafiles
   end

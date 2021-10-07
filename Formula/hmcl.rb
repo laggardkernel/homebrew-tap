@@ -20,11 +20,14 @@ class Hmcl < Formula
   bottle :unneeded
 
   def install
-    mkdir_p "./hmcl"
-    mv Dir["HMCL-*.jar"][0], "./hmcl/HMCL.jar"
-    share.install "hmcl"
+    pkg_name="hmcl"
+    bin_name="HMCL"
 
-    (buildpath/"hmcl").write <<~EOS
+    mkdir_p "./#{pkg_name}"
+    mv Dir["#{bin_name}-*.jar"][0], "./#{pkg_name}/#{bin_name}.jar"
+    share.install "#{pkg_name}"
+
+    (buildpath/"#{bin_name.downcase}").write <<~EOS
       #!/bin/sh
       if [ -n "$XDG_DATA_HOME" ]; then
         GAMEDIR="$XDG_DATA_HOME"
@@ -35,9 +38,9 @@ class Hmcl < Formula
       #  Just 'cd' into it. https://github.com/huanghongxun/HMCL/issues/317
       [ -d "$GAMEDIR" ] || mkdir -p "$GAMEDIR"
       cd "$HOME/.local/share"
-      java -jar "#{opt_prefix}/share/hmcl/HMCL.jar" "$@"
+      java -jar "#{opt_prefix}/share/#{pkg_name}/#{bin_name}.jar" "$@"
     EOS
-    bin.install "hmcl"
+    bin.install "#{bin_name.downcase}"
 
     prefix.install_metafiles
   end
