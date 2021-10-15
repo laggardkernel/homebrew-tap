@@ -3,7 +3,12 @@ cask "zulu-jdk-fx11" do
 
   version "11.0.12,11.50.19-ca-fx"
 
-  url "https://cdn.azul.com/zulu/bin/zulu#{version.after_comma}-jdk#{version.before_comma}-macosx_#{arch}.dmg",
+  # Note: prefer tar.gz over dmg for installation cause the later not only put
+  #  files into /Library/Java/JavaVirtualMachines, but also a backup of .pkg
+  #  under #{HOMEBREW_PREFIX}/Caskroom. If install with tar.gz, only stores
+  #  a symlink under Caskroom.
+  #  Besides. dmg of FX 17 is provided for arch but not for x64..
+  url "https://cdn.azul.com/zulu/bin/zulu#{version.after_comma}-jdk#{version.before_comma}-macosx_#{arch}.tar.gz",
       referer: "https://www.azul.com/downloads/?os=macos"
   # if Hardware::CPU.intel?
   #   # sha256 ""
@@ -25,7 +30,18 @@ cask "zulu-jdk-fx11" do
 
   depends_on macos: ">= :sierra"
 
-  pkg "Double-Click to Install Azul Zulu JDK #{version.major}.pkg"
+  artifact "zulu-#{version.major}.jdk", target: "/Library/Java/JavaVirtualMachines/zulu-#{version.major}.jdk"
 
-  uninstall pkgutil: "com.azulsystems.zulu.#{version.major}"
+  preflight do
+    staged_subfolder = staged_path.glob(["zulu*-ca-fx-jdk*"]).first
+    if staged_subfolder
+      FileUtils.mv(Dir["#{staged_subfolder}/*"], staged_path)
+      FileUtils.rm_rf(staged_subfolder)
+    end
+  end
+
+  uninstall delete: "/Library/Java/JavaVirtualMachines/zulu-#{version.major}.jdk"
+
+  # pkg "Double-Click to Install Azul Zulu JDK #{version.major}.pkg"
+  # uninstall pkgutil: "com.azulsystems.zulu.#{version.major}"
 end

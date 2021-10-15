@@ -3,7 +3,11 @@ cask "zulu-jdk-fx17" do
 
   version "17.0.0,17.28.13-ca-fx"
 
-  # TODO: dmg is provided for arch but not for x86?!
+  # Note: prefer tar.gz over dmg for installation cause the later not only put
+  #  files into /Library/Java/JavaVirtualMachines, but also a backup of .pkg
+  #  under #{HOMEBREW_PREFIX}/Caskroom. If install with tar.gz, only stores
+  #  a symlink under Caskroom.
+  #  Besides. dmg of FX 17 is provided for arch but not for x64..
   url "https://cdn.azul.com/zulu/bin/zulu#{version.after_comma}-jdk#{version.before_comma}-macosx_#{arch}.tar.gz",
       referer: "https://www.azul.com/downloads/?os=macos"
   # if Hardware::CPU.intel?
