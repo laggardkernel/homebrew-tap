@@ -29,7 +29,10 @@ class LuaLanguageServer < Formula
     url "https://github.com/sumneko/lua-language-server.git", tag: version.to_s
     depends_on "ninja" => :build
   else
-    url "https://marketplace.visualstudio.com/_apis/public/gallery/publishers/sumneko/vsextensions/lua/#{version}/vspackage"
+    url "https://github.com/sumneko/vscode-lua/releases/download/v#{version}/lua-#{version}.vsix"
+    # # Could easily reach rate limit with following API
+    # url "https://marketplace.visualstudio.com/_apis/public/gallery/publishers/sumneko/vsextensions/lua/#{version}/vspackage",
+    #   referer: "https://marketplace.visualstudio.com/items?itemName=sumneko.lua"
   end
 
   def install
@@ -61,8 +64,8 @@ class LuaLanguageServer < Formula
         cp_r "./#{s}", "./extension/server"
       end
     else
-      # the vsix is in fact tar.gz
-      system "tar", "-xvf", "sumneko.lua-#{version}.vsix"
+      # the vsix is in fact tar.gz. [sumneko.]lua-#{version}.vsix
+      system "tar", "-xvf", Dir["*lua-#{version}.vsix"][0]
     end
 
     if OS.mac?
