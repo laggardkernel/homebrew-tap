@@ -7,6 +7,10 @@ cask 'free-download-manager5' do
   name 'Free Download Manager'
   homepage 'https://www.freedownloadmanager.org/'
 
+  livecheck do
+    skip "Versioned app, end of life"
+  end
+
   auto_updates true
 
   app 'Free Download Manager.app'

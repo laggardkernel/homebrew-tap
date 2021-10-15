@@ -8,11 +8,8 @@ cask "vnote2" do
   desc "Note-taking application that knows programmers and Markdown better"
   homepage "https://vnotex.github.io/vnote/"
 
-  # We need to check all releases since the current latest release is a beta version.
   livecheck do
-    url "https://github.com/vnotex/vnote/releases"
-    strategy :page_match
-    regex(%r{href=.*?/VNote-(?:mac-x64)?v?(\d+(?:\.\d+)*)(?:-x64)?\.(?:dmg|zip)}i)
+    skip "Versioned app, end of life"
   end
 
   app "VNote.app"
