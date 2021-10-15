@@ -1,11 +1,11 @@
 class CondaStandalone < Formula
   desc "Entry point and dependency collection for PyInstaller-based standalone conda"
-  homepage "https://anaconda.org/conda-canary/conda-standalone"
-  version "4.10.1,he9ea1e4_0"
-  url "https://anaconda.org/conda-canary/conda-standalone/#{version.to_s.split(",").first}/download/osx-64/conda-standalone-#{version.to_s.split(",").first}-#{version.to_s.split(",").second}.tar.bz2"
+  homepage "https://anaconda.org/conda-forge/conda-standalone"
+  version "4.10.3,h694c41f_0"
+  url "https://anaconda.org/conda-forge/conda-standalone/#{version.to_s.split(",").first}/download/osx-64/conda-standalone-#{version.to_s.split(",").first}-#{version.to_s.split(",").second}.tar.bz2"
 
   livecheck do
-    url "https://anaconda.org/conda-canary/conda-standalone/files"
+    url "https://anaconda.org/conda-forge/conda-standalone/files"
     regex(%r{href=.*?/osx.*?/conda[_-]standalone[_-]v?(\d+(?:\.\d+)+)[_-](.+?)\.tar\.bz2}i)
     strategy :page_match do |page, regex|
       page.scan(regex).map do |match|
@@ -15,6 +15,10 @@ class CondaStandalone < Formula
   end
 
   bottle :unneeded
+
+  # Only support macOS temporarily, cause the version strings are different for
+  #  macOS and Linux. Don't bother to fetch version numbers separately.
+  depends_on :macos
 
   def install
     bin.install Dir["*/conda*"][0] => "conda-exec"
