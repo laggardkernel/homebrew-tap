@@ -12,8 +12,8 @@ cask "zulu-jre-fx17" do
   #   # sha256 ""
   # end
 
-  name "Azul Zulu Java Standard Edition Development Kit"
-  desc "OpenJRE distribution from Azul"
+  name "Azul Zulu Java Runtime Environment"
+  desc "OpenJRE distribution with JavaFX from Azul"
   homepage "https://www.azul.com/products/core/"
 
   livecheck do

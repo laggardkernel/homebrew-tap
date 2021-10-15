@@ -12,7 +12,7 @@ cask "zulu-jdk-fx11" do
   # end
 
   name "Azul Zulu Java Standard Edition Development Kit"
-  desc "OpenJDK distribution from Azul"
+  desc "OpenJDK distribution with JavaFX from Azul"
   homepage "https://www.azul.com/products/core/"
 
   livecheck do
