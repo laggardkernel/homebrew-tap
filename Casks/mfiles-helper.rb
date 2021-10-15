@@ -1,6 +1,6 @@
 cask "mfiles-helper" do
-  version "2.2.1,20210916"
-  sha256 "2049f40eb7594cc2cb90baece68a21024b2aa9bfb6eacbc0ac76f24ab5b6dcdd"
+  version "2.2.2,20211012"
+  # sha256 ""
 
   # version_scheme 1 # not needed in Cask
 
@@ -22,6 +22,7 @@ cask "mfiles-helper" do
   auto_updates false
   depends_on macos: ">= :yosemite"
 
+  # Name was changed from "MFiles Helper.app" to "爱传送.app" in 2.2.1
   app "爱传送.app", target: "MFiles Helper.app"
 
   zap trash: [
