@@ -1,9 +1,9 @@
 class UnblockNeteaseMusic < Formula
   desc "Revive unavailable songs for Netease Cloud Music"
   # homepage "https://github.com/nondanee/UnblockNeteaseMusic"
-  version "0.26.1"
   # homepage "https://github.com/1715173329/UnblockNeteaseMusic"
   homepage "https://github.com/UnblockNeteaseMusic/server"
+  version "0.27.0-beta.7"
   url "https://github.com/UnblockNeteaseMusic/server/archive/refs/tags/v#{version}.tar.gz"
   # sha256 ""
   license "MIT"
