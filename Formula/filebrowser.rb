@@ -48,7 +48,6 @@ class Filebrowser < Formula
       version_str = version.to_s.start_with?("HEAD") ? "HEAD" : version.to_s
 
       buildpath_parent = File.dirname(buildpath)
-      puts buildpath_parent
       if File.basename(buildpath_parent).start_with? "filebrowser"
         ENV["GOPATH"] = "#{buildpath_parent}/go"
         ENV["NPM_CONFIG_CACHE"] = "#{buildpath_parent}/npm"
@@ -58,7 +57,8 @@ class Filebrowser < Formula
         ENV["NPM_CONFIG_CACHE"] = "#{buildpath}/.brew_home/npm"
         commit_sha = `git rev-parse --short HEAD`
       end
-      ENV["GOCACHE"] = "#{ENV["GOPATH"]}/go-build"
+      # Default GOCACHE: $HOMEBREW_CACHE/go_cache
+      ENV["GOCACHE"] = "#{ENV["GOPATH"]}/go-cache"
       ENV["PATH"] = "#{ENV["PATH"]}:#{HOMEBREW_PREFIX}/opt/node/libexec/bin"
       ENV["PATH"] = "#{ENV["PATH"]}:#{HOMEBREW_PREFIX}/lib/node_modules/npm/bin"
       # BUG: Formula["node"] doen't ensure version installed

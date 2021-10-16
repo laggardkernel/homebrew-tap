@@ -48,7 +48,8 @@ class Nali < Formula
       else
         "#{buildpath}/.brew_home/go"
       end
-      ENV["GOCACHE"] = "#{ENV["GOPATH"]}/go-build"
+      # Default GOCACHE: $HOMEBREW_CACHE/go_cache
+      ENV["GOCACHE"] = "#{ENV["GOPATH"]}/go-cache"
 
       system "go", "build", "-o", "nali"
     end

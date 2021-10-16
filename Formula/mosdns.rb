@@ -66,7 +66,8 @@ class Mosdns < Formula
       else
         "#{buildpath}/.brew_home/go"
       end
-      ENV["GOCACHE"] = "#{ENV["GOPATH"]}/go-build"
+      # Default GOCACHE: $HOMEBREW_CACHE/go_cache
+      ENV["GOCACHE"] = "#{ENV["GOPATH"]}/go-cache"
 
       # Mimic release.py
       mkdir_p "#{buildpath}/release"

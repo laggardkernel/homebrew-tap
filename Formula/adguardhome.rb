@@ -81,7 +81,8 @@ class Adguardhome < Formula
       else
         "#{buildpath}/.brew_home/go"
       end
-      ENV["GOCACHE"] = "#{ENV["GOPATH"]}/go-build"
+      # Default GOCACHE: $HOMEBREW_CACHE/go_cache
+      ENV["GOCACHE"] = "#{ENV["GOPATH"]}/go-cache"
       ENV["PATH"] = "#{ENV["PATH"]}:#{HOMEBREW_PREFIX}/opt/node/libexec/bin"
       ENV["PATH"] = "#{ENV["PATH"]}:#{HOMEBREW_PREFIX}/lib/node_modules/npm/bin"
       # BUG: Formula["node"] doen't ensure version installed
