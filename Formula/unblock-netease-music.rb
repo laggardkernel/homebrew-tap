@@ -3,7 +3,7 @@ class UnblockNeteaseMusic < Formula
   # homepage "https://github.com/nondanee/UnblockNeteaseMusic"
   # homepage "https://github.com/1715173329/UnblockNeteaseMusic"
   homepage "https://github.com/UnblockNeteaseMusic/server"
-  version "0.27.0-beta.7"
+  version "0.27.0-beta.8"
   url "https://github.com/UnblockNeteaseMusic/server/archive/refs/tags/v#{version}.tar.gz"
   # sha256 ""
   license "MIT"
@@ -20,7 +20,7 @@ class UnblockNeteaseMusic < Formula
   end
 
   depends_on "node"
-  # depends_on "yarn" => :build # install dep and run with DEVELOPMENT=true
+  depends_on "yarn" => :build # install dep and run with DEVELOPMENT=true
   # Default yarn cache dir: #{buildpath}/.brew_home/Library/Caches/Yarn/v6
 
   def install
@@ -49,6 +49,10 @@ class UnblockNeteaseMusic < Formula
     prefix.install Dir.glob("*")
     prefix.install_metafiles
 
+    # Enable development support for 0.27+
+    Dir.chdir(prefix.to_s) do
+      system "yarn", "install"
+    end
   end
 
   def post_install
@@ -81,6 +85,8 @@ class UnblockNeteaseMusic < Formula
           <string>#{plist_name}</string>
           <key>EnvironmentVariables</key>
           <dict>
+            <key>DEVELOPMENT</key>
+            <string>true</string>
             <key>ENABLE_LOCAL_VIP</key>
             <string>true</string>
             <key>JSON_LOG</key>
@@ -99,6 +105,7 @@ class UnblockNeteaseMusic < Formula
               <string>-e</string>
               <string>https://music.163.com</string>
               <string>-o</string>
+              <string>pyncmd</string>
               <string>kuwo</string>
             </array>
             <key>RunAtLoad</key>
@@ -125,3 +132,5 @@ end
 # - old: 223.252.199.66
 # - new: 59.111.160.195, 59.111.160.197
 # Match: https://github.com/nondanee/UnblockNeteaseMusic/issues/372#issuecomment-583751043
+# 0.27.x, UnblockNeteaseMusic/server
+# minimal Node.js version 12. https://github.com/UnblockNeteaseMusic/server/discussions/254
