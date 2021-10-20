@@ -5,8 +5,6 @@ class Amidst < Formula
   url "https://github.com/toolbox4minecraft/amidst/releases/download/v#{version}/amidst-v#{version.to_s.sub!('.', '-')}.jar"
   license "GPL-3.0"
 
-  bottle :unneeded
-
   def install
     pkg_name="amidst"
     bin_name="amidst"

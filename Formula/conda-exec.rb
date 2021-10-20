@@ -12,8 +12,6 @@ class CondaExec < Formula
     url "https://repo.anaconda.com/pkgs/misc/conda-execs/conda-latest-linux-64.exe" if OS.linux?
   end
 
-  bottle :unneeded
-
   disable! date: "2021-01-01", because: "is unmaintained, please switch to 'conda-standlone'"
 
   if OS.mac?

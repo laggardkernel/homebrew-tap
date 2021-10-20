@@ -15,8 +15,6 @@ class Besttrace < Formula
     end
   end
 
-  bottle :unneeded
-
   def install
     bin.install Dir.glob("besttrace*mac")[0] => "besttrace"
     prefix.install Dir.glob("*.txt")[0] => "CHANGELOG.txt"

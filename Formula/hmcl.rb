@@ -17,8 +17,6 @@ class Hmcl < Formula
     end
   end
 
-  bottle :unneeded
-
   def install
     pkg_name="hmcl"
     bin_name="HMCL"

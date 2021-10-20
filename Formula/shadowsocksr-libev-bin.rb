@@ -15,8 +15,6 @@ class ShadowsocksrLibevBin < Formula
     end
   end
 
-  bottle :unneeded
-
   def install
     bin.install "ssr-local"
     prefix.install_metafiles

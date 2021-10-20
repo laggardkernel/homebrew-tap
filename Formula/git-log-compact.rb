@@ -16,8 +16,6 @@ class GitLogCompact < Formula
     end
   end
 
-  bottle :unneeded
-
   # depends_on "perl" if MacOS.version >= :mojave
 
   def install

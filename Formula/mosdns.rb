@@ -15,8 +15,6 @@ class Mosdns < Formula
     depends_on "upx" => :build
   end
 
-  bottle :unneeded
-
   livecheck do
     url 'https://github.com/IrineSistiana/mosdns/releases/'
     regex(%r{href=.*?/releases/tag/v?(\d+(?:\.\d+)+(-[^>]+)?)">}i)

@@ -14,8 +14,6 @@ class CondaStandalone < Formula
     end
   end
 
-  bottle :unneeded
-
   # Only support macOS temporarily, cause the version strings are different for
   #  macOS and Linux. Don't bother to fetch version numbers separately.
   depends_on :macos

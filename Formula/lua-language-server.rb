@@ -21,8 +21,6 @@ class LuaLanguageServer < Formula
     depends_on "ninja" => :build
   end
 
-  bottle :unneeded
-
   option "without-prebuilt", "Skip prebuilt binary and build from source"
 
   if build.without?("prebuilt")

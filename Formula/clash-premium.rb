@@ -14,8 +14,6 @@ class ClashPremium < Formula
     end
   end
 
-  bottle :unneeded
-
   # resource will auto unpacked
   resource "clash-dashboard" do
     # folder name: clash-dashboard-gh-pages

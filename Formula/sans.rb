@@ -16,6 +16,8 @@ class Sans < Formula
     system "make", "install"
   end
 
+  # TODO: plist
+
   test do
     system "sans", "--help"
   end

@@ -5,8 +5,6 @@ class Iterm2Zmodem < Formula
   sha256 "4a19e2f97abf11ed0a6f80d575198a1bd0e44a6d907b1b9017a2dc537a0cfcf9"
   head "https://github.com/laggardkernel/iterm2-zmodem.git"
 
-  bottle :unneeded
-
   depends_on "lrzsz"
 
   def install

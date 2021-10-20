@@ -19,8 +19,6 @@ class UnblockNeteaseMusic < Formula
     # strategy :github_latest
   end
 
-  bottle :unneeded
-
   depends_on "node"
   # depends_on "yarn" => :build # install dep and run with DEVELOPMENT=true
   # Default yarn cache dir: #{buildpath}/.brew_home/Library/Caches/Yarn/v6

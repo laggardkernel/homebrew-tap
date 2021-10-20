@@ -9,8 +9,6 @@ class McaselectorAT115 < Formula
 
   deprecate! date: "2021-05-11", because: :unsupported
 
-  bottle :unneeded
-
   def install
     pkg_name="mcaselector@1.15"
     bin_name="mcaselector"

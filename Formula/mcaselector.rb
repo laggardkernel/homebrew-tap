@@ -5,8 +5,6 @@ class Mcaselector < Formula
   url "https://github.com/Querz/mcaselector/releases/download/#{version}/mcaselector-#{version}.jar"
   license "GPL-3.0"
 
-  bottle :unneeded
-
   def install
     pkg_name="mcaselector"
     bin_name="mcaselector"

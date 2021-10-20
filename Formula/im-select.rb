@@ -5,8 +5,6 @@ class ImSelect < Formula
   url "https://raw.githubusercontent.com/daipeihust/im-select/#{version}/im-select-mac/out/im-select"
   license "MIT"
 
-  bottle :unneeded
-
   def install
     # Xcode is needed for compiling to get the executable that is less than 30k.
     # Skip building from the source, download the binary release directly.

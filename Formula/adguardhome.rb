@@ -28,8 +28,6 @@ class Adguardhome < Formula
     depends_on "yarn" => :build
   end
 
-  bottle :unneeded
-
   option "without-prebuilt", "Skip prebuilt binary and build from source"
 
   # sha256: skipped, too complicated

@@ -17,8 +17,6 @@ class GitOpen < Formula
     end
   end
 
-  bottle :unneeded
-
   # depends_on "bash" if MacOS.version >= :mojave
 
   def install

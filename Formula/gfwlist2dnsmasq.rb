@@ -17,8 +17,6 @@ class Gfwlist2dnsmasq < Formula
     end
   end
 
-  bottle :unneeded
-
   def install
     bin.install "gfwlist2dnsmasq.sh" => "gfwlist2dnsmasq"
     prefix.install_metafiles

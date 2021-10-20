@@ -6,8 +6,6 @@ class Tsschecker < Formula
   # sha256 ""
   license "LGPL-3.0"
 
-  bottle :unneeded
-
   def install
     # binary name: clash-darwin-amd64-2021.02.21
     bin.install Dir.glob("tsschecker*")[0] => "tsschecker"
