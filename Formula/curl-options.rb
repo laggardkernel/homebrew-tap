@@ -47,7 +47,6 @@ class CurlOptions < Formula
   depends_on "brotli" => :optional
   depends_on "c-ares" => :optional
   depends_on "gnutls" => :optional
-  depends_on "openldap" => :optional
 
   uses_from_macos "krb5"
   uses_from_macos "zlib"
