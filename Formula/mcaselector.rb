@@ -1,7 +1,7 @@
 class Mcaselector < Formula
   desc "A tool to select chunks from Minecraft worlds for deletion or export."
   homepage "https://github.com/toolbox4minecraft/amidst"
-  version "1.16.3"
+  version "1.17"
   url "https://github.com/Querz/mcaselector/releases/download/#{version}/mcaselector-#{version}.jar"
   license "GPL-3.0"
 
