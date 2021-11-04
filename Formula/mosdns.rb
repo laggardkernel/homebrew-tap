@@ -1,7 +1,7 @@
 class Mosdns < Formula
   desc "Flexible forwarding DNS client"
   homepage "https://github.com/IrineSistiana/mosdns"
-  version "2.1.0"
+  version "2.1.1"
   license "GPL-3.0"
 
   head do
@@ -17,7 +17,7 @@ class Mosdns < Formula
 
   livecheck do
     url 'https://github.com/IrineSistiana/mosdns/releases/'
-    regex(%r{href=.*?/releases/tag/v?(\d+(?:\.\d+)+(-[^>]+)?)">}i)
+    regex(%r{href=.*?/releases/tag/v?(\d+(?:\.\d+)+[-]?[^">]*)["' >]}i)
     strategy :page_match do |page|
       page.scan(regex).map { |match| match&.first }
     end
