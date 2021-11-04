@@ -3,7 +3,7 @@ class UnblockNeteaseMusic < Formula
   # homepage "https://github.com/nondanee/UnblockNeteaseMusic"
   # homepage "https://github.com/1715173329/UnblockNeteaseMusic"
   homepage "https://github.com/UnblockNeteaseMusic/server"
-  version "0.27.0-beta.8"
+  version "0.27.0-beta.9"
   url "https://github.com/UnblockNeteaseMusic/server/archive/refs/tags/v#{version}.tar.gz"
   # sha256 ""
   license "MIT"
@@ -36,12 +36,12 @@ class UnblockNeteaseMusic < Formula
 
     mkdir_p buildpath/"bin"
     (buildpath/"bin/unblock-nm").write <<~EOS
-    #!/bin/sh
+    #!/bin/bash
     #{HOMEBREW_PREFIX}/opt/node/bin/node "#{opt_prefix}/app.js" "$@"
     EOS
 
     (buildpath/"bin/unblock-nm-bridge").write <<~EOS
-    #!/bin/sh
+    #!/bin/bash
     #{HOMEBREW_PREFIX}/opt/node/bin/node "#{opt_prefix}/bridge.js" "$@"
     EOS
 
@@ -62,12 +62,12 @@ class UnblockNeteaseMusic < Formula
 
   def caveats
     <<~EOS
-    Fork on https://github.com/UnblockNeteaseMusic/server
+    https://github.com/UnblockNeteaseMusic/server
     Service listens on 16300, 16301 by default. Options are written in
 
       #{plist_path}
 
-    Current provider order set in service: kuwo
+    Current provider order set in service: pyncmd, kuwo
     EOS
   end
 
@@ -100,10 +100,10 @@ class UnblockNeteaseMusic < Formula
               <string>127.0.0.1</string>
               <string>-p</string>
               <string>16300:16301</string>
-              <string>-f</string>
-              <string>223.252.199.66</string>
               <string>-e</string>
               <string>https://music.163.com</string>
+              <string>-f</string>
+              <string>223.252.199.66</string>
               <string>-o</string>
               <string>pyncmd</string>
               <string>kuwo</string>
