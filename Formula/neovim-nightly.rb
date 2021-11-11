@@ -10,7 +10,7 @@ class VersionFetcher
 
     begin
       html = URI(@url).open.read
-      regex = /href=[^>]+?>NVIM\s*v?([^<]+?)</i
+      regex = />NVIM\s*v?(\S+?)[<\s]/
       m = html.match(regex)
       if m
         m[1]
