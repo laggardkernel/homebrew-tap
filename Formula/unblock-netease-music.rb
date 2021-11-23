@@ -7,6 +7,7 @@ class UnblockNeteaseMusic < Formula
   url "https://github.com/UnblockNeteaseMusic/server/archive/refs/tags/v#{version}.tar.gz"
   # sha256 ""
   license "MIT"
+  revision 1
 
   livecheck do
     # Pre-release support
@@ -31,6 +32,8 @@ class UnblockNeteaseMusic < Formula
     if File.exist? "precompiled/app.js"
       inreplace "precompiled/app.js" do |s|
         s.gsub! "5 * 1e3", "8 * 1e3"
+        # 0.27.0-b9
+        s.gsub! '< 5000', '< 8000'
       end
     end
 
@@ -103,7 +106,7 @@ class UnblockNeteaseMusic < Formula
               <string>-e</string>
               <string>https://music.163.com</string>
               <string>-f</string>
-              <string>223.252.199.66</string>
+              <string>59.111.160.195</string>
               <string>-o</string>
               <string>pyncmd</string>
               <string>kuwo</string>
