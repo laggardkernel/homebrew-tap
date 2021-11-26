@@ -5,19 +5,24 @@ class Amidst < Formula
   url "https://github.com/toolbox4minecraft/amidst/releases/download/v#{version}/amidst-v#{version.to_s.sub!('.', '-')}.jar"
   license "GPL-3.0"
 
-  def install
-    pkg_name="amidst"
-    bin_name="amidst"
+  def pkg_name
+    "amidst"
+  end
 
+  def bin_name
+    "amidst"
+  end
+
+  def install
     mkdir_p "./#{pkg_name}"
     mv Dir["#{bin_name}-*.jar"][0], "./#{pkg_name}/#{bin_name}.jar"
-    share.install "#{pkg_name}"
+    share.install pkg_name.to_s
 
-    (buildpath/"#{bin_name.downcase}").write <<~EOS
+    (buildpath/bin_name.downcase.to_s).write <<~EOS
       #!/bin/sh
       java -jar "#{opt_prefix}/share/#{pkg_name}/#{bin_name}.jar" "$@"
     EOS
-    bin.install "#{bin_name.downcase}"
+    bin.install bin_name.downcase.to_s
 
     prefix.install_metafiles
   end

@@ -17,15 +17,20 @@ class Hmcl < Formula
     end
   end
 
-  def install
-    pkg_name="hmcl"
-    bin_name="HMCL"
+  def pkg_name
+    "hmcl"
+  end
 
+  def bin_name
+    "HMCL"
+  end
+
+  def install
     mkdir_p "./#{pkg_name}"
     mv Dir["#{bin_name}-*.jar"][0], "./#{pkg_name}/#{bin_name}.jar"
-    share.install "#{pkg_name}"
+    share.install pkg_name.to_s
 
-    (buildpath/"#{bin_name.downcase}").write <<~EOS
+    (buildpath/bin_name.downcase.to_s).write <<~EOS
       #!/bin/sh
       if [ -n "$XDG_DATA_HOME" ]; then
         GAMEDIR="$XDG_DATA_HOME"
@@ -38,7 +43,7 @@ class Hmcl < Formula
       cd "$HOME/.local/share"
       java -jar "#{opt_prefix}/share/#{pkg_name}/#{bin_name}.jar" "$@"
     EOS
-    bin.install "#{bin_name.downcase}"
+    bin.install bin_name.downcase.to_s
 
     prefix.install_metafiles
   end

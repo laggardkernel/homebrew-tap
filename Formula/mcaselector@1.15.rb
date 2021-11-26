@@ -9,19 +9,24 @@ class McaselectorAT115 < Formula
 
   deprecate! date: "2021-05-11", because: :unsupported
 
-  def install
-    pkg_name="mcaselector@1.15"
-    bin_name="mcaselector"
+  def pkg_name
+    "mcaselector@1.15"
+  end
 
+  def bin_name
+    "mcaselector"
+  end
+
+  def install
     mkdir_p "./#{pkg_name}"
     mv Dir["#{bin_name}-*.jar"][0], "./#{pkg_name}/#{bin_name}.jar"
-    share.install "#{pkg_name}"
+    share.install pkg_name.to_s
 
-    (buildpath/"#{bin_name.downcase}").write <<~EOS
+    (buildpath/bin_name.downcase.to_s).write <<~EOS
       #!/bin/sh
       java -jar "#{opt_prefix}/share/#{pkg_name}/#{bin_name}.jar" "$@"
     EOS
-    bin.install "#{bin_name.downcase}"
+    bin.install bin_name.downcase.to_s
 
     prefix.install_metafiles
   end
