@@ -32,15 +32,9 @@ class Hmcl < Formula
 
     (buildpath/bin_name.downcase.to_s).write <<~EOS
       #!/bin/sh
-      if [ -n "$XDG_DATA_HOME" ]; then
-        GAMEDIR="$XDG_DATA_HOME"
-      else
-        GAMEDIR="$HOME/.local/share"
-      fi
       # No support to specify working directory with command line options.
       #  Just 'cd' into it. https://github.com/huanghongxun/HMCL/issues/317
-      [ -d "$GAMEDIR" ] || mkdir -p "$GAMEDIR"
-      cd "$HOME/.local/share"
+      cd "$HOME"
       java -jar "#{opt_prefix}/share/#{pkg_name}/#{bin_name}.jar" "$@"
     EOS
     bin.install bin_name.downcase.to_s
