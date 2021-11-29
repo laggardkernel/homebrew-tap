@@ -4,6 +4,7 @@ class Mcaselector < Formula
   version "1.17"
   url "https://github.com/Querz/mcaselector/releases/download/#{version}/mcaselector-#{version}.jar"
   license "GPL-3.0"
+  revision 1
 
   def pkg_name
     "mcaselector"
@@ -26,9 +27,9 @@ class Mcaselector < Formula
       version="${version%%.*}"
       if [ "$version" -lt 16 ]; then
         export JAVA_HOME="#{HOMEBREW_PREFIX}/opt/java"
-        /usr/bin/java -jar "#{opt_prefix}/share/#{pkg_name}/#{bin_name}.jar" "$@"
+        /usr/bin/java -jar "#{share}/#{pkg_name}/#{bin_name}.jar" "$@"
       else
-        java -jar "#{opt_prefix}/share/#{pkg_name}/#{bin_name}.jar" "$@"
+        java -jar "#{share}/#{pkg_name}/#{bin_name}.jar" "$@"
       fi
     EOS
     bin.install bin_name.downcase.to_s

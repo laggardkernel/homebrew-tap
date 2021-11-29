@@ -4,6 +4,7 @@ class Tachidesk < Formula
   version "0.5.4-r995"
   url "https://github.com/Suwayomi/Tachidesk-Server/releases/download/v#{version.to_s.split("-").first}/Tachidesk-Server-v#{version}.jar"
   license "MPL-2.0"
+  revision 1
 
   livecheck do
     url "https://github.com/Suwayomi/Tachidesk-Server/releases"
@@ -28,11 +29,11 @@ class Tachidesk < Formula
 
     (buildpath/"tachidesk").write <<~EOS
       #!/bin/sh
-      java -jar "#{opt_prefix}/share/#{pkg_name}/#{bin_name}.jar" "$@"
+      java -jar "#{share}/#{pkg_name}/#{bin_name}.jar" "$@"
     EOS
     (buildpath/"tachidesk-debug").write <<~EOS
       #!/bin/sh
-      java -Dsuwayomi.tachidesk.config.server.debugLogsEnabled=true -jar "#{opt_prefix}/share/#{pkg_name}/#{bin_name}.jar" "$@"
+      java -Dsuwayomi.tachidesk.config.server.debugLogsEnabled=true -jar "#{share}/#{pkg_name}/#{bin_name}.jar" "$@"
     EOS
     bin.install Dir["tachidesk*"]
 

@@ -4,6 +4,7 @@ class McaselectorAT115 < Formula
   version "1.15.4"
   url "https://github.com/Querz/mcaselector/releases/download/#{version}/mcaselector-#{version}.jar"
   license "GPL-3.0"
+  revision 1
 
   # keg_only :versioned_formula
 
@@ -24,7 +25,7 @@ class McaselectorAT115 < Formula
 
     (buildpath/bin_name.downcase.to_s).write <<~EOS
       #!/bin/sh
-      java -jar "#{opt_prefix}/share/#{pkg_name}/#{bin_name}.jar" "$@"
+      java -jar "#{share}/#{pkg_name}/#{bin_name}.jar" "$@"
     EOS
     bin.install bin_name.downcase.to_s
 

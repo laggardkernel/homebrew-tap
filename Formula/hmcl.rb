@@ -6,6 +6,7 @@ class Hmcl < Formula
   # url "https://github.com/huanghongxun/HMCL/releases/download/v#{version}/HMCL-#{version}.jar"
   url "https://ci.huangyuhui.net/job/HMCL/#{version.to_s.split(".").last}/artifact/HMCL/build/libs/HMCL-#{version}.jar"
   license "GPL-3.0"
+  revision 1
 
   livecheck do
     # https://hmcl.huangyuhui.net/changelog/stable.html
@@ -34,8 +35,8 @@ class Hmcl < Formula
       #!/bin/sh
       # No support to specify working directory with command line options.
       #  Just 'cd' into it. https://github.com/huanghongxun/HMCL/issues/317
-      cd "$HOME"
-      java -jar "#{opt_prefix}/share/#{pkg_name}/#{bin_name}.jar" "$@"
+      cd "$HOME" && \\
+      java -jar "#{share}/#{pkg_name}/#{bin_name}.jar" "$@"
     EOS
     bin.install bin_name.downcase.to_s
 

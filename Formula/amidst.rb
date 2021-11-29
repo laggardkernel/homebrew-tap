@@ -4,6 +4,7 @@ class Amidst < Formula
   version "4.7"
   url "https://github.com/toolbox4minecraft/amidst/releases/download/v#{version}/amidst-v#{version.to_s.sub!('.', '-')}.jar"
   license "GPL-3.0"
+  revision 1
 
   def pkg_name
     "amidst"
@@ -20,7 +21,7 @@ class Amidst < Formula
 
     (buildpath/bin_name.downcase.to_s).write <<~EOS
       #!/bin/sh
-      java -jar "#{opt_prefix}/share/#{pkg_name}/#{bin_name}.jar" "$@"
+      java -jar "#{share}/#{pkg_name}/#{bin_name}.jar" "$@"
     EOS
     bin.install bin_name.downcase.to_s
 
