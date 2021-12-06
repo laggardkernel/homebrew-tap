@@ -1,7 +1,7 @@
 class Tachidesk < Formula
   desc "Rewrite of Tachiyomi for the Desktop"
   homepage "https://github.com/Suwayomi/Tachidesk-Server"
-  version "0.5.4-r995"
+  version "0.6.0-r1048"
   url "https://github.com/Suwayomi/Tachidesk-Server/releases/download/v#{version.to_s.split("-").first}/Tachidesk-Server-v#{version}.jar"
   license "MPL-2.0"
   revision 1
