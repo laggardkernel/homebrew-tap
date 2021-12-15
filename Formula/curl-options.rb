@@ -1,7 +1,7 @@
 class CurlOptions < Formula
   desc "Get a file from an HTTP, HTTPS or FTP server"
   homepage "https://curl.se"
-  version "7.79.1"
+  version "7.80.0"
   url "https://curl.se/download/curl-#{version}.tar.bz2"
   # sha256 ""
   license "curl"
