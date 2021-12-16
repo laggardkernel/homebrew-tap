@@ -1,7 +1,7 @@
 class Nali < Formula
   desc "Offline tool for querying IP geographic information and CDN provider"
   homepage "https://github.com/zu1k/nali"
-  version "0.3.2"
+  version "0.3.3"
   license "MIT"
 
   head do
@@ -18,23 +18,23 @@ class Nali < Formula
 
   if build.without?("prebuilt")
     # http downloading is quick than git cloning
-    url "https://github.com/zu1k/nali/archive/refs/tags/v#{version}.tar.gz"
+    url "https://github.com/zu1k/nali/archive/refs/tags/#{version}.tar.gz"
     # Git repo is not cloned into a sub-folder
-    # url "https://github.com/zu1k/nali.git", tag: "v#{version}"
+    # url "https://github.com/zu1k/nali.git", tag: "#{version}"
 
     depends_on "go" => :build
-  elsif OS.mac?
-    url "https://github.com/zu1k/nali/releases/download/v#{version}/nali-darwin-amd64-v#{version}.gz"
+  elsif OS.mac? && Hardware::CPU.intel?
+    url "https://github.com/zu1k/nali/releases/download/#{version}/nali-darwin-amd64-#{version}.gz"
   elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is_64_bit?
-    url "https://github.com/zu1k/nali/releases/download/v#{version}/nali-linux-amd64-v#{version}.gz"
+    url "https://github.com/zu1k/nali/releases/download/#{version}/nali-linux-amd64-#{version}.gz"
   elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is_32_bit?
-    url "https://github.com/zu1k/nali/releases/download/v#{version}/nali-linux-386-v#{version}.gz"
+    url "https://github.com/zu1k/nali/releases/download/#{version}/nali-linux-386-#{version}.gz"
   elsif OS.linux? && Hardware::CPU.arm? && RUBY_PLATFORM.to_s.include?("armv6")
-    url "https://github.com/zu1k/nali/releases/download/v#{version}/nali-linux-armv6-v#{version}.gz"
+    url "https://github.com/zu1k/nali/releases/download/#{version}/nali-linux-armv6-#{version}.gz"
   elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_32_bit?
-    url "https://github.com/zu1k/nali/releases/download/v#{version}/nali-linux-armv7-v#{version}.gz"
+    url "https://github.com/zu1k/nali/releases/download/#{version}/nali-linux-armv7-#{version}.gz"
   elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-    url "https://github.com/zu1k/nali/releases/download/v#{version}/nali-linux-armv8-v#{version}.gz"
+    url "https://github.com/zu1k/nali/releases/download/#{version}/nali-linux-armv8-#{version}.gz"
   end
 
   def install
