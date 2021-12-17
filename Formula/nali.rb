@@ -1,7 +1,7 @@
 class Nali < Formula
   desc "Offline tool for querying IP geographic information and CDN provider"
   homepage "https://github.com/zu1k/nali"
-  version "0.3.3"
+  version "0.3.5"
   license "MIT"
 
   head do
@@ -25,6 +25,8 @@ class Nali < Formula
     depends_on "go" => :build
   elsif OS.mac? && Hardware::CPU.intel?
     url "https://github.com/zu1k/nali/releases/download/#{version}/nali-darwin-amd64-#{version}.gz"
+  elsif OS.mac? && Hardware::CPU.arm?
+    url "https://github.com/zu1k/nali/releases/download/#{version}/nali-darwin-arm64-#{version}.gz"
   elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is_64_bit?
     url "https://github.com/zu1k/nali/releases/download/#{version}/nali-linux-amd64-#{version}.gz"
   elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is_32_bit?
