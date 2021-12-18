@@ -1,7 +1,7 @@
 class LuaLanguageServer < Formula
   desc "Language Server for Lua and coded by Lua, the sumneko.lua ext for VSCode"
   homepage "https://github.com/sumneko/lua-language-server"
-  version "2.5.3"
+  version "2.5.5"
   license "MIT"
 
   livecheck do
@@ -26,11 +26,15 @@ class LuaLanguageServer < Formula
   if build.without?("prebuilt")
     url "https://github.com/sumneko/lua-language-server.git", tag: version.to_s
     depends_on "ninja" => :build
-  else
-    url "https://github.com/sumneko/vscode-lua/releases/download/v#{version}/lua-#{version}.vsix"
+  elsif OS.mac? && Hardware::CPU.arm?
+    url "https://github.com/sumneko/vscode-lua/releases/download/v#{version}/vscode-lua-v#{version}-darwin-arm64.vsix"
     # # Could easily reach rate limit with following API
     # url "https://marketplace.visualstudio.com/_apis/public/gallery/publishers/sumneko/vsextensions/lua/#{version}/vspackage",
     #   referer: "https://marketplace.visualstudio.com/items?itemName=sumneko.lua"
+  elsif OS.mac? && Hardware::CPU.intel?
+    url "https://github.com/sumneko/vscode-lua/releases/download/v#{version}/vscode-lua-v#{version}-darwin-x64.vsix"
+  elsif OS.linux? && Hardware::CPU.intel?
+    url "https://github.com/sumneko/vscode-lua/releases/download/v#{version}/vscode-lua-v#{version}-linux-x64.vsix"
   end
 
   def install
@@ -57,31 +61,35 @@ class LuaLanguageServer < Formula
         "script",
         "debugger.lua",
         "main.lua",
-        "platform.lua",
       ].each do |s|
         cp_r "./#{s}", "./extension/server"
       end
     else
-      # the vsix is in fact tar.gz. [sumneko.]lua-#{version}.vsix
-      system "tar", "-xvf", Dir["*lua-#{version}.vsix"][0]
+      # the vsix is in fact zip. [sumneko.]lua-#{version}.vsix
+      system "unzip", Dir["*lua-*#{version}*.vsix"][0], "-d", "."
     end
 
-    if OS.mac?
-      cd "extension/server/bin/macOS" do
-        bin.install "lua-language-server"
-        lib.install Dir["*.so"]
-      end
-    elsif OS.linux?
-      cd "extension/server/bin/Linux" do
-        bin.install "lua-language-server"
-        lib.install Dir["*.so"]
-      end
-    end
-    rm_rf "extension/server/bin"
-    share.install "extension/server" => "lua-language-server"
+    lib.install "extension/server" => "lua-language-server"
     Dir.chdir("extension") do
       prefix.install_metafiles
     end
+
+    # TODO: use mktemp for logpath?
+    (buildpath/"wrapper").write <<~EOS
+      #!/bin/sh
+      exec \\
+        #{lib}/#{name}/bin/#{name} \\
+        -E #{lib}/#{name}/main.lua \\
+        --metapath=#{lib}/#{name}/meta \\
+        --logpath=#{var}/log/lua-language-server \\
+        "$@"
+    EOS
+    bin.install buildpath/"wrapper" => "#{name}"
+  end
+
+  def post_install
+    (var/"log/lua-language-server").mkpath
+    chmod 0755, var/"log/lua-language-server"
   end
 
   def caveats
@@ -90,6 +98,8 @@ class LuaLanguageServer < Formula
         https://marketplace.visualstudio.com/items?itemName=sumneko.lua
       For use without VSCode, check here for detail:
         https://github.com/sumneko/lua-language-server/wiki/Setting-without-VSCode
+
+      A wrapper is provided as #{HOMEBREW_PREFIX}/bin/lua-language-server.
     EOS
   end
 
@@ -99,3 +109,4 @@ class LuaLanguageServer < Formula
 end
 # - https://github.com/sumneko/lua-language-server/wiki/Build-and-Run-(Standalone)
 # - https://github.com/saadparwaiz1/homebrew-personal/blob/main/Formula/lua-language-server.rb
+# - bin/{os_name} folder doesn't exist in 2.5.4+
