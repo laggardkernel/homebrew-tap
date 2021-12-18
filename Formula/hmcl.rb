@@ -3,15 +3,16 @@ class Hmcl < Formula
   homepage "https://hmcl.huangyuhui.net/"
   # https://github.com/huanghongxun/HMCL
   version "3.4.212"
-  # url "https://github.com/huanghongxun/HMCL/releases/download/v#{version}/HMCL-#{version}.jar"
-  url "https://ci.huangyuhui.net/job/HMCL/#{version.to_s.split(".").last}/artifact/HMCL/build/libs/HMCL-#{version}.jar"
+  # WARN: network quality of the ci site is unreliable, fetch releases from
+  # github-actions instead.
+  url "https://github.com/huanghongxun/HMCL/releases/download/v#{version}/HMCL-#{version}.jar"
+  # url "https://ci.huangyuhui.net/job/HMCL/#{version.to_s.split(".").last}/artifact/HMCL/build/libs/HMCL-#{version}.jar"
   license "GPL-3.0"
   revision 1
 
   livecheck do
-    # https://hmcl.huangyuhui.net/changelog/stable.html
-    # https://hmcl.huangyuhui.net/changelog/dev.html
-    url "https://ci.huangyuhui.net/job/HMCL/"
+    url "https://github.com/huanghongxun/HMCL/releases"
+    # url "https://ci.huangyuhui.net/job/HMCL/"
     regex(/href=.*?HMCL-v?(\d+(?:\.\d+)*)\.jar/i)
     strategy :page_match do |page, regex|
       page.scan(regex).map { |match| match&.first }
