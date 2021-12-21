@@ -3,7 +3,7 @@ require "language/node"
 class Adguardhome < Formula
   desc "Network-wide ads & trackers blocking DNS server"
   homepage "https://github.com/AdguardTeam/AdGuardHome"
-  version "0.107.0-b.16"
+  version "0.107.0"
   license "GPL-3.0"
 
   livecheck do
