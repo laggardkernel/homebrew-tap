@@ -11,7 +11,10 @@ class Adguardhome < Formula
     url "https://github.com/AdguardTeam/AdGuardHome/releases/"
     regex(%r{href=.*?/tag/v?(\d+(?:\.\d+)+(?:[-_].+?)?)["' >]}i)
     strategy :page_match do |page, regex|
-      page.scan(regex).flatten.uniq
+      # Only return the 1st commit to avoid alphabetical version comparison
+      # E.g. 0.107.0 ==> 0.107.0-b.17
+      page.scan(regex).flatten.first
+      # page.scan(regex).flatten.uniq
     end
   end
 
