@@ -1,7 +1,7 @@
 class Dnspeep < Formula
   desc "Spy on the DNS queries your computer is making"
   homepage "https://github.com/jvns/dnspeep"
-  version "0.1.2"
+  version "0.1.3"
   license "MIT"
 
   head do
