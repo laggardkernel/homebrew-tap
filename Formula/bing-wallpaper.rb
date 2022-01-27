@@ -1,7 +1,7 @@
 class BingWallpaper < Formula
   desc "Bing.com wallpaper for OS X, and any Unix like desktop"
   homepage "https://github.com/thejandroman/bing-wallpaper"
-  version "c84271c"
+  version "cc7f39c"
   url "https://github.com/thejandroman/bing-wallpaper/archive/#{version}.tar.gz"
   # sha256 ""
   head "https://github.com/thejandroman/bing-wallpaper.git"
