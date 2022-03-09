@@ -11,7 +11,7 @@ class UnblockNeteaseMusic < Formula
   livecheck do
     # Pre-release support
     url "https://github.com/UnblockNeteaseMusic/server/releases"
-    regex(%r{href=.*?/tag/v?(\d+(?:\.\d+)+[-]?[^"]*)["' >]}i)
+    regex(%r{href=.*?/tag/v?(\d+(?:\.\d+)+-?[^"]*)["' >]}i)
     strategy :page_match do |page, regex|
       page.scan(regex).map { |match| match&.first }
     end
@@ -19,8 +19,9 @@ class UnblockNeteaseMusic < Formula
     # strategy :github_latest
   end
 
+  # yarn is depended for DEVELOPMENT=true
+  depends_on "yarn" => :build
   depends_on "node"
-  depends_on "yarn" => :build # install dep and run with DEVELOPMENT=true
   # Default yarn cache dir: #{buildpath}/.brew_home/Library/Caches/Yarn/v6
 
   def install
@@ -32,19 +33,21 @@ class UnblockNeteaseMusic < Formula
       inreplace "precompiled/app.js" do |s|
         s.gsub! "5 * 1e3", "8 * 1e3"
         # 0.27.0-b9
-        s.gsub! '< 5000', '< 8000'
+        s.gsub! "< 5000", "< 8000"
+        # 0.27.0-rc.6
+        s.gsub! "< 5 * 1000", "< 8 * 1000"
       end
     end
 
     mkdir_p buildpath/"bin"
     (buildpath/"bin/unblock-nm").write <<~EOS
-    #!/bin/bash
-    #{HOMEBREW_PREFIX}/opt/node/bin/node "#{prefix}/app.js" "$@"
+      #!/bin/bash
+      #{HOMEBREW_PREFIX}/opt/node/bin/node "#{prefix}/app.js" "$@"
     EOS
 
     (buildpath/"bin/unblock-nm-bridge").write <<~EOS
-    #!/bin/bash
-    #{HOMEBREW_PREFIX}/opt/node/bin/node "#{prefix}/bridge.js" "$@"
+      #!/bin/bash
+      #{HOMEBREW_PREFIX}/opt/node/bin/node "#{prefix}/bridge.js" "$@"
     EOS
 
     bin.install
@@ -53,23 +56,26 @@ class UnblockNeteaseMusic < Formula
 
     # Enable development support for 0.27+
     Dir.chdir(prefix.to_s) do
+      # Switch to yarn 2 since 0.27.0-rc.6. Global cache is disabled by default.
+      # system "yarn", "set", "version", "berry"
+      # system "yarn", "config", "set", "enableGlobalCache", "false"
       system "yarn", "install"
     end
   end
 
   def post_install
-    ("#{var}/log/unblock-netease-music").mkpath
+    "#{var}/log/unblock-netease-music".mkpath
     chmod 0755, "#{var}/log/unblock-netease-music"
   end
 
   def caveats
     <<~EOS
-    https://github.com/UnblockNeteaseMusic/server
-    Service listens on 16300, 16301 by default. Options are written in
+      https://github.com/UnblockNeteaseMusic/server
+      Service listens on 16300, 16301 by default. Options are written in
 
-      #{plist_path}
+        #{plist_path}
 
-    Current provider order set in service: pyncmd, kuwo
+      Current provider order set in service: pyncmd, kuwo
     EOS
   end
 
