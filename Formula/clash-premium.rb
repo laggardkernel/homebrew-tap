@@ -1,9 +1,7 @@
 class ClashPremium < Formula
   desc "Rule-based tunnel in Go, the pre-built premium version"
   homepage "https://github.com/Dreamacro/clash/releases/tag/premium"
-  version "2022.01.27"
-  url "https://github.com/Dreamacro/clash/releases/download/premium/clash-darwin-amd64-#{version}.gz"
-  # sha256 ""
+  version "2022.03.21"
   license "GPL-3.0"
 
   livecheck do
@@ -12,6 +10,20 @@ class ClashPremium < Formula
     strategy :page_match do |page, regex|
       page.scan(regex).flatten.uniq.sort
     end
+  end
+
+  if OS.mac? && Hardware::CPU.intel?
+    url "https://github.com/Dreamacro/clash/releases/download/premium/clash-darwin-amd64-#{version}.gz"
+  elsif OS.mac? && Hardware::CPU.arm?
+    url "https://github.com/Dreamacro/clash/releases/download/premium/clash-darwin-arm64-#{version}.gz"
+  elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is-64-bit?
+    url "https://github.com/Dreamacro/clash/releases/download/premium/clash-linux-amd64-#{version}.gz"
+  elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is-32-bit?
+    url "https://github.com/Dreamacro/clash/releases/download/premium/clash-linux-386-#{version}.gz"
+  elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is-64-bit?
+    url "https://github.com/Dreamacro/clash/releases/download/premium/clash-linux-armv8-#{version}.gz"
+  elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is-32-bit?
+    url "https://github.com/Dreamacro/clash/releases/download/premium/clash-linux-armv7-#{version}.gz"
   end
 
   # resource will auto unpacked
