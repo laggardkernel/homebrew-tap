@@ -16,11 +16,11 @@ class MongoshBin < Formula
 
   if OS.mac? && Hardware::CPU.intel?
     url "https://github.com/mongodb-js/mongosh/releases/download/v#{version}/mongosh-#{version}-darwin-x64.zip"
-  elsif OS.mac? && Hardware::CPU.arm? && (Hardware::CPU.is-64-bit?)
+  elsif OS.mac? && Hardware::CPU.arm? && (Hardware::CPU.is_64_bit?)
     url "https://github.com/mongodb-js/mongosh/releases/download/v#{version}/mongosh-#{version}-darwin-arm64.zip"
   elsif OS.linux? && Hardware::CPU.intel?
     url "https://github.com/mongodb-js/mongosh/releases/download/v#{version}/mongosh-#{version}-linux-x64.zip"
-  elsif OS.linux? && Hardware::CPU.arm? && (Hardware::CPU.is-64-bit?)
+  elsif OS.linux? && Hardware::CPU.arm? && (Hardware::CPU.is_64_bit?)
     url "https://github.com/mongodb-js/mongosh/releases/download/v#{version}/mongosh-#{version}-linux-arm64.zip"
   end
 

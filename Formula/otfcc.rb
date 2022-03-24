@@ -14,7 +14,8 @@ class Otfcc < Formula
     # url "https://github.com/caryll/otfcc.git", tag: "v#{version}"
 
     depends_on xcode: :build
-  elsif OS.mac? && Hardware::CPU.intel?
+  # elsif OS.mac? && Hardware::CPU.intel?
+  elsif OS.mac?
     url "https://github.com/caryll/otfcc/releases/download/v#{version}/otfcc-macos.x64-#{version}.zip"
     # sha256 "d9c74825ddac700eb429de31de7cb0a249636f47c6a4cc64eaa102a40966cf00"
   end
