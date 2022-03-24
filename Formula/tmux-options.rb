@@ -1,17 +1,10 @@
 class TmuxOptions < Formula
   desc "Terminal multiplexer with custom FPS"
   homepage "https://tmux.github.io/"
-  version "3.3-rc"
+  version "3.2a"
   url "https://github.com/tmux/tmux/releases/download/#{version}/tmux-#{version}.tar.gz"
   # sha256 ""
   license "ISC"
-
-  stable do
-    patch :p0 do
-      # TEMP: fix cursor blinking (or cnorm?) within tmux
-      url "https://github.com/tmux/tmux/files/7265967/tmux-cursor.diff.txt"
-    end
-  end
 
   livecheck do
     # Pre-release support
