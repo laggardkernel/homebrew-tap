@@ -12,7 +12,9 @@ class Mosdns < Formula
 
     # Warn: build.head doesn't work under "class"
     depends_on "go" => :build
-    depends_on "upx" => :build
+    if !(OS.mac? && Hardware::CPU.arm?)
+      depends_on "upx" => :build
+    end
   end
 
   livecheck do
@@ -32,7 +34,9 @@ class Mosdns < Formula
     # url "https://github.com/IrineSistiana/mosdns.git", tag: "v#{version}"
 
     depends_on "go" => :build
-    depends_on "upx" => :build
+    if !(OS.mac? && Hardware::CPU.arm?)
+      depends_on "upx" => :build
+    end
   elsif OS.mac? && Hardware::CPU.arm?
     url "https://github.com/IrineSistiana/mosdns/releases/download/v#{version}/mosdns-darwin-arm64.zip"
   elsif OS.mac? && Hardware::CPU.intel?
@@ -74,7 +78,10 @@ class Mosdns < Formula
       cd "#{buildpath}/release"
       system "go", "run", "../", "-gen", "config.yaml"
       system "go", "build", "-ldflags", "-s -w -X main.version=#{version_str}", "-trimpath", "-o", "mosdns", "../"
-      system "upx", "-9", "-q", "mosdns"
+
+      if !(OS.mac? && Hardware::CPU.arm?)
+        system "upx", "-9", "-q", "mosdns"
+      end
       cp "../README.md", "."
       cp "../LICENSE", "."
     end

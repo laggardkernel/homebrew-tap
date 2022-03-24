@@ -14,7 +14,9 @@ class Filebrowser < Formula
     # Warn: build.head doesn't work under "class"
     depends_on "go" => :build
     depends_on "node" => :build
-    depends_on "upx" => :build
+    if !(OS.mac? && Hardware::CPU.arm?)
+      depends_on "upx" => :build
+    end
   end
 
   option "without-prebuilt", "Skip prebuilt binary and build from source"
@@ -27,7 +29,9 @@ class Filebrowser < Formula
 
     depends_on "go" => :build
     depends_on "node" => :build
-    depends_on "upx" => :build
+    if !(OS.mac? && Hardware::CPU.arm?)
+      depends_on "upx" => :build
+    end
   elsif OS.mac? && Hardware::CPU.intel?
     url "https://github.com/filebrowser/filebrowser/releases/download/v#{version}/darwin-amd64-filebrowser.tar.gz"
   elsif OS.mac? && Hardware::CPU.arm?
@@ -81,7 +85,9 @@ class Filebrowser < Formula
       go_build_cmd = "GO111MODULE=on CGO_ENABLED=0 go build" \
         + " -ldflags '#{go_build_ldflags}'"
       system go_build_cmd
-      system "upx", "-9", "-q", "filebrowser"
+      if !(OS.mac? && Hardware::CPU.arm?)
+        system "upx", "-9", "-q", "filebrowser"
+      end
     end
 
     bin.install Dir.glob("filebrowser*")[0] => "filebrowser"
