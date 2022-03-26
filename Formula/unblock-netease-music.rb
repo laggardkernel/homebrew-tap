@@ -31,10 +31,10 @@ class UnblockNeteaseMusic < Formula
     # Starting 0.27, precompiled entries are included to avoid yarn install
     if File.exist? "precompiled/app.js"
       inreplace "precompiled/app.js" do |s|
-        s.gsub! "5 * 1e3", "8 * 1e3"
-        # 0.27.0-b9
-        s.gsub! "< 5000", "< 8000"
-        # 0.27.0-rc.6
+        # s.gsub! "5 * 1e3", "8 * 1e3"
+        # # 0.27.0-b9
+        # s.gsub! "< 5000", "< 8000"
+        # 0.27.0-rc.4
         s.gsub! "< 5 * 1000", "< 8 * 1000"
       end
     end
