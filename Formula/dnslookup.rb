@@ -19,7 +19,8 @@ class Dnslookup < Formula
 
   option "without-prebuilt", "Skip prebuilt binary and build from source"
 
-  if build.without?("prebuilt") || (OS.mac? && Hardware::CPU.arm?)
+  # TODO: quic-go doesn't build on Go 1.18 yet
+  if build.without?("prebuilt") # || (OS.mac? && Hardware::CPU.arm?)
     # http downloading is quick than git cloning
     url "https://github.com/ameshkov/dnslookup/archive/refs/tags/v#{version}.tar.gz"
     # Git repo is not cloned into a sub-folder
@@ -29,7 +30,7 @@ class Dnslookup < Formula
     if !(OS.mac? && Hardware::CPU.arm?)
       depends_on "upx" => :build  # upx doesn't build on arm mac
     end
-  elsif OS.mac? && Hardware::CPU.intel?
+  elsif OS.mac? # && Hardware::CPU.intel?
     url "https://github.com/ameshkov/dnslookup/releases/download/v#{version}/dnslookup-darwin-amd64-v#{version}.tar.gz"
   elsif OS.linux? && Hardware::CPU.intel?
     url "https://github.com/ameshkov/dnslookup/releases/download/v#{version}/dnslookup-linux-amd64-v#{version}.tar.gz"
@@ -40,7 +41,7 @@ class Dnslookup < Formula
   end
 
   def install
-    if build.without?("prebuilt") || build.head?
+    if build.without?("prebuilt") || build.head? # || (OS.mac? && Hardware::CPU.arm?)
       version_str = version.to_s.start_with?("HEAD") ? version.to_s : "v#{version}"
       buildpath_parent = File.dirname(buildpath)
       ENV["GOPATH"] = if File.basename(buildpath_parent).start_with? name.to_s
