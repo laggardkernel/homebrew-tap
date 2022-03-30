@@ -3,6 +3,7 @@ class Mosdns < Formula
   homepage "https://github.com/IrineSistiana/mosdns"
   version "3.5.3"
   license "GPL-3.0"
+  revision 1
 
   head do
     # version: HEAD
@@ -50,12 +51,12 @@ class Mosdns < Formula
   end
 
   # TODO: drop one cidr list?
-  resource "china_ip_list" do
-    url "https://raw.githubusercontent.com/17mon/china_ip_list/master/china_ip_list.txt"
+  resource "geoip" do
+    url "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat"
   end
 
-  resource "geoip2-cn-txt" do
-    url "https://cdn.jsdelivr.net/gh/Hackl0us/GeoIP2-CN@release/CN-ip-cidr.txt"
+  resource "geosite" do
+    url "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat"
   end
 
   def install
@@ -95,11 +96,11 @@ class Mosdns < Formula
     mkdir_p share_dst.to_s
     cp_r Dir["*.list"], "#{share_dst}/"
     cp_r Dir["*.yaml"], "#{share_dst}/"
-    resource("china_ip_list").stage do
-      cp "china_ip_list.txt", "#{share_dst}/"
+    resource("geoip").stage do
+      cp "geoip.dat", "#{share_dst}/"
     end
-    resource("geoip2-cn-txt").stage do
-      cp "CN-ip-cidr.txt", "#{share_dst}/"
+    resource("geosite").stage do
+      cp "geosite.dat", "#{share_dst}/"
     end
 
     etc_temp = "#{buildpath}/etc_temp"
@@ -112,8 +113,8 @@ class Mosdns < Formula
         rm dst_default if dst_default.exist?
         config_path.install dst
       end
-      # mv Dir.glob(["*.list", "*.txt"]), config_path, force: true
-      Dir.glob(["*.list", "*.txt"]).each do |dst|
+      # mv Dir.glob(["*.dat", "*.list", "*.txt"]), config_path, force: true
+      Dir.glob(["*.dat", "*.list", "*.txt"]).each do |dst|
         dst_default = config_path/"#{dst}.default"
         rm dst_default if dst_default.exist?
         rm config_path/dst.to_s if (config_path/dst.to_s).exist?
@@ -130,6 +131,8 @@ class Mosdns < Formula
 
   def caveats
     <<~EOS
+      Check https://github.com/Loyalsoldier/v2ray-rules-dat for how to use
+        the v2ray rules dat: geosite.dat and geoip.dat.
       Homebrew services are run as LaunchAgents by current user.
       To make mosdns service work on privileged port, like port 53,
       you need to run it as a "global" daemon in /Library/LaunchAgents.
