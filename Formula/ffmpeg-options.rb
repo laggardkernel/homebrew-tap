@@ -8,7 +8,8 @@ class FfmpegOptions < Formula
   # None of these parts are used by default, you have to explicitly pass `--enable-gp>
   # to configure to activate them. In this case, FFmpeg's license changes to GPL v2+.
   license "GPL-2.0-or-later"
-  head "https://github.com/FFmpeg/FFmpeg.git"
+  revision 1
+  head "https://github.com/FFmpeg/FFmpeg.git", branch: "master"
 
   livecheck do
     url "https://ffmpeg.org/download.html"
@@ -26,7 +27,7 @@ class FfmpegOptions < Formula
   # option "with-zeromq", "Enable using libzeromq to receive commands sent through a libzeromq client"
   # option "with-zimg", "Enable z.lib zimg library"
   # option "with-srt", "Enable SRT library"
-  option "with-libvmaf", "Enable libvmaf scoring library"
+  # option "with-libvmaf", "Enable libvmaf scoring library"
 
   depends_on "nasm" => :build
   depends_on "pkg-config" => :build
@@ -38,15 +39,16 @@ class FfmpegOptions < Formula
   depends_on "lame"
   depends_on "libass"
   depends_on "libbluray"
+  depends_on "librist"
   depends_on "libsoxr"
   depends_on "libvidstab"
+  depends_on "libvmaf"
   depends_on "libvorbis"
   depends_on "libvpx"
   depends_on "opencore-amr"
   depends_on "openjpeg"
   depends_on "opus"
   depends_on "rav1e"
-  depends_on "rtmpdump"
   depends_on "rubberband"
   depends_on "sdl2"
   depends_on "snappy"
@@ -70,7 +72,6 @@ class FfmpegOptions < Formula
   depends_on "libmodplug" => :optional
   depends_on "librsvg" => :optional
   depends_on "libssh" => :optional
-  depends_on "libvmaf" => :optional
   depends_on "openh264" => :optional
   depends_on "two-lame" => :optional
   depends_on "wavpack" => :optional
@@ -89,13 +90,14 @@ class FfmpegOptions < Formula
     depends_on "gnutls"
   end
 
+  fails_with gcc: "5"
+
   def install
     args = %W[
       --prefix=#{prefix}
       --enable-shared
       --enable-pthreads
       --enable-version3
-      --enable-avresample
       --cc=#{ENV.cc}
       --host-cflags=#{ENV.cflags}
       --host-ldflags=#{ENV.ldflags}
@@ -106,12 +108,14 @@ class FfmpegOptions < Formula
       --enable-libmp3lame
       --enable-libopus
       --enable-librav1e
+      --enable-librist
       --enable-librubberband
       --enable-libsnappy
       --enable-libsrt
       --enable-libtesseract
       --enable-libtheora
       --enable-libvidstab
+      --enable-libvmaf
       --enable-libvorbis
       --enable-libvpx
       --enable-libwebp
@@ -127,7 +131,6 @@ class FfmpegOptions < Formula
       --enable-libopencore-amrnb
       --enable-libopencore-amrwb
       --enable-libopenjpeg
-      --enable-librtmp
       --enable-libspeex
       --enable-libsoxr
       --enable-libzmq
@@ -136,10 +139,12 @@ class FfmpegOptions < Formula
       --disable-indev=jack
     ]
 
-    on_macos do
-      # Needs corefoundation, coremedia, corevideo
-      args << "--enable-videotoolbox"
-    end
+    # libavresample has been deprecated and removed but some non-updated formulae are still linked to it
+    # Remove in the next release
+    args << "--enable-avresample" unless build.head?
+
+    # Needs corefoundation, coremedia, corevideo
+    args << "--enable-videotoolbox" if OS.mac?
 
     args << if build.with? "openssl"
       "--enable-openssl"
@@ -158,7 +163,6 @@ class FfmpegOptions < Formula
     args << "--enable-librsvg" if build.with? "librsvg"
     args << "--enable-libssh" if build.with? "libssh"
     args << "--enable-libtwolame" if build.with? "two-lame"
-    args << "--enable-libvmaf" if build.with? "libvmaf"
     args << "--enable-libwavpack" if build.with? "wavpack"
 
     if OS.mac?
@@ -174,6 +178,15 @@ class FfmpegOptions < Formula
       args << "--enable-decklink"
       args << "--extra-cflags=-I#{include}"
       args << "--extra-ldflags=-L#{include}"
+    end
+
+    # Replace hardcoded default VMAF model path
+    unless build.head?
+      %w[doc/filters.texi libavfilter/vf_libvmaf.c].each do |f|
+        inreplace f, "/usr/local/share/model", HOMEBREW_PREFIX/"share/libvmaf/model"
+        # Since libvmaf v2.0.0, `.pkl` model files have been deprecated in favor of `.json` model files.
+        inreplace f, "vmaf_v0.6.1.pkl", "vmaf_v0.6.1.json"
+      end
     end
 
     system "./configure", *args
@@ -200,3 +213,4 @@ end
 # - https://github.com/Homebrew/homebrew-core/pull/33065/files
 # - https://github.com/homebrew-ffmpeg/homebrew-ffmpeg/blob/master/Formula/ffmpeg.rb
 # - https://github.com/homebrew-ffmpeg/homebrew-ffmpeg/blob/master/Formula/ffmpeg.rb
+# - https://github.com/Homebrew/homebrew-core/commit/759597c01901310818de44799040c9f63a5aae0c, drop rtmpdump
