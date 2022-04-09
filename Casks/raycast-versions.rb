@@ -10,10 +10,13 @@ cask "raycast-versions" do
     sha256 :no_check
     url "https://api.raycast.app/v2/download"
     livecheck do
-      url :url
-      strategy :header_match
-      regex(/Raycast[._-]v?(\d+(?:\.\d+)+)[._-]universal\.dmg/i)
+      skip "Only link to the latest release is provided"
     end
+    # livecheck do
+    #   url :url
+    #   strategy :header_match
+    #   regex(/Raycast[._-]v?(\d+(?:\.\d+)+)[._-]universal\.dmg/i)
+    # end
   end
 
   name "Raycast"
