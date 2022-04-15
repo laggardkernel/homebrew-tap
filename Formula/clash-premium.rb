@@ -13,17 +13,18 @@ class ClashPremium < Formula
   end
 
   if OS.mac? && Hardware::CPU.intel?
-    url "https://github.com/Dreamacro/clash/releases/download/premium/clash-darwin-amd64-#{version}.gz"
+    url "https://release.dreamacro.workers.dev/#{version}/clash-darwin-amd64-#{version}.gz"
+    # url "https://github.com/Dreamacro/clash/releases/download/premium/clash-darwin-amd64-#{version}.gz"
   elsif OS.mac? && Hardware::CPU.arm?
-    url "https://github.com/Dreamacro/clash/releases/download/premium/clash-darwin-arm64-#{version}.gz"
+    url "https://release.dreamacro.workers.dev/#{version}/clash-darwin-arm64-#{version}.gz"
   elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is-64-bit?
-    url "https://github.com/Dreamacro/clash/releases/download/premium/clash-linux-amd64-#{version}.gz"
+    url "https://release.dreamacro.workers.dev/#{version}/clash-linux-amd64-#{version}.gz"
   elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is-32-bit?
-    url "https://github.com/Dreamacro/clash/releases/download/premium/clash-linux-386-#{version}.gz"
+    url "https://release.dreamacro.workers.dev/#{version}/clash-linux-386-#{version}.gz"
   elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is-64-bit?
-    url "https://github.com/Dreamacro/clash/releases/download/premium/clash-linux-armv8-#{version}.gz"
+    url "https://release.dreamacro.workers.dev/#{version}/clash-linux-armv8-#{version}.gz"
   elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is-32-bit?
-    url "https://github.com/Dreamacro/clash/releases/download/premium/clash-linux-armv7-#{version}.gz"
+    url "https://release.dreamacro.workers.dev/#{version}/clash-linux-armv7-#{version}.gz"
   end
 
   # resource will auto unpacked
