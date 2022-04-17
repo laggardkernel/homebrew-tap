@@ -3,7 +3,7 @@ class UnblockNeteaseMusic < Formula
   # homepage "https://github.com/nondanee/UnblockNeteaseMusic"
   # homepage "https://github.com/1715173329/UnblockNeteaseMusic"
   homepage "https://github.com/UnblockNeteaseMusic/server"
-  version "0.27.0-rc.4"
+  version "0.27.0-rc.6"
   url "https://github.com/UnblockNeteaseMusic/server/archive/refs/tags/v#{version}.tar.gz"
   # sha256 ""
   license "MIT"
@@ -42,12 +42,12 @@ class UnblockNeteaseMusic < Formula
     mkdir_p buildpath/"bin"
     (buildpath/"bin/unblock-nm").write <<~EOS
       #!/bin/bash
-      #{HOMEBREW_PREFIX}/opt/node/bin/node "#{prefix}/app.js" "$@"
+      #{HOMEBREW_PREFIX}/opt/node/bin/node -r "#{prefix}/.pnp.cjs" "#{prefix}/app.js" "$@"
     EOS
 
     (buildpath/"bin/unblock-nm-bridge").write <<~EOS
       #!/bin/bash
-      #{HOMEBREW_PREFIX}/opt/node/bin/node "#{prefix}/bridge.js" "$@"
+      #{HOMEBREW_PREFIX}/opt/node/bin/node -r "#{prefix}/.pnp.cjs" "#{prefix}/bridge.js" "$@"
     EOS
 
     bin.install
@@ -57,8 +57,8 @@ class UnblockNeteaseMusic < Formula
     # Enable development support for 0.27+
     Dir.chdir(prefix.to_s) do
       # Switch to yarn 2 since 0.27.0-rc.6. Global cache is disabled by default.
-      # system "yarn", "set", "version", "berry"
-      # system "yarn", "config", "set", "enableGlobalCache", "false"
+      system "yarn", "set", "version", "berry"
+      system "yarn", "config", "set", "enableGlobalCache", "false"
       system "yarn", "install"
     end
   end
@@ -102,8 +102,7 @@ class UnblockNeteaseMusic < Formula
           </dict>
           <key>ProgramArguments</key>
             <array>
-              <string>#{HOMEBREW_PREFIX}/opt/node/bin/node</string>
-              <string>#{opt_prefix}/app.js</string>
+              <string>#{opt_prefix}/bin/unblock-nm</string>
               <string>-a</string>
               <string>127.0.0.1</string>
               <string>-p</string>
