@@ -12,7 +12,7 @@ class MongoshBin < Formula
     end
   end
 
-  conflicts_with "mongosh", because: "each are variants of the same formula"
+  conflicts_with "mongosh", because: "they are variants of the same formula"
 
   if OS.mac? && Hardware::CPU.intel?
     url "https://github.com/mongodb-js/mongosh/releases/download/v#{version}/mongosh-#{version}-darwin-x64.zip"

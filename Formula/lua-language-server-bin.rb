@@ -1,4 +1,4 @@
-class LuaLanguageServer < Formula
+class LuaLanguageServerBin < Formula
   desc "Language Server for Lua and coded by Lua, the sumneko.lua ext for VSCode"
   homepage "https://github.com/sumneko/lua-language-server"
   version "2.6.8"
@@ -14,6 +14,8 @@ class LuaLanguageServer < Formula
       page.scan(regex).flatten.uniq
     end
   end
+
+  conflicts_with "lua-language-server", because: "they are variants of the same formula"
 
   head do
     # Clone to get submodules. Note git repo is not cloned into a sub-folder.
@@ -40,6 +42,7 @@ class LuaLanguageServer < Formula
   def install
     if build.without?("prebuilt") || build.head?
       cd "./3rd/luamake" do
+        # Skip broken test. https://github.com/actboy168/bee.lua/issues/19
         # HOME is /private/tmp/lua-language-server-*/.brew_home during compiling.
         inreplace "./3rd/bee.lua/test/test_filesystem.lua" do |s|
           s.gsub! "function test_fs:test_appdata_path()", "function appdata_path()"
@@ -69,7 +72,7 @@ class LuaLanguageServer < Formula
       system "unzip", Dir["*lua-*#{version}*.vsix"][0], "-d", "."
     end
 
-    lib.install "extension/server" => "lua-language-server"
+    libexec.install Dir["extension/server/*"]
     Dir.chdir("extension") do
       prefix.install_metafiles
     end
@@ -77,14 +80,15 @@ class LuaLanguageServer < Formula
     # TODO: use mktemp for logpath?
     (buildpath/"wrapper").write <<~EOS
       #!/bin/sh
+      # https://github.com/sumneko/lua-language-server/wiki/Command-line
       exec \\
-        #{lib}/#{name}/bin/#{name} \\
-        -E #{lib}/#{name}/main.lua \\
-        --metapath=#{lib}/#{name}/meta \\
+        #{libexec}/bin/lua-language-server \\
+        # -E #{libexec}/main.lua \\
+        # --metapath=#{libexec}/meta \\
         --logpath=#{var}/log/lua-language-server \\
         "$@"
     EOS
-    bin.install buildpath/"wrapper" => "#{name}"
+    bin.install buildpath/"wrapper" => "lua-language-server"
   end
 
   def post_install
@@ -97,14 +101,25 @@ class LuaLanguageServer < Formula
       This Lua language server has official support as a VSCode extension,
         https://marketplace.visualstudio.com/items?itemName=sumneko.lua
       For use without VSCode, check here for detail:
-        https://github.com/sumneko/lua-language-server/wiki/Setting-without-VSCode
+        https://github.com/sumneko/lua-language-server/wiki/Setting
 
-      A wrapper is provided as #{HOMEBREW_PREFIX}/bin/lua-language-server.
+      A wrapper is provided as #{HOMEBREW_PREFIX}/bin/lua-language-server
+      to use brew compatible log directory.
     EOS
   end
 
   test do
-    system "#{bin}/lua-language-server", "-v"
+    require "pty"
+    output = /^Content-Length: \d+\s*$/
+
+    stdout, stdin, lua_ls = PTY.spawn bin/"lua-language-server"
+    sleep 5
+    stdin.write "\n"
+    sleep 25
+    assert_match output, stdout.readline
+  ensure
+    Process.kill "TERM", lua_ls
+    Process.wait lua_ls
   end
 end
 # - https://github.com/sumneko/lua-language-server/wiki/Build-and-Run-(Standalone)
