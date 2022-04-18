@@ -1,7 +1,7 @@
 class LuaLanguageServerBin < Formula
   desc "Language Server for Lua and coded by Lua, the sumneko.lua ext for VSCode"
   homepage "https://github.com/sumneko/lua-language-server"
-  version "2.6.8"
+  version "3.1.0"
   license "MIT"
 
   livecheck do
@@ -29,14 +29,14 @@ class LuaLanguageServerBin < Formula
     url "https://github.com/sumneko/lua-language-server.git", tag: version.to_s
     depends_on "ninja" => :build
   elsif OS.mac? && Hardware::CPU.arm?
-    url "https://github.com/sumneko/vscode-lua/releases/download/#{version}/vscode-lua-#{version}-darwin-arm64.vsix"
+    url "https://github.com/sumneko/vscode-lua/releases/download/v#{version}/vscode-lua-v#{version}-darwin-arm64.vsix"
     # # Could easily reach rate limit with following API
-    # url "https://marketplace.visualstudio.com/_apis/public/gallery/publishers/sumneko/vsextensions/lua/#{version}/vspackage",
+    # url "https://marketplace.visualstudio.com/_apis/public/gallery/publishers/sumneko/vsextensions/lua/v#{version}/vspackage",
     #   referer: "https://marketplace.visualstudio.com/items?itemName=sumneko.lua"
   elsif OS.mac? && Hardware::CPU.intel?
-    url "https://github.com/sumneko/vscode-lua/releases/download/#{version}/vscode-lua-#{version}-darwin-x64.vsix"
+    url "https://github.com/sumneko/vscode-lua/releases/download/v#{version}/vscode-lua-v#{version}-darwin-x64.vsix"
   elsif OS.linux? && Hardware::CPU.intel?
-    url "https://github.com/sumneko/vscode-lua/releases/download/#{version}/vscode-lua-#{version}-linux-x64.vsix"
+    url "https://github.com/sumneko/vscode-lua/releases/download/v#{version}/vscode-lua-v#{version}-linux-x64.vsix"
   end
 
   def install
