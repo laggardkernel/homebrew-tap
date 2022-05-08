@@ -1,8 +1,11 @@
 class CurlOptions < Formula
   desc "Get a file from an HTTP, HTTPS or FTP server"
   homepage "https://curl.se"
-  version "7.80.0"
+  version "7.83.0"
   url "https://curl.se/download/curl-#{version}.tar.bz2"
+  mirror "https://github.com/curl/curl/releases/download/curl-#{version.to_s.gsub('.', '_')}/curl-#{version}.tar.bz2"
+  mirror "http://fresh-center.net/linux/www/curl-#{version}.tar.bz2"
+  mirror "http://fresh-center.net/linux/www/legacy/curl-#{version}.tar.bz2"
   # sha256 ""
   license "curl"
 
@@ -39,8 +42,8 @@ class CurlOptions < Formula
   depends_on "pkg-config" => :build
   depends_on "brotli"
   depends_on "libidn2"
+  depends_on "libnghttp2"
   depends_on "libssh2"
-  depends_on "nghttp2"
   depends_on "openldap"
   depends_on "rtmpdump"
   depends_on "zstd"
@@ -78,12 +81,10 @@ class CurlOptions < Formula
       --without-libpsl
     ]
 
-    on_macos do
-      args << "--with-gssapi"
-    end
-
-    on_linux do
-      args << "--with-gssapi=#{Formula["krb5"].opt_prefix}"
+    args << if OS.mac?
+      "--with-gssapi"
+    else
+      "--with-gssapi=#{Formula["krb5"].opt_prefix}"
     end
 
     # cURL has a new firm desire to find ssl with PKG_CONFIG_PATH instead of using
@@ -107,7 +108,7 @@ class CurlOptions < Formula
     system "./configure", *args
     system "make", "install"
     system "make", "install", "-C", "scripts"
-    libexec.install "lib/mk-ca-bundle.pl"
+    libexec.install "scripts/mk-ca-bundle.pl"
   end
 
   test do
