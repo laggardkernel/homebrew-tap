@@ -1,5 +1,5 @@
 cask "pictureview" do
-  version "2.2.3"
+  version "2.3.3"
   # sha256 ""
 
   url "https://wl879.github.io/apps/picview/PictureView_#{version}.dmg"

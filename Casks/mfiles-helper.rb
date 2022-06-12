@@ -20,7 +20,7 @@ cask "mfiles-helper" do
   end
 
   auto_updates false
-  depends_on macos: ">= :yosemite"
+  # depends_on macos: ">= :10.10"
 
   # Name was changed from "MFiles Helper.app" to "爱传送.app" in 2.2.1
   app "爱传送.app", target: "MFiles Helper.app"

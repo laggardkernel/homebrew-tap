@@ -14,6 +14,7 @@ class CondaStandalone < Formula
     end
   end
 
+  depends_on arch: :x86_64 # no arm64 build provided
   # Only support macOS temporarily, cause the version strings are different for
   #  macOS and Linux. Don't bother to fetch version numbers separately.
   depends_on :macos
