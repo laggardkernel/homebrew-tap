@@ -1,12 +1,12 @@
 class ClashPremium < Formula
   desc "Rule-based tunnel in Go, the pre-built premium version"
   homepage "https://github.com/Dreamacro/clash/releases/tag/premium"
-  version "2022.05.18"
+  version "2022.06.19"
   license "GPL-3.0"
 
   livecheck do
     url :homepage
-    regex(/(\d{4}[.-]\d{2}[.-]\d{2})/i)
+    regex(%r{href=.+?/releases/download/premium/[^"]+(\d{4}[.-]\d{2}[.-]\d{2})}i)
     strategy :page_match do |page, regex|
       page.scan(regex).flatten.uniq.sort
     end
