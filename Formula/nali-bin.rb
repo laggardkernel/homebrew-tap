@@ -1,7 +1,7 @@
-class Nali < Formula
+class NaliBin < Formula
   desc "Offline tool for querying IP geographic information and CDN provider"
   homepage "https://github.com/zu1k/nali"
-  version "0.3.10"
+  version "0.4.7"
   license "MIT"
 
   head do
@@ -52,9 +52,15 @@ class Nali < Formula
       ENV["GOCACHE"] = "#{ENV["GOPATH"]}/go-cache"
 
       system "go", "build", "-o", "nali"
+      # system "go", "build", *std_go_args(ldflags: "-s -w")
     end
     bin.install Dir["nali*"][0] => "nali"
+    chmod 0755, bin/"nali"
     prefix.install_metafiles
+
+    (bash_completion/"nali").write Utils.safe_popen_read(bin/"nali", "completion", "bash")
+    (fish_completion/"nali.fish").write Utils.safe_popen_read(bin/"nali", "completion", "fish")
+    (zsh_completion/"_nali").write Utils.safe_popen_read(bin/"nali", "completion", "zsh")
   end
 
   def caveats
@@ -62,8 +68,10 @@ class Nali < Formula
       zu1k/nali has support for different geoip databases. Related
       environment varialbles are:
 
-      - NALI_DB, default chunzhen
-      - NALI_DB_HOME, default ~/.nali
+      - NALI_HOME, defaults to ~/.nali
+      - NALI_DB_HOME, deprecates since 0.4
+      - NALI_DB_IP4, db used for IPv4 query
+      - NALI_DB_IP6, db used for IPv6 query
 
       Check the project's README for detail. https://github.com/zu1k/nali
     EOS
