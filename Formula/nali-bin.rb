@@ -1,7 +1,7 @@
 class NaliBin < Formula
   desc "Offline tool for querying IP geographic information and CDN provider"
   homepage "https://github.com/zu1k/nali"
-  version "0.4.7"
+  version "0.4.8"
   license "MIT"
 
   head do
