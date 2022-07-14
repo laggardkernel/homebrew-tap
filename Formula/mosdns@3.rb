@@ -1,7 +1,7 @@
 class Mosdns < Formula
   desc "Flexible forwarding DNS client"
   homepage "https://github.com/IrineSistiana/mosdns"
-  version "4.1.6"
+  version "3.9.0"
   license "GPL-3.0"
 
   head do
@@ -143,7 +143,7 @@ class Mosdns < Formula
     EOS
   end
 
-  plist_options manual: "mosdns start -d #{HOMEBREW_PREFIX}/etc/mosdns -c /usr/local/etc/mosdns/config.yaml"
+  plist_options manual: "mosdns -dir #{HOMEBREW_PREFIX}/etc/mosdns -c /usr/local/etc/mosdns/config.yaml"
   def plist
     <<~EOS
       <?xml version="1.0" encoding="UTF-8"?>
@@ -160,8 +160,7 @@ class Mosdns < Formula
           <key>ProgramArguments</key>
           <array>
               <string>#{opt_bin}/mosdns</string>
-              <string>start</string>
-              <string>-d</string>
+              <string>-dir</string>
               <string>#{etc}/mosdns</string>
               <string>-c</string>
               <string>#{etc}/mosdns/config.yaml</string>
@@ -169,9 +168,9 @@ class Mosdns < Formula
           <key>RunAtLoad</key>
           <true/>
           <key>StandardErrorPath</key>
-          <string>#{var}/log/mosdns/mosdns-v3.log</string>
+          <string>#{var}/log/mosdns/mosdns.log</string>
           <key>StandardOutPath</key>
-          <string>#{var}/log/mosdns/mosdns-v3.log</string>
+          <string>#{var}/log/mosdns/mosdns.log</string>
       </dict>
       </plist>
     EOS
