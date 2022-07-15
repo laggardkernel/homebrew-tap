@@ -3,19 +3,25 @@ require "language/node"
 class Adguardhome < Formula
   desc "Network-wide ads & trackers blocking DNS server"
   homepage "https://github.com/AdguardTeam/AdGuardHome"
-  version "0.107.7"
+  version "0.107.8"
   license "GPL-3.0"
 
   livecheck do
     # `brew style --fix` keeps converting it to wrong value :stable
     url "https://github.com/AdguardTeam/AdGuardHome/releases/"
-    regex(%r{href=.*?/tag/v?(\d+(?:\.\d+)+(?:[-_].+?)?)["' >]}i)
+
+    # match stable tags only
+    regex(%r{href=.*?/tag/v?(\d+(?:\.\d+)+(?![-_].+?)?)["' >]}i)
     strategy :page_match do |page, regex|
-      # Only return the 1st commit to avoid alphabetical version comparison
-      # E.g. 0.107.0 ==> 0.107.0-b.17
-      page.scan(regex).flatten.first
-      # page.scan(regex).flatten.uniq
+      page.scan(regex).flatten.uniq
     end
+
+    # regex(%r{href=.*?/tag/v?(\d+(?:\.\d+)+(?:[-_].+?)?)["' >]}i)
+    # strategy :page_match do |page, regex|
+    #   # Only return the 1st commit to avoid alphabetical version comparison
+    #   # E.g. 0.107.0 ==> 0.107.0-b.17
+    #   page.scan(regex).flatten.first
+    # end
   end
 
   head do
