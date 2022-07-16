@@ -169,9 +169,9 @@ class Mosdns < Formula
           <key>RunAtLoad</key>
           <true/>
           <key>StandardErrorPath</key>
-          <string>#{var}/log/mosdns/mosdns-v3.log</string>
+          <string>#{var}/log/mosdns/mosdns.log</string>
           <key>StandardOutPath</key>
-          <string>#{var}/log/mosdns/mosdns-v3.log</string>
+          <string>#{var}/log/mosdns/mosdns.log</string>
       </dict>
       </plist>
     EOS

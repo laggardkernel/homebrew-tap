@@ -1,4 +1,4 @@
-class Mosdns < Formula
+class MosdnsAT3 < Formula
   desc "Flexible forwarding DNS client"
   homepage "https://github.com/IrineSistiana/mosdns"
   version "3.9.0"
@@ -163,14 +163,14 @@ class Mosdns < Formula
               <string>-dir</string>
               <string>#{etc}/mosdns</string>
               <string>-c</string>
-              <string>#{etc}/mosdns/config.yaml</string>
+              <string>#{etc}/mosdns/config-v3.yaml</string>
           </array>
           <key>RunAtLoad</key>
           <true/>
           <key>StandardErrorPath</key>
-          <string>#{var}/log/mosdns/mosdns.log</string>
+          <string>#{var}/log/mosdns/mosdns-v3.log</string>
           <key>StandardOutPath</key>
-          <string>#{var}/log/mosdns/mosdns.log</string>
+          <string>#{var}/log/mosdns/mosdns-v3.log</string>
       </dict>
       </plist>
     EOS
