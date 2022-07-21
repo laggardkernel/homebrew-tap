@@ -1,5 +1,5 @@
 cask "mfiles-helper" do
-  version "2.3.0,20211208"
+  version "2.4.0,20220714"
   # sha256 ""
 
   # version_scheme 1 # not needed in Cask

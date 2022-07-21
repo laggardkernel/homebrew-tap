@@ -18,8 +18,9 @@ class MosdnsAT3 < Formula
   end
 
   livecheck do
-    url 'https://github.com/IrineSistiana/mosdns/releases/'
-    regex(%r{href=.*?/releases/tag/v?(\d+(?:\.\d+)+[-]?[^">]*)["' >]}i)
+    # Can't get all releases display in the release page, use API
+    url 'https://api.github.com/repos/IrineSistiana/mosdns/releases'
+    regex(%r{https://.*?/releases/tag/v?(3(?:\.\d+)+[-]?[^">]*)["' >]}i)
     strategy :page_match do |page|
       page.scan(regex).map { |match| match&.first }
     end
