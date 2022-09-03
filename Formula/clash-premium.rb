@@ -1,7 +1,7 @@
 class ClashPremium < Formula
   desc "Rule-based tunnel in Go, the pre-built premium version"
   homepage "https://github.com/Dreamacro/clash/releases/tag/premium"
-  version "2022.07.07"
+  version "2022.08.26"
   license "GPL-3.0"
 
   livecheck do
