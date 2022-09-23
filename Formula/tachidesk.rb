@@ -8,7 +8,8 @@ class Tachidesk < Formula
 
   livecheck do
     url "https://github.com/Suwayomi/Tachidesk-Server/releases"
-    regex(/["' >]*Tachidesk-Server-v?(\d+(?:\.\d+)+-?[^">]*)\.jar["' >]/i)
+    # .jar is hidden in folded "Show all * assets"
+    regex(%r{href="[^"]+?/releases/download/[^/]+/Tachidesk-Server-v?(\d+(?:\.\d+)+-?[^">]*?)-mac[^"]+["' >]}i)
     strategy :page_match do |page|
       page.scan(regex).map { |match| match&.first }
     end

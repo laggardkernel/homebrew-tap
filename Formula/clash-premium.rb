@@ -5,8 +5,11 @@ class ClashPremium < Formula
   license "GPL-3.0"
 
   livecheck do
-    url :homepage
-    regex(%r{href=.+?/releases/download/premium/[^"]+(\d{4}[.-]\d{2}[.-]\d{2})}i)
+    # # release log too long, links content is folded
+    # url :homepage
+    # regex(%r{href=.+?/releases/download/premium/[^"]+(\d{4}[.-]\d{2}[.-]\d{2})}i)
+    url "https://release.dreamacro.workers.dev/"
+    regex(%r{href="(\d{4}[.-]\d{2}[.-]\d{2})[^"]*}i)
     strategy :page_match do |page, regex|
       page.scan(regex).flatten.uniq.sort
     end
