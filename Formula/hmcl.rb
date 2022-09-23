@@ -12,7 +12,8 @@ class Hmcl < Formula
   livecheck do
     url "https://github.com/huanghongxun/HMCL/releases"
     # url "https://ci.huangyuhui.net/job/HMCL/"
-    regex(/href=.*?HMCL-v?(\d+(?:\.\d+)*)\.jar/i)
+    # assets content is loaded by javascript, match tag link
+    regex(%r{href=.*?HMCL/releases/tag/v?(\d+(?:\.\d+)*)[^"]*}i)
     strategy :page_match do |page, regex|
       page.scan(regex).map { |match| match&.first }
     end
