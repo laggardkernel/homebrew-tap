@@ -1,7 +1,7 @@
 class Mosdns < Formula
   desc "Flexible forwarding DNS client"
   homepage "https://github.com/IrineSistiana/mosdns"
-  version "4.2.0"
+  version "4.3.0"
   license "GPL-3.0"
 
   head do
@@ -76,7 +76,7 @@ class Mosdns < Formula
       # Mimic release.py
       mkdir_p "#{buildpath}/release"
       cd "#{buildpath}/release"
-      system "go", "run", "../", "-gen", "config.yaml"
+      system "go", "run", "../", "-gen", "config-v4.yaml"
       system "go", "build", "-ldflags", "-s -w -X main.version=#{version_str}", "-trimpath", "-o", "mosdns", "../"
 
       if !(OS.mac? && Hardware::CPU.arm?)
@@ -143,7 +143,7 @@ class Mosdns < Formula
     EOS
   end
 
-  plist_options manual: "mosdns start -d #{HOMEBREW_PREFIX}/etc/mosdns -c /usr/local/etc/mosdns/config.yaml"
+  plist_options manual: "mosdns start -d #{HOMEBREW_PREFIX}/etc/mosdns -c /usr/local/etc/mosdns/config-v4.yaml"
   def plist
     <<~EOS
       <?xml version="1.0" encoding="UTF-8"?>
@@ -164,14 +164,14 @@ class Mosdns < Formula
               <string>-d</string>
               <string>#{etc}/mosdns</string>
               <string>-c</string>
-              <string>#{etc}/mosdns/config.yaml</string>
+              <string>#{etc}/mosdns/config-v4.yaml</string>
           </array>
           <key>RunAtLoad</key>
           <true/>
           <key>StandardErrorPath</key>
-          <string>#{var}/log/mosdns/mosdns.log</string>
+          <string>#{var}/log/mosdns/mosdns-v4.log</string>
           <key>StandardOutPath</key>
-          <string>#{var}/log/mosdns/mosdns.log</string>
+          <string>#{var}/log/mosdns/mosdns-v4.log</string>
       </dict>
       </plist>
     EOS

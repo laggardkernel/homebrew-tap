@@ -77,7 +77,7 @@ class MosdnsAT3 < Formula
       # Mimic release.py
       mkdir_p "#{buildpath}/release"
       cd "#{buildpath}/release"
-      system "go", "run", "../", "-gen", "config.yaml"
+      system "go", "run", "../", "-gen", "config-v3.yaml"
       system "go", "build", "-ldflags", "-s -w -X main.version=#{version_str}", "-trimpath", "-o", "mosdns", "../"
 
       if !(OS.mac? && Hardware::CPU.arm?)
@@ -144,7 +144,7 @@ class MosdnsAT3 < Formula
     EOS
   end
 
-  plist_options manual: "mosdns -dir #{HOMEBREW_PREFIX}/etc/mosdns -c /usr/local/etc/mosdns/config.yaml"
+  plist_options manual: "mosdns -dir #{HOMEBREW_PREFIX}/etc/mosdns -c /usr/local/etc/mosdns/config-v3.yaml"
   def plist
     <<~EOS
       <?xml version="1.0" encoding="UTF-8"?>
