@@ -1,5 +1,5 @@
 class FfmpegOptions < Formula
-  version "5.1.1"
+  version "5.1.2"
   # sha256 ""
 
   desc "Play, record, convert, and stream audio and video"
