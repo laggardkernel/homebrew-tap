@@ -1,7 +1,7 @@
 class Mosdns < Formula
   desc "Flexible forwarding DNS client"
   homepage "https://github.com/IrineSistiana/mosdns"
-  version "4.3.1"
+  version "4.4.2"
   license "GPL-3.0"
 
   head do
