@@ -3,7 +3,7 @@ class UnblockNeteaseMusic < Formula
   # homepage "https://github.com/nondanee/UnblockNeteaseMusic"
   # homepage "https://github.com/1715173329/UnblockNeteaseMusic"
   homepage "https://github.com/UnblockNeteaseMusic/server"
-  version "0.27.0-rc.6"
+  version "0.27.0"
   url "https://github.com/UnblockNeteaseMusic/server/archive/refs/tags/v#{version}.tar.gz"
   # sha256 ""
   license "MIT"
@@ -34,8 +34,10 @@ class UnblockNeteaseMusic < Formula
         # s.gsub! "5 * 1e3", "8 * 1e3"
         # # 0.27.0-b9
         # s.gsub! "< 5000", "< 8000"
-        # 0.27.0-rc.4
-        s.gsub! "< 5 * 1000", "< 8 * 1000"
+        # # 0.27.0-rc.4
+        # s.gsub! "< 5 * 1000", "< 8 * 1000"
+        # 0.27.0
+        s.gsub! "<5e3", "<8e3"
       end
     end
 
