@@ -4,7 +4,7 @@ class Tachidesk < Formula
   version "0.6.5-r1122"
   url "https://github.com/Suwayomi/Tachidesk-Server/releases/download/v#{version.to_s.split("-").first}/Tachidesk-Server-v#{version}.jar"
   license "MPL-2.0"
-  revision 1
+  revision 2
 
   livecheck do
     url "https://github.com/Suwayomi/Tachidesk-Server/releases"
@@ -57,6 +57,8 @@ class Tachidesk < Formula
   end
 
   service do
+    environment_variables JAVA_HOME: "#{HOMEBREW_PREFIX}/opt/java"
+
     run %W[
       /usr/bin/java
       -Dsuwayomi.tachidesk.config.server.systemTrayEnabled=false
