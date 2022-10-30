@@ -1,8 +1,17 @@
 class NM3u8dlRe < Formula
   desc "Cross-Platform stream downloader for DASH/HLS"
   homepage "https://github.com/nilaoda/N_m3u8DL-RE"
-  version "0.0.5-beta,20221024"
+  version "0.0.6-beta,20221029"
   license "MIT"
+
+  livecheck do
+    # Assets section is loaded by js nowadays, use api resp
+    url "https://api.github.com/repos/nilaoda/N_m3u8DL-RE/releases"
+    regex(%r{https.*?/releases/download/v?(\d+(?:\.\d+)+(-[^"/]+)?)/N_m3u8DL-RE[^"/]+?(\d{8})[^"/]+"}i)
+    strategy :page_match do |page|
+      page.scan(regex).map { |match| match&.first + "," + match&.third }
+    end
+  end
 
   if OS.mac? && Hardware::CPU.arm?
     url "https://github.com/nilaoda/N_m3u8DL-RE/releases/download/v#{version.to_s.split(",").first}/N_m3u8DL-RE_Beta_osx-arm64_#{version.to_s.split(",").second}.tar.gz"
