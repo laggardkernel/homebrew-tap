@@ -16,9 +16,9 @@ class NM3u8dlRe < Formula
   if OS.mac? && Hardware::CPU.arm?
     url "https://github.com/nilaoda/N_m3u8DL-RE/releases/download/v#{version.to_s.split(",").first}/N_m3u8DL-RE_Beta_osx-arm64_#{version.to_s.split(",").second}.tar.gz"
   elsif OS.mac? && Hardware::CPU.intel?
-    url "https://github.com/nilaoda/N_m3u8DL-RE/releases/download/v#{version.to_s.split(",").first}/N_m3u8DL-RE_Beta_osx-x86_#{version.to_s.split(",").second}.tar.gz"
+    url "https://github.com/nilaoda/N_m3u8DL-RE/releases/download/v#{version.to_s.split(",").first}/N_m3u8DL-RE_Beta_osx-x64_#{version.to_s.split(",").second}.tar.gz"
   elsif OS.linux? && Hardware::CPU.intel?
-    url "https://github.com/nilaoda/N_m3u8DL-RE/releases/download/v#{version.to_s.split(",").first}/N_m3u8DL-RE_Beta_linux-x86_#{version.to_s.split(",").second}.tar.gz"
+    url "https://github.com/nilaoda/N_m3u8DL-RE/releases/download/v#{version.to_s.split(",").first}/N_m3u8DL-RE_Beta_linux-x64_#{version.to_s.split(",").second}.tar.gz"
   elsif OS.linux? && Hardware::CPU.arm?
     url "https://github.com/nilaoda/N_m3u8DL-RE/releases/download/v#{version.to_s.split(",").first}/N_m3u8DL-RE_Beta_linux-arm64_#{version.to_s.split(",").second}.tar.gz"
   end
