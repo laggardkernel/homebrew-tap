@@ -1,7 +1,7 @@
 class Getaddrinfo < Formula
   desc "Script to resolve domain to IP address with OS's getaddrinfo() API"
   homepage "https://github.com/acdha/unix_tools"
-  version "95ab0f3"
+  version "812fce8"
   url "https://raw.githubusercontent.com/acdha/unix_tools/#{version}/bin/getaddrinfo"
   # sha256 ""
 
