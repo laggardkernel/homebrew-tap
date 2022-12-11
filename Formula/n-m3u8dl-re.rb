@@ -1,7 +1,7 @@
 class NM3u8dlRe < Formula
   desc "Cross-Platform stream downloader for DASH/HLS"
   homepage "https://github.com/nilaoda/N_m3u8DL-RE"
-  version "0.1.3-beta,20221202"
+  version "0.1.5-beta,20221210"
   license "MIT"
 
   livecheck do
