@@ -1,13 +1,13 @@
 class LibassOptions < Formula
   desc "Subtitle renderer for the ASS/SSA subtitle format"
   homepage "https://github.com/libass/libass"
-  version "0.16.0"
+  version "0.17.0"
   url "https://github.com/libass/libass/releases/download/#{version}/libass-#{version}.tar.xz"
   # sha256 ""
   license "ISC"
 
   head do
-    url "https://github.com/libass/libass.git"
+    url "https://github.com/libass/libass.git", branch: "master"
 
     depends_on "autoconf" => :build
     depends_on "automake" => :build
@@ -18,15 +18,19 @@ class LibassOptions < Formula
 
   option "with-fontconfig", "Disable CoreText backend in favor of the more traditional fontconfig (macOS only)"
 
-  depends_on "nasm" => :build
   depends_on "pkg-config" => :build
   depends_on "freetype"
   depends_on "fribidi"
   depends_on "harfbuzz"
+  depends_on "libunibreak"
   depends_on "fontconfig" => :optional
 
   on_linux do
     depends_on "fontconfig"
+  end
+
+  on_intel do
+    depends_on "nasm" => :build
   end
 
   def install
