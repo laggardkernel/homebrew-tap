@@ -2,5 +2,7 @@
   "adguardhome-bin": "adguardhome",
   "filebrowser-bin": "filebrowser",
   "mosdns-bin": "mosdns",
-  "nali-bin": "nali"
+  "raycast-versions": "raycast-versioned",
+  "rsyncosx-versions": "rsyncosx-versioned",
+  "sourcetrail-versions": "sourcetrail-versioned"
 }

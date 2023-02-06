@@ -1,4 +1,4 @@
-cask "raycast-versions" do
+cask "raycast-versioned" do
   if MacOS.version <= :mojave
     version "1.26.3"
     url "https://pseudocold.com/app/raycast/#{version}/Raycast_v#{version}_x86.dmg"

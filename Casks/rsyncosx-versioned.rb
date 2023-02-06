@@ -1,4 +1,4 @@
-cask "rsyncosx-versions" do
+cask "rsyncosx-versioned" do
   if MacOS.version <= :mojave
     version "6.4.2"
     # Backup of the bugfix 6.4.2

@@ -1,4 +1,4 @@
-cask "sourcetrail-versions" do
+cask "sourcetrail-versioned" do
   if MacOS.version <= :mojave
     version "2021.1.30"
     sha256 "4af4d5e954dc82850c4065f5a44a3e87fa4373f2d979e631cb005c4f90721e02"
