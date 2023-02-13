@@ -1,7 +1,7 @@
 class FfmpegOptions < Formula
   version "5.1.2"
   # sha256 ""
-  revision 1
+  revision 4
 
   desc "Play, record, convert, and stream audio and video"
   homepage "https://ffmpeg.org/"

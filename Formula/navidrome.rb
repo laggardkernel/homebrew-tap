@@ -1,7 +1,7 @@
 class Navidrome < Formula
   desc "Modern Music Server and Streamer compatible with Subsonic/Airsonic"
   homepage "https://www.navidrome.org/"
-  version "0.49.1"
+  version "0.49.2"
   license "GPL-3.0"
 
   livecheck do
