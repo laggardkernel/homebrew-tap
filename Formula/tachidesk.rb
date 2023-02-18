@@ -65,7 +65,7 @@ class Tachidesk < Formula
       -jar
       #{opt_prefix}/share/tachidesk/Tachidesk-Server.jar
     ]
-    keep_alive true
+    # keep_alive { succesful_exit: true }
     log_path var/"log/tachidesk/tachidesk.log"
     error_log_path var/"log/tachidesk/tachidesk.log"
   end

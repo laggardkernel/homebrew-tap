@@ -6,7 +6,7 @@ class Cdns < Formula
   url "https://github.com/semigodking/cdns/archive/release-#{version}.tar.gz"
   # sha256 ""
   license "Apache-2.0"
-  revision 1
+  revision 2
   head "https://github.com/semigodking/cdns.git"
 
   depends_on "argp-standalone" => :build
@@ -96,31 +96,9 @@ class Cdns < Formula
     EOS
   end
 
-  plist_options manual: "cdns -c #{HOMEBREW_PREFIX}/etc/cdns/config.json"
-  def plist
-    <<~EOS
-      <?xml version="1.0" encoding="UTF-8"?>
-      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-      <plist version="1.0">
-        <dict>
-          <key>Label</key>
-          <string>#{plist_name}</string>
-          <key>ProgramArguments</key>
-          <array>
-            <string>#{opt_bin}/cdns</string>
-            <string>-c</string>
-            <string>#{etc}/cdns/config.json</string>
-          </array>
-          <key>KeepAlive</key>
-          <dict>
-            <key>SuccessfulExit</key>
-            <false/>
-          </dict>
-          <key>RunAtLoad</key>
-          <true/>
-        </dict>
-      </plist>
-    EOS
+  service do
+    run [opt_bin/"cdns", "-c", etc/"cdns/config.json"]
+    # keep_alive { succesful_exit: true }
   end
 
   test do

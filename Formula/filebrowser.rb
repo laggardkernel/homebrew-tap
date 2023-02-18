@@ -4,6 +4,7 @@ class Filebrowser < Formula
   version "2.23.0"
   # sha256
   license "MIT"
+  revision 1
 
   head do
     # version: HEAD
@@ -136,38 +137,12 @@ class Filebrowser < Formula
     EOS
   end
 
-  plist_options manual: "filebrowser -c #{HOMEBREW_PREFIX}/etc/filebrowser/.filebrowser.json"
-
-  def plist
-    <<~EOS
-      <?xml version="1.0" encoding="UTF-8"?>
-      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-      <plist version="1.0">
-      <dict>
-        <key>Label</key>
-        <string>#{plist_name}</string>
-        <key>ProgramArguments</key>
-        <array>
-          <string>#{opt_bin}/filebrowser</string>
-          <string>-c</string>
-          <string>#{etc}/filebrowser/.filebrowser.json</string>
-        </array>
-        <key>WorkingDirectory</key>
-        <string>#{etc}/filebrowser</string>
-        <key>StandardErrorPath</key>
-        <string>#{var}/log/filebrowser/filebrowser.log</string>
-        <key>StandardOutPath</key>
-        <string>#{var}/log/filebrowser/filebrowser.log</string>
-        <key>RunAtLoad</key>
-        <true/>
-        <key>KeepAlive</key>
-        <dict>
-          <key>SuccessfulExit</key>
-          <false/>
-        </dict>
-      </dict>
-      </plist>
-    EOS
+  service do
+    run [opt_bin/"filebrowser", "-c", etc/"filebrowser/.filebrowser.json"]
+    # keep_alive { succesful_exit: true }
+    working_dir etc/"filebrowser"
+    log_path var/"log/filebrowser/filebrowser.log"
+    error_log_path var/"log/filebrowser/filebrowser.log"
   end
 
   test do

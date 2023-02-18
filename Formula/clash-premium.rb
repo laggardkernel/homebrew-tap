@@ -3,6 +3,7 @@ class ClashPremium < Formula
   homepage "https://github.com/Dreamacro/clash/releases/tag/premium"
   version "2023.01.29"
   license "GPL-3.0"
+  revision 1
 
   livecheck do
     # # release log too long, links content is folded
@@ -106,33 +107,12 @@ class ClashPremium < Formula
     EOS
   end
 
-  plist_options manual: "clash -d #{HOMEBREW_PREFIX}/etc/clash"
-
-  def plist
-    <<~EOS
-      <?xml version="1.0" encoding="UTF-8"?>
-      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-      <plist version="1.0">
-        <dict>
-          <key>Label</key>
-          <string>#{plist_name}</string>
-          <key>ProgramArguments</key>
-            <array>
-              <string>#{opt_bin}/clash</string>
-              <string>-d</string>
-              <string>#{etc}/clash</string>
-            </array>
-            <key>RunAtLoad</key>
-            <true/>
-            <key>KeepAlive</key>
-            <true/>
-            <key>StandardOutPath</key>
-            <string>#{var}/log/clash/clash.log</string>
-            <key>StandardErrorPath</key>
-            <string>#{var}/log/clash/clash.log</string>
-          </dict>
-      </plist>
-    EOS
+  service do
+    require_root true
+    run [opt_bin/"clash", "-d", etc/"clash"]
+    # keep_alive { succesful_exit: true }
+    log_path var/"log/clash/clash.log"
+    error_log_path var/"log/clash/clash.log"
   end
 
   test do

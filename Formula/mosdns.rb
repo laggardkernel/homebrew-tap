@@ -3,6 +3,7 @@ class Mosdns < Formula
   homepage "https://github.com/IrineSistiana/mosdns"
   version "4.5.3"
   license "GPL-3.0"
+  revision 1
 
   head do
     # version: HEAD
@@ -143,38 +144,11 @@ class Mosdns < Formula
     EOS
   end
 
-  plist_options manual: "mosdns start -d #{HOMEBREW_PREFIX}/etc/mosdns -c /usr/local/etc/mosdns/config-v4.yaml"
-  def plist
-    <<~EOS
-      <?xml version="1.0" encoding="UTF-8"?>
-      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-      <plist version="1.0">
-      <dict>
-          <key>KeepAlive</key>
-          <dict>
-              <key>SuccessfulExit</key>
-              <false/>
-          </dict>
-          <key>Label</key>
-          <string>#{plist_name}</string>
-          <key>ProgramArguments</key>
-          <array>
-              <string>#{opt_bin}/mosdns</string>
-              <string>start</string>
-              <string>-d</string>
-              <string>#{etc}/mosdns</string>
-              <string>-c</string>
-              <string>#{etc}/mosdns/config-v4.yaml</string>
-          </array>
-          <key>RunAtLoad</key>
-          <true/>
-          <key>StandardErrorPath</key>
-          <string>#{var}/log/mosdns/mosdns-v4.log</string>
-          <key>StandardOutPath</key>
-          <string>#{var}/log/mosdns/mosdns-v4.log</string>
-      </dict>
-      </plist>
-    EOS
+  service do
+    run [opt_bin/"mosdns", "start", "-d", etc/"mosdns", "-c", etc/"mosdns/config-v4.yaml"]
+    # keep_alive { succesful_exit: true }
+    log_path var/"log/mosdns/mosdns-v4.log"
+    error_log_path var/"log/mosdns/mosdns-v4.log"
   end
 
   test do

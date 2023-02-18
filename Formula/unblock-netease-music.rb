@@ -7,6 +7,7 @@ class UnblockNeteaseMusic < Formula
   url "https://github.com/UnblockNeteaseMusic/server/archive/refs/tags/v#{version}.tar.gz"
   # sha256 ""
   license "MIT"
+  revision 1
 
   livecheck do
     # Pre-release support
@@ -81,55 +82,14 @@ class UnblockNeteaseMusic < Formula
     EOS
   end
 
-  plist_options manual: "unblock-nm --help"
-
   # TODO: ANSI escape color code is not filtered when dumping log to file.
   #  Switch json format log temporarily.
-  def plist
-    <<~EOS
-      <?xml version="1.0" encoding="UTF-8"?>
-      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-      <plist version="1.0">
-        <dict>
-          <key>Label</key>
-          <string>#{plist_name}</string>
-          <key>EnvironmentVariables</key>
-          <dict>
-            <key>DEVELOPMENT</key>
-            <string>true</string>
-            <key>ENABLE_LOCAL_VIP</key>
-            <string>true</string>
-            <key>JSON_LOG</key>
-            <string>true</string>
-          </dict>
-          <key>ProgramArguments</key>
-            <array>
-              <string>#{opt_prefix}/bin/unblock-nm</string>
-              <string>-a</string>
-              <string>127.0.0.1</string>
-              <string>-p</string>
-              <string>16300:16301</string>
-              <string>-e</string>
-              <string>https://music.163.com</string>
-              <string>-f</string>
-              <string>59.111.160.195</string>
-              <string>-o</string>
-              <string>pyncmd</string>
-              <string>kuwo</string>
-            </array>
-            <key>RunAtLoad</key>
-            <true/>
-            <key>KeepAlive</key>
-            <true/>
-            <key>StandardOutPath</key>
-            <string>#{var}/log/#{name}/access.log</string>
-            <key>StandardErrorPath</key>
-            <string>#{var}/log/#{name}/access.log</string>
-            <key>WorkingDirectory</key>
-            <string>#{opt_prefix}</string>
-          </dict>
-      </plist>
-    EOS
+  service do
+    environment_variables DEVELOPMENT: "true", ENABLE_LOCAL_VIP: "true", JSON_LOG: "true"
+    run [opt_bin/"unblock-nm", "-a", "127.0.0.1", "-p", "16300:16301", "-e", "https://music.163.com", "-f", "59.111.160.195", "-o", "pyncmd", "kuwo"]
+    # keep_alive { succesful_exit: true }
+    log_path var/"log/unblock-netease-music/access.log"
+    error_log_path var/"log/unblock-netease-music/access.log"
   end
 
   test do

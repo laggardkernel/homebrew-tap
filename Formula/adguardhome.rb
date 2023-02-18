@@ -5,6 +5,7 @@ class Adguardhome < Formula
   homepage "https://github.com/AdguardTeam/AdGuardHome"
   version "0.107.23"
   license "GPL-3.0"
+  revision 1
 
   livecheck do
     # `brew style --fix` keeps converting it to wrong value :stable
@@ -150,38 +151,13 @@ class Adguardhome < Formula
     EOS
   end
 
-  plist_options manual: "sudo AdGuardHome -w #{HOMEBREW_PREFIX}/etc/adguardhome"
-
-  def plist
-    <<~EOS
-      <?xml version="1.0" encoding="UTF-8"?>
-      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-      <plist version="1.0">
-      <dict>
-        <key>Label</key>
-        <string>#{plist_name}</string>
-        <key>ProgramArguments</key>
-        <array>
-          <string>#{opt_bin}/AdGuardHome</string>
-          <string>-w</string>
-          <string>#{etc}/adguardhome</string>
-        </array>
-        <key>WorkingDirectory</key>
-        <string>#{etc}/adguardhome</string>
-        <key>StandardErrorPath</key>
-        <string>#{var}/log/adguardhome/adguardhome.log</string>
-        <key>StandardOutPath</key>
-        <string>#{var}/log/adguardhome/adguardhome.log</string>
-        <key>RunAtLoad</key>
-        <true/>
-        <key>KeepAlive</key>
-        <dict>
-          <key>SuccessfulExit</key>
-          <false/>
-        </dict>
-      </dict>
-      </plist>
-    EOS
+  service do
+    require_root true
+    run [opt_bin/"AdGuardHome", "-w", etc/"adguardhome"]
+    # keep_alive { succesful_exit: true }
+    working_dir etc/"adguardhome"
+    log_path var/"log/adguardhome/adguardhome.log"
+    error_log_path var/"log/adguardhome/adguardhome.log"
   end
 
   test do

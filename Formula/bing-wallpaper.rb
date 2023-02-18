@@ -6,6 +6,7 @@ class BingWallpaper < Formula
   # sha256 ""
   head "https://github.com/thejandroman/bing-wallpaper.git"
   license "GPL-3.0"
+  revision 1
 
   livecheck do
     url "https://github.com/thejandroman/bing-wallpaper/commits/master/bing-wallpaper.sh"
@@ -33,28 +34,10 @@ class BingWallpaper < Formula
     EOS
   end
 
-  plist_options startup: true
-  def plist
-    <<~EOS
-      <?xml version="1.0" encoding="UTF-8"?>
-      <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-      <plist version="1.0">
-      <dict>
-          <key>Label</key>
-          <string>#{plist_name}</string>
-          <key>ProgramArguments</key>
-          <array>
-              <string>#{opt_bin}/bing-wallpaper</string>
-              <string>-s</string>
-              <string>-w</string>
-          </array>
-          <key>RunAtLoad</key>
-          <true/>
-          <key>StartInterval</key>
-          <integer>14400</integer>
-      </dict>
-      </plist>
-    EOS
+  service do
+    run [opt_bin/"bing-wallpapar", "-s", "-w"]
+    run_type :interval
+    interval 14400
   end
 
   test do
