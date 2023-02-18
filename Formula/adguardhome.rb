@@ -3,9 +3,8 @@ require "language/node"
 class Adguardhome < Formula
   desc "Network-wide ads & trackers blocking DNS server"
   homepage "https://github.com/AdguardTeam/AdGuardHome"
-  version "0.107.23"
+  version "0.107.24"
   license "GPL-3.0"
-  revision 1
 
   livecheck do
     # `brew style --fix` keeps converting it to wrong value :stable
