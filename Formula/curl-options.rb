@@ -1,7 +1,7 @@
 class CurlOptions < Formula
   desc "Get a file from an HTTP, HTTPS or FTP server"
   homepage "https://curl.se"
-  version "7.87.0"
+  version "7.88.0"
   url "https://curl.se/download/curl-#{version}.tar.bz2"
   mirror "https://github.com/curl/curl/releases/download/curl-#{version.to_s.gsub('.', '_')}/curl-#{version}.tar.bz2"
   mirror "http://fresh-center.net/linux/www/curl-#{version}.tar.bz2"
@@ -15,7 +15,7 @@ class CurlOptions < Formula
   end
 
   head do
-    url "https://github.com/curl/curl.git"
+    url "https://github.com/curl/curl.git", branch: "master"
 
     depends_on "autoconf" => :build
     depends_on "automake" => :build
@@ -53,6 +53,17 @@ class CurlOptions < Formula
 
   uses_from_macos "krb5"
   uses_from_macos "zlib"
+
+  # Fix HTTP/2 corruption issues.
+  # Remove with 7.88.1.
+  patch do
+    url "https://github.com/curl/curl/commit/3103de2053ca8cacf9cdbe78764ba6814481709f.patch?full_index=1"
+    sha256 "f4abbeb8174ab51b393da02c2761ba56bc40c577b5802aa41e74a3adc7d5a0be"
+  end
+  patch do
+    url "https://github.com/curl/curl/commit/87ed650d04dc1a6f7944a5d952f7d5b0934a19ac.patch?full_index=1"
+    sha256 "39f74a9c88dced544a8ea0a1c1e8c9f30eae19c41223350991ebf03e5dec764d"
+  end
 
   def install
     # Fail if someone tries to use both SSL choices.
