@@ -1,8 +1,12 @@
 class Navidrome < Formula
   desc "Modern Music Server and Streamer compatible with Subsonic/Airsonic"
   homepage "https://www.navidrome.org/"
+  # Check build dependency versions requirement before bumping up the version:
+  # - https://github.com/navidrome/navidrome/blob/master/go.mod
+  # - https://github.com/navidrome/navidrome/blob/master/.nvmrc
   version "0.49.2"
   license "GPL-3.0"
+  revision 1
 
   livecheck do
     url "https://github.com/navidrome/navidrome/releases"
@@ -16,7 +20,7 @@ class Navidrome < Formula
     # url "https://github.com/navidrome/navidrome.git"
 
     # Warn: build.head doesn't work under "class"
-    depends_on "go@1.18" => :build
+    depends_on "go@1.19" => :build
     depends_on "node@16" => :build
     depends_on "taglib" => :build
     if !(OS.mac? && Hardware::CPU.arm?)
@@ -34,7 +38,7 @@ class Navidrome < Formula
     # url "https://github.com/navidrome/navidrome.git", tag: "v#{version}"
 
     # The setup is very strict, and the steps below only work with these versions (enforced in the Makefile)
-    depends_on "go@1.18" => :build
+    depends_on "go@1.19" => :build
     depends_on "node@16" => :build
     depends_on "taglib" => :build
     if !(OS.mac? && Hardware::CPU.arm?)
