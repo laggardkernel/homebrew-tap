@@ -1,44 +1,44 @@
-class ClashPremium < Formula
-  desc "Rule-based tunnel in Go, the pre-built premium version"
-  homepage "https://github.com/Dreamacro/clash/releases/tag/premium"
-  version "2023.02.16"
+class ClashMetaBin < Formula
+  desc "Rule-based tunnel in Go, the forked one Clash.Meta"
+  homepage "https://github.com/MetaCubeX/Clash.Meta"
+  version "1.14.2"
   license "GPL-3.0"
 
   livecheck do
-    # # release log too long, links content is folded
-    # url :homepage
-    # regex(%r{href=.+?/releases/download/premium/[^"]+(\d{4}[.-]\d{2}[.-]\d{2})}i)
-    url "https://release.dreamacro.workers.dev/"
-    regex(%r{href="(\d{4}[.-]\d{2}[.-]\d{2})[^"]*}i)
+    url "https://github.com/MetaCubeX/Clash.Meta/releases"
+    regex(%r{href=.*?/releases/tag/v?(\d+(?:\.\d+)+(-[^"]+)?)"}i)
     strategy :page_match do |page, regex|
       page.scan(regex).flatten.uniq.sort
     end
   end
 
   if OS.mac? && Hardware::CPU.intel?
-    url "https://release.dreamacro.workers.dev/#{version}/clash-darwin-amd64-#{version}.gz"
-    # url "https://github.com/Dreamacro/clash/releases/download/premium/clash-darwin-amd64-#{version}.gz"
+    # TODO(lk): what about the 'cgo' variant
+    url "https://github.com/MetaCubeX/Clash.Meta/releases/download/v#{version}/clash.meta-darwin-amd64-v#{version}.gz"
   elsif OS.mac? && Hardware::CPU.arm?
-    url "https://release.dreamacro.workers.dev/#{version}/clash-darwin-arm64-#{version}.gz"
+    url "https://github.com/MetaCubeX/Clash.Meta/releases/download/v#{version}/clash.meta-darwin-arm64-v#{version}.gz"
   elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is-64-bit?
-    url "https://release.dreamacro.workers.dev/#{version}/clash-linux-amd64-#{version}.gz"
+    # TODO(lk): 'compatible' variant?
+    url "https://github.com/MetaCubeX/Clash.Meta/releases/download/v#{version}/clash.meta-linux-amd64-v#{version}.gz"
   elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is-32-bit?
-    url "https://release.dreamacro.workers.dev/#{version}/clash-linux-386-#{version}.gz"
+    url "https://github.com/MetaCubeX/Clash.Meta/releases/download/v#{version}/clash.meta-linux-386-cgo-v#{version}.gz"
   elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is-64-bit?
-    url "https://release.dreamacro.workers.dev/#{version}/clash-linux-armv8-#{version}.gz"
+    url "https://github.com/MetaCubeX/Clash.Meta/releases/download/v#{version}/clash.meta-linux-arm64-v#{version}.gz"
   elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is-32-bit?
-    url "https://release.dreamacro.workers.dev/#{version}/clash-linux-armv7-#{version}.gz"
+    url "https://github.com/MetaCubeX/Clash.Meta/releases/download/v#{version}/clash.meta-linux-armv7-v#{version}.gz"
   end
 
   # resource will auto unpacked
   resource "clash-dashboard" do
-    # folder name: clash-dashboard-gh-pages
-    url "https://github.com/Dreamacro/clash-dashboard/archive/gh-pages.tar.gz"
+    # url: http://clash.metacubex.one/, https://metacubex.github.io/Razord-meta
+    # folder: Razord-meta-gh-pages.tar.gz
+    url "https://github.com/MetaCubeX/Razord-meta/archive/gh-pages.tar.gz"
   end
 
   resource "yacd" do
-    # folder name: yacd-gh-pages
-    url "https://github.com/haishanh/yacd/archive/gh-pages.tar.gz"
+    # url: http://yacd.metacubex.one/, https://metacubex.github.io/Yacd-meta
+    # folder: Yacd-meta-gh-pages.tar.gz
+    url "https://github.com/MetaCubeX/Yacd-meta/archive/gh-pages.tar.gz"
   end
 
   resource "mmdb" do
@@ -48,11 +48,11 @@ class ClashPremium < Formula
   end
 
   def install
-    # binary name: clash-darwin-amd64-2021.02.21
-    bin.install Dir.glob("clash*")[0] => "clash"
+    # binary name: clash.meta-darwin-amd64-v1.14.2
+    bin.install Dir.glob("clash.meta*")[0] => "clash-meta"
 
     # Dashboards, one copy saved into share
-    share_dst = "#{share}/clash"
+    share_dst = "#{share}/clash-meta"
     mkdir_p share_dst.to_s
     resource("clash-dashboard").stage do
       cp_r ".", "#{share_dst}/clash-dashboard"
@@ -69,7 +69,7 @@ class ClashPremium < Formula
     cp_r "#{share_dst}/.", etc_temp
 
     Dir.chdir(etc_temp.to_s) do
-      config_path = etc/"clash"
+      config_path = etc/"clash-meta"
       [
         "clash-dashboard",
         "yacd",
@@ -85,14 +85,14 @@ class ClashPremium < Formula
   end
 
   def post_install
-    (var/"log/clash").mkpath
-    chmod 0755, var/"log/clash"
+    (var/"log/clash-meta").mkpath
+    chmod 0755, var/"log/clash-meta"
   end
 
   def caveats
     <<~EOS
       Homebrew services are run as LaunchAgents by current user.
-      To start TUN mode, Clash should be run as a privileged service,
+      To start TUN mode, Clash.Meta should be run as a privileged service,
       you need to run it as a "global" daemon from /Library/LaunchAgents.
 
         sudo cp -f #{plist_path} /Library/LaunchAgents/
@@ -100,7 +100,7 @@ class ClashPremium < Formula
       If you prefer using `sudo brew services`. Run `brew fix-perm` after it
       to fix the ruin file permissions.
 
-      A global conf folder `#{HOMEBREW_PREFIX}/etc/clash` is created, with prebuilt
+      A global conf folder `#{HOMEBREW_PREFIX}/etc/clash-meta` is created, with prebuilt
       dashboard static files. Before you start the launchd service, put a conf
       `config.yaml` and start the service once manually to download MMDB.
     EOS
@@ -108,10 +108,10 @@ class ClashPremium < Formula
 
   service do
     require_root true
-    run [opt_bin/"clash", "-d", etc/"clash"]
+    run [opt_bin/"clash-meta", "-d", etc/"clash-meta"]
     # keep_alive { succesful_exit: true }
-    log_path var/"log/clash/clash.log"
-    error_log_path var/"log/clash/clash.log"
+    log_path var/"log/clash-meta/clash.log"
+    error_log_path var/"log/clash-meta/clash.log"
   end
 
   test do
@@ -139,8 +139,8 @@ class ClashPremium < Formula
           password: "test"
           cipher: chacha20-ietf-poly1305
     EOS
-    system "#{bin}/clash", "-t", "-d", testpath # test config && download Country.mmdb
-    client = fork { exec "#{bin}/clash", "-d", testpath }
+    system "#{bin}/clash-meta", "-t", "-d", testpath # test config && download Country.mmdb
+    client = fork { exec "#{bin}/clash-meta", "-d", testpath }
 
     sleep 3
     begin
