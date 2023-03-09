@@ -1,17 +1,27 @@
 class ClashPremium < Formula
   desc "Rule-based tunnel in Go, the pre-built premium version"
   homepage "https://github.com/Dreamacro/clash/releases/tag/premium"
-  version "2023.02.16"
   license "GPL-3.0"
 
-  livecheck do
-    # # release log too long, links content is folded
-    # url :homepage
-    # regex(%r{href=.+?/releases/download/premium/[^"]+(\d{4}[.-]\d{2}[.-]\d{2})}i)
-    url "https://release.dreamacro.workers.dev/"
-    regex(%r{href="(\d{4}[.-]\d{2}[.-]\d{2})[^"]*}i)
-    strategy :page_match do |page, regex|
-      page.scan(regex).flatten.uniq.sort
+  option "with-redir-host", "Use the old version with 'redir-host'"
+
+  if build.with? "redir-host" || MacOS.version <= :mojave
+    # https://github.com/Dreamacro/clash/issues/2599
+    version "2023.01.29"
+    livecheck do
+      skip "2023.01.29, last version with 'redir-host'"
+    end
+  else
+    version "2023.03.04"
+    livecheck do
+      # # release log too long, links content is folded
+      # url :homepage
+      # regex(%r{href=.+?/releases/download/premium/[^"]+(\d{4}[.-]\d{2}[.-]\d{2})}i)
+      url "https://release.dreamacro.workers.dev/"
+      regex(%r{href="(\d{4}[.-]\d{2}[.-]\d{2})[^"]*}i)
+      strategy :page_match do |page, regex|
+        page.scan(regex).flatten.uniq.sort
+      end
     end
   end
 
