@@ -9,7 +9,7 @@ cask "clashx-meta" do
 
   livecheck do
     url "https://github.com/MetaCubeX/ClashX.Meta/releases"
-    regex(%r{href=.*?/releases/tag/v?(\d+(?:\.\d+)+(-[^"]+)?)"}i)
+    regex(%r{href=".*?/releases/tag/v?(\d+(?:\.\d+)+)"}i)
     strategy :page_match do |page, regex|
       page.scan(regex).flatten.uniq.sort
     end

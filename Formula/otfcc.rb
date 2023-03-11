@@ -6,6 +6,10 @@ class Otfcc < Formula
 
   option "without-prebuilt", "Skip prebuilt binary and build from source"
 
+  livecheck do
+    skip "Project archived, end of life"
+  end
+
   # sha256: skipped, too complicated
   if build.without?("prebuilt")
     # http downloading is quick than git cloning
