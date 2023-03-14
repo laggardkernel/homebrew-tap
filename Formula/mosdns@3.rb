@@ -5,26 +5,8 @@ class MosdnsAT3 < Formula
   license "GPL-3.0"
   revision 1
 
-  head do
-    # version: HEAD
-    # url "https://github.com/IrineSistiana/mosdns/archive/refs/heads/main.zip"
-    # Git repo is not cloned into a sub-folder. version, HEAD-1234567
-    url "https://github.com/IrineSistiana/mosdns.git", branch: "main"
-
-    # Warn: build.head doesn't work under "class"
-    depends_on "go" => :build
-    if !(OS.mac? && Hardware::CPU.arm?)
-      depends_on "upx" => :build
-    end
-  end
-
   livecheck do
-    # Can't get all releases display in the release page, use API
-    url 'https://api.github.com/repos/IrineSistiana/mosdns/releases'
-    regex(%r{https://.*?/releases/tag/v?(3(?:\.\d+)+[-]?[^">]*)["' >]}i)
-    strategy :page_match do |page|
-      page.scan(regex).map { |match| match&.first }
-    end
+    skip '3.x versions are no longer developed'
   end
 
   option "without-prebuilt", "Skip prebuilt binary and build from source"

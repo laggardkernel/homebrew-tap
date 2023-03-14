@@ -1,29 +1,25 @@
-class Mosdns < Formula
+class MosdnsAT4 < Formula
   desc "Flexible forwarding DNS client"
   homepage "https://github.com/IrineSistiana/mosdns"
   version "4.5.3"
   license "GPL-3.0"
   revision 1
 
-  head do
-    # version: HEAD
-    # url "https://github.com/IrineSistiana/mosdns/archive/refs/heads/main.zip"
-    # Git repo is not cloned into a sub-folder. version, HEAD-1234567
-    url "https://github.com/IrineSistiana/mosdns.git", branch: "main"
+  # head do
+  #   # version: HEAD
+  #   # url "https://github.com/IrineSistiana/mosdns/archive/refs/heads/main.zip"
+  #   # Git repo is not cloned into a sub-folder. version, HEAD-1234567
+  #   url "https://github.com/IrineSistiana/mosdns.git", branch: "main"
 
-    # Warn: build.head doesn't work under "class"
-    depends_on "go" => :build
-    if !(OS.mac? && Hardware::CPU.arm?)
-      depends_on "upx" => :build
-    end
-  end
+  #   # Warn: build.head doesn't work under "class"
+  #   depends_on "go" => :build
+  #   if !(OS.mac? && Hardware::CPU.arm?)
+  #     depends_on "upx" => :build
+  #   end
+  # end
 
   livecheck do
-    url 'https://github.com/IrineSistiana/mosdns/releases/'
-    regex(%r{href=.*?/releases/tag/v?(\d+(?:\.\d+)+[-]?[^">]*)["' >]}i)
-    strategy :page_match do |page|
-      page.scan(regex).map { |match| match&.first }
-    end
+    skip '4.x versions are no longer developed'
   end
 
   option "without-prebuilt", "Skip prebuilt binary and build from source"
