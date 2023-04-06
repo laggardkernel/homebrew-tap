@@ -1,5 +1,5 @@
 cask "clashx-meta" do
-  version "1.2.1"
+  version "1.2.3"
   # sha256
 
   url "https://github.com/MetaCubeX/ClashX.Meta/releases/download/v#{version}/ClashX.Meta.zip"
