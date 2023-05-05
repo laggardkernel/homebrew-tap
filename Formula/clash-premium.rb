@@ -12,7 +12,7 @@ class ClashPremium < Formula
       skip "2023.01.29, last version with 'redir-host'"
     end
   else
-    version "2023.03.18"
+    version "2023.04.16"
     livecheck do
       # # release log too long, links content is folded
       # url :homepage
