@@ -4,6 +4,7 @@ class UnblockNeteaseMusic < Formula
   # homepage "https://github.com/1715173329/UnblockNeteaseMusic"
   homepage "https://github.com/UnblockNeteaseMusic/server"
   version "0.27.1"
+  revision 2
   url "https://github.com/UnblockNeteaseMusic/server/archive/refs/tags/v#{version}.tar.gz"
   # sha256 ""
   license "MIT"
@@ -46,12 +47,12 @@ class UnblockNeteaseMusic < Formula
     mkdir_p buildpath/"bin"
     (buildpath/"bin/unblock-nm").write <<~EOS
       #!/bin/bash
-      #{HOMEBREW_PREFIX}/opt/node/bin/node -r "#{prefix}/.pnp.cjs" "#{prefix}/app.js" "$@"
+      #{HOMEBREW_PREFIX}/opt/node/bin/node "#{prefix}/app.js" "$@"
     EOS
 
     (buildpath/"bin/unblock-nm-bridge").write <<~EOS
       #!/bin/bash
-      #{HOMEBREW_PREFIX}/opt/node/bin/node -r "#{prefix}/.pnp.cjs" "#{prefix}/bridge.js" "$@"
+      #{HOMEBREW_PREFIX}/opt/node/bin/node "#{prefix}/bridge.js" "$@"
     EOS
 
     bin.install
