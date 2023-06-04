@@ -1,7 +1,7 @@
 class ClashMetaBin < Formula
   desc "Rule-based tunnel in Go, the forked one Clash.Meta"
   homepage "https://github.com/MetaCubeX/Clash.Meta"
-  version "1.14.4"
+  version "1.14.5"
   license "GPL-3.0"
 
   livecheck do
