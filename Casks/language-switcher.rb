@@ -6,7 +6,7 @@ cask 'language-switcher' do
   url "https://pseudocold.com/app/language-switcher/language-switcher-#{version}.dmg"
   # url "https://feng-bbs-att-1255531212.file.myqcloud.com/2013/03/13/4671851_Language_Switcher_1_1_7.dmg"
   # url "http://www.tj-hd.co.uk/downloads/Language_Switcher_#{version.dots_to_underscores}.dmg"
-  appcast 'http://feeds.tj-hd.co.uk/feeds/language_switcher/appcast.xml'
+  # appcast 'http://feeds.tj-hd.co.uk/feeds/language_switcher/appcast.xml'  # obsolete
   name 'Language Switcher'
   homepage 'http://www.tj-hd.co.uk/en-gb/languageswitcher/'
 
