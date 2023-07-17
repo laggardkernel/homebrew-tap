@@ -1,8 +1,9 @@
 class Iterm2Zmodem < Formula
   desc "ZModem integration with iTerm2"
   homepage "https://github.com/laggardkernel/iterm2-zmodem"
-  url "https://github.com/laggardkernel/iterm2-zmodem/archive/v1.0.0.tar.gz"
-  sha256 "4a19e2f97abf11ed0a6f80d575198a1bd0e44a6d907b1b9017a2dc537a0cfcf9"
+  version '1.1.0'
+  url "https://github.com/laggardkernel/iterm2-zmodem/archive/v#{version}.tar.gz"
+  # sha256 ""
   head "https://github.com/laggardkernel/iterm2-zmodem.git"
 
   depends_on "lrzsz"
@@ -16,15 +17,17 @@ class Iterm2Zmodem < Formula
     <<~EOS
       Create triggers under Profiles -> Advanced:
 
-        Regular expression: rz waiting to receive.\*\*B0100
+        Regular expression: rz waiting to receive.\\*\\*B0100
         Action: Run Silent Coprocess
         Parameters: #{HOMEBREW_PREFIX}/bin/iterm2-zmodem-send
         Instant: checked
 
-        Regular expression: \*\*B00000000000000
+        Regular expression: \\*\\*B00000000000000
         Action: Run Silent Coprocess
         Parameters: #{HOMEBREW_PREFIX}/bin/iterm2-zmodem-recv
         Instant: checked
+
+      Use 'brew info item2-zmodem' to show this note again.
     EOS
   end
 end
