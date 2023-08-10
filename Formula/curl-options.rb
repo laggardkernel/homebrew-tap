@@ -1,7 +1,7 @@
 class CurlOptions < Formula
   desc "Get a file from an HTTP, HTTPS or FTP server"
   homepage "https://curl.se"
-  version "8.1.2"
+  version "8.2.1"
   url "https://curl.se/download/curl-#{version}.tar.bz2"
   mirror "https://github.com/curl/curl/releases/download/curl-#{version.to_s.gsub('.', '_')}/curl-#{version}.tar.bz2"
   mirror "http://fresh-center.net/linux/www/curl-#{version}.tar.bz2"
@@ -29,14 +29,14 @@ class CurlOptions < Formula
   option "with-gnutls", "Build with GnuTLS support"
 
   deprecated_option "with-ares" => "with-c-ares"
-  deprecated_option "with-openssl@1.1" => "with-openssl"
+  deprecated_option "with-openssl@3" => "with-openssl"
 
   # HTTP/2 support requires OpenSSL 1.0.2+ or LibreSSL 2.1.3+ for ALPN Support
   # which is currently not supported by Secure Transport (DarwinSSL).
   if build.with?("gnutls")
     depends_on "gnutls"
   else
-    depends_on "openssl@1.1"
+    depends_on "openssl@3"
   end
 
   depends_on "pkg-config" => :build
@@ -95,7 +95,7 @@ class CurlOptions < Formula
       args << "--with-gnutls=#{Formula["gnutls"].opt_prefix}"
       args << "--with-default-ssl-backend=gnutls"
     else
-      args << "--with-ssl=#{Formula["openssl@1.1"].opt_prefix}"
+      args << "--with-ssl=#{Formula["openssl@3"].opt_prefix}"
       args << "--with-default-ssl-backend=openssl"
     end
 
