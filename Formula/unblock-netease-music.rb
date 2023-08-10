@@ -3,7 +3,7 @@ class UnblockNeteaseMusic < Formula
   # homepage "https://github.com/nondanee/UnblockNeteaseMusic"
   # homepage "https://github.com/1715173329/UnblockNeteaseMusic"
   homepage "https://github.com/UnblockNeteaseMusic/server"
-  version "0.27.2-patch.2"
+  version "0.27.3"
   url "https://github.com/UnblockNeteaseMusic/server/archive/refs/tags/v#{version}.tar.gz"
   # sha256 ""
   license "MIT"
@@ -86,7 +86,7 @@ class UnblockNeteaseMusic < Formula
   # TODO: ANSI escape color code is not filtered when dumping log to file.
   #  Switch json format log temporarily.
   service do
-    environment_variables DEVELOPMENT: "true", ENABLE_LOCAL_VIP: "true", JSON_LOG: "true", BLOCK_ADS: "true", DISABLE_UPGRADE_CHECK: "true"
+    environment_variables DEVELOPMENT: "true", ENABLE_LOCAL_VIP: "true", JSON_LOG: "true", BLOCK_ADS: "true", DISABLE_UPGRADE_CHECK: "true", KUWO_COOKIE: "Hm_Iuvt_cdb524f42f0ce19b169b8072123a4727=CQXkhzXjGD6MFQrPTBxEpSmZXF78wP8e; Secret=1d0d220792feb563f97fdb0de2b7ebad69f781cdcdbe51d1203a3be9d3e92f5e04b00a24"
     run [opt_bin/"unblock-nm", "-a", "127.0.0.1", "-p", "16300:16301", "-e", "https://music.163.com", "-f", "59.111.160.195", "-o", "pyncmd", "kuwo"]
     # keep_alive { succesful_exit: true }
     log_path var/"log/unblock-netease-music/access.log"
