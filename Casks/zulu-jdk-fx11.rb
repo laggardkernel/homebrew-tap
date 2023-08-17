@@ -1,7 +1,7 @@
 cask "zulu-jdk-fx11" do
   arch = Hardware::CPU.intel? ? "x64" : "aarch64"
 
-  version "11.0.19,11.64.19-ca-fx"
+  version "11.0.20,11.66.15_1-ca-fx"
 
   # Note: prefer tar.gz over dmg for installation cause the later not only put
   #  files into /Library/Java/JavaVirtualMachines, but also a backup of .pkg
@@ -23,7 +23,7 @@ cask "zulu-jdk-fx11" do
   livecheck do
     url "https://api.azul.com/zulu/download/community/v1.0/bundles/latest/?java_version=#{version.major}&bundle_type=jdk&javafx=true&ext=dmg&os=macos"
     strategy :page_match do |page|
-      match = page.match(/zulu(\d+(?:\.\d+)*-.*?)-jdk(\d+(?:\.\d+)*)-macosx_(aarch64|x64)\.dmg/i)
+      match = page.match(/zulu(\d+(?:[._]\d+)*-.*?)-jdk(\d+(?:\.\d+)*)-macosx_(aarch64|x64)\.dmg/i)
       "#{match[2]},#{match[1]}"
     end
   end
