@@ -1,7 +1,7 @@
 class Dnslookup < Formula
   desc "Simple command-line utility to make DNS lookups using any protocol"
   homepage "https://github.com/ameshkov/dnslookup"
-  version "1.9.1"
+  version "1.9.2"
   license "GPL-3.0-only"
 
   head do
