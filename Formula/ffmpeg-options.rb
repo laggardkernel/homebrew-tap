@@ -8,6 +8,7 @@ class FfmpegOptions < Formula
   # None of these parts are used by default, you have to explicitly pass `--enable-gp>
   # to configure to activate them. In this case, FFmpeg's license changes to GPL v2+.
   license "GPL-2.0-or-later"
+  revision 1
   head "https://github.com/FFmpeg/FFmpeg.git", branch: "master"
 
   livecheck do
@@ -91,6 +92,22 @@ class FfmpegOptions < Formula
 
   fails_with gcc: "5"
 
+  # Fix for QtWebEngine, do not remove
+  # https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=270209
+  patch do
+    url "https://gitlab.archlinux.org/archlinux/packaging/packages/ffmpeg/-/raw/5670ccd86d3b816f49ebc18cab878125eca2f81f/add-av_stream_get_first_dts-for-chromium.patch"
+    sha256 "57e26caced5a1382cb639235f9555fc50e45e7bf8333f7c9ae3d49b3241d3f77"
+  end
+
+  stable do
+    # Fix for binutils, remove with next release
+    # https://www.linuxquestions.org/questions/slackware-14/regression-on-current-with-ffmpeg-4175727691/
+    patch do
+      url "https://git.videolan.org/?p=ffmpeg.git;a=patch;h=effadce6c756247ea8bae32dc13bb3e6f464f0eb"
+      sha256 "a50d7da9870a3fd801ad3a4d13d5c9b260acb094cf8bfa4afd95a54741173a7f"
+    end
+  end
+
   def install
     args = %W[
       --prefix=#{prefix}
@@ -139,7 +156,7 @@ class FfmpegOptions < Formula
     ]
 
     # Needs corefoundation, coremedia, corevideo
-    args << "--enable-videotoolbox" if OS.mac?
+    args += %w[--enable-videotoolbox --enable-audiotoolbox] if OS.mac?
     args << "--enable-neon" if Hardware::CPU.arm?
 
     args << if build.with? "openssl"
