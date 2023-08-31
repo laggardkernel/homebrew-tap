@@ -7,6 +7,7 @@ class UnblockNeteaseMusic < Formula
   url "https://github.com/UnblockNeteaseMusic/server/archive/refs/tags/v#{version}.tar.gz"
   # sha256 ""
   license "MIT"
+  revision 1
 
   livecheck do
     # Pre-release support
@@ -19,7 +20,14 @@ class UnblockNeteaseMusic < Formula
     # strategy :github_latest
   end
 
-  # yarn is depended for DEVELOPMENT=true
+  head do
+    # version: HEAD
+    url "https://github.com/UnblockNeteaseMusic/server/archive/refs/heads/enhanced.tar.gz"
+    # Git repo is not cloned into a sub-folder. version, HEAD-1234567
+    # url "https://github.com/UnblockNeteaseMusic/server.git", branch "enhanced"
+  end
+
+  # yarn is depended by DEVELOPMENT=true
   depends_on "yarn" => :build
   depends_on "node"
   # Default yarn cache dir: #{buildpath}/.brew_home/Library/Caches/Yarn/v6
@@ -46,12 +54,22 @@ class UnblockNeteaseMusic < Formula
     mkdir_p buildpath/"bin"
     (buildpath/"bin/unblock-nm").write <<~EOS
       #!/bin/bash
-      #{HOMEBREW_PREFIX}/opt/node/bin/node "#{prefix}/app.js" "$@"
+      CMD=("#{HOMEBREW_PREFIX}/opt/node/bin/node")
+      if [[ -n "$DEVELOPMENT" ]]; then
+        CMD+=("-r" "#{prefix}/.pnp.cjs")
+      fi
+      CMD+=("#{prefix}/app.js")
+      "${CMD[@]}" "$@"
     EOS
 
     (buildpath/"bin/unblock-nm-bridge").write <<~EOS
       #!/bin/bash
-      #{HOMEBREW_PREFIX}/opt/node/bin/node "#{prefix}/bridge.js" "$@"
+      CMD=("#{HOMEBREW_PREFIX}/opt/node/bin/node")
+      if [[ -n "$DEVELOPMENT" ]]; then
+        CMD+=("-r" "#{prefix}/.pnp.cjs")
+      fi
+      CMD+=("#{prefix}/bridge.js")
+      "${CMD[@]}" "$@"
     EOS
 
     bin.install
@@ -64,6 +82,9 @@ class UnblockNeteaseMusic < Formula
       system "yarn", "set", "version", "berry"
       system "yarn", "config", "set", "enableGlobalCache", "false"
       system "yarn", "install"
+      if build.head?
+        system "yarn", "build"
+      end
     end
   end
 
