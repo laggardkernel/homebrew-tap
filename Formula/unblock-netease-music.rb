@@ -77,7 +77,7 @@ class UnblockNeteaseMusic < Formula
       https://github.com/UnblockNeteaseMusic/server
       Service listens on 16300, 16301 by default. Options are written in
 
-        #{plist_path}
+        #{launchd_service_path}
 
       Current provider order set in service: pyncmd, kuwo
     EOS

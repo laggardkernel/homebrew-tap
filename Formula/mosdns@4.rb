@@ -133,7 +133,7 @@ class MosdnsAT4 < Formula
       To make mosdns service work on privileged port, like port 53,
       you need to run it as a "global" daemon in /Library/LaunchAgents.
 
-        sudo cp -f #{plist_path} /Library/LaunchAgents/
+        sudo cp -f #{launchd_service_path} /Library/LaunchAgents/
 
       If you prefer using `sudo brew services`. Run `brew fix-perm` after it
       to fix the ruined file permissions.

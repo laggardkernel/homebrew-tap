@@ -67,7 +67,7 @@ class Chinadns < Formula
       To make chinadns service work on privileged port, like port 53,
       you need to run it as a "global" daemon in /Library/LaunchAgents.
 
-        sudo cp -f #{plist_path} /Library/LaunchAgents/
+        sudo cp -f #{launchd_service_path} /Library/LaunchAgents/
 
       Dont' use `sudo brew services`. This very command will ruin the file perms.
     EOS
