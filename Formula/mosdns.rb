@@ -1,12 +1,19 @@
-class MosdnsAT4 < Formula
+class Mosdns < Formula
   desc "Flexible forwarding DNS client"
   homepage "https://github.com/IrineSistiana/mosdns"
-  version "4.5.3"
+  version "5.1.3"
   license "GPL-3.0"
-  revision 2
+  revision 0
 
-  livecheck do
-    skip '4.x versions are no longer developed'
+  head do
+    # version: HEAD
+    # url "https://github.com/IrineSistiana/mosdns/archive/refs/heads/main.zip"
+    # Git repo is not cloned into a sub-folder. version, HEAD-1234567
+    url "https://github.com/IrineSistiana/mosdns.git", branch: "main"
+
+    # Warn: build.head doesn't work under "class"
+    depends_on "go" => :build
+    depends_on "upx" => :build
   end
 
   option "without-prebuilt", "Skip prebuilt binary and build from source"
@@ -29,6 +36,13 @@ class MosdnsAT4 < Formula
     url "https://github.com/IrineSistiana/mosdns/releases/download/v#{version}/mosdns-linux-arm-7.zip"
   elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is-64-bit?
     url "https://github.com/IrineSistiana/mosdns/releases/download/v#{version}/mosdns-linux-arm64.zip"
+  end
+
+  # resource "china_ip_list.txt" do
+  #   url "https://raw.githubusercontent.com/17mon/china_ip_list/master/china_ip_list.txt"
+  # end
+  resource "CN-ip-cidr.txt" do
+    url "https://cdn.jsdelivr.net/gh/Hackl0us/GeoIP2-CN@release/CN-ip-cidr.txt"
   end
 
   resource "geoip.dat" do
@@ -57,7 +71,7 @@ class MosdnsAT4 < Formula
       # Mimic release.py
       mkdir_p "#{buildpath}/release"
       cd "#{buildpath}/release"
-      system "go", "run", "../", "-gen", "config-v4.yaml"
+      system "go", "run", "../", "-gen", "config.yaml"
       system "go", "build", "-ldflags", "-s -w -X main.version=#{version_str}", "-trimpath", "-o", "mosdns", "../"
 
       system "upx", "-9", "-q", "mosdns"
@@ -65,18 +79,17 @@ class MosdnsAT4 < Formula
       cp "../LICENSE", "."
     end
 
-    bin.install "mosdns" => "mosdns4"
+    bin.install "mosdns"
     prefix.install_metafiles
 
-    mv "config.yaml", "config-v4.yaml"
-    share_dst = "#{share}/mosdns@4"
-    mkdir_p "#{share_dst}"
+    share_dst = "#{share}/mosdns"
+    mkdir_p share_dst.to_s
     cp_r Dir["*.yaml"], "#{share_dst}/"
 
     etc_temp = "#{buildpath}/etc_temp"
     mkdir_p "#{etc_temp}/builtin-data"
     cp_r "#{share_dst}/.", etc_temp
-    ["geoip.dat", "geosite.dat"].each do |f|
+    ["CN-ip-cidr.txt", "geoip.dat", "geosite.dat"].each do |f|
       resource(f).stage do
         cp f, "#{etc_temp}/builtin-data/"
       end
@@ -108,8 +121,6 @@ class MosdnsAT4 < Formula
 
   def caveats
     <<~EOS
-      Check https://github.com/Loyalsoldier/v2ray-rules-dat for how to use
-        the v2ray rules dat: geosite.dat and geoip.dat.
       Homebrew services are run as LaunchAgents by current user.
       To make mosdns service work on privileged port, like port 53,
       you need to run it as a "global" daemon in /Library/LaunchAgents.
@@ -122,13 +133,13 @@ class MosdnsAT4 < Formula
   end
 
   service do
-    run [opt_bin/"mosdns4", "start", "-d", etc/"mosdns", "-c", etc/"mosdns/config-v4.yaml"]
+    run [opt_bin/"mosdns", "start", "-d", etc/"mosdns", "-c", etc/"mosdns/config.yaml"]
     # keep_alive { succesful_exit: true }
-    log_path var/"log/mosdns/mosdns-v4.log"
-    error_log_path var/"log/mosdns/mosdns-v4.log"
+    log_path var/"log/mosdns/mosdns.log"
+    error_log_path var/"log/mosdns/mosdns.log"
   end
 
   test do
-    system "#{bin}/mosdns4", "-v"
+    system "#{bin}/mosdns", "-v"
   end
 end

@@ -3,7 +3,7 @@ class MosdnsAT3 < Formula
   homepage "https://github.com/IrineSistiana/mosdns"
   version "3.9.0"
   license "GPL-3.0"
-  revision 1
+  revision 2
 
   livecheck do
     skip '3.x versions are no longer developed'
@@ -31,12 +31,11 @@ class MosdnsAT3 < Formula
     url "https://github.com/IrineSistiana/mosdns/releases/download/v#{version}/mosdns-linux-arm64.zip"
   end
 
-  # TODO: drop one cidr list?
-  resource "geoip" do
+  resource "geoip.dat" do
     url "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat"
   end
 
-  resource "geosite" do
+  resource "geosite.dat" do
     url "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat"
   end
 
@@ -66,38 +65,39 @@ class MosdnsAT3 < Formula
       cp "../LICENSE", "."
     end
 
-    bin.install "mosdns"
+    bin.install "mosdns" => "mosdns3"
     prefix.install_metafiles
 
-    # rename config-template.yaml, seems unneeded >= 1.5.0
-    mv "config-template.yaml", "config.yaml" if File.file?("config-template.yaml")
-    share_dst = "#{share}/mosdns"
-    mkdir_p share_dst.to_s
-    cp_r Dir["*.list"], "#{share_dst}/"
+    ["config.yaml", "config-template.yaml"].each do |f|
+      mv "#{f}", "config-v3.yaml" if File.exist? "#{f}"
+    end
+    share_dst = "#{share}/mosdns@3"
+    mkdir_p "#{share_dst}"
     cp_r Dir["*.yaml"], "#{share_dst}/"
-    resource("geoip").stage do
-      cp "geoip.dat", "#{share_dst}/"
-    end
-    resource("geosite").stage do
-      cp "geosite.dat", "#{share_dst}/"
-    end
 
     etc_temp = "#{buildpath}/etc_temp"
+    mkdir_p "#{etc_temp}/builtin-data"
     cp_r "#{share_dst}/.", etc_temp
+    ["geoip.dat", "geosite.dat"].each do |f|
+      resource(f).stage do
+        cp f, "#{etc_temp}/builtin-data/"
+      end
+    end
     # Conf installation borrowed from php.rb
     Dir.chdir(etc_temp.to_s) do
       config_path = etc/"mosdns"
-      Dir.glob(["*.yaml"]).each do |dst|
-        dst_default = config_path/"#{dst}.default"
-        rm dst_default if dst_default.exist?
-        config_path.install dst
+      mkdir_p "#{config_path}/builtin-data"
+      Dir.glob(["*.yaml"]).each do |f|
+        dst = config_path/"#{f}.default"
+        rm dst if dst.exist?
+        config_path.install f
       end
-      # mv Dir.glob(["*.dat", "*.list", "*.txt"]), config_path, force: true
-      Dir.glob(["*.dat", "*.list", "*.txt"]).each do |dst|
-        dst_default = config_path/"#{dst}.default"
-        rm dst_default if dst_default.exist?
-        rm config_path/dst.to_s if (config_path/dst.to_s).exist?
-        config_path.install dst
+      # mv Dir.glob(["*.dat"]), config_path, force: true
+      Dir.glob(["builtin-data/*.dat", "builtin-data/*.txt"]).each do |f|
+        dst = config_path/"#{f}.default"
+        rm dst if dst.exist?
+        rm config_path/f.to_s if (config_path/f.to_s).exist?
+        config_path.install f => "#{f}"
       end
     end
     rm_rf etc_temp.to_s
@@ -110,7 +110,9 @@ class MosdnsAT3 < Formula
 
   def caveats
     <<~EOS
-      Check https://github.com/Loyalsoldier/v2ray-rules-dat for how to use
+      Wiki of v3: https://github.com/IrineSistiana/mosdns/discussions/611
+
+      And check https://github.com/Loyalsoldier/v2ray-rules-dat for how to use
         the v2ray rules dat: geosite.dat and geoip.dat.
       Homebrew services are run as LaunchAgents by current user.
       To make mosdns service work on privileged port, like port 53,
@@ -124,13 +126,13 @@ class MosdnsAT3 < Formula
   end
 
   service do
-    run [opt_bin/"mosdns", "-dir", etc/"mosdns", "-c", etc/"mosdns/config-v3.yaml"]
+    run [opt_bin/"mosdns3", "-dir", etc/"mosdns", "-c", etc/"mosdns/config-v3.yaml"]
     # keep_alive { succesful_exit: true }
     log_path var/"log/mosdns/mosdns-v3.log"
     error_log_path var/"log/mosdns/mosdns-v3.log"
   end
 
   test do
-    system "#{bin}/mosdns", "-v"
+    system "#{bin}/mosdns3", "-v"
   end
 end
