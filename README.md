@@ -45,11 +45,6 @@ brew install laggardkernel/tap/<formula>
 
 Check the `Formula/` folder directly. No longer bother to update introduction here.
 
-## Caveats
-
-- `upx` doesn't build on arm mac, required by Go tools like
-  `adguardhome`, `dnslookup`, `filebrowser`, `mosdns`.
-
 ## References
 
 - [Formula Cookbook](https://docs.brew.sh/Formula-Cookbook)

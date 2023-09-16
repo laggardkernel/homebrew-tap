@@ -31,9 +31,7 @@ class MosdnsAT4 < Formula
     # url "https://github.com/IrineSistiana/mosdns.git", tag: "v#{version}"
 
     depends_on "go" => :build
-    if !(OS.mac? && Hardware::CPU.arm?)
-      depends_on "upx" => :build
-    end
+    depends_on "upx" => :build
   elsif OS.mac? && Hardware::CPU.arm?
     url "https://github.com/IrineSistiana/mosdns/releases/download/v#{version}/mosdns-darwin-arm64.zip"
   elsif OS.mac? && Hardware::CPU.intel?
@@ -76,9 +74,7 @@ class MosdnsAT4 < Formula
       system "go", "run", "../", "-gen", "config-v4.yaml"
       system "go", "build", "-ldflags", "-s -w -X main.version=#{version_str}", "-trimpath", "-o", "mosdns", "../"
 
-      if !(OS.mac? && Hardware::CPU.arm?)
-        system "upx", "-9", "-q", "mosdns"
-      end
+      system "upx", "-9", "-q", "mosdns"
       cp "../README.md", "."
       cp "../LICENSE", "."
     end
