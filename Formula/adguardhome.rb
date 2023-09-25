@@ -116,6 +116,7 @@ class Adguardhome < Formula
     # All that README/LICENSE/NOTES/CHANGELOG stuff? Use "metafiles"
     prefix.install_metafiles
     mkdir_p etc/"adguardhome"
+    chmod 0755, etc/"adguardhome"
   end
 
   def post_install
