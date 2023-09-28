@@ -2,19 +2,17 @@ cask "mfiles-helper" do
   version "2.4.1,20221127"
   # sha256 ""
 
-  # version_scheme 1 # not needed in Cask
-
-  url "http://mfiles.maokebing.com/mfiles-helper-#{version.before_comma}-macos-#{version.after_comma}.dmg"
+  url "http://mfiles.maokebing.com/package/mfiles-helper-#{version.before_comma}-macos-#{version.after_comma}.dmg"
   name "MFiles Helper"
   desc "Sharing files easily within local network"
   homepage "http://mfiles.maokebing.com/"
 
   livecheck do
     url "http://mfiles.maokebing.com/"
-    regex(/href=['"]?mfiles[._-]helper[._-]v?(\d+(?:\.\d+)+)[._-]macos[._-](\d+)\.dmg/i)
+    regex(/href=['"](package\/)?mfiles[._-]helper[._-]v?(\d+(?:\.\d+)+)[._-]macos[._-](\d+)\.dmg/i)
     strategy :page_match do |page, regex|
       page.scan(regex).map do |match|
-        match&.first + "," + match&.second
+        match&.second + "," + match&.third
       end
     end
   end
@@ -26,6 +24,6 @@ cask "mfiles-helper" do
   app "爱传送.app", target: "MFiles Helper.app"
 
   zap trash: [
-    "/Users/wyh/Library/Preferences/com.windtune.itransfer.plist",
+    "~/Library/Preferences/com.windtune.itransfer.plist",
   ]
 end
