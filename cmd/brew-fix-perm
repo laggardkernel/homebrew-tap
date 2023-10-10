@@ -15,7 +15,7 @@ typeset -gA OPTS
 # OPTS[script]="${BASH_SOURCE[0]}"
 OPTS[script]="${BASH_SOURCE[0]##*/}"
 OPTS[author]="laggardkernel"
-OPTS[version]="1.1.0"
+OPTS[version]="1.1.1"
 
 # HOMEBREW_PREFIX var is provided by homebrew, only when the script is run as
 # brew sub-command.
@@ -64,8 +64,12 @@ function fix {
   local formula formulae item items
   if [[ "$1" == "all" ]] && [[ $# -eq 1 ]]; then
     echo "Auto search broken formulae in ${HOMEBREW_PREFIX} ..."
-    formulae=($(find "${HOMEBREW_PREFIX}/opt" -type l -user root))
-    formulae=("${formulae[@]##*/}")
+    formulae=($(find -L -d "${HOMEBREW_PREFIX}/opt" -depth -maxdepth 2 -user root))
+    if [[ "${#formulae[@]}" -ge 1 ]]; then
+      formulae=("${formulae[@]#${HOMEBREW_PREFIX}/opt/}")
+      formulae=("${formulae[@]%%/*}")
+      formulae=( $(printf "%s\n" ${formulae[@]} | sort -u) )
+    fi
   else
     formulae=("$@")
   fi
