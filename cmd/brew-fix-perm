@@ -64,7 +64,10 @@ function fix {
   local formula formulae item items
   if [[ "$1" == "all" ]] && [[ $# -eq 1 ]]; then
     echo "Auto search broken formulae in ${HOMEBREW_PREFIX} ..."
-    formulae=($(find -L -d "${HOMEBREW_PREFIX}/opt" -depth -maxdepth 2 -user root))
+    formulae=(
+      $(find -P -d "${HOMEBREW_PREFIX}/opt" -depth -maxdepth 2 -user root)
+      $(find -L -d "${HOMEBREW_PREFIX}/opt" -depth -maxdepth 2 -user root)
+    )
     if [[ "${#formulae[@]}" -ge 1 ]]; then
       formulae=("${formulae[@]#${HOMEBREW_PREFIX}/opt/}")
       formulae=("${formulae[@]%%/*}")
