@@ -1,27 +1,22 @@
 cask "raycast-versioned" do
-  if MacOS.version <= :mojave
+  on_mojave :or_older do
     version "1.26.3"
     url "https://pseudocold.com/app/raycast/#{version}/Raycast_v#{version}_x86.dmg"
     livecheck do
       skip "1.26.3, last version compatible with Mojave"
     end
-  else
-    version "latest"
-    sha256 :no_check
-    url "https://api.raycast.app/v2/download"
+  end
+  on_catalina :or_older do
+    version "1.44.0"
+    url "https://releases.raycast.com/releases/#{version}/download?build=universal"
     livecheck do
-      skip "Only link to the latest release is provided"
+      skip "Legacy version"
     end
-    # livecheck do
-    #   url :url
-    #   strategy :header_match
-    #   regex(/Raycast[._-]v?(\d+(?:\.\d+)+)[._-]universal\.dmg/i)
-    # end
   end
 
   name "Raycast"
   desc "Control your tools with a few keystrokes"
-  homepage "https://raycast.app/"
+  homepage "https://raycast.com/"
 
   auto_updates true
   depends_on macos: ">= :mojave"
@@ -31,9 +26,12 @@ cask "raycast-versioned" do
   uninstall quit: "com.raycast.macos"
 
   zap trash: [
+    "~/.config/raycast",
     "~/Library/Application Support/com.raycast.macos",
     "~/Library/Caches/com.raycast.macos",
+    "~/Library/Caches/SentryCrash/Raycast",
     "~/Library/Cookies/com.raycast.macos.binarycookies",
+    "~/Library/HTTPStorages/com.raycast.macos",
     "~/Library/Preferences/com.raycast.macos.plist",
   ]
 end
