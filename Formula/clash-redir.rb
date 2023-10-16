@@ -1,23 +1,8 @@
-class ClashPremium < Formula
-  on_mojave :or_older do
-    # https://github.com/Dreamacro/clash/issues/2599
-    version "2023.01.29"
-    livecheck do
-      skip "Legacy version, last with 'redir-host' and works for Mojave"
-    end
-  end
-  on_catalina :or_newer do
-    version "2023.08.17"
-    livecheck do
-      # # release log too long, links content is folded
-      # url :homepage
-      # regex(%r{href=.+?/releases/download/premium/[^"]+(\d{4}[.-]\d{2}[.-]\d{2})}i)
-      url "https://release.dreamacro.workers.dev/"
-      regex(%r{href="(\d{4}[.-]\d{2}[.-]\d{2})[^"]*}i)
-      strategy :page_match do |page, regex|
-        page.scan(regex).flatten.uniq.sort
-      end
-    end
+class ClashRedir < Formula
+  # https://github.com/Dreamacro/clash/issues/2599
+  version "2023.01.29"
+  livecheck do
+    skip "Legacy version, last with 'redir-host' and works for Mojave"
   end
 
   desc "Rule-based tunnel in Go, the pre-built premium version"
@@ -58,10 +43,10 @@ class ClashPremium < Formula
 
   def install
     # binary name: clash-darwin-amd64-2021.02.21
-    bin.install Dir.glob("clash*")[0] => "clash"
+    bin.install Dir.glob("clash*")[0] => "clash-redir"
 
     # Dashboards, one copy saved into share
-    share_dst = "#{share}/clash"
+    share_dst = "#{share}/clash-redir"
     mkdir_p share_dst.to_s
     resource("clash-dashboard").stage do
       cp_r ".", "#{share_dst}/clash-dashboard"
@@ -117,10 +102,10 @@ class ClashPremium < Formula
 
   service do
     require_root true
-    run [opt_bin/"clash", "-d", etc/"clash"]
+    run [opt_bin/"clash-redir", "-d", etc/"clash"]
     # keep_alive { succesful_exit: true }
-    log_path var/"log/clash/clash.log"
-    error_log_path var/"log/clash/clash.log"
+    log_path var/"log/clash/clash-redir.log"
+    error_log_path var/"log/clash/clash-redir.log"
   end
 
   test do
@@ -149,7 +134,7 @@ class ClashPremium < Formula
           cipher: chacha20-ietf-poly1305
     EOS
     system "#{bin}/clash", "-t", "-d", testpath # test config && download Country.mmdb
-    client = fork { exec "#{bin}/clash", "-d", testpath }
+    client = fork { exec "#{bin}/clash-redir", "-d", testpath }
 
     sleep 3
     begin

@@ -2,24 +2,21 @@ cask "raycast-versioned" do
   on_mojave :or_older do
     version "1.26.3"
     url "https://pseudocold.com/app/raycast/#{version}/Raycast_v#{version}_x86.dmg"
-    livecheck do
-      skip "1.26.3, last version compatible with Mojave"
-    end
   end
-  on_catalina :or_older do
+  on_catalina :or_newer do
     version "1.44.0"
     url "https://releases.raycast.com/releases/#{version}/download?build=universal"
-    livecheck do
-      skip "Legacy version"
-    end
   end
 
   name "Raycast"
   desc "Control your tools with a few keystrokes"
   homepage "https://raycast.com/"
 
+  livecheck do
+    skip "Legacy version"
+  end
+
   auto_updates true
-  depends_on macos: ">= :mojave"
 
   app "Raycast.app"
 

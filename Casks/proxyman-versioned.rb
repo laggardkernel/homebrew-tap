@@ -1,8 +1,11 @@
 cask "proxyman-versioned" do
 
-  version "4.1.0,41000"
-  livecheck do
-    skip "Legacy version"
+  on_mojave :or_older do
+    version "4.1.0,41000"
+  end
+  on_catalina :or_newer do
+    # body preview is broken for catalina since 4.5.0 cuz Monaco Editor
+    version "4.4.0,44000"
   end
 
   url "https://download.proxyman.io/#{version.csv.second}/Proxyman_#{version.csv.first}.dmg"
@@ -10,9 +13,11 @@ cask "proxyman-versioned" do
   desc "Modern and intuitive HTTP Debugging Proxy app"
   homepage "https://proxyman.io/"
 
-  auto_updates true
-  depends_on macos: "<= :mojave"
+  livecheck do
+    skip "Legacy version"
+  end
 
+  auto_updates true
   app "Proxyman.app"
 
   uninstall_postflight do
