@@ -1,6 +1,7 @@
 class ClashRedir < Formula
   # https://github.com/Dreamacro/clash/issues/2599
   version "2023.01.29"
+  revision 1
   livecheck do
     skip "Legacy version, last with 'redir-host' and works for Mojave"
   end
@@ -79,8 +80,8 @@ class ClashRedir < Formula
   end
 
   def post_install
-    (var/"log/clash").mkpath
-    chmod 0755, var/"log/clash"
+    (var/"log/clash-redir").mkpath
+    chmod 0755, var/"log/clash-redir"
   end
 
   def caveats
@@ -96,16 +97,17 @@ class ClashRedir < Formula
 
       A global conf folder `#{HOMEBREW_PREFIX}/etc/clash` is created, with prebuilt
       dashboard static files. Before you start the launchd service, put a conf
-      `config.yaml` and start the service once manually to download MMDB.
+      `config-redir.yaml` and start the service once manually to download MMDB.
     EOS
   end
 
   service do
     require_root true
-    run [opt_bin/"clash-redir", "-d", etc/"clash"]
+    run [opt_bin/"clash-redir", "-d", etc/"clash", "-f", "config-redir.yaml"]
     # keep_alive { succesful_exit: true }
-    log_path var/"log/clash/clash-redir.log"
-    error_log_path var/"log/clash/clash-redir.log"
+    working_dir etc/"clash"
+    log_path var/"log/clash-redir/clash.log"
+    error_log_path var/"log/clash-redir/clash.log"
   end
 
   test do

@@ -19,6 +19,7 @@ class ClashPremium < Formula
       end
     end
   end
+  revision 1
 
   desc "Rule-based tunnel in Go, the pre-built premium version"
   homepage "https://github.com/Dreamacro/clash/releases/tag/premium"
@@ -119,6 +120,7 @@ class ClashPremium < Formula
     require_root true
     run [opt_bin/"clash", "-d", etc/"clash"]
     # keep_alive { succesful_exit: true }
+    working_dir etc/"clash"
     log_path var/"log/clash/clash.log"
     error_log_path var/"log/clash/clash.log"
   end

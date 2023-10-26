@@ -2,6 +2,7 @@ class ClashMetaBin < Formula
   desc "Rule-based tunnel in Go, the forked one Clash.Meta"
   homepage "https://github.com/MetaCubeX/Clash.Meta"
   version "1.16.0"
+  revision 1
   license "GPL-3.0"
 
   livecheck do
@@ -110,6 +111,7 @@ class ClashMetaBin < Formula
     require_root true
     run [opt_bin/"clash-meta", "-d", etc/"clash-meta"]
     # keep_alive { succesful_exit: true }
+    working_dir etc/"clash-meta"
     log_path var/"log/clash-meta/clash.log"
     error_log_path var/"log/clash-meta/clash.log"
   end
