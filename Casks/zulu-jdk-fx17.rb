@@ -1,7 +1,7 @@
 cask "zulu-jdk-fx17" do
   arch = Hardware::CPU.intel? ? "x64" : "aarch64"
 
-  version "17.0.8.1,17.44.53-ca-fx"
+  version "17.0.9,17.46.19-ca-fx"
 
   # Note: prefer tar.gz over dmg for installation cause the later not only put
   #  files into /Library/Java/JavaVirtualMachines, but also a backup of .pkg
