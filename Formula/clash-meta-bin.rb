@@ -2,7 +2,7 @@ class ClashMetaBin < Formula
   desc "Rule-based tunnel in Go, the forked one Clash.Meta"
   homepage "https://github.com/MetaCubeX/Clash.Meta"
   version "1.16.0"
-  revision 1
+  revision 2
   license "GPL-3.0"
 
   livecheck do
@@ -27,6 +27,12 @@ class ClashMetaBin < Formula
     url "https://github.com/MetaCubeX/Clash.Meta/releases/download/v#{version}/clash.meta-linux-arm64-v#{version}.gz"
   elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is-32-bit?
     url "https://github.com/MetaCubeX/Clash.Meta/releases/download/v#{version}/clash.meta-linux-armv7-v#{version}.gz"
+  end
+
+  resource "metacubexd" do
+    # url: http://d.metacubex.one/, ~~https://metacubex.github.io/metacubexd~~
+    # folder: compressed-dist.tgz
+    url "https://github.com/MetaCubeX/metacubexd/releases/latest/download/compressed-dist.tgz"
   end
 
   # resource will auto unpacked
@@ -55,6 +61,9 @@ class ClashMetaBin < Formula
     # Dashboards, one copy saved into share
     share_dst = "#{share}/clash-meta"
     mkdir_p share_dst.to_s
+    resource("metacubexd").stage do
+      cp_r ".", "#{share_dst}/metacubexd"
+    end
     resource("clash-dashboard").stage do
       cp_r ".", "#{share_dst}/clash-dashboard"
     end
@@ -72,6 +81,7 @@ class ClashMetaBin < Formula
     Dir.chdir(etc_temp.to_s) do
       config_path = etc/"clash-meta"
       [
+        "metacubexd",
         "clash-dashboard",
         "yacd",
         "Country.mmdb",
