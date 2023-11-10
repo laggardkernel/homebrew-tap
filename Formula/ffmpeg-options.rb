@@ -8,7 +8,7 @@ class FfmpegOptions < Formula
   # None of these parts are used by default, you have to explicitly pass `--enable-gp>
   # to configure to activate them. In this case, FFmpeg's license changes to GPL v2+.
   license "GPL-2.0-or-later"
-  revision 1
+  revision 2
   head "https://github.com/FFmpeg/FFmpeg.git", branch: "master"
 
   livecheck do
@@ -36,6 +36,7 @@ class FfmpegOptions < Formula
   depends_on "fontconfig"
   depends_on "freetype"
   depends_on "frei0r"
+  depends_on "jpeg-xl"
   depends_on "lame"
   depends_on "libass"
   depends_on "libbluray"
@@ -109,6 +110,9 @@ class FfmpegOptions < Formula
   end
 
   def install
+    # The new linker leads to duplicate symbol issue https://github.com/homebrew-ffmpeg/homebrew-ffmpeg/issues/140
+    ENV.append "LDFLAGS", "-Wl,-ld_classic" if DevelopmentTools.clang_build_version >= 1500
+
     args = %W[
       --prefix=#{prefix}
       --enable-shared
@@ -121,6 +125,7 @@ class FfmpegOptions < Formula
       --enable-libaom
       --enable-libbluray
       --enable-libdav1d
+      --enable-libjxl
       --enable-libmp3lame
       --enable-libopus
       --enable-librav1e
