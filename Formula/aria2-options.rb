@@ -4,7 +4,7 @@ class Aria2Options < Formula
   license "GPL-2.0-or-later"
 
   stable do
-    version "1.36.0"
+    version "1.37.0"
     url "https://github.com/aria2/aria2/releases/download/release-#{version}/aria2-#{version}.tar.xz"
     # sha256 ""
     depends_on "pkg-config" => :build
@@ -15,17 +15,23 @@ class Aria2Options < Formula
     depends_on "autoconf" => :build
     depends_on "automake" => :build
     depends_on "libtool"  => :build
-    depends_on "gettext"  => :build
   end
 
   # option "with-c-ares", "Build with C-Ares async DNS support"
   option "with-openssl", "Build with openssl support"
   option "with-gnutls", "Build with gnutls support"
 
+  if build.with? "gnutls"
+    # https://github.com/macports/macports-ports/commit/fc9881bfc1ac70283f273272f5263fe70ec2d509
+    patch :DATA
+  end
+
   depends_on "c-ares"
+  depends_on "gettext"  => :build
   depends_on "gnutls" if build.with? "gnutls"
   depends_on "libssh2"
-  depends_on "openssl@1.1" if build.with? "openssl"
+  depends_on "sqlite"
+  depends_on "openssl@3" if build.with? "openssl"
 
   # libxml2 is preferred over expat
   uses_from_macos "libxml2"
@@ -60,7 +66,7 @@ class Aria2Options < Formula
 
     if build.with? "gnutls"
       args << "--with-gnutls"
-      # args << "--with-ca-bundle=#{etc}/gnutls/cert.pem"
+      # args << "--with-ca-bundle=#{etc}/ca-certificates/cert.pem"
       # BUG: https://github.com/aria2/aria2/issues/1636
       args << "--with-ca-bundle=/etc/ssl/cert.pem"
       args << "--without-appletls"
@@ -69,9 +75,9 @@ class Aria2Options < Formula
       # WARN: aria2 built with openssl has problem with some certs.
       # protocol error: https://github.com/aria2/aria2/issues/1494
       args << "--with-openssl"
-      # ENV.prepend_path "PKG_CONFIG_PATH", "#{Formula["openssl@1.1"].opt_lib}/pkgconfig"
-      args << "--with-openssl-prefix=#{Formula["openssl@1.1"].opt_prefix}"
-      # args << "--with-ca-bundle=#{etc}/openssl@1.1/cert.pem"
+      # ENV.prepend_path "PKG_CONFIG_PATH", "#{Formula["openssl@3"].opt_lib}/pkgconfig"
+      args << "--with-openssl-prefix=#{Formula["openssl@3"].opt_prefix}"
+      # args << "--with-ca-bundle=#{etc}/ca-certificates/cert.pem"
       args << "--with-ca-bundle=/etc/ssl/cert.pem"
       args << "--without-appletls"
       args << "--without-gnutls"
@@ -106,3 +112,32 @@ end
 # Ref
 # https://github.com/Homebrew/homebrew-core/pull/32328
 # - http://aria2.github.io/manual/en/html/README.html#dependency
+
+__END__
+diff -u -p -r a/src/SimpleRandomizer.cc b/src/SimpleRandomizer.cc
+--- a/src/SimpleRandomizer.cc	2023-11-15 03:46:08
++++ b/src/SimpleRandomizer.cc	2023-11-15 15:57:52
+@@ -41,9 +41,9 @@
+ #include <cstring>
+ #include <iostream>
+
+-#ifdef __APPLE__
++/*#ifdef __APPLE__
+ #  include <Security/SecRandom.h>
+-#endif // __APPLE__
++#endif // __APPLE__*/
+
+ #ifdef HAVE_LIBGNUTLS
+ #  include <gnutls/crypto.h>
+@@ -106,9 +106,9 @@
+     assert(r);
+     abort();
+   }
+-#elif defined(__APPLE__)
++/*#elif defined(__APPLE__)
+   auto rv = SecRandomCopyBytes(kSecRandomDefault, len, buf);
+-  assert(errSecSuccess == rv);
++  assert(errSecSuccess == rv); */
+ #elif defined(HAVE_LIBGNUTLS)
+   auto rv = gnutls_rnd(GNUTLS_RND_RANDOM, buf, len);
+   if (rv != 0) {
