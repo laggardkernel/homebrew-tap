@@ -11,24 +11,27 @@ class ClashRedir < Formula
   license "GPL-3.0"
 
   if OS.mac? && Hardware::CPU.intel?
-    url "https://release.dreamacro.workers.dev/#{version}/clash-darwin-amd64-#{version}.gz"
+    # url "https://release.dreamacro.workers.dev/#{version}/clash-darwin-amd64-#{version}.gz"
     # url "https://github.com/Dreamacro/clash/releases/download/premium/clash-darwin-amd64-#{version}.gz"
+    url "https://github.com/zhongfly/Clash-premium-backup/releases/download/Premium-#{version}/clash-darwin-arm64-#{version}.gz"
   elsif OS.mac? && Hardware::CPU.arm?
-    url "https://release.dreamacro.workers.dev/#{version}/clash-darwin-arm64-#{version}.gz"
+    url "https://github.com/zhongfly/Clash-premium-backup/releases/download/Premium-#{version}/clash-darwin-arm64-#{version}.gz"
   elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is-64-bit?
-    url "https://release.dreamacro.workers.dev/#{version}/clash-linux-amd64-#{version}.gz"
+    url "https://github.com/zhongfly/Clash-premium-backup/releases/download/Premium-#{version}/clash-linux-amd64-#{version}.gz"
   elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is-32-bit?
-    url "https://release.dreamacro.workers.dev/#{version}/clash-linux-386-#{version}.gz"
+    url "https://github.com/zhongfly/Clash-premium-backup/releases/download/Premium-#{version}/clash-linux-386-#{version}.gz"
   elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is-64-bit?
-    url "https://release.dreamacro.workers.dev/#{version}/clash-linux-armv8-#{version}.gz"
+    url "https://github.com/zhongfly/Clash-premium-backup/releases/download/Premium-#{version}/clash-linux-armv8-#{version}.gz"
   elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is-32-bit?
-    url "https://release.dreamacro.workers.dev/#{version}/clash-linux-armv7-#{version}.gz"
+    url "https://github.com/zhongfly/Clash-premium-backup/releases/download/Premium-#{version}/clash-linux-armv7-#{version}.gz"
   end
 
   # resource will auto unpacked
   resource "clash-dashboard" do
     # folder name: clash-dashboard-gh-pages
-    url "https://github.com/Dreamacro/clash-dashboard/archive/gh-pages.tar.gz"
+    # url "https://github.com/Dreamacro/clash-dashboard/archive/gh-pages.tar.gz"
+    # url "https://github.com/chmod777john/clash-dashboard/archive/refs/heads/master.zip"
+    url "https://github.com/chmod777john/clash-dashboard/archive/9a32d9d.zip"
   end
 
   resource "yacd" do
