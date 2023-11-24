@@ -4,7 +4,7 @@ class Navidrome < Formula
   # Check build dependency versions requirement before bumping up the version:
   # - https://github.com/navidrome/navidrome/blob/master/go.mod
   # - https://github.com/navidrome/navidrome/blob/master/.nvmrc
-  version "0.50.0"
+  version "0.50.1"
   license "GPL-3.0"
 
   livecheck do
@@ -19,8 +19,8 @@ class Navidrome < Formula
     # url "https://github.com/navidrome/navidrome.git"
 
     # Warn: build.head doesn't work under "class"
-    depends_on "go@1.19" => :build
-    depends_on "node@16" => :build
+    depends_on "go@1.21" => :build
+    depends_on "node@18" => :build
     depends_on "taglib" => :build
     depends_on "upx" => :build
   end
@@ -35,24 +35,24 @@ class Navidrome < Formula
     # url "https://github.com/navidrome/navidrome.git", tag: "v#{version}"
 
     # The setup is very strict, and the steps below only work with these versions (enforced in the Makefile)
-    depends_on "go@1.19" => :build
+    depends_on "go@1.21" => :build
     depends_on "node@16" => :build
     depends_on "taglib" => :build
     depends_on "upx" => :build
   elsif OS.mac?
     # elsif OS.mac? && Hardware::CPU.intel?
     # TODO: no Mac arm64 prebuilt yet
-    url "https://github.com/navidrome/navidrome/releases/download/v#{version}/navidrome_#{version}_macOS_x86_64.tar.gz"
+    url "https://github.com/navidrome/navidrome/releases/download/v#{version}/navidrome_#{version}_darwin_amd64.tar.gz"
   elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is_64_bit?
-    url "https://github.com/navidrome/navidrome/releases/download/v#{version}/navidrome_#{version}_Linux_x86_64.tar.gz"
+    url "https://github.com/navidrome/navidrome/releases/download/v#{version}/navidrome_#{version}_linux_amd64.tar.gz"
   elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is_32_bit?
-    url "https://github.com/navidrome/navidrome/releases/download/v#{version}/navidrome_#{version}_Linux_i386.tar.gz"
+    url "https://github.com/navidrome/navidrome/releases/download/v#{version}/navidrome_#{version}_linux_386.tar.gz"
   elsif OS.linux? && Hardware::CPU.arm? && RUBY_PLATFORM.to_s.include?("armv6")
-    url "https://github.com/navidrome/navidrome/releases/download/v#{version}/navidrome_#{version}_Linux_armv6.tar.gz"
+    url "https://github.com/navidrome/navidrome/releases/download/v#{version}/navidrome_#{version}_linux_armv6.tar.gz"
   elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_32_bit?
-    url "https://github.com/navidrome/navidrome/releases/download/v#{version}/navidrome_#{version}_Linux_armv7.tar.gz"
+    url "https://github.com/navidrome/navidrome/releases/download/v#{version}/navidrome_#{version}_linux_armv7.tar.gz"
   elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-    url "https://github.com/navidrome/navidrome/releases/download/v#{version}/navidrome_#{version}_Linux_armv64.tar.gz"
+    url "https://github.com/navidrome/navidrome/releases/download/v#{version}/navidrome_#{version}_linux_arm64.tar.gz"
   end
 
   def install
@@ -72,7 +72,7 @@ class Navidrome < Formula
       # Default GOCACHE: $HOMEBREW_CACHE/go_cache
       ENV["GOCACHE"] = "#{ENV["GOPATH"]}/go-cache"
       # BUG: Formula["node"] doen't ensure version installed
-      # ENV.append_path "PATH", Formula["node@16"].bin.to_s
+      # ENV.append_path "PATH", Formula["node@18"].bin.to_s
       # If not git repo as source, export '-buildvcs=false'
       ENV["GOFLAGS"] = "-buildvcs=false"
 
