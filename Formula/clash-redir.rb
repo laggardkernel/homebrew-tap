@@ -31,7 +31,8 @@ class ClashRedir < Formula
     # folder name: clash-dashboard-gh-pages
     # url "https://github.com/Dreamacro/clash-dashboard/archive/gh-pages.tar.gz"
     # url "https://github.com/chmod777john/clash-dashboard/archive/refs/heads/master.zip"
-    url "https://github.com/chmod777john/clash-dashboard/archive/9a32d9d.zip"
+    # url "https://github.com/chmod777john/clash-dashboard/archive/9a32d9d.zip"
+    url "https://github.com/hgl/clash-dashboard/archive/gh-pages.tar.gz"
   end
 
   resource "yacd" do
