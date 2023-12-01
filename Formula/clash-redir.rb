@@ -1,7 +1,7 @@
 class ClashRedir < Formula
   # https://github.com/Dreamacro/clash/issues/2599
   version "2023.01.29"
-  revision 1
+  revision 2
   livecheck do
     skip "Legacy version, last with 'redir-host' and works for Mojave"
   end
@@ -13,7 +13,7 @@ class ClashRedir < Formula
   if OS.mac? && Hardware::CPU.intel?
     # url "https://release.dreamacro.workers.dev/#{version}/clash-darwin-amd64-#{version}.gz"
     # url "https://github.com/Dreamacro/clash/releases/download/premium/clash-darwin-amd64-#{version}.gz"
-    url "https://github.com/zhongfly/Clash-premium-backup/releases/download/Premium-#{version}/clash-darwin-arm64-#{version}.gz"
+    url "https://github.com/zhongfly/Clash-premium-backup/releases/download/Premium-#{version}/clash-darwin-amd64-#{version}.gz"
   elsif OS.mac? && Hardware::CPU.arm?
     url "https://github.com/zhongfly/Clash-premium-backup/releases/download/Premium-#{version}/clash-darwin-arm64-#{version}.gz"
   elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is-64-bit?

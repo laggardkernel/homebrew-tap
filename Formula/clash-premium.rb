@@ -19,7 +19,7 @@ class ClashPremium < Formula
       # end
     end
   end
-  revision 1
+  revision 2
 
   desc "Rule-based tunnel in Go, the pre-built premium version"
   homepage "https://github.com/Dreamacro/clash/releases/tag/premium"
@@ -28,7 +28,7 @@ class ClashPremium < Formula
   if OS.mac? && Hardware::CPU.intel?
     # url "https://release.dreamacro.workers.dev/#{version}/clash-darwin-amd64-#{version}.gz"
     # url "https://github.com/Dreamacro/clash/releases/download/premium/clash-darwin-amd64-#{version}.gz"
-    url "https://github.com/zhongfly/Clash-premium-backup/releases/download/Premium-#{version}/clash-darwin-arm64-#{version}.gz"
+    url "https://github.com/zhongfly/Clash-premium-backup/releases/download/Premium-#{version}/clash-darwin-amd64-#{version}.gz"
   elsif OS.mac? && Hardware::CPU.arm?
     url "https://github.com/zhongfly/Clash-premium-backup/releases/download/Premium-#{version}/clash-darwin-arm64-#{version}.gz"
   elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is-64-bit?
