@@ -7,7 +7,7 @@ class UnblockNeteaseMusic < Formula
   url "https://github.com/UnblockNeteaseMusic/server/archive/refs/tags/v#{version}.tar.gz"
   # sha256 ""
   license "MIT"
-  revision 0
+  revision 1
 
   livecheck do
     # Pre-release support
@@ -28,9 +28,12 @@ class UnblockNeteaseMusic < Formula
   end
 
   # yarn is depended by DEVELOPMENT=true
-  depends_on "yarn" => :build
+  # Use yarn from corepack since yarn 1.22.21. https://github.com/yarnpkg/yarn/issues/9015
+  depends_on "corepack" => :build
   depends_on "node"
-  # Default yarn cache dir: #{buildpath}/.brew_home/Library/Caches/Yarn/v6
+  # Default yarn cache dir:
+  # - ~~#{buildpath}/.brew_home/Library/Caches/Yarn/v6~~
+  # - #{buildpath}/.brew_home/.yarn/berry
 
   def install
     inreplace "src/provider/select.js" do |s|
@@ -78,19 +81,19 @@ class UnblockNeteaseMusic < Formula
 
     # Enable development support for 0.27+
     Dir.chdir(prefix.to_s) do
-      # Switch to yarn 2 since 0.27.0-rc.6. Global cache is disabled by default.
-      system "yarn", "set", "version", "berry"
+      # Switch to yarn v3/berry/stable since 0.27.0-rc.6. Global cache is disabled by default.
+      # https://yarnpkg.com/cli/set/version#details
+      # system "yarn", "set", "version", "berry"
+      system "yarn", "--version"
       system "yarn", "config", "set", "enableGlobalCache", "false"
       system "yarn", "install"
-      if build.head?
-        system "yarn", "build"
-      end
+      system "yarn", "build"  # precompiled/ in repo may not be up-to-date
     end
   end
 
   def post_install
-    "#{var}/log/unblock-netease-music".mkpath
-    chmod 0755, "#{var}/log/unblock-netease-music"
+    (var/"log/unblock-netease-music").mkpath
+    chmod 0755, var/"log/unblock-netease-music"
   end
 
   def caveats
@@ -107,7 +110,7 @@ class UnblockNeteaseMusic < Formula
   # TODO: ANSI escape color code is not filtered when dumping log to file.
   #  Switch json format log temporarily.
   service do
-    environment_variables DEVELOPMENT: "true", ENABLE_LOCAL_VIP: "true", JSON_LOG: "true", BLOCK_ADS: "true", DISABLE_UPGRADE_CHECK: "true", KUWO_COOKIE: "Hm_Iuvt_cdb524f42f0ce19b169b8072123a4727=CQXkhzXjGD6MFQrPTBxEpSmZXF78wP8e; Secret=1d0d220792feb563f97fdb0de2b7ebad69f781cdcdbe51d1203a3be9d3e92f5e04b00a24"
+    environment_variables ENABLE_LOCAL_VIP: "svip", BLOCK_ADS: "true", DISABLE_UPGRADE_CHECK: "true", DEVELOPMENT: "true", JSON_LOG: "true"
     run [opt_bin/"unblock-nm", "-a", "127.0.0.1", "-p", "16300:16301", "-e", "https://music.163.com", "-f", "59.111.160.195", "-o", "pyncmd", "kuwo"]
     # keep_alive { succesful_exit: true }
     log_path var/"log/unblock-netease-music/access.log"
