@@ -1,7 +1,7 @@
 class ClashRedir < Formula
   # https://github.com/Dreamacro/clash/issues/2599
   version "2023.01.29"
-  revision 2
+  revision 3
   livecheck do
     skip "Legacy version, last with 'redir-host' and works for Mojave"
   end
@@ -68,7 +68,7 @@ class ClashRedir < Formula
     cp_r "#{share_dst}/.", etc_temp
 
     Dir.chdir(etc_temp.to_s) do
-      config_path = etc/"clash"
+      config_path = etc/"clash-premium"
       [
         "clash-dashboard",
         "yacd",
@@ -99,7 +99,7 @@ class ClashRedir < Formula
       If you prefer using `sudo brew services`. Run `brew fix-perm` after it
       to fix the ruin file permissions.
 
-      A global conf folder `#{HOMEBREW_PREFIX}/etc/clash` is created, with prebuilt
+      A global conf folder `#{HOMEBREW_PREFIX}/etc/clash-premium` is created, with prebuilt
       dashboard static files. Before you start the launchd service, put a conf
       `config-redir.yaml` and start the service once manually to download MMDB.
     EOS
@@ -107,9 +107,9 @@ class ClashRedir < Formula
 
   service do
     require_root true
-    run [opt_bin/"clash-redir", "-d", etc/"clash", "-f", "config-redir.yaml"]
+    run [opt_bin/"clash-redir", "-d", etc/"clash-premium", "-f", "config-redir.yaml"]
     # keep_alive { succesful_exit: true }
-    working_dir etc/"clash"
+    working_dir etc/"clash-premium"
     log_path var/"log/clash-redir/clash.log"
     error_log_path var/"log/clash-redir/clash.log"
   end
@@ -139,7 +139,7 @@ class ClashRedir < Formula
           password: "test"
           cipher: chacha20-ietf-poly1305
     EOS
-    system "#{bin}/clash", "-t", "-d", testpath # test config && download Country.mmdb
+    system "#{bin}/clash-redir", "-t", "-d", testpath # test config && download Country.mmdb
     client = fork { exec "#{bin}/clash-redir", "-d", testpath }
 
     sleep 3

@@ -19,7 +19,7 @@ class ClashPremium < Formula
       # end
     end
   end
-  revision 2
+  revision 3
 
   desc "Rule-based tunnel in Go, the pre-built premium version"
   homepage "https://github.com/Dreamacro/clash/releases/tag/premium"
@@ -63,10 +63,10 @@ class ClashPremium < Formula
 
   def install
     # binary name: clash-darwin-amd64-2021.02.21
-    bin.install Dir.glob("clash*")[0] => "clash"
+    bin.install Dir.glob("clash*")[0] => "clash-premium"
 
     # Dashboards, one copy saved into share
-    share_dst = "#{share}/clash"
+    share_dst = "#{share}/clash-premium"
     mkdir_p share_dst.to_s
     resource("clash-dashboard").stage do
       cp_r ".", "#{share_dst}/clash-dashboard"
@@ -83,7 +83,7 @@ class ClashPremium < Formula
     cp_r "#{share_dst}/.", etc_temp
 
     Dir.chdir(etc_temp.to_s) do
-      config_path = etc/"clash"
+      config_path = etc/"clash-premium"
       [
         "clash-dashboard",
         "yacd",
@@ -99,8 +99,8 @@ class ClashPremium < Formula
   end
 
   def post_install
-    (var/"log/clash").mkpath
-    chmod 0755, var/"log/clash"
+    (var/"log/clash-premium").mkpath
+    chmod 0755, var/"log/clash-premium"
   end
 
   def caveats
@@ -114,7 +114,7 @@ class ClashPremium < Formula
       If you prefer using `sudo brew services`. Run `brew fix-perm` after it
       to fix the ruin file permissions.
 
-      A global conf folder `#{HOMEBREW_PREFIX}/etc/clash` is created, with prebuilt
+      A global conf folder `#{HOMEBREW_PREFIX}/etc/clash-premium` is created, with prebuilt
       dashboard static files. Before you start the launchd service, put a conf
       `config.yaml` and start the service once manually to download MMDB.
     EOS
@@ -122,11 +122,11 @@ class ClashPremium < Formula
 
   service do
     require_root true
-    run [opt_bin/"clash", "-d", etc/"clash"]
+    run [opt_bin/"clash-premium", "-d", etc/"clash-premium"]
     # keep_alive { succesful_exit: true }
-    working_dir etc/"clash"
-    log_path var/"log/clash/clash.log"
-    error_log_path var/"log/clash/clash.log"
+    working_dir etc/"clash-premium"
+    log_path var/"log/clash-premium/clash.log"
+    error_log_path var/"log/clash-premium/clash.log"
   end
 
   test do
@@ -154,8 +154,8 @@ class ClashPremium < Formula
           password: "test"
           cipher: chacha20-ietf-poly1305
     EOS
-    system "#{bin}/clash", "-t", "-d", testpath # test config && download Country.mmdb
-    client = fork { exec "#{bin}/clash", "-d", testpath }
+    system "#{bin}/clash-premium", "-t", "-d", testpath # test config && download Country.mmdb
+    client = fork { exec "#{bin}/clash-premium", "-d", testpath }
 
     sleep 3
     begin
