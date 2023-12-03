@@ -1,32 +1,35 @@
 class ClashMetaBin < Formula
   desc "Rule-based tunnel in Go, the forked one Clash.Meta"
-  homepage "https://github.com/MetaCubeX/Clash.Meta"
-  version "1.16.0"
-  revision 2
+  # homepage "https://github.com/MetaCubeX/Clash.Meta"
+  homepage "https://github.com/MetaCubeX/mihomo"
+  version "1.17.0"
+  revision 0
   license "GPL-3.0"
 
   livecheck do
-    url "https://github.com/MetaCubeX/Clash.Meta/releases"
+    url "https://github.com/MetaCubeX/mihomo/releases"
     regex(%r{href=".*?/releases/tag/v?(\d+(?:\.\d+)+)"}i)
     strategy :page_match do |page, regex|
       page.scan(regex).flatten.uniq.sort
     end
   end
 
+  # Repo name was renamed from Clash.Meta to mihomo since 1.17.0
   if OS.mac? && Hardware::CPU.intel?
     # TODO(lk): what about the 'cgo' variant
-    url "https://github.com/MetaCubeX/Clash.Meta/releases/download/v#{version}/clash.meta-darwin-amd64-v#{version}.gz"
+    # url "https://github.com/MetaCubeX/Clash.Meta/releases/download/v#{version}/clash.meta-darwin-amd64-v#{version}.gz"
+    url "https://github.com/MetaCubeX/mihomo/releases/download/v#{version}/mihomo-darwin-amd64-v#{version}.gz"
   elsif OS.mac? && Hardware::CPU.arm?
-    url "https://github.com/MetaCubeX/Clash.Meta/releases/download/v#{version}/clash.meta-darwin-arm64-v#{version}.gz"
+    url "https://github.com/MetaCubeX/mihomo/releases/download/v#{version}/mihomo-darwin-arm64-v#{version}.gz"
   elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is-64-bit?
     # TODO(lk): 'compatible' variant?
-    url "https://github.com/MetaCubeX/Clash.Meta/releases/download/v#{version}/clash.meta-linux-amd64-v#{version}.gz"
+    url "https://github.com/MetaCubeX/mihomo/releases/download/v#{version}/mihomo-linux-amd64-v#{version}.gz"
   elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is-32-bit?
-    url "https://github.com/MetaCubeX/Clash.Meta/releases/download/v#{version}/clash.meta-linux-386-cgo-v#{version}.gz"
+    url "https://github.com/MetaCubeX/mihomo/releases/download/v#{version}/mihomo-linux-386-cgo-v#{version}.gz"
   elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is-64-bit?
-    url "https://github.com/MetaCubeX/Clash.Meta/releases/download/v#{version}/clash.meta-linux-arm64-v#{version}.gz"
+    url "https://github.com/MetaCubeX/mihomo/releases/download/v#{version}/mihomo-linux-arm64-v#{version}.gz"
   elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is-32-bit?
-    url "https://github.com/MetaCubeX/Clash.Meta/releases/download/v#{version}/clash.meta-linux-armv7-v#{version}.gz"
+    url "https://github.com/MetaCubeX/mihomo/releases/download/v#{version}/mihomo-linux-armv7-v#{version}.gz"
   end
 
   resource "metacubexd" do
@@ -56,7 +59,7 @@ class ClashMetaBin < Formula
 
   def install
     # binary name: clash.meta-darwin-amd64-v1.14.2
-    bin.install Dir.glob("clash.meta*")[0] => "clash-meta"
+    bin.install Dir.glob(["mihomo*", "clash.meta*"])[0] => "clash-meta"
 
     # Dashboards, one copy saved into share
     share_dst = "#{share}/clash-meta"
