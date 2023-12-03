@@ -1,5 +1,5 @@
 cask "mfiles-helper" do
-  version "2.5.0,20231115"
+  version "2.5.2,20231201"
   # sha256 ""
 
   url "http://mfiles.maokebing.com/package/mfiles-helper-#{version.before_comma}-macos-#{version.after_comma}.dmg"
@@ -9,10 +9,10 @@ cask "mfiles-helper" do
 
   livecheck do
     url "https://mfiles.maokebing.com/"
-    regex(/href=['"](package\/)?mfiles[._-]helper[._-]v?(\d+(?:\.\d+)+)[._-]macos[._-](\d+)\.dmg/i)
+    regex(/href="[^"]*\/mfiles-helper[._-]v?(\d+(?:\.\d+)+)[._-]macos[._-](\d+)\.dmg/i)
     strategy :page_match do |page, regex|
       page.scan(regex).map do |match|
-        match&.second + "," + match&.third
+        match&.first + "," + match&.second
       end
     end
   end
