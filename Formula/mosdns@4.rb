@@ -3,7 +3,7 @@ class MosdnsAT4 < Formula
   homepage "https://github.com/IrineSistiana/mosdns"
   version "4.5.3"
   license "GPL-3.0"
-  revision 2
+  revision 3
 
   livecheck do
     skip '4.x versions are no longer developed'
@@ -102,8 +102,8 @@ class MosdnsAT4 < Formula
   end
 
   def post_install
-    (var/"log/mosdns").mkpath
-    chmod 0755, var/"log/mosdns"
+    (var/"log/mosdns@4").mkpath
+    chmod 0755, var/"log/mosdns@4"
   end
 
   def caveats
@@ -124,11 +124,11 @@ class MosdnsAT4 < Formula
   service do
     run [opt_bin/"mosdns4", "start", "-d", etc/"mosdns", "-c", etc/"mosdns/config-v4.yaml"]
     # keep_alive { succesful_exit: true }
-    log_path var/"log/mosdns/mosdns-v4.log"
-    error_log_path var/"log/mosdns/mosdns-v4.log"
+    log_path var/"log/mosdns@4/mosdns.log"
+    error_log_path var/"log/mosdns@4/mosdns.log"
   end
 
   test do
-    system "#{bin}/mosdns4", "-v"
+    system "#{bin}/mosdns4", "version"
   end
 end

@@ -140,6 +140,6 @@ class Mosdns < Formula
   end
 
   test do
-    system "#{bin}/mosdns", "-v"
+    system "#{bin}/mosdns", "version"
   end
 end
