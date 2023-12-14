@@ -1,5 +1,6 @@
 class FfmpegOptions < Formula
   version "6.0"
+  revision 3
   # sha256 ""
 
   desc "Play, record, convert, and stream audio and video"
@@ -8,7 +9,6 @@ class FfmpegOptions < Formula
   # None of these parts are used by default, you have to explicitly pass `--enable-gp>
   # to configure to activate them. In this case, FFmpeg's license changes to GPL v2+.
   license "GPL-2.0-or-later"
-  revision 2
   head "https://github.com/FFmpeg/FFmpeg.git", branch: "master"
 
   livecheck do
