@@ -125,8 +125,9 @@ class ClashPremium < Formula
     run [opt_bin/"clash-premium", "-d", etc/"clash-premium"]
     # keep_alive { succesful_exit: true }
     working_dir etc/"clash-premium"
-    log_path var/"log/clash-premium/clash.log"
-    error_log_path var/"log/clash-premium/clash.log"
+    # TODO: Disable log temporarily. No way disable the log line like "read: 0000000".
+    # log_path var/"log/clash-premium/clash.log"
+    # error_log_path var/"log/clash-premium/clash.log"
   end
 
   test do
