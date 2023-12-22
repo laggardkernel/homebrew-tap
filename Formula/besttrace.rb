@@ -1,7 +1,7 @@
 class Besttrace < Formula
   desc "Enhanced traceroute with IP display, developed by IPIP.NET"
   homepage "https://www.ipip.net/product/client.html#besttrace"
-  version "1.3.2"
+  version "1.3.4"
   url "https://cdn.ipip.net/17mon/besttrace4linux.zip"
   # sha256 ""
   license :cannot_represent
