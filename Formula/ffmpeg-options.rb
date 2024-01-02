@@ -1,6 +1,6 @@
 class FfmpegOptions < Formula
   version "6.1.1"
-  revision 1
+  revision 2
   # sha256 ""
 
   desc "Play, record, convert, and stream audio and video"
@@ -21,7 +21,6 @@ class FfmpegOptions < Formula
   option "with-fdk-aac", "Enable the Fraunhofer FDK AAC library"
   option "with-game-music-emu", "Enable Game Music Emu (GME) support"
   option "with-librsvg", "Enable SVG files as inputs via librsvg"
-  option "with-libssh", "Enable SFTP protocol via libssh"
   option "with-openh264", "Enable OpenH264 library"
   option "with-openssl", "Enable SSL support"
   # option "with-zeromq", "Enable using libzeromq to receive commands sent through a libzeromq client"
@@ -43,6 +42,7 @@ class FfmpegOptions < Formula
   depends_on "libbluray"
   depends_on "librist"
   depends_on "libsoxr"
+  depends_on "libssh"
   depends_on "libvidstab"
   depends_on "libvmaf"
   depends_on "libvorbis"
@@ -73,7 +73,6 @@ class FfmpegOptions < Formula
   depends_on "libgsm" => :optional
   depends_on "libmodplug" => :optional
   depends_on "librsvg" => :optional
-  depends_on "libssh" => :optional
   depends_on "openh264" => :optional
   depends_on "two-lame" => :optional
   depends_on "wavpack" => :optional
@@ -126,6 +125,7 @@ class FfmpegOptions < Formula
       --enable-librubberband
       --enable-libsnappy
       --enable-libsrt
+      --enable-libssh
       --enable-libtesseract
       --enable-libtheora
       --enable-libvidstab
@@ -172,7 +172,6 @@ class FfmpegOptions < Formula
     args << "--enable-libmodplug" if build.with? "libmodplug"
     args << "--enable-libopenh264" if build.with? "openh264"
     args << "--enable-librsvg" if build.with? "librsvg"
-    args << "--enable-libssh" if build.with? "libssh"
     args << "--enable-libtwolame" if build.with? "two-lame"
     args << "--enable-libwavpack" if build.with? "wavpack"
 
