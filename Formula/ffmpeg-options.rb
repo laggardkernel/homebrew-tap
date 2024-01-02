@@ -1,6 +1,6 @@
 class FfmpegOptions < Formula
-  version "6.0"
-  revision 3
+  version "6.1.1"
+  revision 1
   # sha256 ""
 
   desc "Play, record, convert, and stream audio and video"
@@ -36,6 +36,7 @@ class FfmpegOptions < Formula
   depends_on "fontconfig"
   depends_on "freetype"
   depends_on "frei0r"
+  depends_on "harfbuzz"
   depends_on "jpeg-xl"
   depends_on "lame"
   depends_on "libass"
@@ -100,15 +101,6 @@ class FfmpegOptions < Formula
     sha256 "57e26caced5a1382cb639235f9555fc50e45e7bf8333f7c9ae3d49b3241d3f77"
   end
 
-  stable do
-    # Fix for binutils, remove with next release
-    # https://www.linuxquestions.org/questions/slackware-14/regression-on-current-with-ffmpeg-4175727691/
-    patch do
-      url "https://git.videolan.org/?p=ffmpeg.git;a=patch;h=effadce6c756247ea8bae32dc13bb3e6f464f0eb"
-      sha256 "a50d7da9870a3fd801ad3a4d13d5c9b260acb094cf8bfa4afd95a54741173a7f"
-    end
-  end
-
   def install
     # The new linker leads to duplicate symbol issue https://github.com/homebrew-ffmpeg/homebrew-ffmpeg/issues/140
     ENV.append "LDFLAGS", "-Wl,-ld_classic" if DevelopmentTools.clang_build_version >= 1500
@@ -125,6 +117,7 @@ class FfmpegOptions < Formula
       --enable-libaom
       --enable-libbluray
       --enable-libdav1d
+      --enable-libharfbuzz
       --enable-libjxl
       --enable-libmp3lame
       --enable-libopus
