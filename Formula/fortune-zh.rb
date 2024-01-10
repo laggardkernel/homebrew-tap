@@ -9,7 +9,11 @@ class VersionFetcher
     require "json"
 
     html = URI(@url).open.read
-    regex = /href="\/ruanyf\/fortunes\/commit\/([a-z0-9]{7,}+)">/
+    # href in payload json escape " as href href=\"/ruanyf/...
+    # switch to use "oid":"000fb01261e4d119e4e988ce82f49fb8b139fe3c",
+    # or consider using https://api.github.com/repos/ruanyf/fortunes/commits
+    # regex = /href=\\"\/ruanyf\/fortunes\/commit\/([a-z0-9]{7,}+)\\">/
+    regex = /"oid":\s*"([a-z0-9]{7,}+)"/
     m = html.match(regex)
     if m
       m[1][0..6]
