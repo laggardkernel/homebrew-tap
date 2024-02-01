@@ -9,6 +9,8 @@ class CurlOptions < Formula
   # sha256 ""
   license "curl"
 
+  deprecate! date: "2024-02-01", because: :unmaintained
+
   livecheck do
     url "https://curl.se/download/"
     regex(/href=.*?curl[._-]v?(.*?)\.t/i)

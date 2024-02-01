@@ -11,6 +11,8 @@ class FfmpegOptions < Formula
   license "GPL-2.0-or-later"
   head "https://github.com/FFmpeg/FFmpeg.git", branch: "master"
 
+  deprecate! date: "2024-02-01", because: "unmaintained, use https://github.com/homebrew-ffmpeg/homebrew-ffmpeg instead"
+
   livecheck do
     url "https://ffmpeg.org/download.html"
     regex(/href=.*?ffmpeg[._-]v?(\d+(?:\.\d+)+)\.t/i)
