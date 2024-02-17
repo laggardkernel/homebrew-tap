@@ -1,25 +1,11 @@
 class TmuxOptions < Formula
   desc "Terminal multiplexer with custom FPS"
   homepage "https://tmux.github.io/"
-  version "3.3a"
-  revision 1
+  version "3.4"
+  revision 0
   url "https://github.com/tmux/tmux/releases/download/#{version}/tmux-#{version}.tar.gz"
   # sha256 ""
   license "ISC"
-
-  stable do
-    # Remove `stable` block in next release.
-    url "https://github.com/tmux/tmux/releases/download/3.3a/tmux-3.3a.tar.gz"
-    sha256 "e4fd347843bd0772c4f48d6dde625b0b109b7a380ff15db21e97c11a4dcdf93f"
-
-    # Patch for CVE-2022-47016. Remove in next release.
-    # Upstream commit does not apply to 3.3a, so we use Nix's patch.
-    # https://github.com/NixOS/nixpkgs/pull/213041
-    patch do
-      url "https://raw.githubusercontent.com/NixOS/nixpkgs/2821a121dc2acf2fe07d9636ee35ff61807087ea/pkgs/tools/misc/tmux/CVE-2022-47016.patch"
-      sha256 "c1284aace9231e736ace52333ec91726d3dfda58d3a3404b67c6f40bf5ed28a4"
-    end
-  end
 
   livecheck do
     # Pre-release support
@@ -39,8 +25,6 @@ class TmuxOptions < Formula
     depends_on "autoconf" => :build
     depends_on "automake" => :build
     depends_on "libtool" => :build
-
-    uses_from_macos "bison" => :build
   end
 
   # Obsolete: devel block support is dropped
@@ -54,6 +38,8 @@ class TmuxOptions < Formula
   depends_on "pkg-config" => :build
   depends_on "libevent"
   depends_on "ncurses"
+
+  uses_from_macos "bison" => :build
 
   # Old versions of macOS libc disagree with utf8proc character widths.
   # https://github.com/tmux/tmux/issues/2223

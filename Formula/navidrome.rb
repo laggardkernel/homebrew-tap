@@ -4,7 +4,7 @@ class Navidrome < Formula
   # Check build dependency versions requirement before bumping up the version:
   # - https://github.com/navidrome/navidrome/blob/master/go.mod
   # - https://github.com/navidrome/navidrome/blob/master/.nvmrc
-  version "0.51.0"
+  version "0.51.1"
   license "GPL-3.0"
 
   livecheck do
@@ -20,7 +20,7 @@ class Navidrome < Formula
 
     # Warn: build.head doesn't work under "class"
     depends_on "go@1.21" => :build
-    depends_on "node@18" => :build
+    depends_on "node@20" => :build
     depends_on "taglib" => :build
     depends_on "upx" => :build
   end
@@ -36,7 +36,7 @@ class Navidrome < Formula
 
     # The setup is very strict, and the steps below only work with these versions (enforced in the Makefile)
     depends_on "go@1.21" => :build
-    depends_on "node@16" => :build
+    depends_on "node@18" => :build
     depends_on "taglib" => :build
     depends_on "upx" => :build
   elsif OS.mac?
@@ -72,7 +72,7 @@ class Navidrome < Formula
       # Default GOCACHE: $HOMEBREW_CACHE/go_cache
       ENV["GOCACHE"] = "#{ENV["GOPATH"]}/go-cache"
       # BUG: Formula["node"] doen't ensure version installed
-      # ENV.append_path "PATH", Formula["node@18"].bin.to_s
+      # ENV.append_path "PATH", Formula["node@xx"].bin.to_s
       # If not git repo as source, export '-buildvcs=false'
       ENV["GOFLAGS"] = "-buildvcs=false"
 

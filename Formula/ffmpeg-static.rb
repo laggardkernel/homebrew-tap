@@ -1,5 +1,5 @@
 class FfmpegStatic < Formula
-  version "6.1"
+  version "6.1.1"
   version_without_dot = "#{version}".delete(".")
   arch = Hardware::CPU.intel? ? "intel" : "arm"
   # sha256 ""
