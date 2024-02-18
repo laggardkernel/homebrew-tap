@@ -9,8 +9,9 @@ class FfmpegStatic < Formula
   url "https://www.osxexperts.net/ffmpeg#{version_without_dot}#{arch}.zip"
 
   livecheck do
+    # Intel build is delayed after arm build.
     url "https://osxexperts.net/"
-    regex(/>Download ffmpeg v?(\d+(?:\.\d+)+)/i)
+    regex(/>Download ffmpeg v?(\d+(?:\.\d+)+)(\s\(Intel\))/i)
   end
 
   def install
