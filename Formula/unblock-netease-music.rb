@@ -3,11 +3,11 @@ class UnblockNeteaseMusic < Formula
   # homepage "https://github.com/nondanee/UnblockNeteaseMusic"
   # homepage "https://github.com/1715173329/UnblockNeteaseMusic"
   homepage "https://github.com/UnblockNeteaseMusic/server"
-  version "0.27.4-patch.1"
+  version "0.27.5"
   url "https://github.com/UnblockNeteaseMusic/server/archive/refs/tags/v#{version}.tar.gz"
   # sha256 ""
   license "MIT"
-  revision 1
+  revision 0
 
   livecheck do
     # Pre-release support
@@ -54,36 +54,45 @@ class UnblockNeteaseMusic < Formula
       end
     end
 
-    mkdir_p buildpath/"bin"
-    (buildpath/"bin/unblock-nm").write <<~EOS
+    server_path = libexec/"lib/node_modules/@unblockneteasemusic/server"
+    mkdir_p "#{server_path}"
+
+    sources = Dir.entries(buildpath)
+    sources -= [".", "..", ".brew_home"]
+    cp_r sources, "#{server_path}"
+
+    (libexec/"bin/unblock-nm").write <<~EOS
       #!/bin/bash
-      CMD=("#{HOMEBREW_PREFIX}/opt/node/bin/node")
+      CMD=("#{Formula['node'].opt_prefix}/bin/node")
       if [[ -n "$DEVELOPMENT" ]]; then
-        CMD+=("-r" "#{prefix}/.pnp.cjs")
+        CMD+=("-r" "#{server_path}/.pnp.cjs")
       fi
-      CMD+=("#{prefix}/app.js")
+      CMD+=("#{server_path}/app.js")
       "${CMD[@]}" "$@"
     EOS
-
-    (buildpath/"bin/unblock-nm-bridge").write <<~EOS
+    (libexec/"bin/unblock-nm-bridge").write <<~EOS
       #!/bin/bash
-      CMD=("#{HOMEBREW_PREFIX}/opt/node/bin/node")
+      CMD=("#{Formula['node'].opt_prefix}/bin/node")
       if [[ -n "$DEVELOPMENT" ]]; then
-        CMD+=("-r" "#{prefix}/.pnp.cjs")
+        CMD+=("-r" "#{server_path}/.pnp.cjs")
       fi
-      CMD+=("#{prefix}/bridge.js")
+      CMD+=("#{server_path}/bridge.js")
       "${CMD[@]}" "$@"
     EOS
-
-    bin.install
-    prefix.install Dir.glob("*")
+    chmod 0755, libexec/"bin/unblock-nm"
+    chmod 0755, libexec/"bin/unblock-nm-bridge"
+    bin.mkdir
+    ["unblock-nm", "unblock-nm-bridge"].each do |v|
+      ln_sf (libexec/"bin/#{v}").relative_path_from("#{bin}"), "#{bin}/#{v}"
+    end
     prefix.install_metafiles
 
     # Enable development support for 0.27+
-    Dir.chdir(prefix.to_s) do
+    Dir.chdir("#{server_path}") do
+      ENV["COREPACK_ENABLE_DOWNLOAD_PROMPT"] = "0"
       # Switch to yarn v3/berry/stable since 0.27.0-rc.6. Global cache is disabled by default.
       # https://yarnpkg.com/cli/set/version#details
-      # system "yarn", "set", "version", "berry"
+      # system "yarn", "set", "version", "berry" system "corepack", "enable"
       system "yarn", "--version"
       system "yarn", "config", "set", "enableGlobalCache", "false"
       system "yarn", "install"
