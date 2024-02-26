@@ -92,7 +92,7 @@ class UnblockNeteaseMusic < Formula
       ENV["COREPACK_ENABLE_DOWNLOAD_PROMPT"] = "0"
       # Switch to yarn v3/berry/stable since 0.27.0-rc.6. Global cache is disabled by default.
       # https://yarnpkg.com/cli/set/version#details
-      # system "yarn", "set", "version", "berry" system "corepack", "enable"
+      # system "yarn", "set", "version", "berry"
       system "yarn", "--version"
       system "yarn", "config", "set", "enableGlobalCache", "false"
       system "yarn", "install"
