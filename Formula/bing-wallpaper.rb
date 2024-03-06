@@ -6,7 +6,7 @@ class BingWallpaper < Formula
   # sha256 ""
   head "https://github.com/thejandroman/bing-wallpaper.git"
   license "GPL-3.0"
-  revision 1
+  revision 2
 
   livecheck do
     url "https://github.com/thejandroman/bing-wallpaper/commits/master/bing-wallpaper.sh"
@@ -17,9 +17,13 @@ class BingWallpaper < Formula
     end
   end
 
+  depends_on "grep"
   # depends_on "bash" if MacOS.version >= :mojave
 
   def install
+    inreplace "bing-wallpaper.sh" do |s|
+      s.gsub! "grep ", "ggrep "
+    end
     bin.install "bing-wallpaper.sh" => "bing-wallpaper"
     prefix.install_metafiles
   end
@@ -28,14 +32,14 @@ class BingWallpaper < Formula
     <<~EOS
       BingWallpaper service is run every 4 hours to download pictures
       from bing and set them as wallpaper. The default picture storage
-      location is $HOME/Pictures/bing-wallpapers/.
+      location is $HOME/Pictures/bing-wallpapers/. Make sure the folder exists.
 
       Check 'bing-wallpaper -h' and modify the service plist for customization.
     EOS
   end
 
   service do
-    run [opt_bin/"bing-wallpapar", "-s", "-w"]
+    run [opt_bin/"bing-wallpaper", "-s", "-w"]
     run_type :interval
     interval 14400
   end
