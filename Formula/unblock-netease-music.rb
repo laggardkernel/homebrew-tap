@@ -3,7 +3,7 @@ class UnblockNeteaseMusic < Formula
   # homepage "https://github.com/nondanee/UnblockNeteaseMusic"
   # homepage "https://github.com/1715173329/UnblockNeteaseMusic"
   homepage "https://github.com/UnblockNeteaseMusic/server"
-  version "0.27.5"
+  version "0.27.6"
   url "https://github.com/UnblockNeteaseMusic/server/archive/refs/tags/v#{version}.tar.gz"
   # sha256 ""
   license "MIT"
