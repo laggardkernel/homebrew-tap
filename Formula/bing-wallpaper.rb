@@ -6,7 +6,7 @@ class BingWallpaper < Formula
   # sha256 ""
   head "https://github.com/thejandroman/bing-wallpaper.git"
   license "GPL-3.0"
-  revision 2
+  revision 3
 
   livecheck do
     url "https://github.com/thejandroman/bing-wallpaper/commits/master/bing-wallpaper.sh"
@@ -17,7 +17,6 @@ class BingWallpaper < Formula
     end
   end
 
-  depends_on "grep"
   # depends_on "bash" if MacOS.version >= :mojave
 
   def install
@@ -30,6 +29,8 @@ class BingWallpaper < Formula
 
   def caveats
     <<~EOS
+      'bing-wallpaper' depends on GNU 'grep', please 'brew install grep' manually.
+
       BingWallpaper service is run every 4 hours to download pictures
       from bing and set them as wallpaper. The default picture storage
       location is $HOME/Pictures/bing-wallpapers/. Make sure the folder exists.
@@ -39,7 +40,11 @@ class BingWallpaper < Formula
   end
 
   service do
-    run [opt_bin/"bing-wallpaper", "-s", "-w"]
+    environment_variables PATH: "#{std_service_path_env}:/opt/local/bin:/opt/local/sbin"
+    # TODO: set wallpaper osascript doesn't work since Catalina
+    # https://github.com/thejandroman/bing-wallpaper/issues/32
+    # run [opt_bin/"bing-wallpaper", "-s", "-w"]
+    run [opt_bin/"bing-wallpaper", "-s"]
     run_type :interval
     interval 14400
   end
