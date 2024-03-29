@@ -1,7 +1,7 @@
 class CurlOptions < Formula
   desc "Get a file from an HTTP, HTTPS or FTP server"
   homepage "https://curl.se"
-  version "8.6.0"
+  version "8.7.1"
   url "https://curl.se/download/curl-#{version}.tar.bz2"
   mirror "https://github.com/curl/curl/releases/download/curl-#{version.to_s.gsub('.', '_')}/curl-#{version}.tar.bz2"
   mirror "http://fresh-center.net/linux/www/curl-#{version}.tar.bz2"
@@ -64,6 +64,12 @@ class CurlOptions < Formula
         --with-openssl and --with-gnutls are both specified and
         curl can only use one at a time.
       EOS
+    end
+
+    tag_name = "curl-#{version.to_s.tr(".", "_")}"
+    if build.stable? && stable.mirrors.grep(/github\.com/).first.exclude?(tag_name)
+      odie "Tag name #{tag_name} is not found in the GitHub mirror URL! " \
+           "Please make sure the URL is correct."
     end
 
     system "./buildconf" if build.head?

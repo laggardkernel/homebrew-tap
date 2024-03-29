@@ -1,5 +1,5 @@
 cask "mfiles-helper" do
-  version "2.5.2,20231201"
+  version "2.5.3,20240328"
   # sha256 ""
 
   url "http://mfiles.maokebing.com/package/mfiles-helper-#{version.before_comma}-macos-#{version.after_comma}.dmg"
