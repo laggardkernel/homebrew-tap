@@ -4,5 +4,6 @@
   "mosdns-bin": "mosdns",
   "raycast-versions": "raycast-versioned",
   "rsyncosx-versions": "rsyncosx-versioned",
-  "sourcetrail-versions": "sourcetrail-versioned"
+  "sourcetrail-versions": "sourcetrail-versioned",
+  "tachidesk": "suwayomi-server"
 }

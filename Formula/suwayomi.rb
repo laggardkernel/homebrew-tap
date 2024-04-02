@@ -1,25 +1,25 @@
-class Tachidesk < Formula
+class Suwayomi < Formula
   desc "Rewrite of Tachiyomi for the Desktop"
-  homepage "https://github.com/Suwayomi/Tachidesk-Server"
-  version "0.7.0-r1197"
-  url "https://github.com/Suwayomi/Tachidesk-Server/releases/download/v#{version.to_s.split("-").first}/Tachidesk-Server-v#{version}.jar"
+  homepage "https://github.com/Suwayomi/Suwayomi-Server"
+  version "1.0.0-r1498"
+  url "https://github.com/Suwayomi/Suwayomi-Server/releases/download/v#{version.to_s.split("-").first}/Suwayomi-Server-v#{version}.jar"
   license "MPL-2.0"
 
   livecheck do
-    url "https://github.com/Suwayomi/Tachidesk-Server/releases"
+    url "https://github.com/Suwayomi/Suwayomi-Server/releases"
     # Assets list is too long, .jar is hidden in folded "Show all * assets"
-    regex(%r{href="[^"]+?/releases/download/[^/]+/Tachidesk-Server-v?(\d+(?:\.\d+)+-?[^">]*?)-mac[^"]+["' >]}i)
+    regex(%r{href="[^"]+?/releases/download/[^/]+/Suwayomi-Server-v?(\d+(?:\.\d+)+-?[^">]*?)-mac[^"]+["' >]}i)
     strategy :page_match do |page|
       page.scan(regex).map { |match| match&.first }
     end
   end
 
   def pkg_name
-    "tachidesk"
+    "suwayomi"
   end
 
   def bin_name
-    "Tachidesk-Server"
+    "Suwayomi-Server"
   end
 
   def install
@@ -27,15 +27,15 @@ class Tachidesk < Formula
     mv Dir["#{bin_name}-*.jar"][0], "./#{pkg_name}/#{bin_name}.jar"
     share.install pkg_name.to_s
 
-    (buildpath/"tachidesk").write <<~EOS
+    (buildpath/"suwayomi").write <<~EOS
       #!/bin/sh
-      java -jar "#{share}/#{pkg_name}/#{bin_name}.jar" "$@"
+      java -Dsuwayomi.tachidesk.config.server.debugLogsEnabled=false -jar "#{share}/#{pkg_name}/#{bin_name}.jar" "$@"
     EOS
-    (buildpath/"tachidesk-debug").write <<~EOS
+    (buildpath/"suwayomi-debug").write <<~EOS
       #!/bin/sh
       java -Dsuwayomi.tachidesk.config.server.debugLogsEnabled=true -jar "#{share}/#{pkg_name}/#{bin_name}.jar" "$@"
     EOS
-    bin.install Dir["tachidesk*"]
+    bin.install Dir["suwayomi*"]
 
     prefix.install_metafiles
   end
@@ -47,11 +47,11 @@ class Tachidesk < Formula
 
   def caveats
     <<~EOS
-      Tachidesk-Server depends on Java 8+. Please install an available JDK manually.
-      Note: Tachidesk-Server listens at 0.0.0.0:4567 by default.
+      Suwayomi-Server depends on Java 8+. Please install an available JDK manually.
+      Note: Suwayomi-Server listens at 0.0.0.0:4567 by default.
       Default settings is generated automatically at first run into
         ~/Library/Application Support/Tachidesk/server.conf
-      https://github.com/Suwayomi/Tachidesk-Server/wiki/Configuring-Tachidesk-Server
+      https://github.com/Suwayomi/Suwayomi-Server/wiki/Configuring-Tachidesk-Server
     EOS
   end
 
@@ -63,10 +63,10 @@ class Tachidesk < Formula
       -Dsuwayomi.tachidesk.config.server.systemTrayEnabled=false
       -Dsuwayomi.tachidesk.config.server.initialOpenInBrowserEnabled=false
       -jar
-      #{opt_prefix}/share/tachidesk/Tachidesk-Server.jar
+      #{opt_prefix}/share/suwayomi/Suwayomi-Server.jar
     ]
     # keep_alive { succesful_exit: true }
-    log_path var/"log/tachidesk/tachidesk.log"
-    error_log_path var/"log/tachidesk/tachidesk.log"
+    # log_path var/"log/suwayomi/suwayomi.log"
+    # error_log_path var/"log/suwayomi/suwayomi.log"
   end
 end
