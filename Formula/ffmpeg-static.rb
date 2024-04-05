@@ -1,12 +1,24 @@
 class FfmpegStatic < Formula
-  version "6.1.1"
+  version "7.0"
   version_str = version.to_s
-  version_without_dot = "#{version}".delete(".")
-  revision 1
+  version_without_dot = "#{version}".delete(".").gsub(/0+$/, '')
+  revision 0
   desc "ffmpeg static build for macOS"
 
   # Use arm build from osxexperts, intel build from evermeet.
-  if OS.mac? && Hardware::CPU.intel?
+  arch = Hardware::CPU.intel? ? "intel" : "arm"
+  if OS.mac?  # && Hardware::CPU.arm?
+    homepage "https://osxexperts.net/"
+    url "https://www.osxexperts.net/ffmpeg#{version_without_dot}#{arch}.zip"
+
+    resource "ffprobe" do
+      url "https://www.osxexperts.net/ffprobe#{version_without_dot}#{arch}.zip"
+    end
+
+    resource "ffplay" do
+      url "https://www.osxexperts.net/ffplay#{version_without_dot}#{arch}.zip"
+    end
+  elsif OS.mac? && Hardware::CPU.intel?
     homepage "https://evermeet.cx/ffmpeg/"
     url "https://evermeet.cx/ffmpeg/ffmpeg-#{version_str}.7z"
 
@@ -16,18 +28,6 @@ class FfmpegStatic < Formula
 
     resource "ffplay" do
       url "https://evermeet.cx/ffmpeg/ffplay-#{version_str}.7z"
-    end
-  elsif OS.mac? && Hardware::CPU.arm?
-    homepage "https://osxexperts.net/"
-    arch = Hardware::CPU.intel? ? "intel" : "arm"
-    url "https://www.osxexperts.net/ffmpeg#{version_without_dot}#{arch}.zip"
-
-    resource "ffprobe" do
-      url "https://www.osxexperts.net/ffprobe#{version_without_dot}#{arch}.zip"
-    end
-
-    resource "ffplay" do
-      url "https://www.osxexperts.net/ffplay#{version_without_dot}#{arch}.zip"
     end
   end
 
