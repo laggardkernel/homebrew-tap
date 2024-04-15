@@ -1,5 +1,5 @@
 cask "cloud-uploader" do
-  version "1.3.4"
+  version "1.3.5"
 
   url "https://github.com/lulu-ls/cloud-uploader/releases/download/#{version}/cloud-uploader-#{version}.dmg"
   name "CloudUploader"

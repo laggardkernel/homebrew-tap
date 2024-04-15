@@ -1,6 +1,6 @@
 class FfmpegOptions < Formula
-  version "6.1.1"
-  revision 2
+  version "7.0"
+  revision 0
   # sha256 ""
 
   desc "Play, record, convert, and stream audio and video"
@@ -197,10 +197,8 @@ class FfmpegOptions < Formula
 
     # Build and install additional FFmpeg tools
     system "make", "alltools"
-    bin.install Dir["tools/*"].select { |f| File.executable? f }
-
-    # Fix for Non-executables that were installed to bin/
-    mv bin/"python", pkgshare/"python", force: true
+    bin.install (buildpath/"tools").children.select { |f| f.file? && f.executable? }
+    pkgshare.install buildpath/"tools/python"
   end
 
   test do
