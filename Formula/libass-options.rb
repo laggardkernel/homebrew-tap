@@ -1,7 +1,7 @@
 class LibassOptions < Formula
   desc "Subtitle renderer for the ASS/SSA subtitle format"
   homepage "https://github.com/libass/libass"
-  version "0.17.1"
+  version "0.17.2"
   url "https://github.com/libass/libass/releases/download/#{version}/libass-#{version}.tar.xz"
   # sha256 ""
   license "ISC"
