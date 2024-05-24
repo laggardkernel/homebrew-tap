@@ -1,7 +1,7 @@
 class DufsBin < Formula
   desc "Static file server"
   homepage "https://github.com/sigoden/dufs"
-  version "0.40.0"
+  version "0.41.0"
   license any_of: ["Apache-2.0", "MIT"]
   # sha256 ""
 

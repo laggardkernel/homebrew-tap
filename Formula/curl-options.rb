@@ -1,7 +1,7 @@
 class CurlOptions < Formula
   desc "Get a file from an HTTP, HTTPS or FTP server"
   homepage "https://curl.se"
-  version "8.7.1"
+  version "8.8.0"
   url "https://curl.se/download/curl-#{version}.tar.bz2"
   mirror "https://github.com/curl/curl/releases/download/curl-#{version.to_s.gsub('.', '_')}/curl-#{version}.tar.bz2"
   mirror "http://fresh-center.net/linux/www/curl-#{version}.tar.bz2"
@@ -87,6 +87,8 @@ class CurlOptions < Formula
       --with-librtmp
       --with-libssh2
       --without-libpsl
+      --with-zsh-functions-dir=#{zsh_completion}
+      --with-fish-functions-dir=#{fish_completion}
     ]
 
     args << if OS.mac?
