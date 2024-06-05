@@ -1,7 +1,7 @@
 class GituiBin < Formula
   desc "Blazing fast terminal-ui for git written in rust"
   homepage "https://github.com/extrawurst/gitui"
-  version "0.26.2"
+  version "0.26.3"
   # sha256 ""
   license "MIT"
 
