@@ -1,7 +1,7 @@
 class Suwayomi < Formula
   desc "Rewrite of Tachiyomi for the Desktop"
   homepage "https://github.com/Suwayomi/Suwayomi-Server"
-  version "1.0.0-r1498"
+  version "1.1.1-r1535"
   url "https://github.com/Suwayomi/Suwayomi-Server/releases/download/v#{version.to_s.split("-").first}/Suwayomi-Server-v#{version}.jar"
   license "MPL-2.0"
 
