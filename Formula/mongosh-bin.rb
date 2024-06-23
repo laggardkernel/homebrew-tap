@@ -1,7 +1,7 @@
 class MongoshBin < Formula
   desc "MongoDB Shell to connect, configure, query, and work with your MongoDB database"
   homepage "https://github.com/mongodb-js/mongosh#readme"
-  version "2.2.9"
+  version "2.2.10"
   license "Apache-2.0"
 
   livecheck do
