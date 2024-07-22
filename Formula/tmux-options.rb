@@ -2,7 +2,7 @@ class TmuxOptions < Formula
   desc "Terminal multiplexer with custom FPS"
   homepage "https://tmux.github.io/"
   version "3.4"
-  revision 0
+  revision 1
   url "https://github.com/tmux/tmux/releases/download/#{version}/tmux-#{version}.tar.gz"
   # sha256 ""
   license "ISC"
@@ -39,11 +39,10 @@ class TmuxOptions < Formula
   depends_on "libevent"
   depends_on "ncurses"
 
-  uses_from_macos "bison" => :build
+  uses_from_macos "bison" => :build # for yacc
 
   # Old versions of macOS libc disagree with utf8proc character widths.
   # https://github.com/tmux/tmux/issues/2223
-  # depends_on "utf8proc" if MacOS.version >= :high_sierra
   on_system :linux, macos: :sierra_or_newer do
     depends_on "utf8proc"
   end
@@ -72,8 +71,7 @@ class TmuxOptions < Formula
     system "sh", "autogen.sh" if build.head?
 
     args = %W[
-      --disable-dependency-tracking
-      --prefix=#{prefix}
+      --enable-sixel
       --sysconfdir=#{etc}
     ]
 
@@ -82,14 +80,14 @@ class TmuxOptions < Formula
       # and uses that as the default `TERM`, but this causes issues for
       # tools that link with the very old ncurses provided by macOS.
       # https://github.com/Homebrew/homebrew-core/issues/102748
-      args << "--with-TERM=screen-256color"
+      args << "--with-TERM=screen-256color" if MacOS.version < :sonoma
       args << "--enable-utf8proc" if MacOS.version >= :high_sierra
     else
       args << "--enable-utf8proc"
     end
 
     ENV.append "LDFLAGS", "-lresolv"
-    system "./configure", *args
+    system "./configure", *args, *std_configure_args
 
     system "make", "install"
 
