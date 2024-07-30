@@ -1,7 +1,7 @@
 class CurlOptions < Formula
   desc "Get a file from an HTTP, HTTPS or FTP server"
   homepage "https://curl.se"
-  version "8.8.0"
+  version "8.9.0"
   url "https://curl.se/download/curl-#{version}.tar.bz2"
   mirror "https://github.com/curl/curl/releases/download/curl-#{version.to_s.gsub('.', '_')}/curl-#{version}.tar.bz2"
   mirror "http://fresh-center.net/linux/www/curl-#{version}.tar.bz2"
@@ -46,7 +46,6 @@ class CurlOptions < Formula
   depends_on "libidn2"
   depends_on "libnghttp2"
   depends_on "libssh2"
-  depends_on "openldap"
   depends_on "rtmpdump"
   depends_on "zstd"
   depends_on "brotli" => :optional
@@ -54,6 +53,7 @@ class CurlOptions < Formula
   depends_on "gnutls" => :optional
 
   uses_from_macos "krb5"
+  uses_from_macos "openldap"
   uses_from_macos "zlib"
 
   def install
@@ -91,12 +91,6 @@ class CurlOptions < Formula
       --with-fish-functions-dir=#{fish_completion}
     ]
 
-    args << if OS.mac?
-      "--with-gssapi"
-    else
-      "--with-gssapi=#{Formula["krb5"].opt_prefix}"
-    end
-
     # cURL has a new firm desire to find ssl with PKG_CONFIG_PATH instead of using
     # "--with-ssl" any more. "when possible, set the PKG_CONFIG_PATH environment
     # variable instead of using this option". Multi-SSL choice breaks w/o using it.
@@ -107,6 +101,12 @@ class CurlOptions < Formula
     else
       args << "--with-ssl=#{Formula["openssl@3"].opt_prefix}"
       args << "--with-default-ssl-backend=openssl"
+    end
+
+    args << if OS.mac?
+      "--with-gssapi"
+    else
+      "--with-gssapi=#{Formula["krb5"].opt_prefix}"
     end
 
     args << if build.with? "c-ares"

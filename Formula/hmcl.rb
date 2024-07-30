@@ -2,7 +2,7 @@ class Hmcl < Formula
   desc "Hello Minecraft! Launcher: multi-functional, cross-platform and popular"
   homepage "https://hmcl.huangyuhui.net/"
   # https://github.com/huanghongxun/HMCL
-  version "3.5.8.249"
+  version "3.5.8.251"
   # WARN: network quality of the ci site is unreliable, fetch releases from
   # github-actions instead.
   url "https://github.com/huanghongxun/HMCL/releases/download/v#{version}/HMCL-#{version}.jar"
