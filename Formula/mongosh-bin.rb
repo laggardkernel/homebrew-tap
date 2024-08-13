@@ -1,7 +1,7 @@
 class MongoshBin < Formula
   desc "MongoDB Shell to connect, configure, query, and work with your MongoDB database"
   homepage "https://github.com/mongodb-js/mongosh#readme"
-  version "2.2.12"
+  version "2.2.15"
   license "Apache-2.0"
 
   livecheck do
@@ -32,5 +32,6 @@ class MongoshBin < Formula
   test do
     assert_match "ECONNREFUSED 0.0.0.0:1", shell_output("#{bin}/mongosh \"mongodb://0.0.0.0:1\" 2>&1", 1)
     assert_match "#ok#", shell_output("#{bin}/mongosh --nodb --eval \"print('#ok#')\"")
+    assert_match "all tests passed", shell_output("#{bin}/mongosh --smokeTests 2>&1")
   end
 end

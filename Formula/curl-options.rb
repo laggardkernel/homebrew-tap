@@ -1,7 +1,7 @@
 class CurlOptions < Formula
   desc "Get a file from an HTTP, HTTPS or FTP server"
   homepage "https://curl.se"
-  version "8.9.0"
+  version "8.9.1"
   url "https://curl.se/download/curl-#{version}.tar.bz2"
   mirror "https://github.com/curl/curl/releases/download/curl-#{version.to_s.gsub('.', '_')}/curl-#{version}.tar.bz2"
   mirror "http://fresh-center.net/linux/www/curl-#{version}.tar.bz2"
@@ -75,10 +75,7 @@ class CurlOptions < Formula
     system "./buildconf" if build.head?
 
     args = %W[
-      --disable-debug
-      --disable-dependency-tracking
       --disable-silent-rules
-      --prefix=#{prefix}
       --without-ca-bundle
       --without-ca-path
       --with-ca-fallback
@@ -115,7 +112,7 @@ class CurlOptions < Formula
       "--disable-ares"
     end
 
-    system "./configure", *args
+    system "./configure", *args, *std_configure_args
     system "make", "install"
     system "make", "install", "-C", "scripts"
     libexec.install "scripts/mk-ca-bundle.pl"

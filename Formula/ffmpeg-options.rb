@@ -1,5 +1,5 @@
 class FfmpegOptions < Formula
-  version "7.0.1"
+  version "7.0.2"
   revision 0
   # sha256 ""
 
