@@ -36,7 +36,7 @@ class Amidst < Formula
   end
 
   test do
-    system "#{bin}/amidst", "-version"
+    system bin/"amidst", "-version"
   end
 end
 # Amidst.app doesn't work. Use formula instead.

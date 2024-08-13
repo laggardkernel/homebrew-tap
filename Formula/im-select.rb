@@ -12,6 +12,6 @@ class ImSelect < Formula
   end
 
   test do
-    system "#{bin}/im-select"
+    system bin/"im-select"
   end
 end

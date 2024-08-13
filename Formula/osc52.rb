@@ -29,7 +29,7 @@ class Osc52 < Formula
   end
 
   test do
-    system "#{bin}/osc52", "--help"
+    system bin/"osc52", "--help"
   end
 end
 

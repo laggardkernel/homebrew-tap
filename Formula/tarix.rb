@@ -37,7 +37,7 @@ class Tarix < Formula
   end
 
   test do
-    system "#{bin}/tarix", "-h"
+    system bin/"tarix", "-h"
   end
 end
 __END__

@@ -140,6 +140,6 @@ class Filebrowser < Formula
   end
 
   test do
-    system "#{bin}/filebrowser", "version"
+    system bin/"filebrowser", "version"
   end
 end

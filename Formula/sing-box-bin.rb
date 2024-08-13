@@ -108,7 +108,7 @@ class SingBoxBin < Formula
         ]
       }
     EOS
-    system "#{bin}/sing-box", "check", "-D", testpath, "-c", "config.json"
+    system bin/"sing-box", "check", "-D", testpath, "-c", "config.json"
     client = fork { exec "#{bin}/sing-box", "run", "-D", testpath, "-c", "config.json" }
 
     sleep 3

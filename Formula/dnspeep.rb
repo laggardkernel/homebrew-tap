@@ -40,6 +40,6 @@ class Dnspeep < Formula
   end
 
   test do
-    system "#{bin}/dnspeep", "--help"
+    system bin/"dnspeep", "--help"
   end
 end

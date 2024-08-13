@@ -78,6 +78,6 @@ class NaliBin < Formula
   end
 
   test do
-    system "#{bin}/nali", "-h"
+    system bin/"nali", "-h"
   end
 end

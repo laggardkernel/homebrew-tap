@@ -133,6 +133,6 @@ class MosdnsAT3 < Formula
   end
 
   test do
-    system "#{bin}/mosdns3", "-v"
+    system bin/"mosdns3", "-v"
   end
 end

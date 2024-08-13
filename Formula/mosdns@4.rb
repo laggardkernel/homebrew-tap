@@ -129,6 +129,6 @@ class MosdnsAT4 < Formula
   end
 
   test do
-    system "#{bin}/mosdns4", "version"
+    system bin/"mosdns4", "version"
   end
 end

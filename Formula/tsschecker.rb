@@ -13,6 +13,6 @@ class Tsschecker < Formula
   end
 
   test do
-    system "#{bin}/tsschecker", "--help"
+    system bin/"tsschecker", "--help"
   end
 end

@@ -155,7 +155,7 @@ class ClashPremium < Formula
           password: "test"
           cipher: chacha20-ietf-poly1305
     EOS
-    system "#{bin}/clash-premium", "-t", "-d", testpath # test config && download Country.mmdb
+    system bin/"clash-premium", "-t", "-d", testpath # test config && download Country.mmdb
     client = fork { exec "#{bin}/clash-premium", "-d", testpath }
 
     sleep 3

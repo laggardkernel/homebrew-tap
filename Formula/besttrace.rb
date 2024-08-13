@@ -21,6 +21,6 @@ class Besttrace < Formula
   end
 
   test do
-    system "#{bin}/besttrace", "--version"
+    system bin/"besttrace", "--version"
   end
 end

@@ -50,6 +50,6 @@ class BingWallpaper < Formula
   end
 
   test do
-    system "#{bin}/bing-wallpaper", "--version"
+    system bin/"bing-wallpaper", "--version"
   end
 end

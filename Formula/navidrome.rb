@@ -133,6 +133,6 @@ class Navidrome < Formula
   end
 
   test do
-    system "#{bin}/navidrome", "--help"
+    system bin/"navidrome", "--help"
   end
 end

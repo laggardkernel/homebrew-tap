@@ -122,7 +122,7 @@ class CurlOptions < Formula
     # Fetch the curl tarball and see that the checksum matches.
     # This requires a network connection, but so does Homebrew in general.
     filename = (testpath/"test.tar.gz")
-    system "#{bin}/curl", "-L", stable.url, "-o", filename
+    system bin/"curl", "-L", stable.url, "-o", filename
     filename.verify_checksum stable.checksum
 
     system libexec/"mk-ca-bundle.pl", "test.pem"

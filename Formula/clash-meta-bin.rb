@@ -154,7 +154,7 @@ class ClashMetaBin < Formula
           password: "test"
           cipher: chacha20-ietf-poly1305
     EOS
-    system "#{bin}/clash-meta", "-t", "-d", testpath # test config && download Country.mmdb
+    system bin/"clash-meta", "-t", "-d", testpath # test config && download Country.mmdb
     client = fork { exec "#{bin}/clash-meta", "-d", testpath }
 
     sleep 3

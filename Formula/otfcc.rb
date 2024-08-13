@@ -47,7 +47,7 @@ class Otfcc < Formula
   end
 
   test do
-    system "#{bin}/otfccbuild", "--version"
+    system bin/"otfccbuild", "--version"
   end
 end
 # https://github.com/caryll/homebrew-tap/blob/master/otfcc-mac64.rb

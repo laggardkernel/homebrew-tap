@@ -82,7 +82,7 @@ class FortuneZh < Formula
     end
     Dir.glob("fortunes-zh/*").each do |v|
       # strfile compile one file at one time
-      system "#{bin}/strfile", v.to_s
+      system bin/"strfile", v.to_s
     end
     cp Dir.glob("fortunes-zh/*"), "#{share}/games/fortunes/" # overwring by default
   end
@@ -103,6 +103,6 @@ class FortuneZh < Formula
   end
 
   test do
-    system "#{bin}/fortune", "-s", "tang300"
+    system bin/"fortune", "-s", "tang300"
   end
 end

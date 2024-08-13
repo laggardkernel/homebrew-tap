@@ -155,6 +155,6 @@ class Adguardhome < Formula
   end
 
   test do
-    system "#{bin}/AdGuardHome", "--version"
+    system bin/"AdGuardHome", "--version"
   end
 end

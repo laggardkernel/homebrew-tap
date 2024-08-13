@@ -39,6 +39,6 @@ class NM3u8dlRe < Formula
   end
 
   test do
-    system "#{bin}/#{bin_name}", "--help"
+    system bin/"#{bin_name}", "--help"
   end
 end

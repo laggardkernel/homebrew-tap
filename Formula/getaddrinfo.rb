@@ -22,7 +22,7 @@ class Getaddrinfo < Formula
   end
 
   test do
-    system "#{bin}/getaddrinfo", "--help"
+    system bin/"getaddrinfo", "--help"
   end
 end
 
