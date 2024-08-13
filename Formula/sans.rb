@@ -19,7 +19,7 @@ class Sans < Formula
   # TODO: plist
 
   test do
-    system "sans", "--help"
+    system bin/"sans", "--help"
   end
 end
 # https://github.com/puxxustc/sans/blob/master/contrib/homebrew/sans.rb

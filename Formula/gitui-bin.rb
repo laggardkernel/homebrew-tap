@@ -2,6 +2,7 @@ class GituiBin < Formula
   desc "Blazing fast terminal-ui for git written in rust"
   homepage "https://github.com/extrawurst/gitui"
   version "0.26.3"
+  revision 1
   # sha256 ""
   license "MIT"
 
@@ -11,10 +12,16 @@ class GituiBin < Formula
     url "https://github.com/extrawurst/gitui/archive/v#{version}.tar.gz"
     depends_on "rust" => :build
   else
-    if OS.mac?
+    if OS.mac? && Hardware::CPU.arm?
       url "https://github.com/extrawurst/gitui/releases/download/v#{version}/gitui-mac.tar.gz"
-    elsif OS.linux?
-      url "https://github.com/extrawurst/gitui/releases/download/v#{version}/gitui-linux-musl.tar.gz"
+    elsif OS.mac? && Hardware::CPU.intel?
+      url "https://github.com/extrawurst/gitui/releases/download/v#{version}/gitui-mac-x86.tar.gz"
+    elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is-64-bit?
+      url "https://github.com/extrawurst/gitui/releases/download/v#{version}/gitui-linux-x86_64.tar.gz"
+    elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is-64-bit?
+      url "https://github.com/extrawurst/gitui/releases/download/v#{version}/gitui-linux-aarch64.tar.gz"
+    elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is-32-bit?
+      url "https://github.com/extrawurst/gitui/releases/download/v#{version}/gitui-linux-armv7.tar.gz"
     end
   end
   uses_from_macos "zlib"
