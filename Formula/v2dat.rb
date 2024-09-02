@@ -2,29 +2,26 @@ class V2dat < Formula
   desc "Cli tool that can unpack v2ray data packages"
   homepage "https://github.com/urlesistiana/v2dat"
   # HEAD only, no regular release
-  version "0.0.0"
+  url "https://github.com/urlesistiana/v2dat/archive/main.tar.gz" # rubocop: disable all
   # url "https://github.com/urlesistiana/v2dat/archive/release-#{version}.tar.gz"
-   url "https://github.com/urlesistiana/v2dat/archive/main.tar.gz"
+  version "0.0.0"
   license "GPL-3.0"
-  revision 0
+
+  # version: HEAD
+  # url "https://github.com/urlesistiana/v2dat/archive/refs/heads/main.zip"
+  # Git repo is not cloned into a sub-folder. version, HEAD-1234567
+  head "https://github.com/urlesistiana/v2dat.git", branch: "main"
 
   livecheck do
     skip "HEAD only"
   end
 
-  head do
-    # version: HEAD
-    # url "https://github.com/urlesistiana/v2dat/archive/refs/heads/main.zip"
-    # Git repo is not cloned into a sub-folder. version, HEAD-1234567
-    url "https://github.com/urlesistiana/v2dat.git", branch: "main"
-  end
-
   depends_on "go" => :build
   # TODO(lk): upx breaks the executable
-  # depends_on "upx" => :build
+  # depends_on "upx" => :build # rubocop: disable all
 
   def install
-    version_str = version.to_s.start_with?("HEAD") ? version.to_s : "v#{version}"
+    # version_str = version.to_s.start_with?("HEAD") ? version.to_s : "v#{version}"
     buildpath_parent = File.dirname(buildpath)
     ENV["GOPATH"] = if File.basename(buildpath_parent).start_with? "v2dat"
       "#{buildpath_parent}/go"

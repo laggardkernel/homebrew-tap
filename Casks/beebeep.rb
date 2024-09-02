@@ -19,7 +19,7 @@ cask "beebeep" do
   app "BeeBEEP.app"
 
   zap trash: [
-    "~/Library/Application Support/BeeBEEP",  # non-existing yet
+    "~/Library/Application Support/BeeBEEP", # non-existing yet
     "~/Library/Application Support/MarcoMastroddiSW",
     "~/Library/Preferences/net.beebeep.plist",
     "~/Library/Saved Application State/net.beebeep.savedState",

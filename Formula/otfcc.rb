@@ -4,11 +4,11 @@ class Otfcc < Formula
   version "0.10.4"
   license "Apache-2.0"
 
-  option "without-prebuilt", "Skip prebuilt binary and build from source"
-
   livecheck do
     skip "Project archived, end of life"
   end
+
+  option "without-prebuilt", "Skip prebuilt binary and build from source"
 
   # sha256: skipped, too complicated
   if build.without?("prebuilt")
@@ -26,16 +26,14 @@ class Otfcc < Formula
 
   def install
     if build.without?("prebuilt") || build.head?
-      # ENV.deparallelize  # if your formula fails when building in parallel
+      # ENV.deparallelize  # if your formula fails when building in parallel # rubocop: disable all
       system "./dep/bin-osx/premake5", "xcode4"
-      system "xcodebuild",
-                "-workspace", "build/xcode/otfcc.xcworkspace",
-                "-scheme", "otfccbuild",
-                "-configuration", "Release"
-      system "xcodebuild",
-                "-workspace", "build/xcode/otfcc.xcworkspace",
-                "-scheme", "otfccdump",
-                "-configuration", "Release"
+      xcodebuild "-workspace", "build/xcode/otfcc.xcworkspace",
+                 "-scheme", "otfccbuild",
+                 "-configuration", "Release"
+      xcodebuild "-workspace", "build/xcode/otfcc.xcworkspace",
+                 "-scheme", "otfccdump",
+                 "-configuration", "Release"
 
       bin.install "bin/release-x64/otfccbuild"
       bin.install "bin/release-x64/otfccdump"

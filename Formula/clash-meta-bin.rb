@@ -3,11 +3,10 @@ class ClashMetaBin < Formula
   # homepage "https://github.com/MetaCubeX/Clash.Meta"
   homepage "https://github.com/MetaCubeX/mihomo"
   version "1.18.7"
-  revision 0
   license "GPL-3.0"
 
   livecheck do
-    url "https://github.com/MetaCubeX/mihomo/releases"
+    url "https://github.com/MetaCubeX/mihomo/releases" # rubocop: disable all
     regex(%r{href=".*?/releases/tag/v?(\d+(?:\.\d+)+)"}i)
     strategy :page_match do |page, regex|
       page.scan(regex).flatten.uniq.sort
@@ -21,14 +20,14 @@ class ClashMetaBin < Formula
     url "https://github.com/MetaCubeX/mihomo/releases/download/v#{version}/mihomo-darwin-amd64-v#{version}.gz"
   elsif OS.mac? && Hardware::CPU.arm?
     url "https://github.com/MetaCubeX/mihomo/releases/download/v#{version}/mihomo-darwin-arm64-v#{version}.gz"
-  elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is-64-bit?
+  elsif OS.linux? && Hardware::CPU.intel? && (Hardware::CPU.is-64-bit?)
     # TODO(lk): 'compatible' variant?
     url "https://github.com/MetaCubeX/mihomo/releases/download/v#{version}/mihomo-linux-amd64-v#{version}.gz"
-  elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is-32-bit?
+  elsif OS.linux? && Hardware::CPU.intel? && (Hardware::CPU.is-32-bit?)
     url "https://github.com/MetaCubeX/mihomo/releases/download/v#{version}/mihomo-linux-386-cgo-v#{version}.gz"
-  elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is-64-bit?
+  elsif OS.linux? && Hardware::CPU.arm? && (Hardware::CPU.is-64-bit?)
     url "https://github.com/MetaCubeX/mihomo/releases/download/v#{version}/mihomo-linux-arm64-v#{version}.gz"
-  elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is-32-bit?
+  elsif OS.linux? && Hardware::CPU.arm? && (Hardware::CPU.is-32-bit?)
     url "https://github.com/MetaCubeX/mihomo/releases/download/v#{version}/mihomo-linux-armv7-v#{version}.gz"
   end
 
@@ -42,13 +41,13 @@ class ClashMetaBin < Formula
   resource "clash-dashboard" do
     # url: http://clash.metacubex.one/, https://metacubex.github.io/Razord-meta
     # folder: Razord-meta-gh-pages.tar.gz
-    url "https://github.com/MetaCubeX/Razord-meta/archive/gh-pages.tar.gz"
+    url "https://github.com/MetaCubeX/Razord-meta/archive/gh-pages.tar.gz" # rubocop: disable all
   end
 
   resource "yacd" do
     # url: http://yacd.metacubex.one/, https://metacubex.github.io/Yacd-meta
     # folder: Yacd-meta-gh-pages.tar.gz
-    url "https://github.com/MetaCubeX/Yacd-meta/archive/gh-pages.tar.gz"
+    url "https://github.com/MetaCubeX/Yacd-meta/archive/gh-pages.tar.gz" # rubocop: disable all
   end
 
   resource "mmdb" do
@@ -95,7 +94,7 @@ class ClashMetaBin < Formula
         config_path.install dst
       end
     end
-    rm_rf etc_temp.to_s
+    rm_r(etc_temp.to_s)
   end
 
   def post_install

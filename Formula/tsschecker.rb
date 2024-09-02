@@ -1,9 +1,10 @@
 class Tsschecker < Formula
   desc "Powerfull tool to check tss signing status of various devices and firmwares"
   homepage "https://github.com/tihmstar/tsschecker"
+  # rubocop: disable all
   version "343"
   url "https://github.com/tihmstar/tsschecker/releases/download/#{version}/tsschecker_macOS_v#{version}.zip"
-  # sha256 ""
+  # rubocop: enable all
   license "LGPL-3.0"
 
   def install

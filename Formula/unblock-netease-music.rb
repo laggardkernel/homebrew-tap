@@ -3,9 +3,10 @@ class UnblockNeteaseMusic < Formula
   # homepage "https://github.com/nondanee/UnblockNeteaseMusic"
   # homepage "https://github.com/1715173329/UnblockNeteaseMusic"
   homepage "https://github.com/UnblockNeteaseMusic/server"
+  # rubocop: disable all
   version "0.27.7"
   url "https://github.com/UnblockNeteaseMusic/server/archive/refs/tags/v#{version}.tar.gz"
-  # sha256 ""
+  # rubocop: enable all
   license "MIT"
   revision 1
 
@@ -16,16 +17,13 @@ class UnblockNeteaseMusic < Formula
     strategy :page_match do |page, regex|
       page.scan(regex).map { |match| match&.first }
     end
-    # url :stable
     # strategy :github_latest
   end
 
-  head do
-    # version: HEAD
-    url "https://github.com/UnblockNeteaseMusic/server/archive/refs/heads/enhanced.tar.gz"
-    # Git repo is not cloned into a sub-folder. version, HEAD-1234567
-    # url "https://github.com/UnblockNeteaseMusic/server.git", branch "enhanced"
-  end
+  # version: HEAD
+  head "https://github.com/UnblockNeteaseMusic/server/archive/refs/heads/enhanced.tar.gz"
+  # Git repo is not cloned into a sub-folder. version, HEAD-1234567
+  # url "https://github.com/UnblockNeteaseMusic/server.git", branch "enhanced"
 
   # yarn is depended by DEVELOPMENT=true
   # Use yarn from corepack since yarn 1.22.21. https://github.com/yarnpkg/yarn/issues/9015
@@ -60,15 +58,15 @@ class UnblockNeteaseMusic < Formula
     end
 
     server_path = libexec/"lib/node_modules/@unblockneteasemusic/server"
-    mkdir_p "#{server_path}"
+    mkdir_p server_path.to_s
 
     sources = Dir.entries(buildpath)
     sources -= [".", "..", ".brew_home"]
-    cp_r sources, "#{server_path}"
+    cp_r sources, server_path.to_s
 
     (libexec/"bin/unblock-nm").write <<~EOS
       #!/bin/bash
-      CMD=("#{Formula['node'].opt_prefix}/bin/node")
+      CMD=("#{Formula["node"].opt_prefix}/bin/node")
       if [[ -n "$DEVELOPMENT" ]]; then
         CMD+=("-r" "#{server_path}/.pnp.cjs")
       fi
@@ -77,7 +75,7 @@ class UnblockNeteaseMusic < Formula
     EOS
     (libexec/"bin/unblock-nm-bridge").write <<~EOS
       #!/bin/bash
-      CMD=("#{Formula['node'].opt_prefix}/bin/node")
+      CMD=("#{Formula["node"].opt_prefix}/bin/node")
       if [[ -n "$DEVELOPMENT" ]]; then
         CMD+=("-r" "#{server_path}/.pnp.cjs")
       fi
@@ -88,12 +86,12 @@ class UnblockNeteaseMusic < Formula
     chmod 0755, libexec/"bin/unblock-nm-bridge"
     bin.mkdir
     ["unblock-nm", "unblock-nm-bridge"].each do |v|
-      ln_sf (libexec/"bin/#{v}").relative_path_from("#{bin}"), "#{bin}/#{v}"
+      ln_sf (libexec/"bin/#{v}").relative_path_from(bin.to_s), "#{bin}/#{v}"
     end
     prefix.install_metafiles
 
     # Enable development support for 0.27+
-    Dir.chdir("#{server_path}") do
+    Dir.chdir(server_path.to_s) do
       ENV["COREPACK_ENABLE_DOWNLOAD_PROMPT"] = "0"
       # Switch to yarn v3/berry/stable since 0.27.0-rc.6. Global cache is disabled by default.
       # https://yarnpkg.com/cli/set/version#details
@@ -101,7 +99,7 @@ class UnblockNeteaseMusic < Formula
       system "yarn", "--version"
       system "yarn", "config", "set", "enableGlobalCache", "false"
       system "yarn", "install"
-      system "yarn", "build"  # precompiled/ in repo may not be up-to-date
+      system "yarn", "build" # precompiled/ in repo may not be up-to-date
     end
   end
 
@@ -124,8 +122,10 @@ class UnblockNeteaseMusic < Formula
   # TODO: ANSI escape color code is not filtered when dumping log to file.
   #  Switch json format log temporarily.
   service do
-    environment_variables ENABLE_LOCAL_VIP: "svip", BLOCK_ADS: "true", DISABLE_UPGRADE_CHECK: "true", DEVELOPMENT: "true", JSON_LOG: "true"
-    run [opt_bin/"unblock-nm", "-a", "127.0.0.1", "-p", "16300:16301", "-e", "https://music.163.com", "-f", "59.111.160.195", "-o", "pyncmd", "kuwo"]
+    environment_variables ENABLE_LOCAL_VIP: "svip", BLOCK_ADS: "true", DISABLE_UPGRADE_CHECK: "true",
+DEVELOPMENT: "true", JSON_LOG: "true"
+    run [opt_bin/"unblock-nm", "-a", "127.0.0.1", "-p", "16300:16301", "-e", "https://music.163.com", "-f",
+         "59.111.160.195", "-o", "pyncmd", "kuwo"]
     # keep_alive { succesful_exit: true }
     log_path var/"log/unblock-netease-music/access.log"
     error_log_path var/"log/unblock-netease-music/access.log"

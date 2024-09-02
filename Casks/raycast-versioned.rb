@@ -1,10 +1,12 @@
 cask "raycast-versioned" do
   on_mojave :or_older do
     version "1.26.3"
+
     url "https://pseudocold.com/app/raycast/#{version}/Raycast_v#{version}_x86.dmg"
   end
   on_catalina :or_newer do
     version "1.44.0"
+
     url "https://releases.raycast.com/releases/#{version}/download?build=universal"
   end
 

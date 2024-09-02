@@ -6,7 +6,6 @@ class Aria2Options < Formula
   stable do
     version "1.37.0"
     url "https://github.com/aria2/aria2/releases/download/release-#{version}/aria2-#{version}.tar.xz"
-    # sha256 ""
     depends_on "pkg-config" => :build
   end
 
@@ -26,12 +25,14 @@ class Aria2Options < Formula
     patch :DATA
   end
 
+  # rubocop: disable all
+  depends_on "gettext" => :build
   depends_on "c-ares"
-  depends_on "gettext"  => :build
   depends_on "gnutls" if build.with? "gnutls"
   depends_on "libssh2"
-  depends_on "sqlite"
   depends_on "openssl@3" if build.with? "openssl"
+  depends_on "sqlite"
+  # rubocop: enable all
 
   # libxml2 is preferred over expat
   uses_from_macos "libxml2"
@@ -48,7 +49,8 @@ class Aria2Options < Formula
     # Accept: */*,application/metalink4+xml,application/metalink+xml
     # inreplace "src/HttpRequest.cc", "if (acceptMetalink_)", "if (false)"
     # Remove default header when metalink is disabled: Accept: */*
-    # inreplace "src/HttpRequest.cc", 'builtinHds.emplace_back("Accept:", acceptTypes);', '// builtinHds.emplace_back("Accept:", acceptTypes);'
+    # inreplace "src/HttpRequest.cc", 'builtinHds.emplace_back("Accept:", acceptTypes);',
+    #   '// builtinHds.emplace_back("Accept:", acceptTypes);'
 
     # Remove the limit of max-connection-per-server
     # https://github.com/aria2/aria2/pull/1431/files
@@ -87,9 +89,7 @@ class Aria2Options < Formula
       args << "--without-gnutls"
     end
 
-    if build.head?
-      system "autoreconf", "-fiv"
-    end
+    system "autoreconf", "-fiv" if build.head?
     system "./configure", *args
     system "make", "install"
 
@@ -98,8 +98,8 @@ class Aria2Options < Formula
 
   def caveats
     <<~EOS
-    Arai2 built with openssl has problem handshaking with some certs.
-    Reason unknown: https://github.com/aria2/aria2/issues/1494
+      Arai2 built with openssl has problem handshaking with some certs.
+      Reason unknown: https://github.com/aria2/aria2/issues/1494
     EOS
   end
 

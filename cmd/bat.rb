@@ -5,8 +5,6 @@
 require "cli/parser"
 
 module Homebrew
-  extend T::Sig
-
   module_function
 
   sig { returns(CLI::Parser) }
@@ -33,7 +31,7 @@ module Homebrew
 
     cd HOMEBREW_REPOSITORY
     # pager = if Homebrew::EnvConfig.bat?
-    pager = if true
+    pager = if true # rubocop: disable all
       # TODO: better fix for TERM problem on xterm-kitty
       ENV["TERM"] = "xterm-256color" if ENV["TERM"] == "xterm-kitty"
       ENV["BAT_CONFIG_PATH"] = Homebrew::EnvConfig.bat_config_path

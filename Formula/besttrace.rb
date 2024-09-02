@@ -1,15 +1,14 @@
 class Besttrace < Formula
   desc "Enhanced traceroute with IP display, developed by IPIP.NET"
   homepage "https://www.ipip.net/product/client.html#besttrace"
-  version "1.3.4"
   url "https://cdn.ipip.net/17mon/besttrace4linux.zip"
-  # sha256 ""
+  version "1.3.4"
   license :cannot_represent
 
   livecheck do
     # Version provided in homepage doesn't match version of the pkg.
     url "https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=besttrace"
-    regex(%r{pkgver=v?(\d+(?:\.\d+)+(?:[-_].+?)?)}i)
+    regex(/pkgver=v?(\d+(?:\.\d+)+(?:[-_].+?)?)/i)
     strategy :page_match do |page, regex|
       page.scan(regex).flatten.uniq
     end

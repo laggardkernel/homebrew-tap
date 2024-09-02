@@ -1,15 +1,17 @@
 class CondaStandalone < Formula
   desc "Entry point and dependency collection for PyInstaller-based standalone conda"
   homepage "https://anaconda.org/conda-forge/conda-standalone"
+  # rubocop: disable all
   version "4.12.0,h694c41f_0"
   url "https://anaconda.org/conda-forge/conda-standalone/#{version.to_s.split(",").first}/download/osx-64/conda-standalone-#{version.to_s.split(",").first}-#{version.to_s.split(",").second}.tar.bz2"
+  # rubocop: enable all
 
   livecheck do
     url "https://anaconda.org/conda-forge/conda-standalone/files"
     regex(%r{href=.*?/osx.*?/conda[_-]standalone[_-]v?(\d+(?:\.\d+)+)[_-](.+?)\.tar\.bz2}i)
     strategy :page_match do |page, regex|
       page.scan(regex).map do |match|
-        match&.first + "," + match&.second
+        match&.first&.+ "," + match&.second
       end
     end
   end

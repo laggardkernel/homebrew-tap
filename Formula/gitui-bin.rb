@@ -2,27 +2,24 @@ class GituiBin < Formula
   desc "Blazing fast terminal-ui for git written in rust"
   homepage "https://github.com/extrawurst/gitui"
   version "0.26.3"
-  revision 1
-  # sha256 ""
   license "MIT"
+  revision 1
 
   option "without-prebuilt", "Skip prebuilt binary and build from source"
 
   if build.without?("prebuilt")
-    url "https://github.com/extrawurst/gitui/archive/v#{version}.tar.gz"
+    url "https://github.com/extrawurst/gitui/archive/v#{version}.tar.gz" # rubocop: disable all
     depends_on "rust" => :build
-  else
-    if OS.mac? && Hardware::CPU.arm?
-      url "https://github.com/extrawurst/gitui/releases/download/v#{version}/gitui-mac.tar.gz"
-    elsif OS.mac? && Hardware::CPU.intel?
-      url "https://github.com/extrawurst/gitui/releases/download/v#{version}/gitui-mac-x86.tar.gz"
-    elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is-64-bit?
-      url "https://github.com/extrawurst/gitui/releases/download/v#{version}/gitui-linux-x86_64.tar.gz"
-    elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is-64-bit?
-      url "https://github.com/extrawurst/gitui/releases/download/v#{version}/gitui-linux-aarch64.tar.gz"
-    elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is-32-bit?
-      url "https://github.com/extrawurst/gitui/releases/download/v#{version}/gitui-linux-armv7.tar.gz"
-    end
+  elsif OS.mac? && Hardware::CPU.arm?
+    url "https://github.com/extrawurst/gitui/releases/download/v#{version}/gitui-mac.tar.gz"
+  elsif OS.mac? && Hardware::CPU.intel?
+    url "https://github.com/extrawurst/gitui/releases/download/v#{version}/gitui-mac-x86.tar.gz"
+  elsif OS.linux? && Hardware::CPU.intel? && (Hardware::CPU.is-64-bit?)
+    url "https://github.com/extrawurst/gitui/releases/download/v#{version}/gitui-linux-x86_64.tar.gz"
+  elsif OS.linux? && Hardware::CPU.arm? && (Hardware::CPU.is-64-bit?)
+    url "https://github.com/extrawurst/gitui/releases/download/v#{version}/gitui-linux-aarch64.tar.gz"
+  elsif OS.linux? && Hardware::CPU.arm? && (Hardware::CPU.is-32-bit?)
+    url "https://github.com/extrawurst/gitui/releases/download/v#{version}/gitui-linux-armv7.tar.gz"
   end
   uses_from_macos "zlib"
 

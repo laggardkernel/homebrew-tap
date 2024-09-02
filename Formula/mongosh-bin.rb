@@ -5,7 +5,7 @@ class MongoshBin < Formula
   license "Apache-2.0"
 
   livecheck do
-    url 'https://github.com/mongodb-js/mongosh/releases'
+    url "https://github.com/mongodb-js/mongosh/releases" # rubocop: disable all
     regex(%r{href=.*?/releases/tag/v?(\d+(?:\.\d+)+(-[^"]+)?)"}i)
     strategy :page_match do |page|
       page.scan(regex).map { |match| match&.first }
@@ -16,11 +16,11 @@ class MongoshBin < Formula
 
   if OS.mac? && Hardware::CPU.intel?
     url "https://github.com/mongodb-js/mongosh/releases/download/v#{version}/mongosh-#{version}-darwin-x64.zip"
-  elsif OS.mac? && Hardware::CPU.arm? && (Hardware::CPU.is_64_bit?)
+  elsif OS.mac? && Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
     url "https://github.com/mongodb-js/mongosh/releases/download/v#{version}/mongosh-#{version}-darwin-arm64.zip"
   elsif OS.linux? && Hardware::CPU.intel?
     url "https://github.com/mongodb-js/mongosh/releases/download/v#{version}/mongosh-#{version}-linux-x64.zip"
-  elsif OS.linux? && Hardware::CPU.arm? && (Hardware::CPU.is_64_bit?)
+  elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
     url "https://github.com/mongodb-js/mongosh/releases/download/v#{version}/mongosh-#{version}-linux-arm64.zip"
   end
 

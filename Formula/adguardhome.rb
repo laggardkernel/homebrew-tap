@@ -8,7 +8,7 @@ class Adguardhome < Formula
 
   livecheck do
     # `brew style --fix` keeps converting it to wrong value :stable
-    url "https://github.com/AdguardTeam/AdGuardHome/releases/"
+    url "https://github.com/AdguardTeam/AdGuardHome/releases" # rubocop: disable all
 
     # match stable tags only
     regex(%r{href=.*?/tag/v?(\d+(?:\.\d+)+(?![-_].+?)?)["' >]}i)

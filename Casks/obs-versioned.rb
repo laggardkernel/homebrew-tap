@@ -5,11 +5,13 @@ cask "obs-versioned" do
     # Qt6 since 28 dropped support for macOS 10.13 & 10.14
     # url "https://github.com/obsproject/obs-studio/releases/download/#{version}/obs-mac-#{version}.dmg"
     version "27.2.4"
+
     url "https://cdn-fastly.obsproject.com/downloads/obs-mac-#{version}.dmg"
   end
   on_catalina :or_newer do
     # https://github.com/obsproject/obs-studio/issues/8849
     version "29.0.2"
+
     url "https://cdn-fastly.obsproject.com/downloads/obs-studio-#{version}-macos-#{arch}.dmg"
   end
 

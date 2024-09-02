@@ -2,11 +2,13 @@ class Hmcl < Formula
   desc "Hello Minecraft! Launcher: multi-functional, cross-platform and popular"
   homepage "https://hmcl.huangyuhui.net/"
   # https://github.com/huanghongxun/HMCL
+  # rubocop: disable all
   version "3.5.8.251"
+  url "https://github.com/huanghongxun/HMCL/releases/download/v#{version}/HMCL-#{version}.jar"
   # WARN: network quality of the ci site is unreliable, fetch releases from
   # github-actions instead.
-  url "https://github.com/huanghongxun/HMCL/releases/download/v#{version}/HMCL-#{version}.jar"
   # url "https://ci.huangyuhui.net/job/HMCL/#{version.to_s.split(".").last}/artifact/HMCL/build/libs/HMCL-#{version}.jar"
+  # rubocop: enable all
   license "GPL-3.0"
 
   livecheck do

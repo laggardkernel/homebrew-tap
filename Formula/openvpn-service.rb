@@ -1,9 +1,10 @@
 class OpenvpnService < Formula
-  desc "Custom launchd file for OpenVPN 2.x with log file enabled."
+  desc "Custom launchd file for OpenVPN 2.x with log file enabled"
   homepage "https://openvpn.net/community/"
+  # rubocop: disable all
   version "0.1.0"
   url "https://httpbin.org/anything/openvpn-service-#{version}"
-  # sha256
+  # rubocop: enable all
 
   livecheck do
     skip "Plist service, no version needed"
@@ -12,7 +13,7 @@ class OpenvpnService < Formula
   depends_on "openvpn"
 
   def install
-    system "touch", "placeholder"
+    touch "placeholder"
     share.install "placeholder"
   end
 

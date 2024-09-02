@@ -3,23 +3,20 @@ class DufsBin < Formula
   homepage "https://github.com/sigoden/dufs"
   version "0.41.0"
   license any_of: ["Apache-2.0", "MIT"]
-  # sha256 ""
 
   option "without-prebuilt", "Skip prebuilt binary and build from source"
 
   if build.without?("prebuilt")
-    url "https://github.com/sigoden/dufs/archive/v#{version}.tar.gz"
+    url "https://github.com/sigoden/dufs/archive/v#{version}.tar.gz" # rubocop: disable all
     depends_on "rust" => :build
-  else
-    if OS.mac? && Hardware::CPU.intel?
-      url "https://github.com/sigoden/dufs/releases/download/v#{version}/dufs-v#{version}-x86_64-apple-darwin.tar.gz"
-    elsif OS.mac? && Hardware::CPU.arm?
-      url "https://github.com/sigoden/dufs/releases/download/v#{version}/dufs-v#{version}-aarch64-apple-darwin.tar.gz"
-    elsif OS.linux? && Hardware::CPU.intel?
-      url "https://github.com/sigoden/dufs/releases/download/v#{version}/dufs-v#{version}-x86_64-unknown-linux-musl.tar.gz"
-    elsif OS.linux? && Hardware::CPU.arm? && !Hardware::CPU.is_64_bit?
-      url "https://github.com/sigoden/dufs/releases/download/v#{version}/dufs-v#{version}-aarch64-unknown-linux-musl.tar.gz"
-    end
+  elsif OS.mac? && Hardware::CPU.intel?
+    url "https://github.com/sigoden/dufs/releases/download/v#{version}/dufs-v#{version}-x86_64-apple-darwin.tar.gz"
+  elsif OS.mac? && Hardware::CPU.arm?
+    url "https://github.com/sigoden/dufs/releases/download/v#{version}/dufs-v#{version}-aarch64-apple-darwin.tar.gz"
+  elsif OS.linux? && Hardware::CPU.intel?
+    url "https://github.com/sigoden/dufs/releases/download/v#{version}/dufs-v#{version}-x86_64-unknown-linux-musl.tar.gz"
+  elsif OS.linux? && Hardware::CPU.arm? && !Hardware::CPU.is_64_bit?
+    url "https://github.com/sigoden/dufs/releases/download/v#{version}/dufs-v#{version}-aarch64-unknown-linux-musl.tar.gz"
   end
 
   def install

@@ -26,6 +26,10 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+### macOS Patch ###
+# iCloud generated files
+*.icloud
+
 ### Linux ###
 *~
 
@@ -81,7 +85,6 @@ tramp
 # Org-mode
 .org-id-locations
 *_archive
-ltximg/**
 
 # flymake-mode
 *_flymake.*
@@ -142,9 +145,17 @@ tags
 
 ### VisualStudioCode ###
 .vscode/*
+!.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
-*.code-workspace
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
+# Local History for Visual Studio Code
+.history/
+
+# Built Visual Studio Code Extensions
+*.vsix
 
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
@@ -209,6 +220,24 @@ build-iPhoneSimulator/
 # Used by RuboCop. Remote config files pulled in from inherit_from directive.
 # .rubocop-https?--*
 
+### Homebrew ###
+Brewfile.lock.json
+
 ### dotenv ###
 .env
 
+### direnv ###
+.direnv
+.envrc
+
+### Custom ###
+# macports: https://github.com/macports/macports-ports/blob/master/.gitignore
+/PortIndex
+/PortIndex.quick
+
+*/*/work
+
+Portfile~
+*.tcl~
+*.diff~
+*.patch~

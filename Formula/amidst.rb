@@ -1,8 +1,10 @@
 class Amidst < Formula
   desc "Advanced Minecraft Interface and Data/Structure Tracking"
   homepage "https://github.com/toolbox4minecraft/amidst"
+  # rubocop: disable all
   version "4.7"
-  url "https://github.com/toolbox4minecraft/amidst/releases/download/v#{version}/amidst-v#{version.to_s.sub!('.', '-')}.jar"
+  url "https://github.com/toolbox4minecraft/amidst/releases/download/v#{version}/amidst-v#{version.to_s.sub!(".", "-")}.jar"
+  # rubocop: enable all
   license "GPL-3.0"
   revision 1
 

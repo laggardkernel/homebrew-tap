@@ -1,13 +1,13 @@
 class FfmpegStatic < Formula
+  desc "Ffmpeg static build" # rubocop: disable all
+  homepage "https://osxexperts.net"
   version "7.0"
   version_str = version.to_s
-  version_without_dot = "#{version}".delete(".").gsub(/0+$/, '')
-  revision 0
-  desc "ffmpeg static build for macOS"
+  version_without_dot = version.to_s.delete(".").gsub(/0+$/, "")
 
   # Use arm build from osxexperts, intel build from evermeet.
   arch = Hardware::CPU.intel? ? "intel" : "arm"
-  if OS.mac?  # && Hardware::CPU.arm?
+  if OS.mac? # && Hardware::CPU.arm?
     homepage "https://osxexperts.net/"
     url "https://www.osxexperts.net/ffmpeg#{version_without_dot}#{arch}.zip"
 
@@ -34,15 +34,17 @@ class FfmpegStatic < Formula
   livecheck do
     # TODO: customize livecheck to check both builds
     # Intel build is delayed after arm from osxexperts, use evermeet's build for intel
+    # rubocop: disable all
     url "https://osxexperts.net/"
+    # rubocop: enable all
     regex(/>Download ffmpeg v?(\d+(?:\.\d+)+)(\s\(Apple\s+Silicon\))/i)
   end
 
   def install
     bin.install "ffmpeg" => "ffmpeg-static"
     ["ffprobe", "ffplay"].each do |f|
-      resource("#{f}").stage do
-        bin.install "#{f}" => "#{f}-static"
+      resource(f.to_s).stage do
+        bin.install f.to_s => "#{f}-static"
       end
     end
     prefix.install_metafiles

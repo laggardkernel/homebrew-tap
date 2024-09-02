@@ -2,8 +2,8 @@ class Sans < Formula
   desc "Simple anti-spoofing DNS server"
   homepage "https://github.com/puxxustc/sans"
   # HEAD only, no regular release
-  head "https://github.com/puxxustc/sans.git"
   license "GPL-3.0"
+  head "https://github.com/puxxustc/sans.git"
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build

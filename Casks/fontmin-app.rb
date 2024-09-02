@@ -1,9 +1,10 @@
 cask "fontmin-app" do
   version "0.2.0"
-  # sha256 ""
 
-  url "https://github.com/ecomfe/fontmin-app/releases/download/v#{version}/Fontmin-v#{version}-osx64.zip"
-  name "Fontmin App"
+  url "https://github.com/ecomfe/fontmin-app/releases/download/v#{version}/Fontmin-v#{version}-osx64.zip",
+      verified: "github.com/ecomfe/fontmin-app/"
+  name "Fontmin"
+  desc "First Solution Of Font Subsetting All By JavaScript"
   homepage "https://ecomfe.github.io/fontmin"
 
   livecheck do

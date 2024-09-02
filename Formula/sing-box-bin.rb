@@ -19,9 +19,9 @@ class SingBoxBin < Formula
     url "https://github.com/SagerNet/sing-box/releases/download/v#{version}/sing-box-#{version}-darwin-amd64.tar.gz"
   elsif OS.linux? && Hardware::CPU.intel?
     url "https://github.com/SagerNet/sing-box/releases/download/v#{version}/sing-box-#{version}-linux-amd64.tar.gz"
-  elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is-32-bit?
+  elsif OS.linux? && Hardware::CPU.arm? && (Hardware::CPU.is-32-bit?)
     url "https://github.com/SagerNet/sing-box/releases/download/v#{version}/sing-box-#{version}-linux-armv7.tar.gz"
-  elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is-64-bit?
+  elsif OS.linux? && Hardware::CPU.arm? && (Hardware::CPU.is-64-bit?)
     url "https://github.com/SagerNet/sing-box/releases/download/v#{version}/sing-box-#{version}-linux-arm64.tar.gz"
   end
 
@@ -31,12 +31,13 @@ class SingBoxBin < Formula
 
   def install
     if build.without?("prebuilt") || build.head?
-      version_str = version.to_s.start_with?("HEAD") ? version.to_s : "#{version}"
+      version_str = version.to_s
 
       ldflags = "-s -w -X github.com/sagernet/sing-box/constant.Version=#{version_str} -buildid="
-      tags = "with_gvisor,with_quic,with_dhcp,with_wireguard,with_ech,with_utls,with_reality_server,with_acme,with_clash_api"
       # tags = "with_gvisor,with_quic,with_wireguard,with_utls,with_reality_server,with_clash_api"
-      system "go", "build", "-tags", tags, *std_go_args(ldflags: ldflags), "./cmd/sing-box"
+      tags = "with_gvisor,with_quic,with_dhcp,with_wireguard,with_ech," \
+             "with_utls,with_reality_server,with_acme,with_clash_api"
+      system "go", "build", "-tags", tags, *std_go_args(ldflags:), "./cmd/sing-box"
     else
       bin.install "sing-box"
     end
@@ -51,7 +52,7 @@ class SingBoxBin < Formula
       [
         "config.json",
       ].each do |dst|
-        config_path.install dst  # be renamed as .default if conflict
+        config_path.install dst # be renamed as .default if conflict
       end
     end
   end
@@ -122,4 +123,3 @@ class SingBoxBin < Formula
     end
   end
 end
-
