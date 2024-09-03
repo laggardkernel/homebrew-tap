@@ -4,11 +4,10 @@ class UnblockNeteaseMusic < Formula
   # homepage "https://github.com/1715173329/UnblockNeteaseMusic"
   homepage "https://github.com/UnblockNeteaseMusic/server"
   # rubocop: disable all
-  version "0.27.7"
+  version "0.27.8-patch.1"
   url "https://github.com/UnblockNeteaseMusic/server/archive/refs/tags/v#{version}.tar.gz"
   # rubocop: enable all
   license "MIT"
-  revision 1
 
   livecheck do
     # Pre-release support
@@ -37,10 +36,6 @@ class UnblockNeteaseMusic < Formula
     inreplace "src/provider/select.js" do |s|
       s.gsub! "5 * 1e3", "8 * 1e3"
     end
-    # 0.27.7 https://github.com/UnblockNeteaseMusic/server/issues/1415
-    inreplace "src/provider/kuwo.js" do |s|
-      s.sub! "kwplayer_ar_1.1.9_oppo_118980_320.apk", "kwplayer_ar_5.1.0.0_B_jiakong_vh.apk"
-    end
     # Starting 0.27, precompiled entries are included to avoid yarn install
     if File.exist? "precompiled/app.js"
       inreplace "precompiled/app.js" do |s|
@@ -53,7 +48,6 @@ class UnblockNeteaseMusic < Formula
         # s.gsub! "<5e3", "<8e3"
         # 0.27.1
         s.gsub! "5e3>", "8e3>"
-        s.sub! "kwplayer_ar_1.1.9_oppo_118980_320.apk", "kwplayer_ar_5.1.0.0_B_jiakong_vh.apk"
       end
     end
 
