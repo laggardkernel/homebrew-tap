@@ -25,7 +25,9 @@ class MongoshBin < Formula
   end
 
   def install
-    bin.install Dir["bin/*"]
+    bin.install Dir["bin/*"].reject { |f| File.basename(f).include?(".") }
+    lib.install Dir["*/*.dylib"]
+    man1.install Dir["*.1.gz"]
     prefix.install_metafiles
   end
 
