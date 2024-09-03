@@ -1,28 +1,48 @@
 class CondaStandalone < Formula
   desc "Entry point and dependency collection for PyInstaller-based standalone conda"
-  homepage "https://anaconda.org/conda-forge/conda-standalone"
-  # rubocop: disable all
-  version "4.12.0,h694c41f_0"
-  url "https://anaconda.org/conda-forge/conda-standalone/#{version.to_s.split(",").first}/download/osx-64/conda-standalone-#{version.to_s.split(",").first}-#{version.to_s.split(",").second}.tar.bz2"
-  # rubocop: enable all
+  homepage "https://anaconda.org/anaconda/conda-standalone"
+  version "24.7.1,hecd8cb5_0,hca03da5_0"
+
+  if OS.mac? && Hardware::CPU.intel?
+    url "https://anaconda.org/anaconda/conda-standalone/#{version.to_s.split(",").first}/download/osx-64/conda-standalone-#{version.to_s.split(",").first}-#{version.to_s.split(",").second}.tar.bz2"
+  elsif OS.mac? && Hardware::CPU.arm?
+    url "https://anaconda.org/anaconda/conda-standalone/#{version.to_s.split(",").first}/download/osx-arm64/conda-standalone-#{version.to_s.split(",").first}-#{version.to_s.split(",").third}.tar.bz2"
+  end
 
   livecheck do
-    url "https://anaconda.org/conda-forge/conda-standalone/files"
-    regex(%r{href=.*?/osx.*?/conda[_-]standalone[_-]v?(\d+(?:\.\d+)+)[_-](.+?)\.tar\.bz2}i)
+    url "https://anaconda.org/anaconda/conda-standalone/files"
+    regex(%r{href=.*?/osx-(.*?)/conda[_-]standalone[_-]v?(\d+(?:\.\d+)+)[_-](.+?)\.tar.bz2}i)
     strategy :page_match do |page, regex|
-      page.scan(regex).map do |match|
-        match&.first&.+ "," + match&.second
+      version_map = Hash.new { |hash, key| hash[key] = {} }
+
+      page.scan(regex).each do |match|
+        arch, version, build = match
+        next if version_map[version].key?(arch) && compare_builds(version_map[version][arch], build)
+        version_map[version][arch] = build
       end
+
+      version_map.map do |version, builds|
+        # Ensure '64' is first, then 'arm64', followed by any other architectures
+        ordered_builds = ['64', 'arm64'].map { |arch| builds.fetch(arch, '-') }
+        ordered_builds.map! { |build| build.empty? ? '-' : build }
+        ordered_builds += builds.reject { |k, _| ['64', 'arm64'].include?(k) }.values
+        "#{version},#{ordered_builds.join(',')}"
+      end
+    end
+
+    def compare_builds(build1, build2)
+      build1.split('_').last.to_i > build2.split('_').last.to_i
     end
   end
 
-  depends_on arch: :x86_64 # no arm64 build provided
+  # osx-arm64 builds are provided >= 23.11.0-
   # Only support macOS temporarily, cause the version strings are different for
   #  macOS and Linux. Don't bother to fetch version numbers separately.
   depends_on :macos
 
   def install
-    bin.install Dir["*/conda*"][0] => "conda-exec"
+    bin.install Dir["standalone_conda/conda*"][0] => "conda-exec"
+    prefix.install_metafiles
   end
 
   def caveats
