@@ -34,6 +34,12 @@ brew install laggardkernel/tap/<formula>
 # brew tap-pin laggardkernel/tap # deprecated
 ```
 
+## Development
+
+```bash
+git config --local blame.ignoreRevsFile .git-blame-ignore-revs
+```
+
 ## External Commands
 
 - `brew switch`, the old goodie dropped by brew in 2.6.0

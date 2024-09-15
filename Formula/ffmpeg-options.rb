@@ -1,17 +1,14 @@
 class FfmpegOptions < Formula
-  version "7.0.2"
-  revision 0
-  # sha256 ""
-
   desc "Play, record, convert, and stream audio and video"
   homepage "https://ffmpeg.org/"
+  # rubocop: disable all
+  version "7.0.2"
   url "https://ffmpeg.org/releases/ffmpeg-#{version}.tar.xz"
+  # rubocop: enable all
   # None of these parts are used by default, you have to explicitly pass `--enable-gp>
   # to configure to activate them. In this case, FFmpeg's license changes to GPL v2+.
   license "GPL-2.0-or-later"
   head "https://github.com/FFmpeg/FFmpeg.git", branch: "master"
-
-  deprecate! date: "2024-02-01", because: "unmaintained, use https://github.com/homebrew-ffmpeg/homebrew-ffmpeg instead"
 
   livecheck do
     url "https://ffmpeg.org/download.html"
@@ -29,6 +26,9 @@ class FfmpegOptions < Formula
   # option "with-zimg", "Enable z.lib zimg library"
   # option "with-srt", "Enable SRT library"
   # option "with-libvmaf", "Enable libvmaf scoring library"
+
+  deprecate! date:    "2024-02-01",
+             because: "unmaintained, use https://github.com/homebrew-ffmpeg/homebrew-ffmpeg instead"
 
   depends_on "nasm" => :build
   depends_on "pkg-config" => :build

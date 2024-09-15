@@ -1,11 +1,12 @@
 require "base64"
 
 class Osc52 < Formula
-  desc "Send an arbitrary string to the terminal clipboard using the OSC 52 escape sequence"
+  desc "Send string to the terminal clipboard using the OSC 52 escape sequence"
   homepage "https://chromium.googlesource.com/apps/libapps/+log/master/hterm/etc/osc52.sh"
+  # rubocop: disable all
   version "250bcf7"
   url "https://chromium.googlesource.com/apps/libapps/+/#{version}/hterm/etc/osc52.sh?format=TEXT"
-  # sha256 ""
+  # rubocop: enable all
   license :cannot_represent
 
   livecheck do
@@ -20,9 +21,7 @@ class Osc52 < Formula
   def install
     File.open("osc52.sh", "rt") do |f|
       content = f.read
-      File.open("osc52", "wb") do |f|
-        f.write(Base64.decode64(content))
-      end
+      File.binwrite("osc52", Base64.decode64(content))
     end
 
     bin.install "osc52"

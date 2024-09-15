@@ -1,6 +1,5 @@
 cask "font-um-typewriter" do
   version "001.003"
-  # sha256 ""
 
   url "http://mirrors.ctan.org/fonts/umtypewriter.zip"
   name "UM Typewriter"

@@ -1,0 +1,5 @@
+# List of revisions that unimportant for git blame purposes.
+#
+#   $ git config --local blame.ignoreRevsFile .git-blame-ignore-revs
+#
+dd6628c830f7b3404fc00d75ef7e9fc66245c751  # brew style --fix

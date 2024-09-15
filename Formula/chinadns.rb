@@ -1,13 +1,14 @@
 class Chinadns < Formula
   desc "Port of ChinaDNS to C: fix irregularities with DNS in China"
   homepage "https://github.com/aa65535/ChinaDNS"
-  url "https://github.com/aa65535/ChinaDNS/archive/v1.3.3.tar.gz"
+  # rubocop: disable all
+  version "1.3.3"
+  url "https://github.com/aa65535/ChinaDNS/archive/v#{version}.tar.gz"
+  # rubocop: enable all
   sha256 "74e53af32f8aa2ca7e63697385f12d89a06c486641556cfd8bc3f085d87e55ad"
   revision 2
 
-  head do
-    url "https://github.com/aa65535/ChinaDNS.git"
-  end
+  head "https://github.com/aa65535/ChinaDNS.git"
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
@@ -51,7 +52,7 @@ class Chinadns < Formula
         config_path.install dst
       end
     end
-    rm_rf etc_temp.to_s
+    rm_r(etc_temp.to_s)
   end
 
   def caveats

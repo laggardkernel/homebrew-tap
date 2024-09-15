@@ -58,9 +58,7 @@ class NaliBin < Formula
     chmod 0755, bin/"nali"
     prefix.install_metafiles
 
-    (bash_completion/"nali").write Utils.safe_popen_read(bin/"nali", "completion", "bash")
-    (fish_completion/"nali.fish").write Utils.safe_popen_read(bin/"nali", "completion", "fish")
-    (zsh_completion/"_nali").write Utils.safe_popen_read(bin/"nali", "completion", "zsh")
+    generate_completions_from_executable(bin/"nali", "completion", base_name: "nali")
   end
 
   def caveats

@@ -1,6 +1,5 @@
 cask "clashx-meta" do
-  version "1.3.17"
-  # sha256
+  version "1.3.18"
 
   url "https://github.com/MetaCubeX/ClashX.Meta/releases/download/v#{version}/ClashX.Meta.zip"
   name "ClashX Meta"
@@ -20,12 +19,12 @@ cask "clashx-meta" do
 
   app "ClashX Meta.app"
 
-  uninstall delete:    [
+  uninstall launchctl: "com.metacubex.ClashX.ProxyConfigHelper",
+            quit:      "com.metacubex.ClashX",
+            delete:    [
               "/Library/LaunchDaemons/com.metacubex.ClashX.ProxyConfigHelper.plist",
               "/Library/PrivilegedHelperTools/com.metacubex.ClashX.ProxyConfigHelper",
-            ],
-            launchctl: "com.metacubex.ClashX.ProxyConfigHelper",
-            quit:      "com.metacubex.ClashX"
+            ]
 
   zap trash: [
     "~/Library/Application Support/com.metacubex.ClashX.meta",

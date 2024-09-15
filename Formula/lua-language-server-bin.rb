@@ -1,21 +1,19 @@
 class LuaLanguageServerBin < Formula
   desc "Language Server for Lua and coded by Lua, the sumneko.lua ext for VSCode"
   homepage "https://github.com/sumneko/lua-language-server"
-  version "3.10.4"
+  version "3.10.5"
   license "MIT"
 
   livecheck do
     # The author doesn't do a regular release in GitHub, grab update from
     #  VSCode marketplace or corresponding sumneko/vscode-lua repo.
-    url "https://github.com/sumneko/vscode-lua/releases"
+    url "https://github.com/sumneko/lua-language-server/releases" # rubocop: disable all
     regex(%r{releases/tag/v?(\d+(?:\.\d+)+)}i)
     strategy :page_match do |page, regex|
       # page.scan(regex).map { |match| match&.first }
       page.scan(regex).flatten.uniq
     end
   end
-
-  conflicts_with "lua-language-server", because: "they are variants of the same formula"
 
   head do
     # Clone to get submodules. Note git repo is not cloned into a sub-folder.
@@ -24,6 +22,8 @@ class LuaLanguageServerBin < Formula
   end
 
   option "without-prebuilt", "Skip prebuilt binary and build from source"
+
+  conflicts_with "lua-language-server", because: "they are variants of the same formula"
 
   if build.without?("prebuilt")
     url "https://github.com/sumneko/lua-language-server.git", tag: version.to_s

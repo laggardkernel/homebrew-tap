@@ -3,14 +3,14 @@ cask "sogou-skin-editor" do
 
   url "https://pinyin.sogou.com/mac/softdown.php?r=skineditor"
   name "SGSkinEditor"
-  name "搜狗 Mac 皮肤编辑器"
-  desc "Skin editor app for sougou input method on macOS"
+  name "搜狗输入法皮肤编辑器"
+  desc "Skin editor app for sougou input method"
   homepage "https://pinyin.sogou.com/mac/skineditor.php"
 
   livecheck do
     url "https://pinyin.sogou.com/mac/skineditor.php"
     strategy :page_match
-    regex(%r{<span class="post_type">[^<]+for Mac (\d+(?:\.\d+)+).*})
+    regex(/<span class="post_type">[^<]+for Mac (\d+(?:\.\d+)+).*/)
   end
 
   # auto_updates false

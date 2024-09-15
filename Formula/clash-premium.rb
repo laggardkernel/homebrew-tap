@@ -1,13 +1,10 @@
 class ClashPremium < Formula
-  on_mojave :or_older do
-    # https://github.com/Dreamacro/clash/issues/2599
-    version "2023.01.29"
-    livecheck do
-      skip "Legacy version, last with 'redir-host' and works for Mojave"
-    end
-  end
+  desc "Rule-based tunnel in Go, the pre-built premium version"
+  homepage "https://github.com/Dreamacro/clash/releases/tag/premium"
+  license "GPL-3.0"
+  revision 3
   on_catalina :or_newer do
-    version "2023.08.17"
+    version "2023.08.17"  # rubocop: disable all
     livecheck do
       skip "Unmaintained"
       # url :homepage
@@ -19,11 +16,14 @@ class ClashPremium < Formula
       # end
     end
   end
-  revision 3
 
-  desc "Rule-based tunnel in Go, the pre-built premium version"
-  homepage "https://github.com/Dreamacro/clash/releases/tag/premium"
-  license "GPL-3.0"
+  on_mojave :or_older do
+    # https://github.com/Dreamacro/clash/issues/2599
+    version "2023.01.29"  # rubocop: disable all
+    livecheck do
+      skip "Legacy version, last with 'redir-host' and works for Mojave"
+    end
+  end
 
   if OS.mac? && Hardware::CPU.intel?
     # url "https://release.dreamacro.workers.dev/#{version}/clash-darwin-amd64-#{version}.gz"
@@ -31,13 +31,13 @@ class ClashPremium < Formula
     url "https://github.com/zhongfly/Clash-premium-backup/releases/download/Premium-#{version}/clash-darwin-amd64-#{version}.gz"
   elsif OS.mac? && Hardware::CPU.arm?
     url "https://github.com/zhongfly/Clash-premium-backup/releases/download/Premium-#{version}/clash-darwin-arm64-#{version}.gz"
-  elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is-64-bit?
+  elsif OS.linux? && Hardware::CPU.intel? && (Hardware::CPU.is-64-bit?)
     url "https://github.com/zhongfly/Clash-premium-backup/releases/download/Premium-#{version}/clash-linux-amd64-#{version}.gz"
-  elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is-32-bit?
+  elsif OS.linux? && Hardware::CPU.intel? && (Hardware::CPU.is-32-bit?)
     url "https://github.com/zhongfly/Clash-premium-backup/releases/download/Premium-#{version}/clash-linux-386-#{version}.gz"
-  elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is-64-bit?
+  elsif OS.linux? && Hardware::CPU.arm? && (Hardware::CPU.is-64-bit?)
     url "https://github.com/zhongfly/Clash-premium-backup/releases/download/Premium-#{version}/clash-linux-armv8-#{version}.gz"
-  elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is-32-bit?
+  elsif OS.linux? && Hardware::CPU.arm? && (Hardware::CPU.is-32-bit?)
     url "https://github.com/zhongfly/Clash-premium-backup/releases/download/Premium-#{version}/clash-linux-armv7-#{version}.gz"
   end
 
@@ -47,12 +47,12 @@ class ClashPremium < Formula
     # url "https://github.com/Dreamacro/clash-dashboard/archive/gh-pages.tar.gz"
     # url "https://github.com/chmod777john/clash-dashboard/archive/refs/heads/master.zip"
     # url "https://github.com/chmod777john/clash-dashboard/archive/9a32d9d.zip"
-    url "https://github.com/hgl/clash-dashboard/archive/gh-pages.tar.gz"
+    url "https://github.com/hgl/clash-dashboard/archive/gh-pages.tar.gz" # rubocop: disable all
   end
 
   resource "yacd" do
     # folder name: yacd-gh-pages
-    url "https://github.com/haishanh/yacd/archive/gh-pages.tar.gz"
+    url "https://github.com/haishanh/yacd/archive/gh-pages.tar.gz" # rubocop: disable all
   end
 
   resource "mmdb" do
@@ -95,7 +95,7 @@ class ClashPremium < Formula
         config_path.install dst
       end
     end
-    rm_rf etc_temp.to_s
+    rm_r(etc_temp.to_s)
   end
 
   def post_install

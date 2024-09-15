@@ -6,8 +6,6 @@ require "keg"
 require "cli/parser"
 
 module Homebrew
-  extend T::Sig
-
   module_function
 
   sig { returns(CLI::Parser) }
@@ -41,7 +39,7 @@ module Homebrew
     version = args.named.second
 
     odie <<~EOS unless (rack/version).directory?
-      #{name} does not have a version \"#{version}\" in the Cellar.
+      #{name} does not have a version "#{version}" in the Cellar.
       #{name}'s installed versions: #{versions}
     EOS
 

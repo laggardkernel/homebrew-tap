@@ -1,9 +1,10 @@
 class Iterm2Zmodem < Formula
   desc "ZModem integration with iTerm2"
   homepage "https://github.com/laggardkernel/iterm2-zmodem"
-  version '1.1.0'
+  # rubocop: disable all
+  version "1.1.0"
   url "https://github.com/laggardkernel/iterm2-zmodem/archive/v#{version}.tar.gz"
-  # sha256 ""
+  # rubocop: enable all
   head "https://github.com/laggardkernel/iterm2-zmodem.git"
 
   depends_on "lrzsz"

@@ -1,11 +1,12 @@
 class TmuxOptions < Formula
   desc "Terminal multiplexer with custom FPS"
   homepage "https://tmux.github.io/"
+  # rubocop: disable all
   version "3.4"
-  revision 1
   url "https://github.com/tmux/tmux/releases/download/#{version}/tmux-#{version}.tar.gz"
-  # sha256 ""
+  # rubocop: enable all
   license "ISC"
+  revision 1
 
   livecheck do
     # Pre-release support
@@ -14,7 +15,6 @@ class TmuxOptions < Formula
     strategy :page_match do |page, regex|
       page.scan(regex).map { |match| match&.first }
     end
-    # url :stable
     # regex(/v?(\d+(?:\.\d+)+[a-z]?)/i)
     # strategy :github_latest
   end

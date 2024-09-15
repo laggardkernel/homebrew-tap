@@ -8,7 +8,7 @@ class Navidrome < Formula
   license "GPL-3.0"
 
   livecheck do
-    url "https://github.com/navidrome/navidrome/releases"
+    url :stable
     strategy :github_release
   end
 
@@ -56,10 +56,8 @@ class Navidrome < Formula
   end
 
   def install
-    # version_str = "#{version}".start_with?("HEAD") ? "#{version}" : "v#{version}"
-
     if build.without?("prebuilt") || build.head? # || (OS.mac? && Hardware::CPU.arm?)
-      version_str = version.to_s.start_with?("HEAD") ? version.to_s : "v#{version}"
+      # version_str = version.to_s.start_with?("HEAD") ? version.to_s : "v#{version}"
 
       buildpath_parent = File.dirname(buildpath)
       if File.basename(buildpath_parent).start_with? "navidrome"

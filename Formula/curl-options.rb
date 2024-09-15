@@ -1,15 +1,14 @@
 class CurlOptions < Formula
   desc "Get a file from an HTTP, HTTPS or FTP server"
   homepage "https://curl.se"
+  # rubocop: disable all
   version "8.9.1"
   url "https://curl.se/download/curl-#{version}.tar.bz2"
-  mirror "https://github.com/curl/curl/releases/download/curl-#{version.to_s.gsub('.', '_')}/curl-#{version}.tar.bz2"
+  mirror "https://github.com/curl/curl/releases/download/curl-#{version.to_s.tr(".", "_")}/curl-#{version}.tar.bz2"
   mirror "http://fresh-center.net/linux/www/curl-#{version}.tar.bz2"
   mirror "http://fresh-center.net/linux/www/legacy/curl-#{version}.tar.bz2"
-  # sha256 ""
+  # rubocop: enable all
   license "curl"
-
-  deprecate! date: "2024-02-01", because: :unmaintained
 
   livecheck do
     url "https://curl.se/download/"
@@ -24,7 +23,7 @@ class CurlOptions < Formula
     depends_on "libtool" => :build
   end
 
-  keg_only :provided_by_macos
+  keg_only :provided_by_macos # rubocop: disable all
 
   option "with-c-ares", "Build with C-Ares async DNS support"
   option "with-openssl", "Build with OpenSSL support"
@@ -32,6 +31,8 @@ class CurlOptions < Formula
 
   deprecated_option "with-ares" => "with-c-ares"
   deprecated_option "with-openssl@3" => "with-openssl"
+
+  deprecate! date: "2024-02-01", because: :unmaintained
 
   # HTTP/2 support requires OpenSSL 1.0.2+ or LibreSSL 2.1.3+ for ALPN Support
   # which is currently not supported by Secure Transport (DarwinSSL).

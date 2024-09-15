@@ -17,7 +17,7 @@ class VersionFetcher
       else
         "latest"
       end
-    rescue OpenURI::HTTPError => e
+    rescue OpenURI::HTTPError
       # '404 Not Found' may be raise if the nightly build failed
       "latest"
     end
@@ -28,8 +28,7 @@ class NeovimNightly < Formula
   desc "Ambitious Vim-fork focused on extensibility and agility"
   homepage "https://neovim.io/"
   url "https://github.com/neovim/neovim/releases/download/nightly/nvim-macos.tar.gz"
-  version VersionFetcher.new.version.to_s
-  # sha256
+  version VersionFetcher.new.version # rubocop: disable all
   license "Apache-2.0"
 
   livecheck do

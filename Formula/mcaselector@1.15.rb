@@ -1,8 +1,10 @@
 class McaselectorAT115 < Formula
-  desc "A tool to select chunks from Minecraft worlds for deletion or export."
+  desc "Tool to select chunks from Minecraft worlds for deletion or export"
   homepage "https://github.com/toolbox4minecraft/amidst"
+  # rubocop: disable all
   version "1.15.4"
   url "https://github.com/Querz/mcaselector/releases/download/#{version}/mcaselector-#{version}.jar"
+  # rubocop: enable all
   license "GPL-3.0"
   revision 1
 

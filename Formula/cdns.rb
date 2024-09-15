@@ -1,10 +1,11 @@
 class Cdns < Formula
   desc "Cure your poinsoned DNS with EDNS option detection"
   homepage "https://github.com/semigodking/cdns"
+  # rubocop: disable all
   # HEAD only, no regular release
   version "1.1"
   url "https://github.com/semigodking/cdns/archive/release-#{version}.tar.gz"
-  # sha256 ""
+  # rubocop: enable all
   license "Apache-2.0"
   revision 2
   head "https://github.com/semigodking/cdns.git"
@@ -20,7 +21,7 @@ class Cdns < Formula
     # TODO: backport static build on stable version, remove in next release
     if build.stable?
       inreplace "Makefile" do |s|
-        s.gsub! '$(CC) -o $@ $(CFLAGS) $^ $(LIBS)',
+        s.gsub! "$(CC) -o $@ $(CFLAGS) $^ $(LIBS)",
           "$(CC) -o $@ $(CFLAGS) $^ $(LIBS)\n	$(CC) -static -static-libgcc -s -o $@-static $(CFLAGS) $^ $(LIBS)"
       end
     end

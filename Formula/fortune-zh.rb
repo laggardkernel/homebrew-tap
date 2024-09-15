@@ -26,10 +26,11 @@ end
 class FortuneZh < Formula
   desc "Infamous electronic fortune-cookie generator, with additional zsh datfiles"
   homepage "https://www.ibiblio.org/pub/linux/games/amusements/fortune/!INDEX.html"
+  # rubocop: disable all
   version "9708,000fb01"
   url "https://www.ibiblio.org/pub/linux/games/amusements/fortune/fortune-mod-#{version.to_s.split(",").first}.tar.gz"
+  # rubocop: enable all
   # mirror ""  # link contains hash, don't wanna update it manually
-  # sha256 ""
 
   livecheck do
     datfile_version = VersionFetcher.new.version.to_s
@@ -37,14 +38,14 @@ class FortuneZh < Formula
     regex(/href=.*?fortune-mod[._-]v?(\d+(?:\.\d+)*)\.t/i)
     strategy :page_match do |page, regex|
       page.scan(regex).map do |match|
-        match&.first + "," + datfile_version
+        match&.first&.+ "," + datfile_version
       end
     end
   end
 
   resource "datfile" do
     # TODO: unable to access variable 'version' in resource block
-    url "https://github.com/ruanyf/fortunes/archive/master.tar.gz"
+    url "https://github.com/ruanyf/fortunes/archive/master.tar.gz" # rubocop: disable all
   end
 
   def install

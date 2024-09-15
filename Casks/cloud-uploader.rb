@@ -3,7 +3,7 @@ cask "cloud-uploader" do
 
   url "https://github.com/lulu-ls/cloud-uploader/releases/download/#{version}/cloud-uploader-#{version}.dmg"
   name "CloudUploader"
-  desc "网易云音乐 Mac 云盘上传工具"
+  desc "网易云音乐云盘上传工具"
   homepage "https://github.com/lulu-ls/cloud-uploader"
 
   livecheck do

@@ -1,9 +1,10 @@
 class LibassOptions < Formula
   desc "Subtitle renderer for the ASS/SSA subtitle format"
   homepage "https://github.com/libass/libass"
+  # rubocop: disable all
   version "0.17.3"
   url "https://github.com/libass/libass/releases/download/#{version}/libass-#{version}.tar.xz"
-  # sha256 ""
+  # rubocop: enable all
   license "ISC"
 
   head do
@@ -41,7 +42,7 @@ class LibassOptions < Formula
     ]
 
     # libass uses coretext on macOS, fontconfig on Linux
-    on_macos do
+    if OS.mac?
       args << if build.with? "fontconfig"
         "--disable-coretext"
       else

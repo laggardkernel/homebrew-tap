@@ -1,5 +1,4 @@
 cask "proxyman-versioned" do
-
   on_mojave :or_older do
     version "4.1.0,41000"
   end
@@ -18,6 +17,7 @@ cask "proxyman-versioned" do
   end
 
   auto_updates true
+
   app "Proxyman.app"
 
   uninstall_postflight do
@@ -32,20 +32,20 @@ cask "proxyman-versioned" do
     end
   end
 
-  uninstall quit:      "com.proxyman.NSProxy",
-            launchctl: "com.proxyman.NSProxy.HelperTool",
+  uninstall launchctl: "com.proxyman.NSProxy.HelperTool",
+            quit:      "com.proxyman.NSProxy",
             delete:    "/Library/PrivilegedHelperTools/com.proxyman.NSProxy.HelperTool"
 
   zap trash: [
     "~/.proxyman*",
     "~/Library/Application Support/com.proxyman",
     "~/Library/Application Support/com.proxyman.NSProxy",
-    "~/Library/Caches/Proxyman",
     "~/Library/Caches/com.proxyman.NSProxy",
+    "~/Library/Caches/Proxyman",
     "~/Library/Cookies/com.proxyman.binarycookies",
     "~/Library/Cookies/com.proxyman.NSProxy.binarycookies",
-    "~/Library/Preferences/com.proxyman.plist",
     "~/Library/Preferences/com.proxyman.NSProxy.plist",
+    "~/Library/Preferences/com.proxyman.plist",
     "~/Library/Saved Application State/com.proxyman.NSProxy.savedState",
   ]
 end

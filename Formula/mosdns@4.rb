@@ -6,7 +6,7 @@ class MosdnsAT4 < Formula
   revision 3
 
   livecheck do
-    skip '4.x versions are no longer developed'
+    skip "4.x versions are no longer developed"
   end
 
   option "without-prebuilt", "Skip prebuilt binary and build from source"
@@ -25,9 +25,9 @@ class MosdnsAT4 < Formula
     url "https://github.com/IrineSistiana/mosdns/releases/download/v#{version}/mosdns-darwin-amd64.zip"
   elsif OS.linux? && Hardware::CPU.intel?
     url "https://github.com/IrineSistiana/mosdns/releases/download/v#{version}/mosdns-linux-amd64.zip"
-  elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is-32-bit?
+  elsif OS.linux? && Hardware::CPU.arm? && (Hardware::CPU.is-32-bit?)
     url "https://github.com/IrineSistiana/mosdns/releases/download/v#{version}/mosdns-linux-arm-7.zip"
-  elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is-64-bit?
+  elsif OS.linux? && Hardware::CPU.arm? && (Hardware::CPU.is-64-bit?)
     url "https://github.com/IrineSistiana/mosdns/releases/download/v#{version}/mosdns-linux-arm64.zip"
   end
 
@@ -70,7 +70,7 @@ class MosdnsAT4 < Formula
 
     mv "config.yaml", "config-v4.yaml"
     share_dst = "#{share}/mosdns@4"
-    mkdir_p "#{share_dst}"
+    mkdir_p share_dst.to_s
     cp_r Dir["*.yaml"], "#{share_dst}/"
 
     etc_temp = "#{buildpath}/etc_temp"
@@ -95,10 +95,10 @@ class MosdnsAT4 < Formula
         dst = config_path/"#{f}.default"
         rm dst if dst.exist?
         rm config_path/f.to_s if (config_path/f.to_s).exist?
-        config_path.install f => "#{f}"
+        config_path.install f => f.to_s
       end
     end
-    rm_rf etc_temp.to_s
+    rm_r(etc_temp.to_s)
   end
 
   def post_install

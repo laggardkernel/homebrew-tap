@@ -30,9 +30,9 @@ class Dnslookup < Formula
     url "https://github.com/ameshkov/dnslookup/releases/download/v#{version}/dnslookup-darwin-amd64-v#{version}.tar.gz"
   elsif OS.linux? && Hardware::CPU.intel?
     url "https://github.com/ameshkov/dnslookup/releases/download/v#{version}/dnslookup-linux-amd64-v#{version}.tar.gz"
-  elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is-32-bit?
+  elsif OS.linux? && Hardware::CPU.arm? && (Hardware::CPU.is-32-bit?)
     url "https://github.com/ameshkov/dnslookup/releases/download/v#{version}/dnslookup-linux-arm-v#{version}.tar.gz"
-  elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is-64-bit?
+  elsif OS.linux? && Hardware::CPU.arm? && (Hardware::CPU.is-64-bit?)
     url "https://github.com/ameshkov/dnslookup/releases/download/v#{version}/dnslookup-linux-arm64-v#{version}.tar.gz"
   end
 
@@ -52,9 +52,11 @@ class Dnslookup < Formula
       system "go", "build", "-ldflags",
         "-X main.VersionString=#{version_str}",
         "-trimpath", "-o", name.to_s
+      # rubocop: disable all
       if !(OS.mac? && Hardware::CPU.arm?)
         system "upx", "-9", "-q", name.to_s
       end
+      # rubocop: enable all
     end
 
     bin.install "dnslookup"

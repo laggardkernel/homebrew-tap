@@ -1,12 +1,12 @@
 class Tarix < Formula
   desc "Tar Indexer"
   homepage "https://github.com/fastcat/tarix"
+  # rubocop: disable all
   version "1.0.9"
   url "https://github.com/fastcat/tarix/archive/refs/tags/tarix-#{version}.tar.gz"
+  # rubocop: enable all
 
-  head do
-    url "https://github.com/fastcat/tarix.git"
-  end
+  head "https://github.com/fastcat/tarix.git"
 
   depends_on "glib" => :build
 
