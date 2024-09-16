@@ -1,10 +1,10 @@
 class V2dat < Formula
   desc "Cli tool that can unpack v2ray data packages"
   homepage "https://github.com/urlesistiana/v2dat"
-  # HEAD only, no regular release
-  url "https://github.com/urlesistiana/v2dat/archive/main.tar.gz" # rubocop: disable all
-  # url "https://github.com/urlesistiana/v2dat/archive/release-#{version}.tar.gz"
-  version "0.0.0"
+  # rubocop: disable all
+  version "47b8ee5"
+  url "https://github.com/urlesistiana/v2dat/archive/#{version}.tar.gz"
+  # rubocop: enable all
   license "GPL-3.0"
 
   # version: HEAD
@@ -13,7 +13,12 @@ class V2dat < Formula
   head "https://github.com/urlesistiana/v2dat.git", branch: "main"
 
   livecheck do
-    skip "HEAD only"
+    url "https://github.com/urlesistiana/v2dat/commits/main"
+    regex(%r{href="/urlesistiana/v2dat/tree/([a-z0-9]{7,}+)" }i)
+    strategy :page_match do |page, regex|
+      # Only return the 1st commit to avoid alphabetical version comparison
+      page.scan(regex).flatten.first&.slice!(0..6)
+    end
   end
 
   depends_on "go" => :build
@@ -32,13 +37,9 @@ class V2dat < Formula
     ENV["GOCACHE"] = "#{ENV["GOPATH"]}/go-cache"
 
     mkdir_p "#{buildpath}/release"
-    cd "#{buildpath}/release"
-    system "go", "build", *std_go_args(ldflags: "-s -w"), "-trimpath", "-o", "v2dat", "../"
+    system "go", "build", *std_go_args(ldflags: "-s -w"), "-trimpath", "-o", "release/v2dat", "."
     # system "upx", "-9", "-q", "v2dat"
-    cp "../README.md", "."
-    cp "../LICENSE", "."
-
-    bin.install "v2dat"
+    bin.install "release/v2dat"
     prefix.install_metafiles
   end
 end
