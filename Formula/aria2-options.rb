@@ -6,7 +6,6 @@ class Aria2Options < Formula
   stable do
     version "1.37.0"
     url "https://github.com/aria2/aria2/releases/download/release-#{version}/aria2-#{version}.tar.xz"
-    depends_on "pkg-config" => :build
   end
 
   head do
@@ -16,7 +15,7 @@ class Aria2Options < Formula
     depends_on "libtool"  => :build
   end
 
-  # option "with-c-ares", "Build with C-Ares async DNS support"
+  option "with-c-ares", "Build with C-Ares async DNS support"
   option "with-openssl", "Build with openssl support"
   option "with-gnutls", "Build with gnutls support"
 
@@ -26,17 +25,21 @@ class Aria2Options < Formula
   end
 
   # rubocop: disable all
-  depends_on "gettext" => :build
-  depends_on "c-ares"
+  depends_on "c-ares" if build.with? "c-ares"
   depends_on "gnutls" if build.with? "gnutls"
   depends_on "libssh2"
   depends_on "openssl@3" if build.with? "openssl"
+  depends_on "pkg-config" => :build
   depends_on "sqlite"
   # rubocop: enable all
 
   # libxml2 is preferred over expat
   uses_from_macos "libxml2"
   uses_from_macos "zlib"
+
+  on_macos do
+    depends_on "gettext"
+  end
 
   def install
     ENV.cxx11
@@ -56,21 +59,20 @@ class Aria2Options < Formula
     # https://github.com/aria2/aria2/pull/1431/files
     inreplace "src/OptionHandlerFactory.cc", ", 1, 16, ", ", 1, -1, "
 
-    args = %W[
-      --disable-dependency-tracking
-      --prefix=#{prefix}
-      --with-libcares
+    args = %w[
+      --disable-silent-rules
       --with-libssh2
       --without-libgmp
       --without-libnettle
       --without-libgcrypt
     ]
 
+    args << "--with-libcares" if build.with? "c-ares"
+
+    # aria2 doesn't use the system default CA cert.
+    #  https://github.com/aria2/aria2/issues/1636
     if build.with? "gnutls"
       args << "--with-gnutls"
-      # args << "--with-ca-bundle=#{etc}/ca-certificates/cert.pem"
-      # BUG: https://github.com/aria2/aria2/issues/1636
-      args << "--with-ca-bundle=/etc/ssl/cert.pem"
       args << "--without-appletls"
       args << "--without-openssl"
     elsif build.with? "openssl"
@@ -79,8 +81,6 @@ class Aria2Options < Formula
       args << "--with-openssl"
       # ENV.prepend_path "PKG_CONFIG_PATH", "#{Formula["openssl@3"].opt_lib}/pkgconfig"
       args << "--with-openssl-prefix=#{Formula["openssl@3"].opt_prefix}"
-      # args << "--with-ca-bundle=#{etc}/ca-certificates/cert.pem"
-      args << "--with-ca-bundle=/etc/ssl/cert.pem"
       args << "--without-appletls"
       args << "--without-gnutls"
     else
@@ -90,7 +90,7 @@ class Aria2Options < Formula
     end
 
     system "autoreconf", "-fiv" if build.head?
-    system "./configure", *args
+    system "./configure", *args, *std_configure_args
     system "make", "install"
 
     bash_completion.install "doc/bash_completion/aria2c"
