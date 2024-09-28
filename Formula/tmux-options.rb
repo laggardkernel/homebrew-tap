@@ -2,21 +2,17 @@ class TmuxOptions < Formula
   desc "Terminal multiplexer with custom FPS"
   homepage "https://tmux.github.io/"
   # rubocop: disable all
-  version "3.4"
+  version "3.5"
   url "https://github.com/tmux/tmux/releases/download/#{version}/tmux-#{version}.tar.gz"
   # rubocop: enable all
   license "ISC"
-  revision 1
 
   livecheck do
-    # Pre-release support
     url "https://github.com/tmux/tmux/releases/"
     regex(%r{href=.*?/tag/v?(\d+(?:\.\d+)+[-]?[a-z]*)["' >]}i)
     strategy :page_match do |page, regex|
       page.scan(regex).map { |match| match&.first }
     end
-    # regex(/v?(\d+(?:\.\d+)+[a-z]?)/i)
-    # strategy :github_latest
   end
 
   head do
@@ -26,12 +22,6 @@ class TmuxOptions < Formula
     depends_on "automake" => :build
     depends_on "libtool" => :build
   end
-
-  # Obsolete: devel block support is dropped
-  # devel do
-  #   url "https://github.com/tmux/tmux/releases/download/3.2-rc/tmux-3.2-rc3.tar.gz"
-  #   sha256 ""
-  # end
 
   option "with-fps-60", "FPS 60 (otherwise 20)"
 
@@ -48,8 +38,8 @@ class TmuxOptions < Formula
   end
 
   resource "completion" do
-    url "https://raw.githubusercontent.com/imomaliev/tmux-bash-completion/f5d53239f7658f8e8fbaf02535cc369009c436d6/completions/tmux"
-    sha256 "b5f7bbd78f9790026bbff16fc6e3fe4070d067f58f943e156bd1a8c3c99f6a6f"
+    url "https://raw.githubusercontent.com/imomaliev/tmux-bash-completion/8da7f797245970659b259b85e5409f197b8afddd/completions/tmux"
+    sha256 "4e2179053376f4194b342249d75c243c1573c82c185bfbea008be1739048e709"
   end
 
   def install
@@ -100,7 +90,7 @@ class TmuxOptions < Formula
       Example configuration has been installed to:
         #{opt_pkgshare}
 
-      If you encounter problem of terminfo not found reported by portable-ruby, e.g.
+      If you encounter problem of 'terminfo not found' reported by portable-ruby, e.g.
       reline/terminfo.rb:108:in `setupterm': The terminfo database could not be found. (Reline::Terminfo::TerminfoError)
       Add terminfo of tmux-256color into
         $HOMEBREW_PREFIX/Library/Homebrew/vendor/portable-ruby/current/share/terminfo
@@ -122,10 +112,3 @@ class TmuxOptions < Formula
     assert_equal "no server running on #{socket}", shell_output("#{bin}/tmux -S#{socket} list-sessions 2>&1", 1).chomp
   end
 end
-
-# Deprecate ARGV
-# https://github.com/Homebrew/brew/issues/1803
-# https://github.com/Homebrew/brew/issues/7093
-# https://github.com/Homebrew/brew/issues/5730
-# https://github.com/Homebrew/brew/pull/6857
-# Even Homebrew.args is private?

@@ -60,13 +60,8 @@ Check the `Formula/` folder directly. No longer bother to update introduction he
 - [Detect OS, CPU arch from GoReleaser](https://github.com/filebrowser/homebrew-tap/blob/master/Formula/filebrowser.rb)
 - [`brew checkalive`](https://docs.brew.sh/Brew-Livecheck)
 - `brew style --fix`, helpful but not trustworthy. Be careful!
-
-[aa65535/ChinaDNS]: https://github.com/aa65535/ChinaDNS
-[curedns]: https://github.com/semigodking/cdns
-[17mon/china_ip_list]: https://github.com/17mon/china_ip_list
-[cxw42/git-log-compact]: https://github.com/cxw42/git-log-compact
-[license]: https://github.com/jfoster/license
-[MEOW]: https://github.com/netheril96/MEOW
-[sans]: https://github.com/puxxustc/sans
-[shdns]: https://github.com/domosekai/shdns
-[v2ray2clash]: https://github.com/ne1llee/v2ray2clash
+- Deprecation of ARGV
+  - https://github.com/Homebrew/brew/issues/1803
+  - https://github.com/Homebrew/brew/issues/7093
+  - https://github.com/Homebrew/brew/issues/5730
+  - https://github.com/Homebrew/brew/pull/6857
