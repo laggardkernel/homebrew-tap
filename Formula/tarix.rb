@@ -2,13 +2,22 @@ class Tarix < Formula
   desc "Tar Indexer"
   homepage "https://github.com/fastcat/tarix"
   # rubocop: disable all
-  version "1.0.9"
-  url "https://github.com/fastcat/tarix/archive/refs/tags/tarix-#{version}.tar.gz"
+  version "ae6483d"
+  url "https://github.com/fastcat/tarix/archive/#{version}.tar.gz"
   # rubocop: enable all
 
   head "https://github.com/fastcat/tarix.git"
 
-  depends_on "glib" => :build
+  livecheck do
+    url "https://github.com/fastcat/tarix/commits/master"
+    regex(%r{href="/fastcat/tarix/tree/([a-z0-9]{7,}+)" }i)
+    strategy :page_match do |page, regex|
+      # Only return the 1st commit to avoid alphabetical version comparison
+      page.scan(regex).flatten.first&.slice!(0..6)
+    end
+  end
+
+  depends_on "glib"
 
   patch :DATA
 
