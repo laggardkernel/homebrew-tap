@@ -18,20 +18,21 @@ class CondaStandalone < Formula
       page.scan(regex).each do |match|
         arch, version, build = match
         next if version_map[version].key?(arch) && compare_builds(version_map[version][arch], build)
+
         version_map[version][arch] = build
       end
 
       version_map.map do |version, builds|
         # Ensure '64' is first, then 'arm64', followed by any other architectures
-        ordered_builds = ['64', 'arm64'].map { |arch| builds.fetch(arch, '-') }
-        ordered_builds.map! { |build| build.empty? ? '-' : build }
-        ordered_builds += builds.reject { |k, _| ['64', 'arm64'].include?(k) }.values
-        "#{version},#{ordered_builds.join(',')}"
+        ordered_builds = ["64", "arm64"].map { |arch| builds.fetch(arch, "-") }
+        ordered_builds.map! { |build| build.empty? ? "-" : build }
+        ordered_builds += builds.except("64", "arm64").values
+        "#{version},#{ordered_builds.join(",")}"
       end
     end
 
     def compare_builds(build1, build2)
-      build1.split('_').last.to_i > build2.split('_').last.to_i
+      build1.split("_").last.to_i > build2.split("_").last.to_i
     end
   end
 

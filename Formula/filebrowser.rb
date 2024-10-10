@@ -44,16 +44,11 @@ class Filebrowser < Formula
 
       buildpath_parent = File.dirname(buildpath)
       if File.basename(buildpath_parent).start_with? "filebrowser"
-        ENV["GOPATH"] = "#{buildpath_parent}/go"
-        ENV["NPM_CONFIG_CACHE"] = "#{buildpath_parent}/npm"
         commit_sha = ""
       else
-        ENV["GOPATH"] = "#{buildpath}/.brew_home/go"
-        ENV["NPM_CONFIG_CACHE"] = "#{buildpath}/.brew_home/npm"
         commit_sha = `git rev-parse --short HEAD`
       end
       # Default GOCACHE: $HOMEBREW_CACHE/go_cache
-      ENV["GOCACHE"] = "#{ENV["GOPATH"]}/go-cache"
       ENV["PATH"] = "#{ENV["PATH"]}:#{HOMEBREW_PREFIX}/opt/node/libexec/bin"
       ENV["PATH"] = "#{ENV["PATH"]}:#{HOMEBREW_PREFIX}/lib/node_modules/npm/bin"
       # BUG: Formula["node"] doen't ensure version installed
@@ -72,12 +67,13 @@ class Filebrowser < Formula
           s.gsub!(/^(.+fmt\.Println.+version\.Version).*?$/, '\1)') # single quote
         end
       end
+
       go_build_ldflags = "-s -w" \
         + " -X github.com/filebrowser/filebrowser/v2/version.Version=#{version_str}" \
         + " -X github.com/filebrowser/filebrowser/v2/version.CommitSHA=#{commit_sha}"
-      go_build_cmd = "GO111MODULE=on CGO_ENABLED=0 go build" \
-        + " -ldflags '#{go_build_ldflags}'"
-      system go_build_cmd
+      ENV["GO111MODULE"] = "on"
+      ENV["CGO_ENABLED"] = "0"
+      system "go", "build", "-ldflags", go_build_ldflags.to_s
     end
 
     bin.install Dir.glob("filebrowser*")[0] => "filebrowser"

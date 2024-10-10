@@ -37,14 +37,6 @@ class Dnslookup < Formula
   def install
     if build.without?("prebuilt") || build.head? # || (OS.mac? && Hardware::CPU.arm?)
       version_str = version.to_s.start_with?("HEAD") ? version.to_s : "v#{version}"
-      buildpath_parent = File.dirname(buildpath)
-      ENV["GOPATH"] = if File.basename(buildpath_parent).start_with? name.to_s
-        "#{buildpath_parent}/go"
-      else
-        "#{buildpath}/.brew_home/go"
-      end
-      # Default GOCACHE: $HOMEBREW_CACHE/go_cache
-      ENV["GOCACHE"] = "#{ENV["GOPATH"]}/go-cache"
 
       # *std_go_args outputs binary to bin/
       system "go", "build", "-ldflags",

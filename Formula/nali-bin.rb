@@ -41,18 +41,7 @@ class NaliBin < Formula
 
   def install
     if build.without?("prebuilt") || build.head?
-      # Warning: putting GOPATH in CWD may fail to build cause packr err raised
-      buildpath_parent = File.dirname(buildpath)
-      ENV["GOPATH"] = if File.basename(buildpath_parent).start_with? "nali"
-        "#{buildpath_parent}/go"
-      else
-        "#{buildpath}/.brew_home/go"
-      end
-      # Default GOCACHE: $HOMEBREW_CACHE/go_cache
-      ENV["GOCACHE"] = "#{ENV["GOPATH"]}/go-cache"
-
-      system "go", "build", "-o", "nali"
-      # system "go", "build", *std_go_args(ldflags: "-s -w")
+      system "go", "build", "-trimpath", "-o", "nali"
     end
     bin.install Dir["nali*"][0] => "nali"
     chmod 0755, bin/"nali"

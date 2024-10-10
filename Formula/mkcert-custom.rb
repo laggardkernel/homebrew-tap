@@ -19,8 +19,9 @@ class MkcertCustom < Formula
 
   def install
     version_str = version.to_s.start_with?("HEAD") ? "HEAD" : version.to_s
-    system "go", "build", *std_go_args(ldflags: "-s -w -X main.Version=v#{version_str}")
-    mv bin/name.to_s, bin/"mkcert"
+    system "go", "build", "-trimpath", "-o", "mkcert",
+      "-ldflags", "-s -w -X main.Version=v#{version_str}"
+    bin.install "mkcert"
     prefix.install_metafiles
   end
 

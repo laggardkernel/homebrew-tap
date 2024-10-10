@@ -25,17 +25,10 @@ class V2dat < Formula
 
   def install
     # version_str = version.to_s.start_with?("HEAD") ? version.to_s : "v#{version}"
-    buildpath_parent = File.dirname(buildpath)
-    ENV["GOPATH"] = if File.basename(buildpath_parent).start_with? "v2dat"
-      "#{buildpath_parent}/go"
-    else
-      "#{buildpath}/.brew_home/go"
-    end
-    # Default GOCACHE: $HOMEBREW_CACHE/go_cache
-    ENV["GOCACHE"] = "#{ENV["GOPATH"]}/go-cache"
 
     mkdir_p "#{buildpath}/release"
-    system "go", "build", *std_go_args(ldflags: "-s -w"), "-trimpath", "-o", "release/v2dat", "."
+    system "go", "build", "-ldflags", "-s -w",
+      "-trimpath", "-o", "release/v2dat", "."
     bin.install "release/v2dat"
     prefix.install_metafiles
   end

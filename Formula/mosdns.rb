@@ -56,15 +56,6 @@ class Mosdns < Formula
     if build.without?("prebuilt") || build.head?
       version_str = version.to_s.start_with?("HEAD") ? version.to_s : "v#{version}"
 
-      buildpath_parent = File.dirname(buildpath)
-      ENV["GOPATH"] = if File.basename(buildpath_parent).start_with? "mosdns"
-        "#{buildpath_parent}/go"
-      else
-        "#{buildpath}/.brew_home/go"
-      end
-      # Default GOCACHE: $HOMEBREW_CACHE/go_cache
-      ENV["GOCACHE"] = "#{ENV["GOPATH"]}/go-cache"
-
       # Mimic release.py
       mkdir_p "#{buildpath}/release"
       cd "#{buildpath}/release"

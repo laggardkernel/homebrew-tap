@@ -81,13 +81,6 @@ class Adguardhome < Formula
       # Warning: setting GOPATH under CWD may cause pkg failed to build cause packr exc
       # Only encounter once during writing the formula, later resolved
       buildpath_parent = File.dirname(buildpath)
-      ENV["GOPATH"] = if File.basename(buildpath_parent).start_with? "adguardhome"
-        "#{buildpath_parent}/go"
-      else
-        "#{buildpath}/.brew_home/go"
-      end
-      # Default GOCACHE: $HOMEBREW_CACHE/go_cache
-      ENV["GOCACHE"] = "#{ENV["GOPATH"]}/go-cache"
       ENV["PATH"] = "#{ENV["PATH"]}:#{HOMEBREW_PREFIX}/opt/node/libexec/bin"
       ENV["PATH"] = "#{ENV["PATH"]}:#{HOMEBREW_PREFIX}/lib/node_modules/npm/bin"
       # BUG: Formula["node"] doen't ensure version installed

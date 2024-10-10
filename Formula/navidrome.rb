@@ -59,18 +59,11 @@ class Navidrome < Formula
 
       buildpath_parent = File.dirname(buildpath)
       if File.basename(buildpath_parent).start_with? "navidrome"
-        ENV["GOPATH"] = "#{buildpath_parent}/go"
-        ENV["NPM_CONFIG_CACHE"] = "#{buildpath_parent}/npm"
+        version_str, sha_str = version.to_s.split("-")
       else
-        ENV["GOPATH"] = "#{buildpath}/.brew_home/go"
-        ENV["NPM_CONFIG_CACHE"] = "#{buildpath}/.brew_home/npm"
+        version_str = "v#{version}"
+        sha_str = "source_archive"
       end
-      # Default GOCACHE: $HOMEBREW_CACHE/go_cache
-      ENV["GOCACHE"] = "#{ENV["GOPATH"]}/go-cache"
-      # BUG: Formula["node"] doen't ensure version installed
-      # ENV.append_path "PATH", Formula["node@xx"].bin.to_s
-      # If not git repo as source, export '-buildvcs=false'
-      ENV["GOFLAGS"] = "-buildvcs=false"
 
       system "make", "setup"
       # https://github.com/navidrome/navidrome/issues/1512
