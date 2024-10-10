@@ -12,7 +12,6 @@ class Dnslookup < Formula
 
     # Warn: build.head doesn't work under "class"
     depends_on "go" => :build
-    depends_on "upx" => :build
   end
 
   option "without-prebuilt", "Skip prebuilt binary and build from source"
@@ -25,7 +24,6 @@ class Dnslookup < Formula
     # url "https://github.com/ameshkov/dnslookup.git", tag: "v#{version}"
 
     depends_on "go" => :build
-    depends_on "upx" => :build
   elsif OS.mac? # && Hardware::CPU.intel?
     url "https://github.com/ameshkov/dnslookup/releases/download/v#{version}/dnslookup-darwin-amd64-v#{version}.tar.gz"
   elsif OS.linux? && Hardware::CPU.intel?
@@ -52,11 +50,6 @@ class Dnslookup < Formula
       system "go", "build", "-ldflags",
         "-X main.VersionString=#{version_str}",
         "-trimpath", "-o", name.to_s
-      # rubocop: disable all
-      if !(OS.mac? && Hardware::CPU.arm?)
-        system "upx", "-9", "-q", name.to_s
-      end
-      # rubocop: enable all
     end
 
     bin.install "dnslookup"

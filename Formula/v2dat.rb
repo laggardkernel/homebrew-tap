@@ -22,8 +22,6 @@ class V2dat < Formula
   end
 
   depends_on "go" => :build
-  # TODO(lk): upx breaks the executable
-  # depends_on "upx" => :build # rubocop: disable all
 
   def install
     # version_str = version.to_s.start_with?("HEAD") ? version.to_s : "v#{version}"
@@ -38,7 +36,6 @@ class V2dat < Formula
 
     mkdir_p "#{buildpath}/release"
     system "go", "build", *std_go_args(ldflags: "-s -w"), "-trimpath", "-o", "release/v2dat", "."
-    # system "upx", "-9", "-q", "v2dat"
     bin.install "release/v2dat"
     prefix.install_metafiles
   end

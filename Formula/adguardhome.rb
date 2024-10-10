@@ -33,7 +33,6 @@ class Adguardhome < Formula
     # Warn: build.head doesn't work under "class"
     depends_on "go" => :build
     depends_on "node" => :build
-    depends_on "upx" => :build
     depends_on "yarn" => :build
   end
 
@@ -49,7 +48,6 @@ class Adguardhome < Formula
     depends_on "go" => :build
     depends_on "node" => :build
     depends_on "yarn" => :build
-    depends_on "upx" => :build
   elsif OS.mac? && Hardware::CPU.arm?
     url "https://github.com/AdguardTeam/AdGuardHome/releases/download/v#{version}/AdGuardHome_darwin_arm64.zip"
   elsif OS.mac? && Hardware::CPU.intel?
@@ -108,7 +106,6 @@ class Adguardhome < Formula
       system "make", "go-deps"
 
       system "make", "CHANNEL=#{channel}", "VERSION=#{version_str}", "go-build"
-      system "upx", "-9", "-q", "AdGuardHome"
     end
 
     # TODO: lowercase?

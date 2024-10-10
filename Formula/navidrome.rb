@@ -22,7 +22,6 @@ class Navidrome < Formula
     depends_on "go@1.21" => :build
     depends_on "node@20" => :build
     depends_on "taglib" => :build
-    depends_on "upx" => :build
   end
 
   option "without-prebuilt", "Skip prebuilt binary and build from source"
@@ -38,7 +37,6 @@ class Navidrome < Formula
     depends_on "go@1.21" => :build
     depends_on "node@18" => :build
     depends_on "taglib" => :build
-    depends_on "upx" => :build
   elsif OS.mac?
     # elsif OS.mac? && Hardware::CPU.intel?
     # TODO: no Mac arm64 prebuilt yet
@@ -78,7 +76,6 @@ class Navidrome < Formula
       # https://github.com/navidrome/navidrome/issues/1512
       system "make", "buildjs"
       system "make", "build"
-      system "upx", "-9", "-q", "navidrome"
     end
 
     bin.install "navidrome"
