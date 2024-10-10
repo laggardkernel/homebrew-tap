@@ -1,10 +1,10 @@
-class Navidrome < Formula
+class NavidromeBin < Formula
   desc "Modern Music Server and Streamer compatible with Subsonic/Airsonic"
   homepage "https://www.navidrome.org/"
   # Check build dependency versions requirement before bumping up the version:
   # - https://github.com/navidrome/navidrome/blob/master/go.mod
   # - https://github.com/navidrome/navidrome/blob/master/.nvmrc
-  version "0.53.2"
+  version "0.53.3"
   license "GPL-3.0"
 
   livecheck do
