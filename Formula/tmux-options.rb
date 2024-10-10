@@ -2,7 +2,7 @@ class TmuxOptions < Formula
   desc "Terminal multiplexer with custom FPS"
   homepage "https://tmux.github.io/"
   # rubocop: disable all
-  version "3.5"
+  version "3.5a"
   url "https://github.com/tmux/tmux/releases/download/#{version}/tmux-#{version}.tar.gz"
   # rubocop: enable all
   license "ISC"
@@ -26,6 +26,7 @@ class TmuxOptions < Formula
   option "with-fps-60", "FPS 60 (otherwise 20)"
 
   depends_on "pkg-config" => :build
+  depends_on "jemalloc"
   depends_on "libevent"
   depends_on "ncurses"
 
@@ -61,6 +62,7 @@ class TmuxOptions < Formula
     system "sh", "autogen.sh" if build.head?
 
     args = %W[
+      --enable-jemalloc
       --enable-sixel
       --sysconfdir=#{etc}
     ]
