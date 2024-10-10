@@ -19,28 +19,26 @@ class Navidrome < Formula
     # url "https://github.com/navidrome/navidrome.git"
 
     # Warn: build.head doesn't work under "class"
-    depends_on "go@1.21" => :build
-    depends_on "node@20" => :build
+    depends_on "go" => :build
+    depends_on "node" => :build
+    depends_on "pkg-config" => :build
     depends_on "taglib" => :build
   end
 
   option "without-prebuilt", "Skip prebuilt binary and build from source"
 
   # sha256: skipped, too complicated
-  if build.without?("prebuilt")
+  if build.without?("prebuilt") || OS.mac?
     # http downloading is quick than git cloning
     url "https://github.com/navidrome/navidrome/archive/refs/tags/v#{version}.tar.gz"
     # Git repo is not cloned into a sub-folder
     # url "https://github.com/navidrome/navidrome.git", tag: "v#{version}"
 
     # The setup is very strict, and the steps below only work with these versions (enforced in the Makefile)
-    depends_on "go@1.21" => :build
-    depends_on "node@18" => :build
+    depends_on "go" => :build
+    depends_on "node" => :build
+    depends_on "pkg-config" => :build
     depends_on "taglib" => :build
-  elsif OS.mac?
-    # elsif OS.mac? && Hardware::CPU.intel?
-    # TODO: no Mac arm64 prebuilt yet
-    url "https://github.com/navidrome/navidrome/releases/download/v#{version}/navidrome_#{version}_darwin_amd64.tar.gz"
   elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is_64_bit?
     url "https://github.com/navidrome/navidrome/releases/download/v#{version}/navidrome_#{version}_linux_amd64.tar.gz"
   elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is_32_bit?
@@ -54,23 +52,32 @@ class Navidrome < Formula
   end
 
   def install
-    if build.without?("prebuilt") || build.head? # || (OS.mac? && Hardware::CPU.arm?)
-      # version_str = version.to_s.start_with?("HEAD") ? version.to_s : "v#{version}"
-
-      buildpath_parent = File.dirname(buildpath)
-      if File.basename(buildpath_parent).start_with? "navidrome"
+    if build.without?("prebuilt") || build.head? || OS.mac?
+      if version.to_s.start_with?("HEAD")
         version_str, sha_str = version.to_s.split("-")
       else
         version_str = "v#{version}"
         sha_str = "source_archive"
       end
 
+      # Delete taglib hardcode introduced in 0.53
+      # https://github.com/navidrome/navidrome/pull/3217
+      f = "scanner/metadata/taglib/taglib_wrapper.go"
+      if File.read(f).include?("#cgo darwin LDFLAGS")
+        inreplace f, /^#cgo darwin LDFLAGS.*$/, ""
+      end
+
       system "make", "setup"
       # https://github.com/navidrome/navidrome/issues/1512
       system "make", "buildjs"
-      system "make", "build"
+      # If not git repo as source, export '-buildvcs=false'
+      system "go", "build", "-trimpath", "-o", "navidrome",
+        "-ldflags",
+        "-X github.com/navidrome/navidrome/consts.gitTag=#{version_str} -X github.com/navidrome/navidrome/consts.gitSha=#{sha_str}",
+        "-buildvcs=false"
     end
 
+    # *std_go_args install and rename executable may raise "empty installation" error
     bin.install "navidrome"
     prefix.install_metafiles
 
@@ -121,6 +128,15 @@ class Navidrome < Formula
   end
 
   test do
-    system bin/"navidrome", "--help"
+    assert_equal "#{version} (source_archive)", shell_output("#{bin}/navidrome --version").chomp
+    port = free_port
+    pid = fork do
+      exec bin/"navidrome", "--port", port.to_s
+    end
+    sleep 15
+    assert_equal ".", shell_output("curl http://localhost:#{port}/ping")
+  ensure
+    Process.kill "TERM", pid
+    Process.wait pid
   end
 end
