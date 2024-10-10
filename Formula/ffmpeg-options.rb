@@ -2,7 +2,7 @@ class FfmpegOptions < Formula
   desc "Play, record, convert, and stream audio and video"
   homepage "https://ffmpeg.org/"
   # rubocop: disable all
-  version "7.0.2"
+  version "7.1"
   url "https://ffmpeg.org/releases/ffmpeg-#{version}.tar.xz"
   # rubocop: enable all
   # None of these parts are used by default, you have to explicitly pass `--enable-gp>
