@@ -25,6 +25,8 @@ class TmuxOptions < Formula
 
   option "with-fps-60", "FPS 60 (otherwise 20)"
 
+  conflicts_with "tmux", because: "they are variants of the same package"
+
   depends_on "pkg-config" => :build
   depends_on "jemalloc"
   depends_on "libevent"

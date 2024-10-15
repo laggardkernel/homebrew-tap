@@ -32,6 +32,8 @@ class FortuneZh < Formula
   # rubocop: enable all
   # mirror ""  # link contains hash, don't wanna update it manually
 
+  conflicts_with "fortune", because: "they are variants of the same package"
+
   livecheck do
     datfile_version = VersionFetcher.new.version.to_s
     url "https://www.ibiblio.org/pub/linux/games/amusements/fortune/"

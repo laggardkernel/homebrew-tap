@@ -13,7 +13,7 @@ class EzaBin < Formula
     end
   end
 
-  conflicts_with "eza", because: "they are variants of the same formula"
+  conflicts_with "eza", because: "they are variants of the same package"
 
   if OS.mac? && Hardware::CPU.arm?
     url "https://github.com/cargo-bins/cargo-quickinstall/releases/download/eza-#{version}/eza-#{version}-aarch64-apple-darwin.tar.gz"

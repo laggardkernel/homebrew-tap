@@ -27,6 +27,8 @@ class NavidromeBin < Formula
 
   option "without-prebuilt", "Skip prebuilt binary and build from source"
 
+  conflicts_with "navidrome", because: "they are variants of the same package"
+
   # sha256: skipped, too complicated
   if build.without?("prebuilt") || OS.mac?
     # http downloading is quick than git cloning

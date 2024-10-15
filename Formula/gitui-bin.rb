@@ -7,6 +7,8 @@ class GituiBin < Formula
 
   option "without-prebuilt", "Skip prebuilt binary and build from source"
 
+  conflicts_with "gitui", because: "they are variants of the same package"
+
   if build.without?("prebuilt")
     url "https://github.com/extrawurst/gitui/archive/v#{version}.tar.gz" # rubocop: disable all
     depends_on "rust" => :build

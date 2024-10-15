@@ -23,7 +23,7 @@ class LuaLanguageServerBin < Formula
 
   option "without-prebuilt", "Skip prebuilt binary and build from source"
 
-  conflicts_with "lua-language-server", because: "they are variants of the same formula"
+  conflicts_with "lua-language-server", because: "they are variants of the same package"
 
   if build.without?("prebuilt")
     url "https://github.com/sumneko/lua-language-server.git", tag: version.to_s

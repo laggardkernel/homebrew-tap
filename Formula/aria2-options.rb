@@ -19,6 +19,8 @@ class Aria2Options < Formula
   option "with-openssl", "Build with openssl support"
   option "with-gnutls", "Build with gnutls support"
 
+  conflicts_with "aria2", because: "they are variants of the same package"
+
   if build.with?("gnutls") || build.with?("openssl")
     # https://github.com/macports/macports-ports/commit/fc9881bfc1ac70283f273272f5263fe70ec2d509
     patch :DATA

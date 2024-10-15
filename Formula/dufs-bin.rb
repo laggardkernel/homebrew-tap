@@ -6,6 +6,8 @@ class DufsBin < Formula
 
   option "without-prebuilt", "Skip prebuilt binary and build from source"
 
+  conflicts_with "dufs", because: "they are variants of the same package"
+
   if build.without?("prebuilt")
     url "https://github.com/sigoden/dufs/archive/v#{version}.tar.gz" # rubocop: disable all
     depends_on "rust" => :build

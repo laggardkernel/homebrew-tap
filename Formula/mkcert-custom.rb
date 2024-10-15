@@ -13,6 +13,8 @@ class MkcertCustom < Formula
 
   depends_on "go" => :build
 
+  conflicts_with "mkcert", because: "they are variants of the same package"
+
   patch do
     url "https://github.com/FiloSottile/mkcert/pull/505.patch"
   end

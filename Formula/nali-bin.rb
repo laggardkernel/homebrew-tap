@@ -16,6 +16,8 @@ class NaliBin < Formula
 
   option "without-prebuilt", "Skip prebuilt binary and build from source"
 
+  conflicts_with "nali", because: "they are variants of the same package"
+
   if build.without?("prebuilt")
     # http downloading is quick than git cloning
     url "https://github.com/zu1k/nali/archive/refs/tags/v#{version}.tar.gz"

@@ -6,6 +6,8 @@ class SingBoxBin < Formula
 
   option "without-prebuilt", "Skip prebuilt binary and build from source"
 
+  conflicts_with "sing-box", because: "they are variants of the same package"
+
   if build.without?("prebuilt")
     # http downloading is quick than git cloning
     # using `:homebrew_curl` to work around audit failure from TLS 1.3-only homepage
