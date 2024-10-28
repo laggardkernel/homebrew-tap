@@ -1,12 +1,14 @@
 class EzaBin < Formula
   desc "Modern, maintained replacement for ls"
   homepage "https://github.com/eza-community/eza"
-  version "0.20.2"
+  version "0.20.5"
   resource_version=version.to_s
   license "EUPL-1.2"
 
   livecheck do
-    url :stable
+    # rubocop: disable all
+    url "https://github.com/cargo-bins/cargo-quickinstall/releases?q=eza&expanded=true"
+    # rubocop: enable all
     regex(%r{href=".*?/releases/tag/(eza-)?v?(\d+(?:\.\d+)+)"}i)
     strategy :page_match do |page, regex|
       page.scan(regex).flatten.uniq.sort
@@ -47,8 +49,8 @@ class EzaBin < Formula
     end
 
     resource("man").stage do
-      man1.install Dir["**/*.1"]
-      man5.install Dir["**/*.5"]
+      man1.install Dir["man-*/**/*.1"]
+      man5.install Dir["man-*/**/*.5"]
     end
   end
 
