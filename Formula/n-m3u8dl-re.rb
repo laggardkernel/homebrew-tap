@@ -1,7 +1,7 @@
 class NM3u8dlRe < Formula
   desc "Cross-Platform stream downloader for DASH/HLS"
   homepage "https://github.com/nilaoda/N_m3u8DL-RE"
-  version "0.2.1-beta,20240828"
+  version "0.3.0-beta,20241203"
   license "MIT"
 
   livecheck do
@@ -14,13 +14,13 @@ class NM3u8dlRe < Formula
   end
 
   if OS.mac? && Hardware::CPU.arm?
-    url "https://github.com/nilaoda/N_m3u8DL-RE/releases/download/v#{version.to_s.split(",").first}/N_m3u8DL-RE_Beta_osx-arm64_#{version.to_s.split(",").second}.tar.gz"
+    url "https://github.com/nilaoda/N_m3u8DL-RE/releases/download/v#{version.to_s.split(",").first}/N_m3u8DL-RE_v#{version.to_s.split(",").first}_osx-arm64_#{version.to_s.split(",").second}.tar.gz"
   elsif OS.mac? && Hardware::CPU.intel?
-    url "https://github.com/nilaoda/N_m3u8DL-RE/releases/download/v#{version.to_s.split(",").first}/N_m3u8DL-RE_Beta_osx-x64_#{version.to_s.split(",").second}.tar.gz"
+    url "https://github.com/nilaoda/N_m3u8DL-RE/releases/download/v#{version.to_s.split(",").first}/N_m3u8DL-RE_v#{version.to_s.split(",").first}_osx-x64_#{version.to_s.split(",").second}.tar.gz"
   elsif OS.linux? && Hardware::CPU.intel?
-    url "https://github.com/nilaoda/N_m3u8DL-RE/releases/download/v#{version.to_s.split(",").first}/N_m3u8DL-RE_Beta_linux-x64_#{version.to_s.split(",").second}.tar.gz"
+    url "https://github.com/nilaoda/N_m3u8DL-RE/releases/download/v#{version.to_s.split(",").first}/N_m3u8DL-RE_v#{version.to_s.split(",").first}_linux-x64_#{version.to_s.split(",").second}.tar.gz"
   elsif OS.linux? && Hardware::CPU.arm?
-    url "https://github.com/nilaoda/N_m3u8DL-RE/releases/download/v#{version.to_s.split(",").first}/N_m3u8DL-RE_Beta_linux-arm64_#{version.to_s.split(",").second}.tar.gz"
+    url "https://github.com/nilaoda/N_m3u8DL-RE/releases/download/v#{version.to_s.split(",").first}/N_m3u8DL-RE_v#{version.to_s.split(",").first}_linux-arm64_#{version.to_s.split(",").second}.tar.gz"
   end
 
   def bin_name
