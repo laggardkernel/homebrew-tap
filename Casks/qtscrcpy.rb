@@ -8,11 +8,11 @@ cask "qtscrcpy" do
   homepage "https://github.com/barry-ran/QtScrcpy"
 
   auto_updates false
-  depends_on arch: :intel
+  # depends_on arch: :intel
 
   app "QtScrcpy.app"
 
-  uninstall quit: "rankun.QtScrcpy.savedState"
+  uninstall quit: "rankun.QtScrcpy"
 
   zap trash: "~/Library/Saved Application State/rankun.QtScrcpy.savedState"
 end
