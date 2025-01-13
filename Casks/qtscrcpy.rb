@@ -1,14 +1,18 @@
 cask "qtscrcpy" do
-  version "3.0.1"
+  version "3.1.0"
 
-  url "https://github.com/barry-ran/QtScrcpy/releases/download/v#{version}/QtScrcpy-mac-x64-v#{version}.dmg",
-      verified: "github.com/barry-ran/QtScrcpy/"
+  on_arm do
+    url "https://github.com/barry-ran/QtScrcpy/releases/download/v#{version}/QtScrcpy-mac-arm64-qt6.zip.zip"
+  end
+  on_intel do
+    url "https://github.com/barry-ran/QtScrcpy/releases/download/v#{version}/QtScrcpy-mac-x64-dev.dmg"
+  end
+
   name "QtScrcpy"
   desc "Android real-time display control software"
   homepage "https://github.com/barry-ran/QtScrcpy"
 
   auto_updates false
-  # depends_on arch: :intel
 
   app "QtScrcpy.app"
 
