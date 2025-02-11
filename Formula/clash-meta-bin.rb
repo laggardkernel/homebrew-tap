@@ -4,6 +4,7 @@ class ClashMetaBin < Formula
   homepage "https://github.com/MetaCubeX/mihomo"
   version "1.19.1"
   license "GPL-3.0"
+  revision 1
 
   livecheck do
     url "https://github.com/MetaCubeX/mihomo/releases" # rubocop: disable all
@@ -31,21 +32,29 @@ class ClashMetaBin < Formula
     url "https://github.com/MetaCubeX/mihomo/releases/download/v#{version}/mihomo-linux-armv7-v#{version}.gz"
   end
 
+  resource "zashboard" do
+    # url: https://board.zash.run.place/
+    # folder: dist.zip
+    # rubocop: disable all
+    url "https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip"
+    # rubocop: enable all
+  end
+
   resource "metacubexd" do
-    # url: http://d.metacubex.one/, ~~https://metacubex.github.io/metacubexd~~
+    # url: https://d.metacubex.one/, ~~https://metacubex.github.io/metacubexd~~
     # folder: compressed-dist.tgz
     url "https://github.com/MetaCubeX/metacubexd/releases/latest/download/compressed-dist.tgz"
   end
 
   # resource will auto unpacked
   resource "clash-dashboard" do
-    # url: http://clash.metacubex.one/, https://metacubex.github.io/Razord-meta
+    # url: https://clash.metacubex.one/, https://metacubex.github.io/Razord-meta
     # folder: Razord-meta-gh-pages.tar.gz
     url "https://github.com/MetaCubeX/Razord-meta/archive/gh-pages.tar.gz" # rubocop: disable all
   end
 
   resource "yacd" do
-    # url: http://yacd.metacubex.one/, https://metacubex.github.io/Yacd-meta
+    # url: https://yacd.metacubex.one/, https://metacubex.github.io/Yacd-meta
     # folder: Yacd-meta-gh-pages.tar.gz
     url "https://github.com/MetaCubeX/Yacd-meta/archive/gh-pages.tar.gz" # rubocop: disable all
   end
@@ -63,14 +72,10 @@ class ClashMetaBin < Formula
     # Dashboards, one copy saved into share
     share_dst = "#{share}/clash-meta"
     mkdir_p share_dst.to_s
-    resource("metacubexd").stage do
-      cp_r ".", "#{share_dst}/metacubexd"
-    end
-    resource("clash-dashboard").stage do
-      cp_r ".", "#{share_dst}/clash-dashboard"
-    end
-    resource("yacd").stage do
-      cp_r ".", "#{share_dst}/yacd"
+    %w[zashboard metacubexd clash-dashboard yacd].each do |name|
+      resource(name).stage do
+        cp_r ".", "#{share_dst}/#{name}"
+      end
     end
     resource("mmdb").stage do
       cp "Country.mmdb", "#{share_dst}/"
@@ -82,12 +87,7 @@ class ClashMetaBin < Formula
 
     Dir.chdir(etc_temp.to_s) do
       config_path = etc/"clash-meta"
-      [
-        "metacubexd",
-        "clash-dashboard",
-        "yacd",
-        "Country.mmdb",
-      ].each do |dst|
+      %w[zashboard metacubexd clash-dashboard yacd Country.mmdb].each do |dst|
         # Skip saving as *.default, overwrite existing dashboards directly
         # dst_default = config_path/"#{dst}.default"
         # rm dst_default if dst_default.exist?

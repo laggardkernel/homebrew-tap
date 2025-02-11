@@ -68,11 +68,10 @@ class ClashPremium < Formula
     # Dashboards, one copy saved into share
     share_dst = "#{share}/clash-premium"
     mkdir_p share_dst.to_s
-    resource("clash-dashboard").stage do
-      cp_r ".", "#{share_dst}/clash-dashboard"
-    end
-    resource("yacd").stage do
-      cp_r ".", "#{share_dst}/yacd"
+    %w[clash-dashboard yacd].each do |name|
+      resource(name).stage do
+        cp_r ".", "#{share_dst}/#{name}"
+      end
     end
     resource("mmdb").stage do
       cp "Country.mmdb", "#{share_dst}/"
@@ -84,11 +83,7 @@ class ClashPremium < Formula
 
     Dir.chdir(etc_temp.to_s) do
       config_path = etc/"clash-premium"
-      [
-        "clash-dashboard",
-        "yacd",
-        "Country.mmdb",
-      ].each do |dst|
+      %w[clash-dashboard yacd Country.mmdb].each do |dst|
         # Skip saving as *.default, overwrite existing dashboards directly
         # dst_default = config_path/"#{dst}.default"
         # rm dst_default if dst_default.exist?
