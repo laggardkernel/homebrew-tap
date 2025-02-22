@@ -1,11 +1,11 @@
 cask "qtscrcpy" do
-  version "3.1.0"
+  version "3.1.2"
 
   on_arm do
-    url "https://github.com/barry-ran/QtScrcpy/releases/download/v#{version}/QtScrcpy-mac-arm64-qt6.zip.zip"
+    url "https://github.com/barry-ran/QtScrcpy/releases/download/v#{version}/QtScrcpy-mac-arm64-Qt6.5.3-v#{version}.dmg"
   end
   on_intel do
-    url "https://github.com/barry-ran/QtScrcpy/releases/download/v#{version}/QtScrcpy-mac-x64-dev.dmg"
+    url "https://github.com/barry-ran/QtScrcpy/releases/download/v#{version}/QtScrcpy-mac-x64-Qt5.15.2-v#{version}.dmg"
   end
 
   name "QtScrcpy"

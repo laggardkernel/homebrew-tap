@@ -4,7 +4,7 @@ class NavidromeBin < Formula
   # Check build dependency versions requirement before bumping up the version:
   # - https://github.com/navidrome/navidrome/blob/master/go.mod
   # - https://github.com/navidrome/navidrome/blob/master/.nvmrc
-  version "0.54.4"
+  version "0.54.5"
   license "GPL-3.0"
 
   livecheck do
