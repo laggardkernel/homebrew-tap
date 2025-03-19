@@ -1,5 +1,5 @@
 cask "doubao" do
-  version "1.47.4"
+  version "1.48.7"
 
   # .dmg from webpage download, .zip from check update API.
   # url "https://lf-flow-web-cdn.doubao.com/obj/flow-doubao/doubao_pc/#{version}/Doubao_universal_#{version}.dmg"
