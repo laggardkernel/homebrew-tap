@@ -1,13 +1,13 @@
 class FfmpegStatic < Formula
   desc "Ffmpeg static build" # rubocop: disable all
   homepage "https://osxexperts.net"
-  version "7.1"
+  version "7.1.1"
   version_str = version.to_s
   version_without_dot = version.to_s.delete(".").gsub(/0+$/, "")
 
   # Use arm build from osxexperts, intel build from evermeet.
   arch = Hardware::CPU.intel? ? "intel" : "arm"
-  if OS.mac? # && Hardware::CPU.arm?
+  if OS.mac? && Hardware::CPU.arm?
     homepage "https://osxexperts.net/"
     url "https://www.osxexperts.net/ffmpeg#{version_without_dot}#{arch}.zip"
 
