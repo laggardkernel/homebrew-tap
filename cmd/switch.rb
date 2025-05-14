@@ -1,63 +1,61 @@
 # typed: true
 # frozen_string_literal: true
 
+require "abstract_command"
 require "formula"
 require "keg"
-require "cli/parser"
 
 module Homebrew
-  module_function
+  module DevCmd
+    class Switch < AbstractCommand
+      cmd_args do
+        description <<~EOS
+          `switch` <formula> <version>
 
-  sig { returns(CLI::Parser) }
-  def switch_args
-    Homebrew::CLI::Parser.new do
-      usage_banner <<~EOS
-        `switch` <formula> <version>
+          Symlink all of the specified <version> of <formula>'s installation into Homebrew's prefix.
+        EOS
 
-        Symlink all of the specified <version> of <formula>'s installation into Homebrew's prefix.
-      EOS
+        named_args number: 2
+        hide_from_man_page!
+      end
 
-      named_args number: 2
-      hide_from_man_page!
-    end
-  end
+      sig { override.void }
+      def run
+        name = args.named.first
+        rack = Formulary.to_rack(name)
 
-  def switch
-    args = switch_args.parse
+        odie "#{name} not found in the Cellar." unless rack.directory?
 
-    name = args.named.first
-    rack = Formulary.to_rack(name)
+        # odeprecated "`brew switch`", "`brew link` @-versioned formulae"
 
-    odie "#{name} not found in the Cellar." unless rack.directory?
+        versions = rack.subdirs
+                      .map { |d| Keg.new(d).version }
+                      .sort
+                      .join(", ")
+        version = args.named.second
 
-    # odeprecated "`brew switch`", "`brew link` @-versioned formulae"
+        odie <<~EOS unless (rack/version).directory?
+          #{name} does not have a version "#{version}" in the Cellar.
+          #{name}'s installed versions: #{versions}
+        EOS
 
-    versions = rack.subdirs
-                   .map { |d| Keg.new(d).version }
-                   .sort
-                   .join(", ")
-    version = args.named.second
+        # Unlink all existing versions
+        rack.subdirs.each do |v|
+          keg = Keg.new(v)
+          puts "Cleaning #{keg}"
+          keg.unlink
+        end
 
-    odie <<~EOS unless (rack/version).directory?
-      #{name} does not have a version "#{version}" in the Cellar.
-      #{name}'s installed versions: #{versions}
-    EOS
+        keg = Keg.new(rack/version)
 
-    # Unlink all existing versions
-    rack.subdirs.each do |v|
-      keg = Keg.new(v)
-      puts "Cleaning #{keg}"
-      keg.unlink
-    end
-
-    keg = Keg.new(rack/version)
-
-    # Link new version, if not keg-only
-    if Formulary.keg_only?(rack)
-      keg.optlink(verbose: args.verbose?)
-      puts "Opt link created for #{keg}"
-    else
-      puts "#{keg.link} links created for #{keg}"
+        # Link new version, if not keg-only
+        if Formulary.keg_only?(rack)
+          keg.optlink(verbose: args.verbose?)
+          puts "Opt link created for #{keg}"
+        else
+          puts "#{keg.link} links created for #{keg}"
+        end
+      end
     end
   end
 end
