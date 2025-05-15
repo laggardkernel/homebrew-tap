@@ -4,7 +4,8 @@ cask "iina-versioned" do
   version "1.3.0,131" # force filename but not video title
   sha256 "b50c416828005e1eec0dc8066c961efcc389e6be1a5a595541ea62d48d31a391"
 
-  url "https://dl-portal.iina.io/IINA.v#{version.csv.first}.dmg"
+  # url "https://dl-portal.iina.io/IINA.v#{version.csv.first}.dmg"
+  url "https://github.com/iina/iina/releases/download/v#{version.csv.first}/IINA.v#{version.csv.first}.dmg"
   name "IINA"
   desc "Free and open-source media player"
   homepage "https://iina.io/"
