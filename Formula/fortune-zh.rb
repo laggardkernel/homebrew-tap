@@ -28,6 +28,7 @@ class FortuneZh < Formula
   homepage "https://www.ibiblio.org/pub/linux/games/amusements/fortune/!INDEX.html"
   # rubocop: disable all
   version "9708,000fb01"
+  revision 1
   url "https://www.ibiblio.org/pub/linux/games/amusements/fortune/fortune-mod-#{version.to_s.split(",").first}.tar.gz"
   # rubocop: enable all
   # mirror ""  # link contains hash, don't wanna update it manually
@@ -68,6 +69,12 @@ class FortuneZh < Formula
 
       # macOS only supports POSIX regexes
       s.change_make_var! "REGEXDEFS", "-DHAVE_REGEX_H -DPOSIX_REGEX"
+    end
+
+    %w[unstr.c rot.c].each do |f|
+      inreplace "util/#{f}" do |s|
+        s.gsub!(/#include\s+<stdio\.h>/, "#include <stdio.h>\n#include <stdlib.h>")
+      end
     end
 
     system "make", "install"
