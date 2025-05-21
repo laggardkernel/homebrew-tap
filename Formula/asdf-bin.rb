@@ -2,8 +2,8 @@ class AsdfBin < Formula
   desc "Extendable version manager with support for Ruby, Node.js, Erlang & more"
   homepage "https://asdf-vm.com/"
   version "0.17.0"
-  resource_version=version.to_s
   license "MIT"
+  revision 1
 
   livecheck do
     url :stable
@@ -18,16 +18,22 @@ class AsdfBin < Formula
     url "https://github.com/asdf-vm/asdf/releases/download/v#{version}/asdf-v#{version}-darwin-amd64.tar.gz"
   end
 
-  resource "source" do
-    url "https://github.com/asdf-vm/asdf/archive/refs/tags/v#{resource_version}.tar.gz"
-  end
-
   def install
     bin.install "asdf"
     generate_completions_from_executable(bin/"asdf", "completion")
-    resource("source").stage do
-      libexec.install Dir["asdf.*"]
-    end
+  end
+
+  def caveats
+    <<~EOS
+      asdf has been completely rewritten in Go as of version 0.16.0.
+      Manual sourcing file like asdf.sh or asdf.fish, is no longer required to
+      activate asdf. Cuz 'asdf shell' command has been removed.
+
+      For details on the changes and migration steps, see:
+
+      - https://asdf-vm.com/guide/upgrading-to-v0-16.html
+      - https://asdf-vm.com/guide/getting-started.html
+    EOS
   end
 
   test do
