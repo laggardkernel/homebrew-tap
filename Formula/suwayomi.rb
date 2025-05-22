@@ -2,7 +2,7 @@ class Suwayomi < Formula
   desc "Rewrite of Tachiyomi for the Desktop"
   homepage "https://github.com/Suwayomi/Suwayomi-Server"
   # rubocop: disable all
-  version "1.1.1-r1535"
+  version "2.0.1727"
   url "https://github.com/Suwayomi/Suwayomi-Server/releases/download/v#{version.to_s.split("-").first}/Suwayomi-Server-v#{version}.jar"
   # rubocop: enable all
   license "MPL-2.0"
@@ -45,7 +45,7 @@ class Suwayomi < Formula
 
   def caveats
     <<~EOS
-      Suwayomi-Server depends on Java 8+. Please install an available JDK manually.
+      Suwayomi-Server depends on Java 21+. Please install an available JDK manually.
       Note: Suwayomi-Server listens at 0.0.0.0:4567 by default.
       Default settings is generated automatically at first run into
         ~/Library/Application Support/Tachidesk/server.conf
