@@ -8,12 +8,8 @@ class Suwayomi < Formula
   license "MPL-2.0"
 
   livecheck do
-    url "https://github.com/Suwayomi/Suwayomi-Server/releases"
-    # Assets list is too long, .jar is hidden in folded "Show all * assets"
-    regex(%r{href="[^"]+?/releases/download/[^/]+/Suwayomi-Server-v?(\d+(?:\.\d+)+-?[^">]*?)-mac[^"]+["' >]}i)
-    strategy :page_match do |page|
-      page.scan(regex).map { |match| match&.first }
-    end
+    url :stable
+    strategy :github_latest
   end
 
   def pkg_name

@@ -6,7 +6,7 @@ class LicenseBin < Formula
   head "https://github.com/nishanths/license.git"
 
   livecheck do
-    url :url
+    url :stable
     strategy :github_latest
   end
 
