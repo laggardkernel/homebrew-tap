@@ -4,7 +4,7 @@ class UnblockNeteaseMusic < Formula
   # homepage "https://github.com/1715173329/UnblockNeteaseMusic"
   homepage "https://github.com/UnblockNeteaseMusic/server"
   # rubocop: disable all
-  version "0.27.8-patch.1"
+  version "0.27.9"
   url "https://github.com/UnblockNeteaseMusic/server/archive/refs/tags/v#{version}.tar.gz"
   # rubocop: enable all
   license "MIT"
