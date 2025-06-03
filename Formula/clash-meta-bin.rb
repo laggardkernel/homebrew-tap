@@ -4,6 +4,7 @@ class ClashMetaBin < Formula
   homepage "https://github.com/MetaCubeX/mihomo"
   version "1.19.9"
   license "GPL-3.0"
+  revision 1
 
   livecheck do
     url "https://github.com/MetaCubeX/mihomo/releases" # rubocop: disable all
@@ -61,7 +62,8 @@ class ClashMetaBin < Formula
   resource "mmdb" do
     # Alternative: alecthw/mmdb_china_ip_list, which has global support
     # url "https://cdn.jsdelivr.net/gh/alecthw/mmdb_china_ip_list@release/Country.mmdb"
-    url "https://cdn.jsdelivr.net/gh/Hackl0us/GeoIP2-CN@release/Country.mmdb"
+    # url "https://cdn.jsdelivr.net/gh/Hackl0us/GeoIP2-CN@release/Country.mmdb"
+    url "https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/Country-without-asn.mmdb"
   end
 
   def install
@@ -77,7 +79,7 @@ class ClashMetaBin < Formula
       end
     end
     resource("mmdb").stage do
-      cp "Country.mmdb", "#{share_dst}/"
+      cp Dir.glob("Country*.mmdb")[0], "#{share_dst}/Country.mmdb"
     end
 
     # Another copy of the dashboard, to be installed into etc later

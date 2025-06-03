@@ -4,7 +4,8 @@ class ClashRedir < Formula
   homepage "https://github.com/Dreamacro/clash/releases/tag/premium"
   version "2023.01.29"
   license "GPL-3.0"
-  revision 3
+  revision 4
+
   livecheck do
     skip "Legacy version, last with 'redir-host' and works for Mojave"
   end
@@ -42,7 +43,8 @@ class ClashRedir < Formula
   resource "mmdb" do
     # Alternative: alecthw/mmdb_china_ip_list, which has global support
     # url "https://cdn.jsdelivr.net/gh/alecthw/mmdb_china_ip_list@release/Country.mmdb"
-    url "https://cdn.jsdelivr.net/gh/Hackl0us/GeoIP2-CN@release/Country.mmdb"
+    # url "https://cdn.jsdelivr.net/gh/Hackl0us/GeoIP2-CN@release/Country.mmdb"
+    url "https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/Country-without-asn.mmdb"
   end
 
   def install
@@ -58,7 +60,7 @@ class ClashRedir < Formula
       end
     end
     resource("mmdb").stage do
-      cp "Country.mmdb", "#{share_dst}/"
+      cp Dir.glob("Country*.mmdb")[0], "#{share_dst}/Country.mmdb"
     end
 
     # Another copy of the dashboard, to be installed into etc later

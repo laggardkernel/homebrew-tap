@@ -35,19 +35,13 @@ class Mosdns < Formula
     url "https://github.com/IrineSistiana/mosdns/releases/download/v#{version}/mosdns-linux-arm64.zip"
   end
 
-  # resource "china_ip_list.txt" do
-  #   url "https://raw.githubusercontent.com/17mon/china_ip_list/master/china_ip_list.txt"
-  # end
-  resource "CN-ip-cidr.txt" do
-    url "https://cdn.jsdelivr.net/gh/Hackl0us/GeoIP2-CN@release/CN-ip-cidr.txt"
-  end
-
   resource "geoip.dat" do
-    url "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat"
+    # url "https://raw.githubusercontent.com/17mon/china_ip_list/master/china_ip_list.txt"
+    url "https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/geoip.dat"
   end
 
   resource "geosite.dat" do
-    url "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat"
+    url "https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/geosite.dat"
   end
 
   def install
@@ -76,7 +70,7 @@ class Mosdns < Formula
     etc_temp = "#{buildpath}/etc_temp"
     mkdir_p "#{etc_temp}/builtin-data"
     cp_r "#{share_dst}/.", etc_temp
-    ["CN-ip-cidr.txt", "geoip.dat", "geosite.dat"].each do |f|
+    ["geoip.dat", "geosite.dat"].each do |f|
       resource(f).stage do
         cp f, "#{etc_temp}/builtin-data/"
       end

@@ -31,11 +31,11 @@ class MosdnsAT3 < Formula
   end
 
   resource "geoip.dat" do
-    url "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat"
+    url "https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/geoip.dat"
   end
 
   resource "geosite.dat" do
-    url "https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat"
+    url "https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/geosite.dat"
   end
 
   def install

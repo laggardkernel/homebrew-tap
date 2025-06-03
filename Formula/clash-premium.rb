@@ -2,7 +2,8 @@ class ClashPremium < Formula
   desc "Rule-based tunnel in Go, the pre-built premium version"
   homepage "https://github.com/Dreamacro/clash/releases/tag/premium"
   license "GPL-3.0"
-  revision 3
+  revision 4
+
   on_catalina :or_newer do
     version "2023.08.17"  # rubocop: disable all
     livecheck do
@@ -58,7 +59,8 @@ class ClashPremium < Formula
   resource "mmdb" do
     # Alternative: alecthw/mmdb_china_ip_list, which has global support
     # url "https://cdn.jsdelivr.net/gh/alecthw/mmdb_china_ip_list@release/Country.mmdb"
-    url "https://cdn.jsdelivr.net/gh/Hackl0us/GeoIP2-CN@release/Country.mmdb"
+    # url "https://cdn.jsdelivr.net/gh/Hackl0us/GeoIP2-CN@release/Country.mmdb"
+    url "https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/Country-without-asn.mmdb"
   end
 
   def install
@@ -74,7 +76,7 @@ class ClashPremium < Formula
       end
     end
     resource("mmdb").stage do
-      cp "Country.mmdb", "#{share_dst}/"
+      cp Dir.glob("Country*.mmdb")[0], "#{share_dst}/Country.mmdb"
     end
 
     # Another copy of the dashboard, to be installed into etc later
