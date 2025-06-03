@@ -93,6 +93,23 @@ class MosdnsAT4 < Formula
   def post_install
     (var/"log/mosdns@4").mkpath
     chmod 0755, var/"log/mosdns@4"
+
+    Dir.chdir(etc/"mosdns/builtin-data") do
+      system(
+        prefix/"bin/mosdns4",
+        "v2dat",
+        "unpack-domain",
+        "-o", ".",
+        "geosite.dat:apple-cn,google-cn,gfw"
+      )
+      system(
+        prefix/"bin/mosdns4",
+        "v2dat",
+        "unpack-ip",
+        "-o", ".",
+        "geoip.dat:cn"
+      )
+    end
   end
 
   def caveats
