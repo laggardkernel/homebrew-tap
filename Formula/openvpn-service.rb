@@ -7,7 +7,7 @@ class OpenvpnService < Formula
   # rubocop: enable all
 
   livecheck do
-    skip "Plist service, no version needed"
+    skip "Plist service, no livecheck needed"
   end
 
   depends_on "openvpn"
@@ -20,6 +20,14 @@ class OpenvpnService < Formula
   def post_install
     (var/"log/openvpn").mkpath
     chmod 0755, var/"log/openvpn"
+  end
+
+  def caveats
+    <<~EOS
+      If the service is started with `sudo brew services`. Run `brew fix-perm`
+      to fix the broken file perms after services started.
+        sudo brew services start openvpn-service; brew fix-perm all
+    EOS
   end
 
   service do
