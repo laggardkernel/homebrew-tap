@@ -1,9 +1,9 @@
 class AsdfBin < Formula
   desc "Extendable version manager with support for Ruby, Node.js, Erlang & more"
   homepage "https://asdf-vm.com/"
-  version "0.17.0"
+  version "0.18.0"
   license "MIT"
-  revision 1
+  revision 0
 
   livecheck do
     url :stable
