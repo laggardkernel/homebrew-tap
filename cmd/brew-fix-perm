@@ -77,14 +77,14 @@ function fix {
     formulae=("$@")
   fi
 
-  if (( ${#formulae[@]} )); then
-    if ! sudo -v; then
-      echo "Unable to run as superuser"
-      return 1
-    fi
-  else
+  if ! (( ${#formulae[@]} )); then
     echo "No broken formula is found"
     return 0
+  fi
+  echo "Requesting root permission to run 'fix-perm' ..."
+  if ! sudo -v; then
+    echo "Unable to run as root"
+    return 1
   fi
 
   for formula in "${formulae[@]}"; do
