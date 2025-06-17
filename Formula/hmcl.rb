@@ -3,8 +3,8 @@ class Hmcl < Formula
   homepage "https://hmcl.huangyuhui.net/"
   # https://github.com/huanghongxun/HMCL
   # rubocop: disable all
-  version "3.6.12.280"
-  url "https://github.com/huanghongxun/HMCL/releases/download/v#{version}/HMCL-#{version}.jar"
+  version "3.6.12"
+  url "https://github.com/HMCL-dev/HMCL/releases/download/release-#{version}/HMCL-#{version}.jar"
   # WARN: network quality of the ci site is unreliable, fetch releases from
   # github-actions instead.
   # url "https://ci.huangyuhui.net/job/HMCL/#{version.to_s.split(".").last}/artifact/HMCL/build/libs/HMCL-#{version}.jar"
@@ -12,13 +12,14 @@ class Hmcl < Formula
   license "GPL-3.0"
 
   livecheck do
-    url "https://github.com/huanghongxun/HMCL/releases"
-    # url "https://ci.huangyuhui.net/job/HMCL/"
+    url "https://github.com/HMCL-dev/HMCL/releases"
+    strategy :github_releases
     # assets content is loaded by javascript, match tag link
-    regex(%r{href=.*?HMCL/releases/tag/v?(\d+(?:\.\d+)*)[^"]*}i)
-    strategy :page_match do |page, regex|
-      page.scan(regex).map { |match| match&.first }
-    end
+    # regex(%r{href=.*?HMCL/releases/tag/v?(\d+(?:\.\d+)*)[^"]*}i)
+    # strategy :page_match do |page, regex|
+    #   page.scan(regex).map { |match| match&.first }
+    # end
+    # url "https://ci.huangyuhui.net/job/HMCL/"
   end
 
   def pkg_name
@@ -37,7 +38,7 @@ class Hmcl < Formula
     (buildpath/bin_name.downcase.to_s).write <<~EOS
       #!/bin/sh
       # No support to specify working directory with command line options.
-      #  Just 'cd' into it. https://github.com/huanghongxun/HMCL/issues/317
+      #  Just 'cd' into it. https://github.com/HMCL-dev/HMCL/issues/317
       cd "$HOME" && \\
       java -jar "#{share}/#{pkg_name}/#{bin_name}.jar" "$@"
     EOS
@@ -48,7 +49,7 @@ class Hmcl < Formula
 
   def caveats
     <<~EOS
-      https://github.com/huanghongxun/HMCL
+      https://github.com/HMCL-dev/HMCL
 
       Hello Minecraft! Launcher (HMLC) depends on Java with JavaFX support.
       Make sure you have Java installed with JavaFX 8 at least.
