@@ -29,8 +29,8 @@ class UnblockNeteaseMusic < Formula
   depends_on "corepack" => :build
   depends_on "node"
   # Default yarn cache dir:
-  # - ~~#{buildpath}/.brew_home/Library/Caches/Yarn/v6~~
-  # - #{buildpath}/.brew_home/.yarn/berry
+  # - ~~#{Dir.home}/Library/Caches/Yarn/v6~~
+  # - #{Dir.home}/.yarn/berry
 
   def install
     inreplace "src/provider/select.js" do |s|

@@ -7,6 +7,8 @@ class GituiBin < Formula
 
   option "without-prebuilt", "Skip prebuilt binary and build from source"
 
+  uses_from_macos "zlib"
+
   conflicts_with "gitui", because: "they are variants of the same package"
 
   if build.without?("prebuilt")
@@ -23,7 +25,6 @@ class GituiBin < Formula
   elsif OS.linux? && Hardware::CPU.arm? && (Hardware::CPU.is-32-bit?)
     url "https://github.com/extrawurst/gitui/releases/download/v#{version}/gitui-linux-armv7.tar.gz"
   end
-  uses_from_macos "zlib"
 
   def install
     if build.without?("prebuilt")

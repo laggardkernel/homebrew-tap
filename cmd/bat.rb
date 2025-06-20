@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Adapted from and modified on dev-cmd/cat.rb. Removes hardcoded path to bat.
 require "abstract_command"
 require "fileutils"

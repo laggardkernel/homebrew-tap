@@ -29,9 +29,9 @@ module Homebrew
         # odeprecated "`brew switch`", "`brew link` @-versioned formulae"
 
         versions = rack.subdirs
-                      .map { |d| Keg.new(d).version }
-                      .sort
-                      .join(", ")
+                       .map { |d| Keg.new(d).version }
+                       .sort
+                       .join(", ")
         version = args.named.second
 
         odie <<~EOS unless (rack/version).directory?
