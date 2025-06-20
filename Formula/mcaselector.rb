@@ -2,7 +2,7 @@ class Mcaselector < Formula
   desc "Tool to select chunks from Minecraft worlds for deletion or export"
   homepage "https://github.com/Querz/mcaselector"
   # rubocop: disable all
-  version "2.5.2"
+  version "2.5.3"
   url "https://github.com/Querz/mcaselector/releases/download/#{version}/mcaselector-#{version}.jar"
   # rubocop: enable all
   license "GPL-3.0"
