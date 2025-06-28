@@ -1,7 +1,7 @@
 class LuaLanguageServerBin < Formula
   desc "Language Server for Lua and coded by Lua, the sumneko.lua ext for VSCode"
   homepage "https://github.com/sumneko/lua-language-server"
-  version "3.14.0"
+  version "3.15.0"
   license "MIT"
 
   livecheck do
