@@ -8,7 +8,7 @@ cask "cloud-uploader" do
 
   livecheck do
     url "https://github.com/lulu-ls/cloud-uploader/releases"
-    strategy :github_release
+    strategy :github_releases
   end
 
   auto_updates false

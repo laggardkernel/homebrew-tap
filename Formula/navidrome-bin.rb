@@ -9,7 +9,7 @@ class NavidromeBin < Formula
 
   livecheck do
     url :stable
-    strategy :github_release
+    strategy :github_releases
   end
 
   head do

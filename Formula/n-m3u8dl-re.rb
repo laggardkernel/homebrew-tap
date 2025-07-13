@@ -5,11 +5,14 @@ class NM3u8dlRe < Formula
   license "MIT"
 
   livecheck do
-    # Assets section is loaded by js nowadays, use api resp
-    url "https://api.github.com/repos/nilaoda/N_m3u8DL-RE/releases" # rubocop: disable all
-    regex(%r{https.*?/releases/download/v?(\d+(?:\.\d+)+(-[^"/]+)?)/N_m3u8DL-RE[^"/]+?(\d{8})[^"/]+"}i)
-    strategy :page_match do |page|
-      page.scan(regex).map { |match| match&.first&.+ "," + match&.third }
+    url :stable
+    regex(%r{N_m3u8DL-RE[^"/]+?(\d{8,})[^"/]+}i)
+    strategy :github_latest do |json, regex|
+      asset = json["assets"]&.first
+      return if asset.nil?
+
+      match = asset["name"]&.match(regex)
+      "#{json["tag_name"]}#{match[1]}" if match
     end
   end
 
