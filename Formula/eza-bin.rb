@@ -1,7 +1,7 @@
 class EzaBin < Formula
   desc "Modern, maintained replacement for ls"
   homepage "https://github.com/eza-community/eza"
-  version "0.22.1"
+  version "0.23.0"
   resource_version=version.to_s
   license "EUPL-1.2"
 
