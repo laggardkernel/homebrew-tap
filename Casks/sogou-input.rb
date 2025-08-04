@@ -1,5 +1,5 @@
 cask "sogou-input" do
-  version "618b"
+  version "618c"
 
   # sha256
 

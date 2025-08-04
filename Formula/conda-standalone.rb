@@ -1,7 +1,7 @@
 class CondaStandalone < Formula
   desc "Entry point and dependency collection for PyInstaller-based standalone conda"
   homepage "https://anaconda.org/anaconda/conda-standalone"
-  version "25.1.1,hecd8cb5_1,hca03da5_1"
+  version "25.3.1,h3fdc52a_0,hc14cd2a_0"
 
   if OS.mac? && Hardware::CPU.intel?
     url "https://anaconda.org/anaconda/conda-standalone/#{version.to_s.split(",").first}/download/osx-64/conda-standalone-#{version.to_s.split(",").first}-#{version.to_s.split(",").second}.tar.bz2"

@@ -2,7 +2,7 @@ class Suwayomi < Formula
   desc "Rewrite of Tachiyomi for the Desktop"
   homepage "https://github.com/Suwayomi/Suwayomi-Server"
   # rubocop: disable all
-  version "2.0.1727"
+  version "2.1.1867"
   url "https://github.com/Suwayomi/Suwayomi-Server/releases/download/v#{version.to_s.split("-").first}/Suwayomi-Server-v#{version}.jar"
   # rubocop: enable all
   license "MPL-2.0"
