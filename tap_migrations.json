@@ -1,4 +1,5 @@
 {
   "wezterm": "wez/wezterm",
-  "wezterm-nightly": "wez/wezterm"
+  "wezterm-nightly": "wez/wezterm",
+  "pictureview": "homebrew/cask/pictureview"
 }
