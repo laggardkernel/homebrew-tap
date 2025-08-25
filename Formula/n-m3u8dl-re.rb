@@ -12,7 +12,7 @@ class NM3u8dlRe < Formula
       return if asset.nil?
 
       match = asset["name"]&.match(regex)
-      "#{json["tag_name"]}#{match[1]}" if match
+      "#{json["tag_name"].delete_prefix("v")},#{match[1]}" if match
     end
   end
 
