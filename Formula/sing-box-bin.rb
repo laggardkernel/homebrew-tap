@@ -1,7 +1,7 @@
 class SingBoxBin < Formula
   desc "Universal proxy platform"
   homepage "https://sing-box.sagernet.org"
-  version "1.12.0"
+  version "1.12.3"
   license "GPL-3.0-or-later"
 
   option "without-prebuilt", "Skip prebuilt binary and build from source"

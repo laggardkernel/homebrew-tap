@@ -1,7 +1,7 @@
 class Filebrowser < Formula
   desc "Provides a file managing interface within a specified directory"
   homepage "https://filebrowser.org"
-  version "2.42.3"
+  version "2.42.5"
   license "MIT"
 
   head do

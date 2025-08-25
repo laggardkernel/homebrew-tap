@@ -1,7 +1,7 @@
 class DufsBin < Formula
   desc "Static file server"
   homepage "https://github.com/sigoden/dufs"
-  version "0.43.0"
+  version "0.44.0"
   license any_of: ["Apache-2.0", "MIT"]
 
   option "without-prebuilt", "Skip prebuilt binary and build from source"
