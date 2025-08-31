@@ -1,22 +1,22 @@
 class FfmpegStatic < Formula
   desc "Ffmpeg static build" # rubocop: disable all
   homepage "https://osxexperts.net"
-  version "7.1.1"
+  version "8.0"
   version_str = version.to_s
-  version_without_dot = version.to_s.delete(".").gsub(/0+$/, "")
+  version_base = version.to_s.gsub(/(\.\d+)0+$/, '\1').delete(".")
 
   # Use arm build from osxexperts, intel build from evermeet.
   arch = Hardware::CPU.intel? ? "intel" : "arm"
   if OS.mac? && Hardware::CPU.arm?
     homepage "https://osxexperts.net/"
-    url "https://www.osxexperts.net/ffmpeg#{version_without_dot}#{arch}.zip"
+    url "https://www.osxexperts.net/ffmpeg#{version_base}#{arch}.zip"
 
     resource "ffprobe" do
-      url "https://www.osxexperts.net/ffprobe#{version_without_dot}#{arch}.zip"
+      url "https://www.osxexperts.net/ffprobe#{version_base}#{arch}.zip"
     end
 
     resource "ffplay" do
-      url "https://www.osxexperts.net/ffplay#{version_without_dot}#{arch}.zip"
+      url "https://www.osxexperts.net/ffplay#{version_base}#{arch}.zip"
     end
   elsif OS.mac? && Hardware::CPU.intel?
     homepage "https://evermeet.cx/ffmpeg/"
