@@ -3,7 +3,7 @@ class Hmcl < Formula
   homepage "https://hmcl.huangyuhui.net/"
   # https://github.com/huanghongxun/HMCL
   # rubocop: disable all
-  version "3.6.17"
+  version "3.6.18"
   url "https://github.com/HMCL-dev/HMCL/releases/download/release-#{version}/HMCL-#{version}.jar"
   # WARN: network quality of the ci site is unreliable, fetch releases from
   # github-actions instead.
