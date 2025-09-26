@@ -14,22 +14,45 @@ class ClashMetaBin < Formula
   end
 
   # Repo name was renamed from Clash.Meta to mihomo since 1.17.0
-  if OS.mac? && Hardware::CPU.intel?
-    # TODO(lk): what about the 'cgo' variant
-    # url "https://github.com/MetaCubeX/Clash.Meta/releases/download/v#{version}/clash.meta-darwin-amd64-v#{version}.gz"
-    url "https://github.com/MetaCubeX/mihomo/releases/download/v#{version}/mihomo-darwin-amd64-v#{version}.gz"
-  elsif OS.mac? && Hardware::CPU.arm?
-    url "https://github.com/MetaCubeX/mihomo/releases/download/v#{version}/mihomo-darwin-arm64-v#{version}.gz"
-  elsif OS.linux? && Hardware::CPU.intel? && (Hardware::CPU.is-64-bit?)
-    # TODO(lk): 'compatible' variant?
-    url "https://github.com/MetaCubeX/mihomo/releases/download/v#{version}/mihomo-linux-amd64-v#{version}.gz"
-  elsif OS.linux? && Hardware::CPU.intel? && (Hardware::CPU.is-32-bit?)
-    url "https://github.com/MetaCubeX/mihomo/releases/download/v#{version}/mihomo-linux-386-cgo-v#{version}.gz"
-  elsif OS.linux? && Hardware::CPU.arm? && (Hardware::CPU.is-64-bit?)
-    url "https://github.com/MetaCubeX/mihomo/releases/download/v#{version}/mihomo-linux-arm64-v#{version}.gz"
-  elsif OS.linux? && Hardware::CPU.arm? && (Hardware::CPU.is-32-bit?)
-    url "https://github.com/MetaCubeX/mihomo/releases/download/v#{version}/mihomo-linux-armv7-v#{version}.gz"
+  os_name = OS.mac? ? "darwin" : "linux"
+  if Hardware::CPU.intel?
+    cpu_arch = Hardware::CPU.is_64_bit? ? "amd64" : "386"
+  elsif Hardware::CPU.arm?
+    cpu_arch = Hardware::CPU.is_64_bit? ? "arm64" : "armv7"
   end
+  # https://en.wikipedia.org/wiki/X86-64#Microarchitecture_levels
+  cpu_level = ""
+  if Hardware::CPU.intel?
+    if Hardware::CPU.sysctl_bool!("hw.optional.avx512f")
+      # x86-64-v4: AVX-512 Foundation
+      cpu_level = ""
+    elsif Hardware::CPU.avx2?
+      # x86-64-v3: AVX2
+      cpu_level = "v3"
+    elsif Hardware::CPU.sse4_2?
+      # x86-64-v2 level (SSE4.2 support)
+      cpu_level = "v2"
+    else
+      # Basic x86-64-v1 level
+      cpu_level = "v1"
+    end
+  end
+  go_str = ""
+  if OS.mac?
+    if MacOS.version > "11"
+      go_str = ""
+    elsif MacOS.version > "10.15"
+      go_str = "go124"
+    elsif MacOS.version > "10.13"
+      go_str = "go122"
+    else
+      go_str = "go120"
+    end
+  end
+  # mohomo-{os_name}-{cpu_arch}-{cpu_level}-{go_str}-v{version}.gz
+  # name_middle_part = [os_name, cpu_arch, cpu_level, go_str].join('-')
+  name_middle = [os_name, cpu_arch, cpu_level, go_str].reject(&:empty?).join('-')
+  url "https://github.com/MetaCubeX/mihomo/releases/download/v#{version}/mihomo-#{name_middle}-v#{version}.gz"
 
   resource "zashboard" do
     # url: https://board.zash.run.place/
