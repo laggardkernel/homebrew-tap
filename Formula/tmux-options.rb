@@ -9,7 +9,7 @@ class TmuxOptions < Formula
 
   livecheck do
     url "https://github.com/tmux/tmux/releases/"
-    regex(%r{href=.*?/tag/v?(\d+(?:\.\d+)+[-]?[a-z]*)["' >]}i)
+    regex(%r{href=.*?/tag/v?(\d+(?:\.\d+)+-?[a-z]*)["' >]}i)
     strategy :page_match do |page, regex|
       page.scan(regex).map { |match| match&.first }
     end
