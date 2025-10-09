@@ -2,7 +2,6 @@ class Cdns < Formula
   desc "Cure your poinsoned DNS with EDNS option detection"
   homepage "https://github.com/semigodking/cdns"
   # rubocop: disable all
-  # HEAD only, no regular release
   version "1.1"
   url "https://github.com/semigodking/cdns/archive/release-#{version}.tar.gz"
   # rubocop: enable all
@@ -10,59 +9,64 @@ class Cdns < Formula
   revision 2
   head "https://github.com/semigodking/cdns.git"
 
-  depends_on "argp-standalone" => :build
+  # livecheck do
+  #   url "https://github.com/semigodking/cdns/commits"
+  #   regex(%r{href="/semigodking/cdns/tree/([a-z0-9]{7,}+)" }i)
+  #   strategy :page_match do |page, regex|
+  #     # Only return the 1st commit to avoid alphabetical version comparison
+  #     page.scan(regex).flatten.first&.slice!(0..6)
+  #   end
+  # end
+
   depends_on "cmake" => :build
   # Makefile: LIBS := -levent -lm -largp
-  # /usr/lib/libm.dylib
-  # TODO: the static build makes on sense, still depends on libevent dynamically.
+  depends_on "argp-standalone" if OS.mac?
   depends_on "libevent"
+  # -lm: /usr/lib/libm.dylib
 
   def install
-    # TODO: backport static build on stable version, remove in next release
-    if build.stable?
-      inreplace "Makefile" do |s|
-        s.gsub! "$(CC) -o $@ $(CFLAGS) $^ $(LIBS)",
-          "$(CC) -o $@ $(CFLAGS) $^ $(LIBS)\n	$(CC) -static -static-libgcc -s -o $@-static $(CFLAGS) $^ $(LIBS)"
+    if version.to_s.start_with?("HEAD") || !version.to_s.match?(/^(\d+(?:\.\d+)+)$/)
+      inreplace "main.c" do |s|
+        s.gsub!(/cdns - version:.+?\\n/, format('cdns - version: %s\n', version.to_s))
       end
     end
-
     if OS.mac?
-      # TODO: head failed to run: cdns_init_server(...) bind: Invalid argument
-      if build.head?
-        version_str = version.to_s.start_with?("HEAD") ? version.to_s : "v#{version}"
-        inreplace "main.c" do |s|
-          s.gsub!(/cdns - version:.+?\\n/, format('cdns - version: %s\n', version_str))
-        end
-      end
-
-      inreplace "Makefile" do |s|
-        s.gsub! "-static -static-libgcc", "-Bstatic"
-      end
-
       inreplace "blacklist.c" do |s|
         s.gsub! "tdestroy(ipv4_blacklist_root, _blacklist_freenode);",
                 "// tdestroy(ipv4_blacklist_root, _blacklist_freenode);"
       end
-
-      ENV.prepend "CFLAGS", "-I#{HOMEBREW_PREFIX}/include -I/usr/include/machine"
-      # CFLAGS used in Makefile, pass LDFLAGS with CFLAGS
-      ENV.append "CFLAGS", "-L#{HOMEBREW_PREFIX}/lib"
-      # # Another solution for the endian.h problem on macOS
-      # # Since we changed CFLAGS, this is not needed.
-      # # https://stackoverflow.com/q/20813028/5101148
-      # inreplace "dns.h" do |s|
-      #   s.gsub! "#include <endian.h>",
-      #           "#include <machine/endian.h>"
+      # # static build in Makefile makes no sense, libevent still used dynamically.
+      # inreplace "Makefile" do |s|
+      #   s.gsub! "-static -static-libgcc", "-Bstatic"
       # end
+      # https://stackoverflow.com/q/20813028/5101148
+      inreplace "dns.h" do |s|
+        s.gsub! "#include <endian.h>",
+                "#include <machine/endian.h>"
+      end
     end
-
-    # if build.head?
-    #   system "cmake", *std_cmake_args, ".."
-    #   system "make", "install", "PREFIX=#{prefix}"
+    # TODO: the IPv6 listening support is completely broken, don't use it.
+    # e.g. cdns_init_server(...) bind: Invalid argument
+    # inreplace "cdns.c" do |s|
+    #   s.gsub! "error = bind(fd, (struct sockaddr*)&addr, sizeof(addr));",
+    #           <<'EOS'.chomp
+    # socklen_t addr_len;
+    # if (addr.ss_family == AF_INET6) {
+    #   addr_len = sizeof(struct sockaddr_in6);
+    # } else {
+    #   addr_len = sizeof(struct sockaddr_in);
+    # }
+    # error = bind(fd, (struct sockaddr*)&addr, addr_len);
+    # EOS
     # end
-    system "make"
-    bin.install "cdns"
-    bin.install "cdns-static"
+
+    args = %w[
+      -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+    ]
+    args << "-DCMAKE_EXE_LINKER_FLAGS=-largp" if OS.mac?
+    system "cmake", "-S", ".", "-B", "build", *args, *std_cmake_args
+    system "cmake", "--build", "build"
+    system "cmake", "--install", "build"
 
     inreplace "config.json.example" do |s|
       s.gsub! '"daemon": true', '"daemon": false'
@@ -75,13 +79,17 @@ class Cdns < Formula
     mkdir_p share_dst
     cp "config.json.example", "#{share_dst}/config.json"
 
-    etc_dst = "#{prefix}/etc/cdns"
-    mkdir_p etc_dst
-    cp_r Dir["#{share_dst}/*"], etc_dst
+    config_temp = buildpath/"build"
+    config_path = etc/"cdns"
+    cp "config.json.example", config_temp/"config.json"
+    Dir.chdir(config_temp.to_s) do
+      %w[config.json].each do |f|
+        dst_default = config_path/"#{f}.default"
+        rm dst_default if dst_default.exist?
+        config_path.install f
+      end
+    end
 
-    etc.install etc_dst
-    # equivalent to
-    # etc.install "#{etc_dst}/"
     prefix.install_metafiles
   end
 
