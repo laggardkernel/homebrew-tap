@@ -15,10 +15,14 @@ typeset -gA OPTS
 # OPTS[script]="${BASH_SOURCE[0]}"
 OPTS[script]="${BASH_SOURCE[0]##*/}"
 OPTS[author]="laggardkernel"
-OPTS[version]="1.1.1"
+OPTS[version]="1.2.0"
+OPTS[user]="$USER"
+OPTS[group]="admin"
+
 
 # HOMEBREW_PREFIX var is provided by homebrew, only when the script is run as
 # brew sub-command.
+set +u  # if run as sudo, HOMEBREW_PREFIX unbound
 if [[ -z "$HOMEBREW_PREFIX" ]]; then
   ARCH="$(uname -m)"
   # https://developer.apple.com/forums/thread/668206
@@ -28,33 +32,53 @@ if [[ -z "$HOMEBREW_PREFIX" ]]; then
     HOMEBREW_PREFIX="/usr/local"
   fi
 fi
+set -u
 
-function version {
-  cat << EOL >&2
-${OPTS[script]} ${OPTS[version]} by ${OPTS[author]}
-https://github.com/laggardkernel/homebrew-tap/
-EOL
+function echo_log {
+  local level="$1"
+  shift
+  case "$level" in
+    error|err) echo "Error: $*" >&2 ;;
+    warn|warning) echo "Warning: $*" >&2 ;;
+    info) echo "Info: $*" >&2 ;;
+    debug) echo "Debug: $*" >&2 ;;
+    *) echo "$level" >&2 ;;  # fallback for custom messages
+  esac
 }
 
-function usage {
+function sudo_validate {
+  # Check if already running as root (via sudo)
+  set +u
+  if [[ "$EUID" -eq 0 ]] || [[ "$USER" == "root" ]] || [[ -n "$SUDO_USER" ]]; then
+    return
+  fi
+  set -u
+  echo "Authenticating with sudo..." >&2
+  if ! command sudo -v; then
+    echo "Unable to run as root" >&2
+    return 1
+  fi
+}
+
+function print_help {
   cat << EOF >&2
-Fix formula files permission broke by using 'sudo brew services'
+Fix formula files permission broken by using 'sudo brew services'
 
 Usage:
-  ${OPTS[script]} [command/option]
-
-Example:
-  ${OPTS[script]} formula [formula2]
+  ${OPTS[script]} [options] [formula1] [formula2]
 
 Commands/Options:
+  -u user            New user, group to be set on formula files. Defaults to
+                     '\$USER'. 'root' user is not a valid value
   formula            Name of formula
-  all                Auto search and fix perm for broken formulae
+  all                Special formula name, search for broken formulae and fix them
   help               Disable this help screen
-  -v, --version      Display version information and exit
+  -V, --version      Display version information and exit
 
 Caveat:
   root password is needed cause the script is basically doing 'sudo chown'.
 
+https://github.com/laggardkernel/homebrew-tap/
 EOF
 # homebrew external commands don't support custom usage banner in shell script
 # which means -h, --help don't work when used as a sub-command of `brew`
@@ -62,8 +86,12 @@ EOF
 
 function fix {
   local formula formulae item items
+  if [[ "${OPTS[user]}" == root ]]; then
+    echo_log "error" "'root' is invalid. Use '-u' to pass a valid user."
+    return 1
+  fi
   if [[ "$1" == "all" ]] && [[ $# -eq 1 ]]; then
-    echo "Auto search broken formulae in ${HOMEBREW_PREFIX} ..."
+    echo_log "Auto search broken formulae in ${HOMEBREW_PREFIX} ..."
     formulae=(
       $(find -P -d "${HOMEBREW_PREFIX}/opt" -depth -maxdepth 2 -user root)
       $(find -L -d "${HOMEBREW_PREFIX}/opt" -depth -maxdepth 2 -user root)
@@ -78,18 +106,14 @@ function fix {
   fi
 
   if ! (( ${#formulae[@]} )); then
-    echo "No broken formula is found"
+    echo_log "No broken formula is found"
     return 0
   fi
-  echo "Requesting root permission to run 'fix-perm' ..."
-  if ! sudo -v; then
-    echo "Unable to run as root"
-    return 1
-  fi
 
+  if ! sudo_validate; then exit 1; fi
   for formula in "${formulae[@]}"; do
     if ! [[ -d  "${HOMEBREW_PREFIX}/Cellar/${formula}" ]]; then
-      echo "Skip formula ${formula}, not found" >/dev/null
+      echo_log "Skip formula ${formula}, not found"
       continue
     fi
     items=(
@@ -97,35 +121,60 @@ function fix {
       "${HOMEBREW_PREFIX}/opt/${formula}"
       "${HOMEBREW_PREFIX}/var/homebrew/linked/${formula}"
     )
-    echo "Fixing file perms for ${formula} ..."
+    echo_log "Fixing file perms for ${formula} ..."
     for item in "${items[@]}"; do
-      echo " ${item}"
-      sudo chown -R "$USER":admin "$item"
+      echo_log " ${item}"
+      command sudo chown -R "${OPTS[user]}:${OPTS[group]}" "$item"
     done
   done
 }
 
-
-# Menu/entry
-if [[ $# -eq 0 ]]; then
-  usage
-else
-  case "$1" in
-    -h|--help|help)
-      usage
-      exit 0
+function main {
+  local action="fix"
+  local -a params
+  [[ "$#" -eq 0 ]] && action="help"
+  while (( $# )); do
+    case "$1" in
+      -u)
+        OPTS[user]="$2"
+        shift 2
+        ;;
+      -h|--help|help)
+        action="help"
+        shift
+        break
+        ;;
+      -V|--version)
+        echo "${OPTS[version]}"
+        exit
+        ;;
+      -*)
+        echo_log "Unknown option: ${1}"
+        print_help
+        return 1
+        ;;
+      *)
+        params=("${params[@]}" "$1")
+        shift
+        ;;
+      # *)
+      #   (>&2 printf "Unknown parameter: %s\n" "$1")
+      #   usage
+      #   exit 1
+      #   ;;
+    esac
+  done
+  case "$action" in
+    help)
+      print_help
       ;;
-    -v|--version)
-      version
-      exit 0
+    version)
+      print_version
       ;;
-    *)
-      fix "$@"
+    fix)
+      fix "${params[@]}"
       ;;
-    # *)
-    #   (>&2 printf "Unknown parameter: %s\n" "$1")
-    #   usage
-    #   exit 1
-    #   ;;
   esac
-fi
+}
+
+main "$@"
