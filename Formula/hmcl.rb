@@ -4,7 +4,7 @@ class Hmcl < Formula
   # https://github.com/huanghongxun/HMCL
   # rubocop: disable all
   version "3.6.20"
-  url "https://github.com/HMCL-dev/HMCL/releases/download/release-#{version}/HMCL-#{version}.jar"
+  url "https://github.com/HMCL-dev/HMCL/releases/download/v-#{version}/HMCL-#{version}.jar"
   # WARN: network quality of the ci site is unreliable, fetch releases from
   # github-actions instead.
   # url "https://ci.huangyuhui.net/job/HMCL/#{version.to_s.split(".").last}/artifact/HMCL/build/libs/HMCL-#{version}.jar"
