@@ -147,8 +147,8 @@ class ClashMetaBin < Formula
     run [opt_bin/"clash-meta", "-d", etc/"clash-meta"]
     # keep_alive { succesful_exit: true }
     working_dir etc/"clash-meta"
-    log_path var/"log/clash-meta/clash.log"
-    error_log_path var/"log/clash-meta/clash.log"
+    # log_path var/"log/clash-meta/clash.log"
+    # error_log_path var/"log/clash-meta/clash.log"
   end
 
   test do

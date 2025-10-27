@@ -106,8 +106,8 @@ class ClashRedir < Formula
     run [opt_bin/"clash-redir", "-d", etc/"clash-premium", "-f", "config-redir.yaml"]
     # keep_alive { succesful_exit: true }
     working_dir etc/"clash-premium"
-    log_path var/"log/clash-redir/clash.log"
-    error_log_path var/"log/clash-redir/clash.log"
+    # log_path var/"log/clash-redir/clash.log"
+    # error_log_path var/"log/clash-redir/clash.log"
   end
 
   test do
