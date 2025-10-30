@@ -3,7 +3,8 @@ cask "font-um-typewriter" do
 
   url "http://mirrors.ctan.org/fonts/umtypewriter.zip"
   name "UM Typewriter"
-  homepage "https://ctan.org/tex-archive/fonts/umtypewriter"
+  desc "Fonts to typeset with the xgreek package"
+  homepage "https://ctan.org/pkg/umtypewriter"
 
   livecheck do
     url "https://ctan.org/tex-archive/fonts/umtypewriter"
