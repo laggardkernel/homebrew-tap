@@ -12,11 +12,18 @@ class AsdfBin < Formula
 
   conflicts_with "asdf", because: "they are variants of the same package"
 
-  if OS.mac? && Hardware::CPU.arm?
-    url "https://github.com/asdf-vm/asdf/releases/download/v#{version}/asdf-v#{version}-darwin-arm64.tar.gz"
-  elsif OS.mac? && Hardware::CPU.intel?
-    url "https://github.com/asdf-vm/asdf/releases/download/v#{version}/asdf-v#{version}-darwin-amd64.tar.gz"
+  os_name = OS.mac? ? "darwin" : "linux"
+  if Hardware::CPU.intel?
+    if OS.linux? && Hardware::CPU.is_32_bit?
+      cpu_arch = "386"
+    else
+      cpu_arch = "amd64"
+    end
+  elsif Hardware::CPU.arm?
+    cpu_arch = "arm64"
   end
+  basename = "asdf-v#{version}-#{os_name}-#{cpu_arch}.tar.gz"
+  url "https://github.com/asdf-vm/asdf/releases/download/v#{version}/#{basename}"
 
   def install
     bin.install "asdf"

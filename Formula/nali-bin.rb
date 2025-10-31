@@ -25,20 +25,27 @@ class NaliBin < Formula
     # url "https://github.com/zu1k/nali.git", tag: "v#{version}"
 
     depends_on "go" => :build
-  elsif OS.mac? && Hardware::CPU.intel?
-    url "https://github.com/zu1k/nali/releases/download/v#{version}/nali-darwin-amd64-v#{version}.gz"
-  elsif OS.mac? && Hardware::CPU.arm?
-    url "https://github.com/zu1k/nali/releases/download/v#{version}/nali-darwin-arm64-v#{version}.gz"
-  elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is_64_bit?
-    url "https://github.com/zu1k/nali/releases/download/v#{version}/nali-linux-amd64-v#{version}.gz"
-  elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is_32_bit?
-    url "https://github.com/zu1k/nali/releases/download/v#{version}/nali-linux-386-v#{version}.gz"
-  elsif OS.linux? && Hardware::CPU.arm? && RUBY_PLATFORM.to_s.include?("armv6")
-    url "https://github.com/zu1k/nali/releases/download/v#{version}/nali-linux-armv6-v#{version}.gz"
-  elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_32_bit?
-    url "https://github.com/zu1k/nali/releases/download/v#{version}/nali-linux-armv7-v#{version}.gz"
-  elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-    url "https://github.com/zu1k/nali/releases/download/v#{version}/nali-linux-armv8-v#{version}.gz"
+  else
+    os_name = OS.mac? ? "darwin" : "linux"
+    if Hardware::CPU.intel?
+      if OS.linux? && Hardware::CPU.is_32_bit?
+        cpu_arch = "386"
+      else
+        cpu_arch = "amd64"
+      end
+    elsif Hardware::CPU.arm?
+      if OS.mac?
+        cpu_arch = "arm64"
+      elsif OS.linux? && RUBY_PLATFORM.to_s.include?("armv6")
+        cpu_arch = "armv6"
+      elsif OS.linux? && Hardware::CPU.is_32_bit?
+        cpu_arch = "armv7"
+      elsif OS.linux?
+        cpu_arch = "armv8"
+      end
+    end
+    basename = "nali-#{os_name}-#{cpu_arch}-v#{version}.gz"
+    url "https://github.com/zu1k/nali/releases/download/v#{version}/#{basename}"
   end
 
   def install

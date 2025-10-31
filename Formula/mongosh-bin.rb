@@ -14,15 +14,14 @@ class MongoshBin < Formula
 
   conflicts_with "mongosh", because: "they are variants of the same package"
 
-  if OS.mac? && Hardware::CPU.intel?
-    url "https://github.com/mongodb-js/mongosh/releases/download/v#{version}/mongosh-#{version}-darwin-x64.zip"
-  elsif OS.mac? && Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-    url "https://github.com/mongodb-js/mongosh/releases/download/v#{version}/mongosh-#{version}-darwin-arm64.zip"
-  elsif OS.linux? && Hardware::CPU.intel?
-    url "https://github.com/mongodb-js/mongosh/releases/download/v#{version}/mongosh-#{version}-linux-x64.zip"
-  elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-    url "https://github.com/mongodb-js/mongosh/releases/download/v#{version}/mongosh-#{version}-linux-arm64.zip"
+  os_name = OS.mac? ? "darwin" : "linux"
+  if Hardware::CPU.intel?
+    cpu_arch = "x64"
+  elsif Hardware::CPU.arm?
+    cpu_arch = "arm64"
   end
+  basename = "mongosh-#{version}-#{os_name}-#{cpu_arch}.zip"
+  url "https://github.com/mongodb-js/mongosh/releases/download/v#{version}/#{basename}"
 
   def install
     bin.install Dir["bin/*"].reject { |f| File.basename(f).include?(".") }

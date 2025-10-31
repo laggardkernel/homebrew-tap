@@ -28,9 +28,9 @@ class Dnslookup < Formula
     url "https://github.com/ameshkov/dnslookup/releases/download/v#{version}/dnslookup-darwin-amd64-v#{version}.tar.gz"
   elsif OS.linux? && Hardware::CPU.intel?
     url "https://github.com/ameshkov/dnslookup/releases/download/v#{version}/dnslookup-linux-amd64-v#{version}.tar.gz"
-  elsif OS.linux? && Hardware::CPU.arm? && (Hardware::CPU.is-32-bit?)
+  elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_32_bit?
     url "https://github.com/ameshkov/dnslookup/releases/download/v#{version}/dnslookup-linux-arm-v#{version}.tar.gz"
-  elsif OS.linux? && Hardware::CPU.arm? && (Hardware::CPU.is-64-bit?)
+  elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
     url "https://github.com/ameshkov/dnslookup/releases/download/v#{version}/dnslookup-linux-arm64-v#{version}.tar.gz"
   end
 

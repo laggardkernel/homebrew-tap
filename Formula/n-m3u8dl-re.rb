@@ -16,15 +16,14 @@ class NM3u8dlRe < Formula
     end
   end
 
-  if OS.mac? && Hardware::CPU.arm?
-    url "https://github.com/nilaoda/N_m3u8DL-RE/releases/download/v#{version.to_s.split(",").first}/N_m3u8DL-RE_v#{version.to_s.split(",").first}_osx-arm64_#{version.to_s.split(",").second}.tar.gz"
-  elsif OS.mac? && Hardware::CPU.intel?
-    url "https://github.com/nilaoda/N_m3u8DL-RE/releases/download/v#{version.to_s.split(",").first}/N_m3u8DL-RE_v#{version.to_s.split(",").first}_osx-x64_#{version.to_s.split(",").second}.tar.gz"
-  elsif OS.linux? && Hardware::CPU.intel?
-    url "https://github.com/nilaoda/N_m3u8DL-RE/releases/download/v#{version.to_s.split(",").first}/N_m3u8DL-RE_v#{version.to_s.split(",").first}_linux-x64_#{version.to_s.split(",").second}.tar.gz"
-  elsif OS.linux? && Hardware::CPU.arm?
-    url "https://github.com/nilaoda/N_m3u8DL-RE/releases/download/v#{version.to_s.split(",").first}/N_m3u8DL-RE_v#{version.to_s.split(",").first}_linux-arm64_#{version.to_s.split(",").second}.tar.gz"
+  os_name = OS.mac? ? "osx" : "linux"
+  if Hardware::CPU.intel?
+    cpu_arch = "x64"
+  elsif Hardware::CPU.arm?
+    cpu_arch = "arm64"
   end
+  basename = "N_m3u8DL-RE_v#{version.to_s.split(",").first}_#{os_name}-#{cpu_arch}_#{version.to_s.split(",").second}.tar.gz"
+  url "https://github.com/nilaoda/N_m3u8DL-RE/releases/download/v#{version.to_s.split(",").first}/#{basename}"
 
   def bin_name
     "N_m3u8DL-RE"

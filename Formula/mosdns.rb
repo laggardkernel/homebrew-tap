@@ -23,16 +23,19 @@ class Mosdns < Formula
     # url "https://github.com/IrineSistiana/mosdns.git", tag: "v#{version}"
 
     depends_on "go" => :build
-  elsif OS.mac? && Hardware::CPU.arm?
-    url "https://github.com/IrineSistiana/mosdns/releases/download/v#{version}/mosdns-darwin-arm64.zip"
-  elsif OS.mac? && Hardware::CPU.intel?
-    url "https://github.com/IrineSistiana/mosdns/releases/download/v#{version}/mosdns-darwin-amd64.zip"
-  elsif OS.linux? && Hardware::CPU.intel?
-    url "https://github.com/IrineSistiana/mosdns/releases/download/v#{version}/mosdns-linux-amd64.zip"
-  elsif OS.linux? && Hardware::CPU.arm? && (Hardware::CPU.is-32-bit?)
-    url "https://github.com/IrineSistiana/mosdns/releases/download/v#{version}/mosdns-linux-arm-7.zip"
-  elsif OS.linux? && Hardware::CPU.arm? && (Hardware::CPU.is-64-bit?)
-    url "https://github.com/IrineSistiana/mosdns/releases/download/v#{version}/mosdns-linux-arm64.zip"
+  else
+    os_name = OS.mac? ? "darwin" : "linux"
+    if Hardware::CPU.intel?
+      cpu_arch = "amd64"
+    elsif Hardware::CPU.arm?
+      if OS.linux? && Hardware::CPU.is_32_bit?
+        cpu_arch = "arm-7"
+      else
+        cpu_arch = "arm64"
+      end
+    end
+    basename = "mosdns-#{os_name}-#{cpu_arch}.zip"
+    url "https://github.com/IrineSistiana/mosdns/releases/download/v#{version}/#{basename}"
   end
 
   resource "geoip.dat" do

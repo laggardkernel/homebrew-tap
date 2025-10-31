@@ -28,15 +28,14 @@ class LuaLanguageServerBin < Formula
   if build.without?("prebuilt")
     url "https://github.com/sumneko/lua-language-server.git", tag: version.to_s
     depends_on "ninja" => :build
-  elsif OS.mac? && Hardware::CPU.arm?
-    url "https://github.com/sumneko/vscode-lua/releases/download/v#{version}/vscode-lua-v#{version}-darwin-arm64.vsix"
+  else
+    os_name = OS.mac? ? "darwin" : "linux"
+    cpu_arch = Hardware::CPU.arm? ? "arm64" : "x64"
+    basename = "vscode-lua-v#{version}-#{os_name}-#{cpu_arch}.vsix"
+    url "https://github.com/sumneko/vscode-lua/releases/download/v#{version}/#{basename}"
     # # Could easily reach rate limit with following API
     # url "https://marketplace.visualstudio.com/_apis/public/gallery/publishers/sumneko/vsextensions/lua/v#{version}/vspackage",
     #   referer: "https://marketplace.visualstudio.com/items?itemName=sumneko.lua"
-  elsif OS.mac? && Hardware::CPU.intel?
-    url "https://github.com/sumneko/vscode-lua/releases/download/v#{version}/vscode-lua-v#{version}-darwin-x64.vsix"
-  elsif OS.linux? && Hardware::CPU.intel?
-    url "https://github.com/sumneko/vscode-lua/releases/download/v#{version}/vscode-lua-v#{version}-linux-x64.vsix"
   end
 
   def install

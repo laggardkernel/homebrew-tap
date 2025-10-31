@@ -10,21 +10,24 @@ class ClashRedir < Formula
     skip "Legacy version, last with 'redir-host' and works for Mojave"
   end
 
-  if OS.mac? && Hardware::CPU.intel?
-    # url "https://release.dreamacro.workers.dev/#{version}/clash-darwin-amd64-#{version}.gz"
-    # url "https://github.com/Dreamacro/clash/releases/download/premium/clash-darwin-amd64-#{version}.gz"
-    url "https://github.com/zhongfly/Clash-premium-backup/releases/download/Premium-#{version}/clash-darwin-amd64-#{version}.gz"
-  elsif OS.mac? && Hardware::CPU.arm?
-    url "https://github.com/zhongfly/Clash-premium-backup/releases/download/Premium-#{version}/clash-darwin-arm64-#{version}.gz"
-  elsif OS.linux? && Hardware::CPU.intel? && (Hardware::CPU.is-64-bit?)
-    url "https://github.com/zhongfly/Clash-premium-backup/releases/download/Premium-#{version}/clash-linux-amd64-#{version}.gz"
-  elsif OS.linux? && Hardware::CPU.intel? && (Hardware::CPU.is-32-bit?)
-    url "https://github.com/zhongfly/Clash-premium-backup/releases/download/Premium-#{version}/clash-linux-386-#{version}.gz"
-  elsif OS.linux? && Hardware::CPU.arm? && (Hardware::CPU.is-64-bit?)
-    url "https://github.com/zhongfly/Clash-premium-backup/releases/download/Premium-#{version}/clash-linux-armv8-#{version}.gz"
-  elsif OS.linux? && Hardware::CPU.arm? && (Hardware::CPU.is-32-bit?)
-    url "https://github.com/zhongfly/Clash-premium-backup/releases/download/Premium-#{version}/clash-linux-armv7-#{version}.gz"
+  os_name = OS.mac? ? "darwin" : "linux"
+  if Hardware::CPU.intel?
+    if OS.linux? && Hardware::CPU.is_32_bit?
+      cpu_arch = "386"
+    else
+      cpu_arch = "amd64"
+    end
+  elsif Hardware::CPU.arm?
+    if Hardware::CPU.is_64_bit? && OS.mac?
+      cpu_arch = "arm64"
+    elsif Hardware::CPU.is_64_bit? && OS.linux?
+      cpu_arch = "armv8"
+    else
+      cpu_arch = "armv7"
+    end
   end
+  basename = "clash-#{os_name}-#{cpu_arch}-#{version}.gz"
+  url "https://github.com/zhongfly/Clash-premium-backup/releases/download/Premium-#{version}/#{basename}"
 
   # resource will auto unpacked
   resource "clash-dashboard" do

@@ -17,16 +17,13 @@ class EzaBin < Formula
 
   conflicts_with "eza", because: "they are variants of the same package"
 
-  if OS.mac? && Hardware::CPU.arm?
-    url "https://github.com/cargo-bins/cargo-quickinstall/releases/download/eza-#{version}/eza-#{version}-aarch64-apple-darwin.tar.gz"
-  elsif OS.mac? && Hardware::CPU.intel?
-    url "https://github.com/cargo-bins/cargo-quickinstall/releases/download/eza-#{version}/eza-#{version}-x86_64-apple-darwin.tar.gz"
-  elsif OS.linux? && Hardware::CPU.intel?
-    url "https://github.com/eza-community/eza/releases/download/v#{version}/eza_x86_64-unknown-linux-gnu.tar.gz"
-  elsif OS.linux? && Hardware::CPU.arm? && (Hardware::CPU.is-32-bit?)
-    url "https://github.com/eza-community/eza/releases/download/v#{version}/eza_arm-unknown-linux-gnueabihf.tar.gz"
-  elsif OS.linux? && Hardware::CPU.arm? && (Hardware::CPU.is-64-bit?)
-    url "https://github.com/eza-community/eza/releases/download/v#{version}/eza_aarch64-unknown-linux-gnu.tar.gz"
+  cpu_arch = Hardware::CPU.arm? ? "aarch64" : "x86_64"
+  if OS.mac?
+    basename = "eza-#{version}-#{cpu_arch}-apple-darwin.tar.gz"
+    url "https://github.com/cargo-bins/cargo-quickinstall/releases/download/eza-#{version}/#{basename}"
+  else
+    basename = "eza_#{cpu_arch}-unknown-linux-gnu.tar.gz"
+    url "https://github.com/eza-community/eza/releases/download/v#{version}/#{basename}"
   end
 
   resource "source" do
