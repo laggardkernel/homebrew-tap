@@ -10,15 +10,14 @@ class LicenseBin < Formula
     strategy :github_latest
   end
 
-  if OS.mac? && Hardware::CPU.arm?
-    url "https://github.com/nishanths/license/releases/download/v#{version}/license-v#{version}-darwin-arm64"
-  elsif OS.mac? && Hardware::CPU.intel?
-    url "https://github.com/nishanths/license/releases/download/v#{version}/license-v#{version}-darwin-amd64"
-  elsif OS.linux? && Hardware::CPU.intel?
-    url "https://github.com/nishanths/license/releases/download/v#{version}/license-v#{version}-linux-amd64"
-  elsif OS.linux? && Hardware::CPU.arm? && (Hardware::CPU.is-64-bit?)
-    url "https://github.com/nishanths/license/releases/download/v#{version}/license-v#{version}-linux-arm64"
+  os_name = OS.mac? ? "darwin" : "linux"
+  if Hardware::CPU.arm?
+    cpu_arch = "arm64"
+  else
+    cpu_arch = "amd64"
   end
+  basename = "license-v#{version}-#{os_name}-#{cpu_arch}"
+  url "https://github.com/nishanths/license/releases/download/v#{version}/#{basename}"
 
   def install
     bin.install Dir.glob("license*")[0] => "license"

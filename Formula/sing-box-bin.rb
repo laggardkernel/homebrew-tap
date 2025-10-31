@@ -15,16 +15,15 @@ class SingBoxBin < Formula
     # Git repo is not cloned into a sub-folder
     # url "https://github.com/SagerNet/sing-box.git", tag: "v#{version}"
     depends_on "go" => :build
-  elsif OS.mac? && Hardware::CPU.arm?
-    url "https://github.com/SagerNet/sing-box/releases/download/v#{version}/sing-box-#{version}-darwin-arm64.tar.gz"
-  elsif OS.mac? && Hardware::CPU.intel?
-    url "https://github.com/SagerNet/sing-box/releases/download/v#{version}/sing-box-#{version}-darwin-amd64.tar.gz"
-  elsif OS.linux? && Hardware::CPU.intel?
-    url "https://github.com/SagerNet/sing-box/releases/download/v#{version}/sing-box-#{version}-linux-amd64.tar.gz"
-  elsif OS.linux? && Hardware::CPU.arm? && (Hardware::CPU.is-32-bit?)
-    url "https://github.com/SagerNet/sing-box/releases/download/v#{version}/sing-box-#{version}-linux-armv7.tar.gz"
-  elsif OS.linux? && Hardware::CPU.arm? && (Hardware::CPU.is-64-bit?)
-    url "https://github.com/SagerNet/sing-box/releases/download/v#{version}/sing-box-#{version}-linux-arm64.tar.gz"
+  else
+    os_name = OS.mac? ? "darwin" : "linux"
+    if Hardware::CPU.intel?
+      cpu_arch = "amd64"
+    elsif Hardware::CPU.arm?
+      cpu_arch = Hardware::CPU.is_64_bit? ? "arm64" : "armv7"
+    end
+    basename = "sing-box-#{version}-#{os_name}-#{cpu_arch}.tar.gz"
+    url "https://github.com/SagerNet/sing-box/releases/download/v#{version}/#{basename}"
   end
 
   resource "config.json" do

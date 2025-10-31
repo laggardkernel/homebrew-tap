@@ -14,16 +14,21 @@ class GituiBin < Formula
   if build.without?("prebuilt")
     url "https://github.com/extrawurst/gitui/archive/v#{version}.tar.gz" # rubocop: disable all
     depends_on "rust" => :build
-  elsif OS.mac? && Hardware::CPU.arm?
-    url "https://github.com/extrawurst/gitui/releases/download/v#{version}/gitui-mac.tar.gz"
-  elsif OS.mac? && Hardware::CPU.intel?
-    url "https://github.com/extrawurst/gitui/releases/download/v#{version}/gitui-mac-x86.tar.gz"
-  elsif OS.linux? && Hardware::CPU.intel? && (Hardware::CPU.is-64-bit?)
-    url "https://github.com/extrawurst/gitui/releases/download/v#{version}/gitui-linux-x86_64.tar.gz"
-  elsif OS.linux? && Hardware::CPU.arm? && (Hardware::CPU.is-64-bit?)
-    url "https://github.com/extrawurst/gitui/releases/download/v#{version}/gitui-linux-aarch64.tar.gz"
-  elsif OS.linux? && Hardware::CPU.arm? && (Hardware::CPU.is-32-bit?)
-    url "https://github.com/extrawurst/gitui/releases/download/v#{version}/gitui-linux-armv7.tar.gz"
+  else
+    if OS.mac?
+      os_name = "mac"
+      cpu_arch = Hardware::CPU.arm? ? "" : "x86"
+    else
+      os_name = "linux"
+      if Hardware::CPU.arm?
+        cpu_arch = Hardware::CPU.arm? ? "aarch64" : "x86_64"
+      else
+        cpu_arch = "x86_64"
+      end
+    end
+    basename = ["gitui", os_name, cpu_arch].reject(&:empty?).join("-")
+    basename = "#{basename}.tar.gz"
+    url "https://github.com/extrawurst/gitui/releases/download/v#{version}/#{basename}"
   end
 
   def install

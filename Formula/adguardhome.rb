@@ -48,20 +48,33 @@ class Adguardhome < Formula
     depends_on "go" => :build
     depends_on "node" => :build
     depends_on "yarn" => :build
-  elsif OS.mac? && Hardware::CPU.arm?
-    url "https://github.com/AdguardTeam/AdGuardHome/releases/download/v#{version}/AdGuardHome_darwin_arm64.zip"
-  elsif OS.mac? && Hardware::CPU.intel?
-    url "https://github.com/AdguardTeam/AdGuardHome/releases/download/v#{version}/AdGuardHome_darwin_amd64.zip"
-  elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is_64_bit?
-    url "https://github.com/AdguardTeam/AdGuardHome/releases/download/v#{version}/AdGuardHome_linux_amd64.tar.gz"
-  elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is_32_bit?
-    url "https://github.com/AdguardTeam/AdGuardHome/releases/download/v#{version}/AdGuardHome_linux_386.tar.gz"
-  elsif OS.linux? && Hardware::CPU.arm? && RUBY_PLATFORM.to_s.include?("armv6")
-    url "https://github.com/AdguardTeam/AdGuardHome/releases/download/v#{version}/AdGuardHome_linux_armv6.tar.gz"
-  elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_32_bit?
-    url "https://github.com/AdguardTeam/AdGuardHome/releases/download/v#{version}/AdGuardHome_linux_armv7.tar.gz"
-  elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-    url "https://github.com/AdguardTeam/AdGuardHome/releases/download/v#{version}/AdGuardHome_linux_arm64.tar.gz"
+  else
+    if OS.mac?
+      os_name = "darwin"
+      file_ext = "zip"
+    else
+      os_name = "linux"
+      file_ext = "tar.gz"
+    end
+    if Hardware::CPU.intel?
+      if OS.linux? && Hardware::CPU.is_32_bit?
+        cpu_arch = "386"
+      else
+        cpu_arch = "amd64"
+      end
+    elsif Hardware::CPU.arm?
+      if OS.mac?
+        cpu_arch = "arm64"
+      elsif OS.linux? && RUBY_PLATFORM.to_s.include?("armv6")
+        cpu_arch = "armv6"
+      elsif OS.linux? && Hardware::CPU.is_32_bit?
+        cpu_arch = "armv7"
+      elsif OS.linux? && Hardware::CPU.is_64_bit?
+        cpu_arch = "arm64"
+      end
+    end
+    basename = "AdGuardHome_#{os_name}_#{cpu_arch}.#{file_ext}"
+    url "https://github.com/AdguardTeam/AdGuardHome/releases/download/v#{version}/#{basename}"
   end
 
   def install

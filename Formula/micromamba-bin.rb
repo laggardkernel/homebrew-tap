@@ -11,7 +11,6 @@ class MicromambaBin < Formula
     regex(/v?(\d+(?:\.\d+)+(-\d+)?)/i)
   end
 
-  os_name = OS.mac? ? "osx" : "linux"
   if OS.mac?
     os_name = "osx"
     cpu_arch = Hardware::CPU.intel? ? "64": "arm64"

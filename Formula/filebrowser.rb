@@ -25,16 +25,21 @@ class Filebrowser < Formula
 
     depends_on "go" => :build
     depends_on "node" => :build
-  elsif OS.mac? && Hardware::CPU.intel?
-    url "https://github.com/filebrowser/filebrowser/releases/download/v#{version}/darwin-amd64-filebrowser.tar.gz"
-  elsif OS.mac? && Hardware::CPU.arm?
-    url "https://github.com/filebrowser/filebrowser/releases/download/v#{version}/darwin-arm64-filebrowser.tar.gz"
-  elsif OS.linux? && Hardware::CPU.intel?
-    url "https://github.com/filebrowser/filebrowser/releases/download/v#{version}/linux-amd64-filebrowser.tar.gz"
-  elsif OS.linux? && Hardware::CPU.arm? && !Hardware::CPU.is_64_bit?
-    url "https://github.com/filebrowser/filebrowser/releases/download/v#{version}/linux-armv6-filebrowser.tar.gz"
-  elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-    url "https://github.com/filebrowser/filebrowser/releases/download/v#{version}/linux-arm64-filebrowser.tar.gz"
+  else
+    os_name = OS.mac? ? "darwin" : "linux"
+    if Hardware::CPU.intel?
+      cpu_arch = "amd64"
+    elsif Hardware::CPU.arm?
+      if OS.linux? && RUBY_PLATFORM.to_s.include?("armv6")
+        cpu_arch = "armv6"
+      elsif OS.linux? && Hardware::CPU.is_32_bit?
+        cpu_arch = "armv7"
+      else
+        cpu_arch = "arm64"
+      end
+    end
+    basename = "#{os_name}-#{cpu_arch}-filebrowser.tar.gz"
+    url "https://github.com/filebrowser/filebrowser/releases/download/v#{version}/#{basename}"
   end
 
   def install

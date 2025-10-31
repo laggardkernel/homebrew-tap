@@ -13,14 +13,15 @@ class DufsBin < Formula
   if build.without?("prebuilt")
     url "https://github.com/sigoden/dufs/archive/v#{version}.tar.gz" # rubocop: disable all
     depends_on "rust" => :build
-  elsif OS.mac? && Hardware::CPU.intel?
-    url "https://github.com/sigoden/dufs/releases/download/v#{version}/dufs-v#{version}-x86_64-apple-darwin.tar.gz"
-  elsif OS.mac? && Hardware::CPU.arm?
-    url "https://github.com/sigoden/dufs/releases/download/v#{version}/dufs-v#{version}-aarch64-apple-darwin.tar.gz"
-  elsif OS.linux? && Hardware::CPU.intel?
-    url "https://github.com/sigoden/dufs/releases/download/v#{version}/dufs-v#{version}-x86_64-unknown-linux-musl.tar.gz"
-  elsif OS.linux? && Hardware::CPU.arm? && !Hardware::CPU.is_64_bit?
-    url "https://github.com/sigoden/dufs/releases/download/v#{version}/dufs-v#{version}-aarch64-unknown-linux-musl.tar.gz"
+  else
+    os_name_part = OS.mac? ? "apple-darwin": "unknown-linux-musl"
+    if Hardware::CPU.arm?
+      cpu_arch = "aarch64"
+    else
+      cpu_arch = "x86_64"
+    end
+    basename = "dufs-v#{version}-#{cpu_arch}-#{os_name_part}.tar.gz"
+    url "https://github.com/sigoden/dufs/releases/download/v#{version}/#{basename}"
   end
 
   def install
