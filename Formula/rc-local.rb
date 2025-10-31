@@ -3,7 +3,7 @@ class RcLocal < Formula
   homepage "https://salsa.debian.org/debian/rc"
   # rubocop: disable all
   version "0.1.0"
-  url "https://httpbin.org/anything/rc-local-#{version}"
+  url "file:///dev/null"
   # rubocop: enable all
 
   livecheck do

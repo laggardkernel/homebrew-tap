@@ -3,7 +3,7 @@ class OpenvpnService < Formula
   homepage "https://openvpn.net/community/"
   # rubocop: disable all
   version "0.1.0"
-  url "https://httpbin.org/anything/openvpn-service-#{version}"
+  url "file:///dev/null"
   # rubocop: enable all
 
   livecheck do
