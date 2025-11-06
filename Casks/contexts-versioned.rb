@@ -1,9 +1,8 @@
 cask "contexts-versioned" do
-  on_mojave :or_older do
+  if MacOS.version <= '10.14'
     version "3.7.1"
     sha256 "de5e4a660cc30276155606b539d1ae58684115a3983d69598f1505fcad499a87"
-  end
-  on_catalina :or_newer do
+  elsif MacOS.version <= '10.15'
     version "3.8.1"
     sha256 "f4ca05c6abb14f6193b158645d74ca9d2672aabba7e07cc1c6cc3af18aa44907"
   end

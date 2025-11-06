@@ -2,12 +2,11 @@ cask "orbstack-versioned" do
   arch arm: "arm64", intel: "amd64"
 
   # https://docs.orbstack.dev/release-notes
-  on_monterey :or_older do
+  if MacOS.version <= '12'
     version "1.7.5,18165"
     sha256 arm:   "b9a740f932ff2609530cc12032016e5d7977074ae10e642bd1f7d49c65490b06",
            intel: "67ec06fc9ea26496cda033524049200b28da0ae8cae8744202368385755d14b0"
-  end
-  on_ventura :or_newer do
+  else  # MacOS.version >= '13'
     version "1.11.3,19358"
     sha256 arm:   "ff3ba392672d31d2549b777b4638de89cf10aef592944014863160a2e05778dc",
            intel: "a0b39329e90353cf34a7d0edcdc47f9aec333ee140defbbbf3d68460d15b731f"

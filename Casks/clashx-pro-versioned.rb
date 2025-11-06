@@ -1,9 +1,6 @@
 cask "clashx-pro-versioned" do
-  on_mojave :or_older do
-    # last build with clash core < 2023.02.16
-    version "1.96.2.1"
-  end
-
+  # last build with clash core < 2023.02.16
+  version "1.96.2.1"
   url "https://appcenter.clashx.workers.dev/api/1cd052f7-e118-4d13-87fb-35176f9702c1/#{version}",
       verified: "appcenter.clashx.workers.dev/api/1cd052f7-e118-4d13-87fb-35176f9702c1/"
   name "ClashX Pro"

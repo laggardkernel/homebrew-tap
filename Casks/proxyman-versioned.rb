@@ -1,8 +1,7 @@
 cask "proxyman-versioned" do
-  on_mojave :or_older do
+  if MacOS.version <= '10.14'
     version "4.1.0,41000"
-  end
-  on_catalina :or_newer do
+  else  # MacOS.version >= '10.15'
     # body preview is broken for catalina since 4.5.0 cuz Monaco Editor
     version "4.4.0,44000"
   end

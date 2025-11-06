@@ -1,5 +1,5 @@
 cask "rsyncosx-versioned" do
-  on_mojave :or_older do
+  if MacOS.version <= '10.14'
     version "6.4.2"
     sha256 "7dae24b128986b4140efb9e4c264de5a597097c313565edf9275bea1d58bae5a"
 
@@ -7,14 +7,12 @@ cask "rsyncosx-versioned" do
     url "https://pseudocold.com/app/rsyncosx/RsyncOSX.#{version}-1949.dmg"
     # sha256 of the GH release 6.4.2
     # sha256 "7e2e044aee98a53b03730a978866939ab919afa2e3997fbfb9632162418f6a5a"
-  end
-  on_catalina :or_older do
+  elsif MacOS.version <= '10.15'
     version "6.5.8"
     sha256 "4f23be29b260a93e05a2b9abf2ac42419b918b455e664d12ed92663ee008ad4e"
 
     url "https://pseudocold.com/app/rsyncosx/RsyncOSX.#{version}.dmg"
-  end
-  on_big_sur :or_newer do
+  else  # MacOS.version >= '11'
     version "6.8.0"
     url "https://github.com/rsyncOSX/RsyncOSX_archived/releases/download/v#{version}/RsyncOSX.#{version}.dmg"
   end

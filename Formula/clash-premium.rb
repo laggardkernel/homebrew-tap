@@ -4,7 +4,7 @@ class ClashPremium < Formula
   license "GPL-3.0"
   revision 4
 
-  on_catalina :or_newer do
+  if MacOS.version >= '10.15'
     version "2023.08.17"  # rubocop: disable all
     livecheck do
       skip "Unmaintained"
@@ -16,9 +16,7 @@ class ClashPremium < Formula
       #   page.scan(regex).flatten.uniq.sort
       # end
     end
-  end
-
-  on_mojave :or_older do
+  else  # MacOS.version <= '10.14'
     # https://github.com/Dreamacro/clash/issues/2599
     version "2023.01.29"  # rubocop: disable all
     livecheck do

@@ -36,7 +36,7 @@ class TmuxOptions < Formula
 
   # Old versions of macOS libc disagree with utf8proc character widths.
   # https://github.com/tmux/tmux/issues/2223
-  on_system :linux, macos: :sierra_or_newer do
+  if (OS.mac? && MacOS.version >= '10.12') || OS.linux?
     depends_on "utf8proc"
   end
 
@@ -74,8 +74,8 @@ class TmuxOptions < Formula
       # and uses that as the default `TERM`, but this causes issues for
       # tools that link with the very old ncurses provided by macOS.
       # https://github.com/Homebrew/homebrew-core/issues/102748
-      args << "--with-TERM=screen-256color" if MacOS.version < :sonoma
-      args << "--enable-utf8proc" if MacOS.version >= :high_sierra
+      args << "--with-TERM=screen-256color" if MacOS.version < '14'
+      args << "--enable-utf8proc" if MacOS.version >= '10.13'
     else
       args << "--enable-utf8proc"
     end

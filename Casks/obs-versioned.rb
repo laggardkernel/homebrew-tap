@@ -1,19 +1,16 @@
 cask "obs-versioned" do
   arch arm: "arm64", intel: "x86_64"
 
-  on_mojave :or_older do
+  if MacOS.version <= '10.14'
     # Qt6 since 28 dropped support for macOS 10.13 & 10.14
     # url "https://github.com/obsproject/obs-studio/releases/download/#{version}/obs-mac-#{version}.dmg"
     version "27.2.4"
     url "https://cdn-fastly.obsproject.com/downloads/obs-mac-#{version}.dmg"
-  end
-  on_catalina :or_older do
+  elsif MacOS.version <= '10.15'
     # https://github.com/obsproject/obs-studio/issues/8849
     version "29.0.2"
     url "https://cdn-fastly.obsproject.com/downloads/obs-studio-#{version}-macos-#{arch}.dmg"
-  end
-
-  on_big_sur :or_newer do
+  else  # MacOS.version >= '11'
     version "31.1.2"
     url "https://cdn-fastly.obsproject.com/downloads/obs-studio-#{version}-macos-#{arch}.dmg"
   end
