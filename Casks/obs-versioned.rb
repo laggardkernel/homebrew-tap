@@ -25,7 +25,7 @@ cask "obs-versioned" do
 
   auto_updates true
   conflicts_with cask: ["homebrew/cask-versions/obs-beta", "obs"]
-  depends_on macos: ">= :high_sierra"
+  # depends_on macos: ">= :high_sierra"
 
   app "OBS.app"
   # shim script (https://github.com/Homebrew/homebrew-cask/issues/18809)

@@ -13,7 +13,7 @@ cask "clashx-pro-versioned" do
 
   auto_updates true
   conflicts_with cask: "clashx-pro"
-  depends_on macos: ">= :mojave"
+  # depends_on macos: ">= :mojave"
 
   app "ClashX Pro.app"
 

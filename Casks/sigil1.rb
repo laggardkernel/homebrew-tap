@@ -12,7 +12,7 @@ cask "sigil1" do
     skip "Legacy version"
   end
 
-  depends_on macos: ">= :sierra"
+  # depends_on macos: ">= :sierra"
 
   app "Sigil.app"
 

@@ -8,7 +8,7 @@ cask "font-apple-sf-mono" do
   homepage "https://developer.apple.com/fonts/"
 
   conflicts_with cask: "font-sf-mono"
-  depends_on macos: ">= :sierra"
+  # depends_on macos: ">= :sierra"
 
   font "SF-Mono-Bold.otf"
   font "SF-Mono-BoldItalic.otf"

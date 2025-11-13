@@ -22,7 +22,7 @@ cask "orbstack-versioned" do
   end
 
   auto_updates true
-  depends_on macos: "<= :ventura"
+  # depends_on macos: "<= :ventura"
 
   app "OrbStack.app"
   binary "#{appdir}/OrbStack.app/Contents/MacOS/bin/orb"

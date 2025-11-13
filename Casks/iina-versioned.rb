@@ -20,7 +20,7 @@ cask "iina-versioned" do
 
   auto_updates true
   # depends_on macos: ">= :high_sierra"  # >=1.3.2
-  depends_on macos: ">= :el_capitan" # < 1.3.2
+  # depends_on macos: ">= :el_capitan" # < 1.3.2
 
   app "IINA.app"
   binary "#{appdir}/IINA.app/Contents/MacOS/iina-cli", target: "iina"

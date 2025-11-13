@@ -16,7 +16,7 @@ cask "anx-reader" do
 
   auto_updates false
   conflicts_with cask: "anx-reader@beta"
-  depends_on macos: ">= :monterey"
+  # depends_on macos: ">= :monterey"
 
   app "Anx Reader.app"
 
