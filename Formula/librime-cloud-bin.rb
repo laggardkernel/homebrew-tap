@@ -8,6 +8,11 @@ class LibrimeCloudBin < Formula
   basename = "#{os_name}-#{cpu_arch}-lua5.4.tar.gz"
   url "https://github.com/hchunhui/librime-cloud/releases/download/continuous/#{basename}"
 
+  livecheck do
+    skip "Contiuous build"
+  end
+
+  # TODO(lk): build from source
   def install
     lib_dst = lib/"librime-cloud"
     mkdir_p lib_dst
