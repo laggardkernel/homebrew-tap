@@ -17,6 +17,7 @@ class LibrimeCloudBin < Formula
     lib_dst = lib/"librime-cloud"
     mkdir_p lib_dst
     lib_dst.install Dir["out-*/*"]
+    lib_dst.install Dir["scripts/lua/*"]
 
     share_dst = share/"librime-cloud"
     mkdir_p share_dst
@@ -34,6 +35,7 @@ class LibrimeCloudBin < Formula
 
       Add the lib path into rime.lua:
 
+      package.path = package.path .. ";#{lib}/librime-cloud/?.lua"
       package.cpath = package.cpath .. ";#{lib}/librime-cloud/?.so"
     EOS
   end
