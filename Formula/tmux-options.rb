@@ -2,7 +2,7 @@ class TmuxOptions < Formula
   desc "Terminal multiplexer with custom FPS"
   homepage "https://tmux.github.io/"
   # rubocop: disable all
-  version "3.5a"
+  version "3.6"
   url "https://github.com/tmux/tmux/releases/download/#{version}/tmux-#{version}.tar.gz"
   # rubocop: enable all
   license "ISC"
@@ -80,9 +80,7 @@ class TmuxOptions < Formula
       args << "--enable-utf8proc"
     end
 
-    ENV.append "LDFLAGS", "-lresolv"
     system "./configure", *args, *std_configure_args
-
     system "make", "install"
 
     pkgshare.install "example_tmux.conf"
