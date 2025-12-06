@@ -2,7 +2,7 @@ class TmuxOptions < Formula
   desc "Terminal multiplexer with custom FPS"
   homepage "https://tmux.github.io/"
   # rubocop: disable all
-  version "3.6"
+  version "3.6a"
   url "https://github.com/tmux/tmux/releases/download/#{version}/tmux-#{version}.tar.gz"
   # rubocop: enable all
   license "ISC"
