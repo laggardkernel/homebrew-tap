@@ -13,11 +13,6 @@ class Chinadns < Formula
   depends_on "autoconf" => :build
   depends_on "automake" => :build
 
-  # TODO: drop one cidr list?
-  resource "china_ip_list" do
-    url "https://raw.githubusercontent.com/17mon/china_ip_list/master/china_ip_list.txt"
-  end
-
   resource "geoip2-cn-txt" do
     url "https://cdn.jsdelivr.net/gh/Hackl0us/GeoIP2-CN@release/CN-ip-cidr.txt"
   end
@@ -32,10 +27,7 @@ class Chinadns < Formula
     # chnroute.txt, iplist.txt
     share_dst = "#{share}/chinadns"
     mkdir_p share_dst
-    mv Dir["#{share}/*.txt"], "#{share_dst}/"
-    resource("china_ip_list").stage do
-      cp "china_ip_list.txt", "#{share_dst}/"
-    end
+    mv "#{share}/iplist.txt", "#{share_dst}/ip_blacklist.txt"
     resource("geoip2-cn-txt").stage do
       cp "CN-ip-cidr.txt", "#{share_dst}/"
     end
@@ -75,7 +67,7 @@ class Chinadns < Formula
   end
 
   service do
-    run [opt_bin/"chinadns", "-c", etc/"chinadns/chnroute.txt", "-b", "127.0.0.1", "-p", "5300", "-s",
+    run [opt_bin/"chinadns", "-c", etc/"chinadns/CN-ip-cidr.txt", "-b", "127.0.0.1", "-p", "5300", "-s",
          "114.114.114.114,208.67.222.222#443", "-m"]
     # keep_alive { succesful_exit: true }
   end
