@@ -1,5 +1,5 @@
 cask "anx-reader" do
-  version "1.10.0"
+  version "1.10.1"
 
   url "https://github.com/Anxcye/anx-reader/releases/download/v#{version}/Anx-Reader-macos-#{version}.zip"
   name "Anx Reader"
