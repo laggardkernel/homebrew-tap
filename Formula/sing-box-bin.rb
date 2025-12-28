@@ -1,7 +1,7 @@
 class SingBoxBin < Formula
   desc "Universal proxy platform"
   homepage "https://sing-box.sagernet.org"
-  version "1.12.13"
+  version "1.12.14"
   license "GPL-3.0-or-later"
 
   option "without-prebuilt", "Skip prebuilt binary and build from source"
@@ -35,14 +35,20 @@ class SingBoxBin < Formula
       version_str = version.to_s
 
       ldflags = "-s -w -X github.com/sagernet/sing-box/constant.Version=#{version_str} -buildid="
-      # tags = "with_gvisor,with_quic,with_wireguard,with_utls,with_reality_server,with_clash_api"
-      tags = "with_gvisor,with_quic,with_dhcp,with_wireguard,with_ech," \
-             "with_utls,with_reality_server,with_acme,with_clash_api"
-      system "go", "build", "-tags", tags, *std_go_args(ldflags:), "./cmd/sing-box"
+      tags = %w[
+        with_acme
+        with_clash_api
+        with_dhcp
+        with_gvisor
+        with_quic
+        with_tailscale
+        with_utls
+        with_wireguard
+      ]
+      system "go", "build", *std_go_args(ldflags:, tags: tags.join(",")), "./cmd/sing-box"
     else
       bin.install "sing-box"
     end
-    prefix.install_metafiles
     generate_completions_from_executable(bin/"sing-box", "completion")
 
     share_dst = "#{share}/sing-box"
@@ -59,22 +65,24 @@ class SingBoxBin < Formula
   end
 
   def post_install
-    (var/"log/sing-box-bin").mkpath
-    chmod 0755, var/"log/sing-box-bin"
+    (var/"lib/sing-box").mkpath
+    chmod 0755, var/"lib/sing-box"
+    (var/"log/sing-box").mkpath
+    chmod 0755, var/"log/sing-box"
   end
 
   service do
-    run [opt_bin/"sing-box", "run", "-C", etc/"sing-box", "--disable-color"]
+    run [opt_bin/"sing-box", "run", "-c", etc/"sing-box/config.json", "--disable-color"]
     run_type :immediate
     keep_alive true
-    working_dir etc/"sing-box"
-    log_path var/"log/sing-box-bin/sing-box.log"
-    error_log_path var/"log/sing-box-bin/sing-box.log"
+    working_dir var/"lib/sing-box"
+    # log_path var/"log/sing-box/sing-box.log"
+    # error_log_path var/"log/sing-box/sing-box.log"
   end
 
   test do
     ss_port = free_port
-    (testpath/"shadowsocks.json").write <<~EOS
+    (testpath/"shadowsocks.json").write <<~JSON
       {
         "inbounds": [
           {
@@ -86,11 +94,11 @@ class SingBoxBin < Formula
           }
         ]
       }
-    EOS
-    server = fork { exec "#{bin}/sing-box", "run", "-D", testpath, "-c", testpath/"shadowsocks.json" }
+    JSON
+    server = fork { exec bin/"sing-box", "run", "-D", testpath, "-c", testpath/"shadowsocks.json" }
 
     sing_box_port = free_port
-    (testpath/"config.json").write <<~EOS
+    (testpath/"config.json").write <<~JSON
       {
         "inbounds": [
           {
@@ -109,9 +117,9 @@ class SingBoxBin < Formula
           }
         ]
       }
-    EOS
+    JSON
     system bin/"sing-box", "check", "-D", testpath, "-c", "config.json"
-    client = fork { exec "#{bin}/sing-box", "run", "-D", testpath, "-c", "config.json" }
+    client = fork { exec bin/"sing-box", "run", "-D", testpath, "-c", "config.json" }
 
     sleep 3
     begin
