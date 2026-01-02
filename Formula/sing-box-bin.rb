@@ -4,51 +4,23 @@ class SingBoxBin < Formula
   version "1.12.14"
   license "GPL-3.0-or-later"
 
-  option "without-prebuilt", "Skip prebuilt binary and build from source"
-
   conflicts_with "sing-box", because: "they are variants of the same package"
 
-  if build.without?("prebuilt")
-    # http downloading is quick than git cloning
-    # using `:homebrew_curl` to work around audit failure from TLS 1.3-only homepage
-    url "https://github.com/SagerNet/sing-box/archive/refs/tags/v#{version}.tar.gz", using: :homebrew_curl
-    # Git repo is not cloned into a sub-folder
-    # url "https://github.com/SagerNet/sing-box.git", tag: "v#{version}"
-    depends_on "go" => :build
-  else
-    os_name = OS.mac? ? "darwin" : "linux"
-    if Hardware::CPU.intel?
-      cpu_arch = "amd64"
-    elsif Hardware::CPU.arm?
-      cpu_arch = Hardware::CPU.is_64_bit? ? "arm64" : "armv7"
-    end
-    basename = "sing-box-#{version}-#{os_name}-#{cpu_arch}.tar.gz"
-    url "https://github.com/SagerNet/sing-box/releases/download/v#{version}/#{basename}"
+  os_name = OS.mac? ? "darwin" : "linux"
+  if Hardware::CPU.intel?
+    cpu_arch = "amd64"
+  elsif Hardware::CPU.arm?
+    cpu_arch = Hardware::CPU.is_64_bit? ? "arm64" : "armv7"
   end
+  basename = "sing-box-#{version}-#{os_name}-#{cpu_arch}.tar.gz"
+  url "https://github.com/SagerNet/sing-box/releases/download/v#{version}/#{basename}"
 
   resource "config.json" do
     url "https://raw.githubusercontent.com/SagerNet/sing-box/main/release/config/config.json"
   end
 
   def install
-    if build.without?("prebuilt") || build.head?
-      version_str = version.to_s
-
-      ldflags = "-s -w -X github.com/sagernet/sing-box/constant.Version=#{version_str} -buildid="
-      tags = %w[
-        with_acme
-        with_clash_api
-        with_dhcp
-        with_gvisor
-        with_quic
-        with_tailscale
-        with_utls
-        with_wireguard
-      ]
-      system "go", "build", *std_go_args(ldflags:, tags: tags.join(",")), "./cmd/sing-box"
-    else
-      bin.install "sing-box"
-    end
+    bin.install "sing-box"
     generate_completions_from_executable(bin/"sing-box", "completion")
 
     share_dst = "#{share}/sing-box"
@@ -72,7 +44,7 @@ class SingBoxBin < Formula
   end
 
   service do
-    run [opt_bin/"sing-box", "run", "-c", etc/"sing-box/config.json", "--disable-color"]
+    run [opt_bin/"sing-box", "run", "-C", etc/"sing-box", "--disable-color"]
     run_type :immediate
     keep_alive true
     working_dir var/"lib/sing-box"
