@@ -1,7 +1,7 @@
 class MihomoTuiBin < Formula
   desc "Simple TUI dashboard for monitoring and managing Mihomo via its REST API"
   homepage "https://github.com/potoo0/mihomo-tui"
-  version "0.2.1"
+  version "0.2.2"
   license "MIT"
   revision 0
 

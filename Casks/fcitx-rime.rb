@@ -1,5 +1,5 @@
 cask "fcitx-rime" do
-  version "0.2.10"
+  version "0.2.11"
 
   url "https://github.com/fcitx-contrib/fcitx5-macos-installer/releases/download/#{version}/Fcitx5-Rime.zip"
   name "Fcitx"
