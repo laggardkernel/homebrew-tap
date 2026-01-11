@@ -1,26 +1,51 @@
-class SingBoxBin < Formula
+class SingBoxRef1ndDevel < Formula
   desc "Universal proxy platform"
-  homepage "https://sing-box.sagernet.org"
-  version "1.12.14"
+  homepage "https://github.com/reF1nd/sing-box"
+  version "1.13.0-beta.2-reF1nd"
   license "GPL-3.0-or-later"
 
-  conflicts_with "sing-box", because: "they are variants of the same package"
-
-  os_name = OS.mac? ? "darwin" : "linux"
-  if Hardware::CPU.intel?
-    cpu_arch = "amd64"
-  elsif Hardware::CPU.arm?
-    cpu_arch = Hardware::CPU.is_64_bit? ? "arm64" : "armv7"
+  livecheck do
+    url "https://github.com/reF1nd/sing-box/tags"
+    regex(%r{href="/.+/releases/tag/v?(\d+(?:\.\d+)+-[^"]+-reF1nd(\.\d+)?)"}i)
+    strategy :page_match do |page, regex|
+      page.scan(regex).flatten.uniq
+    end
   end
-  basename = "sing-box-#{version}-#{os_name}-#{cpu_arch}.tar.gz"
-  url "https://github.com/SagerNet/sing-box/releases/download/v#{version}/#{basename}"
+
+  conflicts_with "sing-box", "sing-box-ref1nd"
+
+  # using `:homebrew_curl` to work around audit failure from TLS 1.3-only homepage
+  url "https://github.com/reF1nd/sing-box/archive/refs/tags/v#{version}.tar.gz"
+  # Git repo is not cloned into a sub-folder
+  # url "https://github.com/reF1nd/sing-box.git", tag: "v#{version}"
+  depends_on "go" => :build
 
   resource "config.json" do
     url "https://raw.githubusercontent.com/SagerNet/sing-box/main/release/config/config.json"
   end
 
   def install
-    bin.install "sing-box"
+    # https://github.com/reF1nd/sing-box/blob/reF1nd-dev/.github/workflows/build.yml
+    ldflags = "-s -buildid= -X github.com/sagernet/sing-box/constant.Version=#{version} -checklinkname=0"
+    tags = %w[
+      with_gvisor
+      with_quic
+      with_dhcp
+      with_wireguard
+      with_utls
+      with_acme
+      with_clash_api
+      with_tailscale
+      with_ccm
+      with_ocm
+      badlinkname
+      tfogo_checklinkname0
+      with_naive_outbound
+    ]
+
+    system "go", "build", *std_go_args(ldflags:, tags: tags.join(","), output: bin/"sing-box"), "./cmd/sing-box"
+    # go build put the binary into bin directly
+    # bin.install "sing-box"
     generate_completions_from_executable(bin/"sing-box", "completion")
 
     share_dst = "#{share}/sing-box"
