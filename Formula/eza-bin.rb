@@ -9,7 +9,7 @@ class EzaBin < Formula
     # rubocop: disable all
     url "https://github.com/cargo-bins/cargo-quickinstall/releases?q=eza&expanded=true"
     # rubocop: enable all
-    regex(%r{href=".*?/releases/tag/(eza-)?v?(\d+(?:\.\d+)+)"}i)
+    regex(%r{href=".*?/releases/tag/(?:eza-)?v?(\d+(?:\.\d+)+)"}i)
     strategy :page_match do |page, regex|
       page.scan(regex).flatten.uniq.sort
     end
