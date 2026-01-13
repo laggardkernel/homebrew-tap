@@ -54,41 +54,23 @@ class ClashMetaBin < Formula
   name_middle = [os_name, cpu_arch, cpu_level, go_str].reject(&:empty?).join('-')
   url "https://github.com/MetaCubeX/mihomo/releases/download/v#{version}/mihomo-#{name_middle}-v#{version}.gz"
 
-  resource "zashboard" do
-    # url: https://board.zash.run.place/
-    # folder: dist.zip
-    # rubocop: disable all
-    url "https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip"
-    # rubocop: enable all
+  resource "config.yaml" do
+    url "https://github.com/MetaCubeX/mihomo/raw/refs/heads/Meta/docs/config.yaml"
   end
 
   def install
     # binary name: clash.meta-darwin-amd64-v1.14.2
     bin.install Dir.glob(["mihomo*", "clash.meta*"])[0] => "clash-meta"
 
-    # Dashboards, one copy saved into share
     share_dst = "#{share}/clash-meta"
     mkdir_p share_dst.to_s
-    %w[zashboard].each do |name|
+    config_path = etc/"clash-meta"
+    %w[config.yaml].each do |name|
       resource(name).stage do
-        cp_r ".", "#{share_dst}/#{name}"
+        cp_r name.to_s, "#{share_dst}/"
+        config_path.install name.to_s # be renamed as .default if conflict
       end
     end
-
-    # Another copy of the dashboard, to be installed into etc later
-    etc_temp = "#{buildpath}/etc_temp"
-    cp_r "#{share_dst}/.", etc_temp
-
-    Dir.chdir(etc_temp.to_s) do
-      config_path = etc/"clash-meta"
-      %w[zashboard].each do |dst|
-        # Skip saving as *.default, overwrite existing dashboards directly
-        # dst_default = config_path/"#{dst}.default"
-        # rm dst_default if dst_default.exist?
-        config_path.install dst
-      end
-    end
-    rm_r(etc_temp.to_s)
   end
 
   def post_install
