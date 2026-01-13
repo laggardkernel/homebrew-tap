@@ -1,7 +1,7 @@
 class SingBoxRef1nd < Formula
   desc "Universal proxy platform"
   homepage "https://github.com/reF1nd/sing-box"
-  version "1.12.15-reF1nd"
+  version "1.12.16-reF1nd"
   license "GPL-3.0-or-later"
 
   livecheck do
@@ -31,7 +31,7 @@ class SingBoxRef1nd < Formula
   end
 
   def install
-    # https://github.com/reF1nd/sing-box/blob/reF1nd-dev/.github/workflows/build.yml
+    # https://github.com/SagerNet/sing-box/blob/dev-next/.github/workflows/build.yml
     ldflags = "-s -buildid= -X github.com/sagernet/sing-box/constant.Version=#{version} -checklinkname=0"
     tags = %w[
       with_gvisor
