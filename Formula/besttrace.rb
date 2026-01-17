@@ -2,7 +2,7 @@ class Besttrace < Formula
   desc "Enhanced traceroute with IP display, developed by IPIP.NET"
   homepage "https://www.ipip.net/product/client.html#besttrace"
   url "https://cdn.ipip.net/17mon/besttrace4linux.zip"
-  version "1.3.5.1"
+  version "1.3.5.2"
   license :cannot_represent
 
   livecheck do
