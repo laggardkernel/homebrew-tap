@@ -69,7 +69,7 @@ class Chinadns < Formula
   service do
     run [opt_bin/"chinadns", "-c", etc/"chinadns/CN-ip-cidr.txt", "-b", "127.0.0.1", "-p", "5300", "-s",
          "114.114.114.114,208.67.222.222#443", "-m"]
-    # keep_alive { succesful_exit: true }
+    keep_alive successful_exit: true
   end
 
   test do

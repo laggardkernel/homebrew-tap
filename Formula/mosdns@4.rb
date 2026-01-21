@@ -132,7 +132,7 @@ class MosdnsAT4 < Formula
 
   service do
     run [opt_bin/"mosdns4", "start", "-d", etc/"mosdns", "-c", etc/"mosdns/config-v4.yaml"]
-    # keep_alive { succesful_exit: true }
+    keep_alive successful_exit: true
     log_path var/"log/mosdns@4/mosdns.log"
     error_log_path var/"log/mosdns@4/mosdns.log"
   end

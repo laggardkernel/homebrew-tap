@@ -123,7 +123,7 @@ class NavidromeBin < Formula
 
   service do
     run [opt_bin/"navidrome", "-c", etc/"navidrome/navidrome.toml"]
-    # keep_alive { succesful_exit: true }
+    keep_alive successful_exit: true
     working_dir var/"log/navidrome"
     log_path var/"log/navidrome/navidrome.log"
     error_log_path var/"log/navidrome/navidrome.log"

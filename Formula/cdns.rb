@@ -107,7 +107,7 @@ class Cdns < Formula
 
   service do
     run [opt_bin/"cdns", "-c", etc/"cdns/config.json"]
-    # keep_alive { succesful_exit: true }
+    keep_alive successful_exit: true
   end
 
   test do

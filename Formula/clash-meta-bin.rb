@@ -98,7 +98,7 @@ class ClashMetaBin < Formula
   service do
     require_root true
     run [opt_bin/"clash-meta", "-d", etc/"clash-meta"]
-    # keep_alive { succesful_exit: true }
+    keep_alive successful_exit: true
     working_dir etc/"clash-meta"
     # log_path var/"log/clash-meta/clash.log"
     # error_log_path var/"log/clash-meta/clash.log"

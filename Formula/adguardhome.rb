@@ -151,7 +151,7 @@ class Adguardhome < Formula
   service do
     require_root true
     run [opt_bin/"AdGuardHome", "-w", etc/"adguardhome"]
-    # keep_alive { succesful_exit: true }
+    keep_alive successful_exit: true
     working_dir etc/"adguardhome"
     log_path var/"log/adguardhome/adguardhome.log"
     error_log_path var/"log/adguardhome/adguardhome.log"

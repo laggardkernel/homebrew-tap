@@ -120,7 +120,7 @@ class UnblockNeteaseMusic < Formula
 DEVELOPMENT: "true", JSON_LOG: "true"
     run [opt_bin/"unblock-nm", "-a", "127.0.0.1", "-p", "16300:16301", "-e", "https://music.163.com", "-f",
          "59.111.160.195", "-o", "pyncmd", "kuwo"]
-    # keep_alive { succesful_exit: true }
+    keep_alive successful_exit: true
     log_path var/"log/unblock-netease-music/access.log"
     error_log_path var/"log/unblock-netease-music/access.log"
   end

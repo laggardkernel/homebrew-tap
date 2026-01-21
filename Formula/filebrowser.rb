@@ -129,7 +129,7 @@ class Filebrowser < Formula
 
   service do
     run [opt_bin/"filebrowser", "-c", etc/"filebrowser/.filebrowser.json"]
-    # keep_alive { succesful_exit: true }
+    keep_alive successful_exit: true
     working_dir etc/"filebrowser"
     log_path var/"log/filebrowser/filebrowser.log"
     error_log_path var/"log/filebrowser/filebrowser.log"

@@ -63,7 +63,7 @@ class Suwayomi < Formula
       -jar
       #{opt_prefix}/share/suwayomi/Suwayomi-Server.jar
     ]
-    # keep_alive { succesful_exit: true }
+    keep_alive successful_exit: true
     # log_path var/"log/suwayomi/suwayomi.log"
     # error_log_path var/"log/suwayomi/suwayomi.log"
   end
