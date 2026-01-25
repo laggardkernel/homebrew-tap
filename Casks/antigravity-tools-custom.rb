@@ -1,7 +1,7 @@
 cask "antigravity-tools-custom" do
   arch arm: "aarch64", intel: "x86"
 
-  version "3.3.45"
+  version "3.3.50"
 
   url "https://github.com/lbjlaq/Antigravity-Manager/releases/download/v#{version}/Antigravity.Tools_#{version}_#{arch}.dmg"
   name "Antigravity Tools"
