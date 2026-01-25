@@ -1,5 +1,5 @@
 cask "anx-reader@beta" do
-  version "1.9.2-6"
+  version "1.11.0-beta.3"
 
   url "https://github.com/Anxcye/anx-reader/releases/download/beta-#{version}/Anx-Reader-macos-beta-#{version.split("-").first}.zip"
   name "Anx Reader"
@@ -8,7 +8,7 @@ cask "anx-reader@beta" do
 
   livecheck do
     url "https://github.com/Anxcye/anx-reader/releases"
-    regex(%r{href=".*?/releases/tag/beta-(\d+(?:[.-]\d+)+)"}i)
+    regex(%r{href=".*?/releases/tag/v?(\d+(?:\.\d+)+-\w+\.\d+)"}i)
     strategy :page_match do |page, regex|
       page.scan(regex).flatten.uniq.sort
     end
