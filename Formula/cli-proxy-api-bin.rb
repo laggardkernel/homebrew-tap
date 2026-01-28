@@ -16,7 +16,7 @@ class CliProxyApiBin < Formula
 
   def install
     bin.install "cli-proxy-api"
-    cp "config.example.yaml", etc/"cli-proxy-api/"
+    (etc/"cli-proxy-api/").install "config.example.yaml"
   end
 
   def post_install
