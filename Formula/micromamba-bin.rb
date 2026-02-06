@@ -2,7 +2,7 @@ class MicromambaBin < Formula
   desc "Fast, robust, and cross-platform package manager"
   homepage "https://mamba.readthedocs.io/en/latest/"
   # homepage "https://github.com/mamba-org/mamba"
-  version "2.5.0-1"
+  version "2.5.0-2"
   license "BSD-3-Clause"
 
   livecheck do
