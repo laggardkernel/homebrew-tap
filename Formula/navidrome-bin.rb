@@ -30,7 +30,7 @@ class NavidromeBin < Formula
   conflicts_with "navidrome", because: "they are variants of the same package"
 
   # sha256: skipped, too complicated
-  if build.without?("prebuilt") || OS.mac?
+  if build.without?("prebuilt")
     # http downloading is quick than git cloning
     url "https://github.com/navidrome/navidrome/archive/refs/tags/v#{version}.tar.gz"
     # Git repo is not cloned into a sub-folder
@@ -41,20 +41,26 @@ class NavidromeBin < Formula
     depends_on "node" => :build
     depends_on "pkg-config" => :build
     depends_on "taglib" => :build
-  elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is_64_bit?
-    url "https://github.com/navidrome/navidrome/releases/download/v#{version}/navidrome_#{version}_linux_amd64.tar.gz"
-  elsif OS.linux? && Hardware::CPU.intel? && Hardware::CPU.is_32_bit?
-    url "https://github.com/navidrome/navidrome/releases/download/v#{version}/navidrome_#{version}_linux_386.tar.gz"
-  elsif OS.linux? && Hardware::CPU.arm? && RUBY_PLATFORM.to_s.include?("armv6")
-    url "https://github.com/navidrome/navidrome/releases/download/v#{version}/navidrome_#{version}_linux_armv6.tar.gz"
-  elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_32_bit?
-    url "https://github.com/navidrome/navidrome/releases/download/v#{version}/navidrome_#{version}_linux_armv7.tar.gz"
-  elsif OS.linux? && Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-    url "https://github.com/navidrome/navidrome/releases/download/v#{version}/navidrome_#{version}_linux_arm64.tar.gz"
+  else
+    os_name = OS.mac? ? "darwin" : "linux"
+    if Hardware::CPU.intel?
+      cpu_arch = Hardware::CPU.is_64_bit? ? "amd64" : "386"
+    elsif Hardware::CPU.arm?
+      cpu_arch = Hardware::CPU.is_64_bit? ? "arm64" : "armv7"
+    end
+    name_middle = [os_name, cpu_arch].reject(&:empty?).join("_")
+    url "https://github.com/navidrome/navidrome/releases/download/v#{version}/navidrome_#{version}_#{name_middle}.tar.gz"
   end
 
   def install
-    if build.without?("prebuilt") || build.head? || OS.mac?
+    if build.without?("prebuilt") || build.head?
+      # Workaround to avoid patchelf corruption when cgo is required
+      if OS.linux? && Hardware::CPU.arch == :arm64
+        ENV["CGO_ENABLED"] = "1"
+        ENV["GO_EXTLINK_ENABLED"] = "1"
+        ENV.append "GOFLAGS", "-buildmode=pie"
+      end
+
       if version.to_s.start_with?("HEAD")
         version_str, sha_str = version.to_s.split("-")
       else
@@ -69,25 +75,31 @@ class NavidromeBin < Formula
         inreplace f, /^#cgo darwin LDFLAGS.*$/, ""
       end
 
+      ldflags = %W[
+        -s -w
+        -X github.com/navidrome/navidrome/consts.gitTag=#{version_str}
+        -X github.com/navidrome/navidrome/consts.gitSha=#{sha_str}
+      ]
       system "make", "setup"
       # https://github.com/navidrome/navidrome/issues/1512
       system "make", "buildjs"
       # If not git repo as source, export '-buildvcs=false'
-      system "go", "build", "-trimpath", "-o", "navidrome",
-        "-ldflags",
-        "-X github.com/navidrome/navidrome/consts.gitTag=#{version_str} -X github.com/navidrome/navidrome/consts.gitSha=#{sha_str}",
+      system "go", "build", "-trimpath",
+        "-o", "navidrome",
+        "-ldflags", ldflags.join(" "),
+        "-tags", "netgo",
         "-buildvcs=false"
     end
 
     # *std_go_args install and rename executable may raise "empty installation" error
     bin.install "navidrome"
-    prefix.install_metafiles
+    generate_completions_from_executable(bin/"navidrome", shell_parameter_format: :cobra)
 
     share_dst = "#{share}/navidrome"
     mkdir_p share_dst.to_s
     config_dst = etc/"navidrome"
     music_folder = "/Users/#{ENV["USER"]}/Music"
-    (buildpath/"navidrome.toml").write <<~EOS
+    (buildpath/"config.toml").write <<~EOS
       # vim: ft=toml fdm=marker foldlevel=0 sw=2 ts=2 sts=2 et
       # https://www.navidrome.org/docs/usage/configuration-options/
       MusicFolder = "#{music_folder}"
@@ -95,9 +107,9 @@ class NavidromeBin < Formula
       ScanSchedule = "@every 15m"
     EOS
     # Save a copy of default config into share
-    cp "navidrome.toml", "#{share_dst}/"
+    cp "config.toml", "#{share_dst}/"
     # Install/move conf into etc
-    ["navidrome.toml"].each do |dst|
+    ["config.toml"].each do |dst|
       dst_default = config_dst/"#{dst}.default"
       rm dst_default if dst_default.exist?
       config_dst.install dst
@@ -111,7 +123,7 @@ class NavidromeBin < Formula
 
   def caveats
     <<~EOS
-      Check "#{etc}/navidrome/navidrome.toml" before running it with "brew services".
+      Check "#{etc}/navidrome/config.toml" before running it with "brew services".
 
       Navidrome listens at port 4533 by default.
 
@@ -122,7 +134,7 @@ class NavidromeBin < Formula
   end
 
   service do
-    run [opt_bin/"navidrome", "-c", etc/"navidrome/navidrome.toml"]
+    run [opt_bin/"navidrome", "-c", etc/"navidrome/config.toml"]
     keep_alive successful_exit: true
     working_dir var/"log/navidrome"
     log_path var/"log/navidrome/navidrome.log"
@@ -132,13 +144,12 @@ class NavidromeBin < Formula
   test do
     assert_equal "#{version} (source_archive)", shell_output("#{bin}/navidrome --version").chomp
     port = free_port
-    pid = fork do
-      exec bin/"navidrome", "--port", port.to_s
-    end
-    sleep 15
+    pid = spawn bin/"navidrome", "--port", port.to_s
+    sleep 20
+    sleep 100 if OS.mac? && Hardware::CPU.intel?
     assert_equal ".", shell_output("curl http://localhost:#{port}/ping")
   ensure
-    Process.kill "TERM", pid
+    Process.kill "KILL", pid
     Process.wait pid
   end
 end
