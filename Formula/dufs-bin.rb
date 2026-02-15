@@ -8,7 +8,7 @@ class DufsBin < Formula
 
   conflicts_with "dufs", because: "they are variants of the same package"
 
-  depends_on "xz"  # wierd running dependency
+  depends_on "xz"  # weird running dependency
 
   if build.without?("prebuilt")
     url "https://github.com/sigoden/dufs/archive/v#{version}.tar.gz" # rubocop: disable all

@@ -117,6 +117,10 @@ class NavidromeBin < Formula
   end
 
   def post_install
+    (var/"cache/navidrome").mkpath
+    chmod 0755, var/"cache/navidrome"
+    (var/"lib/navidrome").mkpath
+    chmod 0755, var/"lib/navidrome"
     (var/"log/navidrome").mkpath
     chmod 0755, var/"log/navidrome"
   end
@@ -134,6 +138,7 @@ class NavidromeBin < Formula
   end
 
   service do
+    environment_variables PATH: "#{std_service_path_env}:/opt/local/bin:/opt/local/sbin"
     run [opt_bin/"navidrome", "-c", etc/"navidrome/config.toml"]
     keep_alive successful_exit: true
     working_dir var/"log/navidrome"
