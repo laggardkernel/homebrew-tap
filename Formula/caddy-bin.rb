@@ -1,7 +1,7 @@
 class CaddyBin < Formula
   desc "Powerful, enterprise-ready, open source web server with automatic HTTPS"
   homepage "https://caddyserver.com/"
-  version "2.10.2"
+  version "2.11.1"
   license "Apache-2.0"
 
   if OS.mac?
