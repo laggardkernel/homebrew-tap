@@ -20,6 +20,11 @@ class CaddyBin < Formula
   basename = "caddy_#{version}_#{os_name}_#{cpu_arch}.tar.gz"
   url "https://github.com/caddyserver/caddy/releases/download/v#{version}/#{basename}"
 
+  livecheck do
+    url :stable
+    strategy :github_latest
+  end
+
   def install
     bin.install "caddy"
 
