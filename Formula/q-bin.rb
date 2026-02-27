@@ -1,7 +1,7 @@
 class QBin < Formula
   desc "Tiny command-line DNS client with support for UDP, TCP, DoT, DoH, DoQ and ODoH"
   homepage "https://github.com/natesales/q"
-  version "0.19.11"
+  version "0.19.12"
   license "GPL-3.0-only"
 
   os_name = OS.mac? ? "darwin" : "linux"
