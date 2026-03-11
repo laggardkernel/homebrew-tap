@@ -1,7 +1,8 @@
 cask "anx-reader@beta" do
-  version "1.12.0-beta.3"
+  version "1.14.0-beta.3"
 
-  url "https://github.com/Anxcye/anx-reader/releases/download/beta-#{version}/Anx-Reader-macos-beta-#{version.split("-").first}.zip"
+  url "https://github.com/Anxcye/anx-reader/releases/download/v#{version}/Anx-Reader-macos-#{version}.zip"
+  # https://github.com/Anxcye/anx-reader/releases/download/v1.14.0-beta.1/Anx-Reader-macos-1.14.0-beta.1.dmg
   name "Anx Reader"
   desc "Modern e-book reader with powerful AI and multi-format support"
   homepage "https://anx.anxcye.com/"
