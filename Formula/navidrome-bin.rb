@@ -142,8 +142,8 @@ class NavidromeBin < Formula
     run [opt_bin/"navidrome", "-c", etc/"navidrome/config.toml"]
     keep_alive successful_exit: true
     working_dir var/"log/navidrome"
-    log_path var/"log/navidrome/navidrome.log"
-    error_log_path var/"log/navidrome/navidrome.log"
+    # log_path var/"log/navidrome/navidrome.log"
+    # error_log_path var/"log/navidrome/navidrome.log"
   end
 
   test do
