@@ -1,7 +1,7 @@
 class AxonhubBin < Formula
   desc "OpenAI-compatible API gateway for coding agents and LLM clients"
   homepage "https://github.com/looplj/axonhub"
-  version "0.9.24"
+  version "0.9.25"
   license "Apache-2.0"
 
   os_name = OS.mac? ? "darwin" : "linux"
