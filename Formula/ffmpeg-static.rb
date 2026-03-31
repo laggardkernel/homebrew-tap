@@ -1,7 +1,7 @@
 class FfmpegStatic < Formula
   desc "Ffmpeg static build" # rubocop: disable all
   homepage "https://osxexperts.net"
-  version "8.0"
+  version "8.1"
   version_str = version.to_s
   version_base = version.to_s.gsub(/(\.\d+)0+$/, '\1').delete(".")
 
