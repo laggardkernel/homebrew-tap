@@ -1,7 +1,7 @@
 class AsdfBin < Formula
   desc "Extendable version manager with support for Ruby, Node.js, Erlang & more"
   homepage "https://asdf-vm.com/"
-  version "0.18.1"
+  version "0.19.0"
   license "MIT"
   revision 0
 
