@@ -4,11 +4,11 @@ class VersionFetcher
   end
 
   def version
-    require "open-uri"
-    require "net/http"
-    require "json"
+    require "open3"
 
-    html = URI(@url).open.read
+    html, status = Open3.capture2("curl", "-sL", "--max-time", "10", @url)
+    raise "curl failed" unless status.success?
+
     # href in payload json escape " as href href=\"/ruanyf/...
     # switch to use "oid":"000fb01261e4d119e4e988ce82f49fb8b139fe3c",
     # or consider using https://api.github.com/repos/ruanyf/fortunes/commits

@@ -1,14 +1,16 @@
 cask "andro-meld" do
   version "0.0.2"
 
-  url "https://andromeld.catchingnow.com/dmg/AndroMeld_v#{version}.dmg"
+  # url "https://andromeld.catchingnow.com/dmg/AndroMeld_v#{version}.dmg"
+  url "https://andromeld.catchingnow.com/dmg/AndroMeld.dmg"
   name "AndroMeld"
   desc "Seamlessly connected your Mac and Android devices"
   homepage "https://andromeld.catchingnow.com/"
 
   livecheck do
     url "https://andromeld.catchingnow.com/"
-    regex(%r{href=".*?/dmg/AndroMeld_v?(\d+(?:\.\d+)+).dmg"}i)
+    # regex(%r{href=".*?/dmg/AndroMeld_v?(\d+(?:\.\d+)+).dmg"}i)
+    regex(%r{New:\s*v?(\d+(?:\.\d+)+)}i)
     strategy :page_match do |page, regex|
       page.scan(regex).flatten.uniq.sort
     end

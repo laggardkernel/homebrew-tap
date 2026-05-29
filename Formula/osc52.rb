@@ -2,7 +2,8 @@ require "base64"
 
 class Osc52 < Formula
   desc "Send string to the terminal clipboard using the OSC 52 escape sequence"
-  homepage "https://chromium.googlesource.com/apps/libapps/+log/master/hterm/etc/osc52.sh"
+  # homepage "https://chromium.googlesource.com/apps/libapps/+log/master/hterm/etc/osc52.sh"
+  homepage "https://chromium.googlesource.com/apps/libapps/+/master/hterm/etc/osc52.sh"
   # rubocop: disable all
   version "250bcf7"
   url "https://chromium.googlesource.com/apps/libapps/+/#{version}/hterm/etc/osc52.sh?format=TEXT"
@@ -11,7 +12,8 @@ class Osc52 < Formula
 
   livecheck do
     url :homepage
-    regex(%r{href="/apps/libapps/\+/([a-z0-9]{7,}+)"}i)
+    # regex(%r{href="/apps/libapps/\+/([a-z0-9]{7,}+)"}i)
+    regex(%r{blob:\s*([a-z0-9]{7,}+)}i)
     strategy :page_match do |page, regex|
       # Only return the 1st commit to avoid alphabetical version comparison
       page.scan(regex).flatten.first&.slice!(0..6)

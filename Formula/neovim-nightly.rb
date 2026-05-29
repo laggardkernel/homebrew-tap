@@ -4,12 +4,12 @@ class VersionFetcher
   end
 
   def version
-    require "open-uri"
-    require "net/http"
-    require "json"
+    require "open3"
 
     begin
-      html = URI(@url).open.read
+      html, status = Open3.capture2("curl", "-sL", "--max-time", "10", @url)
+      raise "curl failed" unless status.success?
+
       regex = />NVIM\s*v?(\S+?)[<\s]/
       m = html.match(regex)
       if m
@@ -17,8 +17,8 @@ class VersionFetcher
       else
         "latest"
       end
-    rescue OpenURI::HTTPError
-      # '404 Not Found' may be raise if the nightly build failed
+    rescue StandardError
+      # '404 Not Found' may be raised if the nightly build failed
       "latest"
     end
   end
