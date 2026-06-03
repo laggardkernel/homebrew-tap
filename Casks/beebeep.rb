@@ -1,5 +1,5 @@
 cask "beebeep" do
-  version "5.8.5"
+  version "5.9.1"
 
   url "https://downloads.sourceforge.net/beebeep/MacOSX/beebeep-#{version}-osx.zip",
       verified: "sourceforge.net/beebeep/"

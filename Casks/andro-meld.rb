@@ -1,5 +1,5 @@
 cask "andro-meld" do
-  version "0.0.3"
+  version "0.0.5"
 
   # url "https://andromeld.catchingnow.com/dmg/AndroMeld_v#{version}.dmg"
   url "https://andromeld.catchingnow.com/dmg/AndroMeld.dmg"
