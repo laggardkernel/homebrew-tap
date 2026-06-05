@@ -11,7 +11,9 @@ class AxonhubBin < Formula
 
   livecheck do
     url :stable
-    strategy :github_latest
+    regex(/^v?(\d+(?:\.\d+)+)$/i)  # exclude beta
+    # regex(/v?(\d+(?:\.\d+)+(-.+)?)/i)
+    strategy :github_releases
   end
 
   def install
