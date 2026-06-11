@@ -17,7 +17,7 @@ cask "andro-meld" do
   end
 
   auto_updates false
-  depends_on macos: ">= :sequoia"
+  depends_on macos: :sequoia
 
   app "AndroMeld.app"
 
