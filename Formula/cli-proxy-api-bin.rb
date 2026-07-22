@@ -1,7 +1,7 @@
 class CliProxyApiBin < Formula
   desc "Wrap Gemini CLI, Codex, Claude Code, Qwen Code as an API service"
   homepage "https://github.com/router-for-me/CLIProxyAPI"
-  version "7.2.91"
+  version "7.2.102"
   license "MIT"
 
   os_name = OS.mac? ? "darwin" : "linux"
