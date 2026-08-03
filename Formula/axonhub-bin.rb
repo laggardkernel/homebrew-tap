@@ -1,7 +1,7 @@
 class AxonhubBin < Formula
   desc "OpenAI-compatible API gateway for coding agents and LLM clients"
   homepage "https://github.com/looplj/axonhub"
-  version "0.9.43"
+  version "1.0.0-beta6"
   license "Apache-2.0"
 
   os_name = OS.mac? ? "darwin" : "linux"
@@ -11,8 +11,8 @@ class AxonhubBin < Formula
 
   livecheck do
     url :stable
-    regex(/^v?(\d+(?:\.\d+)+)$/i)  # exclude beta
-    # regex(/v?(\d+(?:\.\d+)+(-.+)?)/i)
+    # regex(/^v?(\d+(?:\.\d+)+)$/i)  # exclude beta
+    regex(/v?(\d+(?:\.\d+)+(-.+)?)/i)
     strategy :github_releases
   end
 
