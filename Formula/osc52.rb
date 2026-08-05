@@ -3,7 +3,7 @@ class Osc52 < Formula
   # homepage "https://chromium.googlesource.com/apps/libapps/+log/master/hterm/etc/osc52.sh"
   homepage "https://chromium.googlesource.com/apps/libapps/+/master/hterm/etc/osc52.sh"
   # rubocop: disable all
-  version "250bcf7"
+  version "fb6e4aa"
   url "https://chromium.googlesource.com/apps/libapps/+/#{version}/hterm/etc/osc52.sh?format=TEXT"
   # rubocop: enable all
   license :cannot_represent
