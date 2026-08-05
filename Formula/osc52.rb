@@ -1,5 +1,3 @@
-require "base64"
-
 class Osc52 < Formula
   desc "Send string to the terminal clipboard using the OSC 52 escape sequence"
   # homepage "https://chromium.googlesource.com/apps/libapps/+log/master/hterm/etc/osc52.sh"
@@ -23,7 +21,7 @@ class Osc52 < Formula
   def install
     File.open("osc52.sh", "rt") do |f|
       content = f.read
-      File.binwrite("osc52", Base64.decode64(content))
+      File.binwrite("osc52", content.unpack1("m"))
     end
 
     bin.install "osc52"
