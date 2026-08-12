@@ -1,5 +1,5 @@
 cask "qtscrcpy" do
-  version "4.1.0"
+  version "4.1.1"
 
   on_arm do
     url "https://github.com/barry-ran/QtScrcpy/releases/download/v#{version}/QtScrcpy-mac-arm64-Qt6.5.3-v#{version}.dmg"

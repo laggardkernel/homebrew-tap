@@ -1,7 +1,7 @@
 class HellogrokBin < Formula
   desc "Local proxy for Grok Build custom model channels"
   homepage "https://github.com/hellowind777/hellogrok"
-  version "0.1.9"
+  version "0.1.17"
   license "MIT"
 
   os_name = OS.mac? ? "darwin" : "linux"

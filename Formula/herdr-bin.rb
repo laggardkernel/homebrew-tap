@@ -1,7 +1,7 @@
 class HerdrBin < Formula
   desc "Agent multiplexer that lives in your terminal"
   homepage "https://herdr.dev"
-  version "0.8.0"
+  version "0.8.2"
   license "Apache-2.0"
 
   os_name = OS.mac? ? "macos" : "linux"
