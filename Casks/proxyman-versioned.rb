@@ -6,6 +6,8 @@ cask "proxyman-versioned" do
     version "4.4.0,44000"
   end
 
+  sha256 :no_check
+
   url "https://download.proxyman.io/#{version.csv.second}/Proxyman_#{version.csv.first}.dmg"
   name "Proxyman"
   desc "Modern and intuitive HTTP Debugging Proxy app"

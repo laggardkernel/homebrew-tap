@@ -8,6 +8,8 @@ cask "qtscrcpy" do
     url "https://github.com/barry-ran/QtScrcpy/releases/download/v#{version}/QtScrcpy-mac-x64-Qt5.15.2-v#{version}.dmg"
   end
 
+  sha256 :no_check
+
   name "QtScrcpy"
   desc "Android real-time display control software"
   homepage "https://github.com/barry-ran/QtScrcpy"

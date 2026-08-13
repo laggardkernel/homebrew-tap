@@ -1,5 +1,6 @@
 cask "fontmin-app" do
   version "0.2.0"
+  sha256 :no_check
 
   url "https://github.com/ecomfe/fontmin-app/releases/download/v#{version}/Fontmin-v#{version}-osx64.zip",
       verified: "github.com/ecomfe/fontmin-app/"

@@ -15,6 +15,8 @@ cask "obs-versioned" do
     url "https://cdn-fastly.obsproject.com/downloads/obs-studio-#{version}-macos-#{arch}.dmg"
   end
 
+  sha256 :no_check
+
   name "OBS"
   desc "Open-source software for live streaming and screen recording"
   homepage "https://obsproject.com/"

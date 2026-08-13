@@ -7,6 +7,8 @@ cask "raycast-versioned" do
     url "https://releases.raycast.com/releases/#{version}/download?build=universal"
   end
 
+  sha256 :no_check
+
   name "Raycast"
   desc "Control your tools with a few keystrokes"
   homepage "https://raycast.com/"

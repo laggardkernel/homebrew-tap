@@ -1,5 +1,6 @@
 cask "mfiles-helper" do
   version "2.5.3,20240328"
+  sha256 :no_check
 
   url "http://mfiles.maokebing.com/package/mfiles-helper-#{version.csv.first}-macos-#{version.csv.second}.dmg"
   name "MFiles Helper"

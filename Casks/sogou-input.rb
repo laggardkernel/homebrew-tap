@@ -1,7 +1,6 @@
 cask "sogou-input" do
   version "618c"
-
-  # sha256
+  sha256 :no_check
 
   url "https://rabbit-linker.vercel.app/gtimg/sogou_mac/#{version}",
       verified: "rabbit-linker.vercel.app/"

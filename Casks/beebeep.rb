@@ -1,5 +1,6 @@
 cask "beebeep" do
   version "5.9.1"
+  sha256 :no_check
 
   url "https://downloads.sourceforge.net/beebeep/MacOSX/beebeep-#{version}-osx.zip",
       verified: "sourceforge.net/beebeep/"

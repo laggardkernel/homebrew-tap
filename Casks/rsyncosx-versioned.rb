@@ -14,6 +14,8 @@ cask "rsyncosx-versioned" do
     url "https://pseudocold.com/app/rsyncosx/RsyncOSX.#{version}.dmg"
   else  # MacOS.version >= '11'
     version "6.8.0"
+    sha256 :no_check
+
     url "https://github.com/rsyncOSX/RsyncOSX_archived/releases/download/v#{version}/RsyncOSX.#{version}.dmg"
   end
 

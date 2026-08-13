@@ -1,5 +1,6 @@
 cask "sensible-side-buttons" do
   version "1.08.2"
+  sha256 :no_check
 
   # Desousak's fork fixes compatibile problem with Chrome
   # https://github.com/archagon/sensible-side-buttons/issues/58

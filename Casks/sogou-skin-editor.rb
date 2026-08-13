@@ -1,5 +1,6 @@
 cask "sogou-skin-editor" do
   version "1.0.0"
+  sha256 :no_check
 
   url "https://pinyin.sogou.com/mac/softdown.php?r=skineditor"
   name "SGSkinEditor"
