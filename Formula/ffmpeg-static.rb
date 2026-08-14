@@ -1,43 +1,29 @@
 class FfmpegStatic < Formula
-  desc "Ffmpeg static build" # rubocop: disable all
-  homepage "https://osxexperts.net"
-  version "9.0"
-  version_str = version.to_s
-  version_base = version.to_s.gsub(/(\.\d+)0+$/, '\1').delete(".")
+  desc "Static FFmpeg build"
+  homepage "https://osxexperts.net/"
+  # Display version and filename token disagree on osxexperts.net.
+  # e.g. "Download ffmpeg 9.0" links to ffmpeg9arm.zip, not ffmpeg90arm.zip.
+  version "9.0,9"
+  download_version = version.to_s.split(",", 2).second
+  url "https://www.osxexperts.net/ffmpeg#{download_version}arm.zip"
 
-  # Use arm build from osxexperts, intel build from evermeet.
-  arch = Hardware::CPU.intel? ? "intel" : "arm"
-  if OS.mac? && Hardware::CPU.arm?
-    homepage "https://osxexperts.net/"
-    url "https://www.osxexperts.net/ffmpeg#{version_base}#{arch}.zip"
+  depends_on arch: :arm64
+  depends_on :macos
 
-    resource "ffprobe" do
-      url "https://www.osxexperts.net/ffprobe#{version_base}#{arch}.zip"
-    end
+  resource "ffprobe" do
+    url "https://www.osxexperts.net/ffprobe#{download_version}arm.zip"
+  end
 
-    resource "ffplay" do
-      url "https://www.osxexperts.net/ffplay#{version_base}#{arch}.zip"
-    end
-  elsif OS.mac? && Hardware::CPU.intel?
-    homepage "https://evermeet.cx/ffmpeg/"
-    url "https://evermeet.cx/ffmpeg/ffmpeg-#{version_str}.7z"
-
-    resource "ffprobe" do
-      url "https://evermeet.cx/ffmpeg/ffprobe-#{version_str}.7z"
-    end
-
-    resource "ffplay" do
-      url "https://evermeet.cx/ffmpeg/ffplay-#{version_str}.7z"
-    end
+  resource "ffplay" do
+    url "https://www.osxexperts.net/ffplay#{download_version}arm.zip"
   end
 
   livecheck do
-    # TODO: customize livecheck to check both builds
-    # Intel build is delayed after arm from osxexperts, use evermeet's build for intel
-    # rubocop: disable all
-    url "https://osxexperts.net/"
-    # rubocop: enable all
-    regex(/>Download ffmpeg v?(\d+(?:\.\d+)+)(\s\(Apple\s+Silicon\))/i)
+    url :homepage
+    regex(/href="[^">]*ffmpeg(\d+)arm\.zip"[^>]*>\s*Download\s+ffmpeg\s+v?(\d+(?:\.\d+)+)/i)
+    strategy :page_match do |page, regex|
+      page.scan(regex).map { |match| "#{match.second},#{match.first}" }
+    end
   end
 
   def install
@@ -53,8 +39,8 @@ class FfmpegStatic < Formula
   test do
     # Create an example mp4 file
     mp4out = testpath/"video.mp4"
-    system bin/"ffmpeg", "-filter_complex", "testsrc=rate=1:duration=1", mp4out
-    assert_predicate mp4out, :exist?
+    system bin/"ffmpeg-static", "-filter_complex", "testsrc=rate=1:duration=1", mp4out
+    assert_path_exists mp4out
   end
 end
 # - https://github.com/eugeneware/ffmpeg-static
