@@ -1,56 +1,47 @@
-# Custom Formulae
+# laggardkernel/tap
 
-Collection of custom and deprecated formulae.
+Personal Homebrew tap for custom builds, pinned/legacy versions, missing apps,
+and a few extra `brew` commands.
 
-## News
+Things live here when Homebrew-core/cask will not take them:
 
-<details>
-  <summary>Big changes made in this repo.</summary>
+- option/patched rebuilds: `aria2-options`, `tmux-options`, `libass-options`,
+  `mkcert-custom`
+- upstream binaries packaged differently from core: `*-bin`, `ffmpeg-static`,
+  `neovim-nightly`
+- launchd helpers: `openvpn-service`, `rc-local`
+- version-pinned casks official Homebrew will not keep: `*-versioned`,
+  `forklift3`
+- apps missing from official cask
 
-- ...
-- 05-23-2021
-  - Fix checkalive
-- 12-01-2020
-  - `Homebrew.args` is deprecated in 2.6.0. Passing value into formula build with
-    `--with-key=value` is not possible anymore.
-- 02-28-2020
-  - Drops cask `mellow`, which is now maintained in Homebrew Cask repo
-- 02-26-2020
-  - Rename some formulae to avoid name conflicting after `brew tap-pin` is
-    obsolete
-- 10-04-2019
-  - Remove formula `libcaca`, cause dependency `imlib2` is added in formula in
-    homebrew-core
-- 08-30-2019
-  - Formulae with option `--with-openssl@1.1` is being removed cause formulae
-    from Homebrew-core are moving to openssl@1.1.
-
-</details>
+Look in `Formula/` and `Casks/` for the current inventory, or run
+`brew tap-info laggardkernel/tap`.
 
 ## Installation
 
 ```bash
 brew tap laggardkernel/tap
 brew install laggardkernel/tap/<formula>
-# brew tap-pin laggardkernel/tap # deprecated
-```
-
-## Development
-
-```bash
-git config --local blame.ignoreRevsFile .git-blame-ignore-revs
+brew install --cask laggardkernel/tap/<cask>
 ```
 
 ## External Commands
 
-- `brew switch`, the old goodie dropped by brew in 2.6.0
-- `brew fix-perm`, fix formula file perms broke by `sudo brew services`
-- `brew git-gc`, copied from ymyzk/homebrew-ymyzk, original tap unmaintained
-- `brew bat formula`, `bat` path hardcoding removed
+- `brew switch <formula> <version>` — old `brew switch` (removed in Homebrew
+  2.6), for kegs that are not `@`-versioned
+- `brew fix-perm [formula|all]` — repair root-owned kegs after
+  `sudo brew services`
+- `brew git-gc` — `git gc` across the Homebrew repo and every tap
+- `brew bat <formula|cask>` — `brew cat` through `bat`
 
-## Formulae
+## Contributing
 
-Check the `Formula/` folder directly. No longer bother to update introduction here.
+```bash
+git config --local blame.ignoreRevsFile .git-blame-ignore-revs
+brew style --fix
+```
+
+`brew style --fix` is helpful but not trustworthy. Be careful.
 
 ## References
 
@@ -58,9 +49,9 @@ Check the `Formula/` folder directly. No longer bother to update introduction he
 - [Formula API](https://rubydoc.brew.sh/Formula)
 - [example-formula.rb](https://github.com/syhw/homebrew/blob/master/Library/Contributions/example-formula.rb)
 - [Cask Cookbook](https://docs.brew.sh/Cask-Cookbook)
+- [How to Create and Maintain a Tap](https://docs.brew.sh/How-to-Create-and-Maintain-a-Tap)
 - [Detect OS, CPU arch from GoReleaser](https://github.com/filebrowser/homebrew-tap/blob/master/Formula/filebrowser.rb)
-- [`brew checkalive`](https://docs.brew.sh/Brew-Livecheck)
-- `brew style --fix`, helpful but not trustworthy. Be careful!
+- [`brew livecheck`](https://docs.brew.sh/Brew-Livecheck)
 - Deprecation of ARGV
   - https://github.com/Homebrew/brew/issues/1803
   - https://github.com/Homebrew/brew/issues/7093
