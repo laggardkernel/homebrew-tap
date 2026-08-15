@@ -15,6 +15,14 @@ cask "fontmin-app" do
 
   app "Fontmin.app"
 
+  postflight do
+    system_command "/usr/bin/xattr",
+                   args:         ["-dr", "com.apple.quarantine", "#{appdir}/Fontmin.app"],
+                   sudo:         false,
+                   must_succeed: false,
+                   print_stderr: false
+  end
+
   zap trash: [
     "~/Library/Application Support/Fontmin",
     "~/Library/Preferences/com.node-webkit-builder.fontmin,plist",

@@ -16,6 +16,14 @@ cask "sigil1" do
 
   app "Sigil.app"
 
+  postflight do
+    system_command "/usr/bin/xattr",
+                   args:         ["-dr", "com.apple.quarantine", "#{appdir}/Sigil.app"],
+                   sudo:         false,
+                   must_succeed: false,
+                   print_stderr: false
+  end
+
   zap trash: [
     "~/Library/Application Support/sigil-ebook",
     "~/Library/Preferences/com.sigil-ebook.Sigil.app.plist",

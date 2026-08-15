@@ -13,6 +13,14 @@ cask "sensible-side-buttons" do
 
   app "SensibleSideButtons.app"
 
+  postflight do
+    system_command "/usr/bin/xattr",
+                   args:         ["-dr", "com.apple.quarantine", "#{appdir}/SensibleSideButtons.app"],
+                   sudo:         false,
+                   must_succeed: false,
+                   print_stderr: false
+  end
+
   zap trash: [
     "~/Library/Preferences/net.archagon.sensible-side-buttons.plist",
     "~/Library/Preferences/net.archagon.sensible-side-buttons.plist.*",

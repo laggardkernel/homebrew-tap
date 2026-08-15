@@ -16,6 +16,14 @@ cask "cloud-uploader" do
 
   app "cloud-uploader.app"
 
+  postflight do
+    system_command "/usr/bin/xattr",
+                   args:         ["-dr", "com.apple.quarantine", "#{appdir}/cloud-uploader.app"],
+                   sudo:         false,
+                   must_succeed: false,
+                   print_stderr: false
+  end
+
   zap trash: [
     "~/Library/Application Support/cloud-uploader",
     "~/Library/Preferences/com.net-easy-cloud-music-uploader.app.plist",

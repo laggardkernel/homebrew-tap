@@ -18,6 +18,14 @@ cask "qtscrcpy" do
 
   app "QtScrcpy.app"
 
+  postflight do
+    system_command "/usr/bin/xattr",
+                   args:         ["-dr", "com.apple.quarantine", "#{appdir}/QtScrcpy.app"],
+                   sudo:         false,
+                   must_succeed: false,
+                   print_stderr: false
+  end
+
   uninstall quit: "rankun.QtScrcpy"
 
   zap trash: "~/Library/Saved Application State/rankun.QtScrcpy.savedState"

@@ -24,5 +24,13 @@ cask "mfiles-helper" do
   # Name was changed from "MFiles Helper.app" to "爱传送.app" in 2.2.1
   app "爱传送.app", target: "MFiles Helper.app"
 
+  postflight do
+    system_command "/usr/bin/xattr",
+                   args:         ["-dr", "com.apple.quarantine", "#{appdir}/MFiles Helper.app"],
+                   sudo:         false,
+                   must_succeed: false,
+                   print_stderr: false
+  end
+
   zap trash: "~/Library/Preferences/com.windtune.itransfer.plist"
 end

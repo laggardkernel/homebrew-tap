@@ -28,6 +28,14 @@ cask "sourcetrail-versioned" do
 
   app "Sourcetrail.app"
 
+  postflight do
+    system_command "/usr/bin/xattr",
+                   args:         ["-dr", "com.apple.quarantine", "#{appdir}/Sourcetrail.app"],
+                   sudo:         false,
+                   must_succeed: false,
+                   print_stderr: false
+  end
+
   zap trash: [
     "~/Library/Application Support/Sourcetrail",
     "~/Library/Saved Application State/com.sourcetrail.savedState",

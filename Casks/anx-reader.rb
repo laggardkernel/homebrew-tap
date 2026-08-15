@@ -21,6 +21,14 @@ cask "anx-reader" do
 
   app "Anx Reader.app"
 
+  postflight do
+    system_command "/usr/bin/xattr",
+                   args:         ["-dr", "com.apple.quarantine", "#{appdir}/Anx Reader.app"],
+                   sudo:         false,
+                   must_succeed: false,
+                   print_stderr: false
+  end
+
   uninstall quit: "com.anxcye.anxReader"
 
   zap trash: [
