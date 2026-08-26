@@ -1,5 +1,5 @@
 cask "cc-sessions-viewer" do
-  version "0.3.21"
+  version "0.3.26"
   sha256 :no_check
 
   url "https://github.com/jerrywu001/cc-sessions-viewer/releases/download/v#{version}/Sessions.Viewer_#{version}_universal.dmg"
