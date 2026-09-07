@@ -2,8 +2,7 @@ cask "beebeep" do
   version "5.9.1"
   sha256 :no_check
 
-  url "https://downloads.sourceforge.net/beebeep/MacOSX/beebeep-#{version}-osx.zip",
-      verified: "sourceforge.net/beebeep/"
+  url "https://downloads.sourceforge.net/beebeep/MacOSX/beebeep-#{version}-osx.zip"
   name "BeeBEEP"
   desc "Secure peer to peer office messenger"
   homepage "https://www.beebeep.net/"

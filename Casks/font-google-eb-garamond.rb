@@ -3,10 +3,10 @@ cask "font-google-eb-garamond" do
   sha256 :no_check
 
   url "https://github.com/google/fonts.git",
-      verified:  "github.com/google/fonts",
       branch:    "main",
       only_path: "ofl/ebgaramond"
   name "EB Garamond from Google Fonts"
+  desc "EB Garamond font from Google Fonts"
   homepage "https://fonts.google.com/specimen/EB+Garamond"
   # homepage "https://googlefonts.github.io/ebgaramond-specimen/"
 

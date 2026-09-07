@@ -31,14 +31,12 @@ cask "obs-versioned" do
 
   app "OBS.app"
   # shim script (https://github.com/Homebrew/homebrew-cask/issues/18809)
-  shimscript = "#{staged_path}/obs.wrapper.sh"
+  shimscript = "{{staged_path}}/obs.wrapper.sh"
   binary shimscript, target: "obs"
 
-  preflight do
-    File.write shimscript, <<~EOS
-      #!/bin/bash
-      exec '#{appdir}/OBS.app/Contents/MacOS/OBS' "$@"
-    EOS
+  preflight_steps do
+    run "/bin/sh", args: ["-c", "printf '%s\\n' '#!/bin/bash' 'exec \"{{appdir}}/OBS.app/Contents/MacOS/OBS\" \"$@\"' > '{{staged_path}}/obs.wrapper.sh'"]
+    run "/bin/chmod", args: ["+x", "{{staged_path}}/obs.wrapper.sh"]
   end
 
   uninstall delete: "/Library/CoreMediaIO/Plug-Ins/DAL/obs-mac-virtualcam.plugin"

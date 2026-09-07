@@ -7,8 +7,7 @@ cask "sourcetrail-versioned" do
     sha256 "b2155e5b1f6f97b466d404821a61b57d4db0040356cd7487827ea9a003d65291"
   end
 
-  url "https://github.com/CoatiSoftware/Sourcetrail/releases/download/#{version}/Sourcetrail_#{version.dots_to_underscores}_macOS_64bit.dmg",
-      verified: "github.com/CoatiSoftware/Sourcetrail/"
+  url "https://github.com/CoatiSoftware/Sourcetrail/releases/download/#{version}/Sourcetrail_#{version.dots_to_underscores}_macOS_64bit.dmg"
   name "Sourcetrail"
   desc "Code source explorer"
   homepage "https://www.sourcetrail.com/"
@@ -28,12 +27,9 @@ cask "sourcetrail-versioned" do
 
   app "Sourcetrail.app"
 
-  postflight do
-    system_command "/usr/bin/xattr",
-                   args:         ["-dr", "com.apple.quarantine", "#{appdir}/Sourcetrail.app"],
-                   sudo:         false,
-                   must_succeed: false,
-                   print_stderr: false
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "Sourcetrail.app"], base: :appdir,
+        must_succeed: false, print_stderr: false
   end
 
   zap trash: [

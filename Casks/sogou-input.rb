@@ -2,8 +2,7 @@ cask "sogou-input" do
   version "618c"
   sha256 :no_check
 
-  url "https://rabbit-linker.vercel.app/gtimg/sogou_mac/#{version}",
-      verified: "rabbit-linker.vercel.app/"
+  url "https://rabbit-linker.vercel.app/gtimg/sogou_mac/#{version}"
   name "Sogou Input Method"
   name "搜狗输入法"
   desc "Input method supporting full and double spelling"

@@ -2,8 +2,5 @@
   "adguardhome-bin": "adguardhome",
   "filebrowser-bin": "filebrowser",
   "mosdns-bin": "mosdns",
-  "raycast-versions": "raycast-versioned",
-  "rsyncosx-versions": "rsyncosx-versioned",
-  "sourcetrail-versions": "sourcetrail-versioned",
   "tachidesk": "suwayomi"
 }

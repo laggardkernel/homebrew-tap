@@ -2,8 +2,7 @@ cask "fontmin-app" do
   version "0.2.0"
   sha256 :no_check
 
-  url "https://github.com/ecomfe/fontmin-app/releases/download/v#{version}/Fontmin-v#{version}-osx64.zip",
-      verified: "github.com/ecomfe/fontmin-app/"
+  url "https://github.com/ecomfe/fontmin-app/releases/download/v#{version}/Fontmin-v#{version}-osx64.zip"
   name "Fontmin"
   desc "First Solution Of Font Subsetting All By JavaScript"
   homepage "https://ecomfe.github.io/fontmin"
@@ -15,12 +14,9 @@ cask "fontmin-app" do
 
   app "Fontmin.app"
 
-  postflight do
-    system_command "/usr/bin/xattr",
-                   args:         ["-dr", "com.apple.quarantine", "#{appdir}/Fontmin.app"],
-                   sudo:         false,
-                   must_succeed: false,
-                   print_stderr: false
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "Fontmin.app"], base: :appdir,
+        must_succeed: false, print_stderr: false
   end
 
   zap trash: [

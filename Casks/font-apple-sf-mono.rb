@@ -5,6 +5,7 @@ cask "font-apple-sf-mono" do
   url "file:///dev/null"
   name "Sans Francisco Mono"
   name "SF Mono"
+  desc "Apple's SF Mono font"
   homepage "https://developer.apple.com/fonts/"
 
   conflicts_with cask: "font-sf-mono"

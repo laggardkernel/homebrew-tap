@@ -17,12 +17,9 @@ cask "cc-sessions-viewer" do
 
   app "Sessions Viewer.app"
 
-  postflight do
-    system_command "/usr/bin/xattr",
-                   args:         ["-dr", "com.apple.quarantine", "#{appdir}/Sessions Viewer.app"],
-                   sudo:         false,
-                   must_succeed: false,
-                   print_stderr: false
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "Sessions Viewer.app"], base: :appdir,
+        must_succeed: false, print_stderr: false
   end
 
   uninstall quit: "com.wuchao.cc-sessions-viewer"

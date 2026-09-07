@@ -22,12 +22,9 @@ cask "anx-reader@beta" do
 
   app "Anx Reader.app"
 
-  postflight do
-    system_command "/usr/bin/xattr",
-                   args:         ["-dr", "com.apple.quarantine", "#{appdir}/Anx Reader.app"],
-                   sudo:         false,
-                   must_succeed: false,
-                   print_stderr: false
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "Anx Reader.app"], base: :appdir,
+        must_succeed: false, print_stderr: false
   end
 
   uninstall quit: "com.anxcye.anxReader"
