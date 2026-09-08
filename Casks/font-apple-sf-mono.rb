@@ -9,6 +9,7 @@ cask "font-apple-sf-mono" do
   homepage "https://developer.apple.com/fonts/"
 
   conflicts_with cask: "font-sf-mono"
+
   # depends_on macos: ">= :sierra"
 
   font "SF-Mono-Bold.otf"
@@ -24,31 +25,60 @@ cask "font-apple-sf-mono" do
   font "SF-Mono-Semibold.otf"
   font "SF-Mono-SemiboldItalic.otf"
 
-  preflight do
-    FileUtils.rm("#{staged_path}/null") # remove dummy download file
+  preflight_steps do
+    remove "null"
 
-    font_source_dir = if MacOS.version >= "10.15"
-      "/System/Applications/Utilities/Terminal.app/Contents/Resources/Fonts"
-    else
-      "/Applications/Utilities/Terminal.app/Contents/Resources/Fonts"
+    if_path_exists "/System/Applications/Utilities/Terminal.app/Contents/Resources/Fonts" do
+      copy "/System/Applications/Utilities/Terminal.app/Contents/Resources/Fonts/SF-Mono-Bold.otf",
+           "SF-Mono-Bold.otf"
+      copy "/System/Applications/Utilities/Terminal.app/Contents/Resources/Fonts/SF-Mono-BoldItalic.otf",
+           "SF-Mono-BoldItalic.otf"
+      copy "/System/Applications/Utilities/Terminal.app/Contents/Resources/Fonts/SF-Mono-Heavy.otf",
+           "SF-Mono-Heavy.otf"
+      copy "/System/Applications/Utilities/Terminal.app/Contents/Resources/Fonts/SF-Mono-HeavyItalic.otf",
+           "SF-Mono-HeavyItalic.otf"
+      copy "/System/Applications/Utilities/Terminal.app/Contents/Resources/Fonts/SF-Mono-Light.otf",
+           "SF-Mono-Light.otf"
+      copy "/System/Applications/Utilities/Terminal.app/Contents/Resources/Fonts/SF-Mono-LightItalic.otf",
+           "SF-Mono-LightItalic.otf"
+      copy "/System/Applications/Utilities/Terminal.app/Contents/Resources/Fonts/SF-Mono-Medium.otf",
+           "SF-Mono-Medium.otf"
+      copy "/System/Applications/Utilities/Terminal.app/Contents/Resources/Fonts/SF-Mono-MediumItalic.otf",
+           "SF-Mono-MediumItalic.otf"
+      copy "/System/Applications/Utilities/Terminal.app/Contents/Resources/Fonts/SF-Mono-Regular.otf",
+           "SF-Mono-Regular.otf"
+      copy "/System/Applications/Utilities/Terminal.app/Contents/Resources/Fonts/SF-Mono-RegularItalic.otf",
+           "SF-Mono-RegularItalic.otf"
+      copy "/System/Applications/Utilities/Terminal.app/Contents/Resources/Fonts/SF-Mono-Semibold.otf",
+           "SF-Mono-Semibold.otf"
+      copy "/System/Applications/Utilities/Terminal.app/Contents/Resources/Fonts/SF-Mono-SemiboldItalic.otf",
+           "SF-Mono-SemiboldItalic.otf"
     end
-    Dir.chdir(font_source_dir.to_s) do
-      %w[
-        SF-Mono-Bold.otf
-        SF-Mono-BoldItalic.otf
-        SF-Mono-Heavy.otf
-        SF-Mono-HeavyItalic.otf
-        SF-Mono-Light.otf
-        SF-Mono-LightItalic.otf
-        SF-Mono-Medium.otf
-        SF-Mono-MediumItalic.otf
-        SF-Mono-Regular.otf
-        SF-Mono-RegularItalic.otf
-        SF-Mono-Semibold.otf
-        SF-Mono-SemiboldItalic.otf
-      ].each do |f|
-        FileUtils.cp(f.to_s, "#{staged_path}/#{f}")
-      end
+    if_path_exists "/Applications/Utilities/Terminal.app/Contents/Resources/Fonts" do
+      copy "/Applications/Utilities/Terminal.app/Contents/Resources/Fonts/SF-Mono-Bold.otf",
+           "SF-Mono-Bold.otf"
+      copy "/Applications/Utilities/Terminal.app/Contents/Resources/Fonts/SF-Mono-BoldItalic.otf",
+           "SF-Mono-BoldItalic.otf"
+      copy "/Applications/Utilities/Terminal.app/Contents/Resources/Fonts/SF-Mono-Heavy.otf",
+           "SF-Mono-Heavy.otf"
+      copy "/Applications/Utilities/Terminal.app/Contents/Resources/Fonts/SF-Mono-HeavyItalic.otf",
+           "SF-Mono-HeavyItalic.otf"
+      copy "/Applications/Utilities/Terminal.app/Contents/Resources/Fonts/SF-Mono-Light.otf",
+           "SF-Mono-Light.otf"
+      copy "/Applications/Utilities/Terminal.app/Contents/Resources/Fonts/SF-Mono-LightItalic.otf",
+           "SF-Mono-LightItalic.otf"
+      copy "/Applications/Utilities/Terminal.app/Contents/Resources/Fonts/SF-Mono-Medium.otf",
+           "SF-Mono-Medium.otf"
+      copy "/Applications/Utilities/Terminal.app/Contents/Resources/Fonts/SF-Mono-MediumItalic.otf",
+           "SF-Mono-MediumItalic.otf"
+      copy "/Applications/Utilities/Terminal.app/Contents/Resources/Fonts/SF-Mono-Regular.otf",
+           "SF-Mono-Regular.otf"
+      copy "/Applications/Utilities/Terminal.app/Contents/Resources/Fonts/SF-Mono-RegularItalic.otf",
+           "SF-Mono-RegularItalic.otf"
+      copy "/Applications/Utilities/Terminal.app/Contents/Resources/Fonts/SF-Mono-Semibold.otf",
+           "SF-Mono-Semibold.otf"
+      copy "/Applications/Utilities/Terminal.app/Contents/Resources/Fonts/SF-Mono-SemiboldItalic.otf",
+           "SF-Mono-SemiboldItalic.otf"
     end
   end
 end

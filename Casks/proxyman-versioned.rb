@@ -21,16 +21,8 @@ cask "proxyman-versioned" do
 
   app "Proxyman.app"
 
-  uninstall_postflight do
-    stdout, * = system_command "/usr/bin/security",
-                               args: ["find-certificate", "-a", "-c", "Proxyman", "-Z"],
-                               sudo: true
-    hashes = stdout.lines.grep(/^SHA-256 hash:/) { |l| l.split(":").second.strip }
-    hashes.each do |h|
-      system_command "/usr/bin/security",
-                     args: ["delete-certificate", "-Z", h],
-                     sudo: true
-    end
+  uninstall_postflight_steps do
+    delete_keychain_certificates "Proxyman"
   end
 
   uninstall launchctl: "com.proxyman.NSProxy.HelperTool",
