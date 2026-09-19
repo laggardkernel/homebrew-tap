@@ -1,7 +1,7 @@
 class RoamgateBin < Formula
   desc "Web and PWA client for Herdr"
   homepage "https://roamgate.dev/"
-  version "0.7.10"
+  version "0.7.11"
   license "MIT"
 
   depends_on :macos

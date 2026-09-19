@@ -1,7 +1,7 @@
 class CodegServer < Formula
   desc "Collaborative multi-agent AI coding workspace (server daemon and web UI)"
   homepage "https://github.com/xintaofei/codeg"
-  version "0.31.1"
+  version "0.32.2"
   license "Apache-2.0"
 
   os_name = OS.mac? ? "darwin" : "linux"
@@ -59,7 +59,8 @@ class CodegServer < Formula
         By default, codeg-server listens on http://127.0.0.1:3080.
         Configuration file: ~/.codeg/.env
         Environment variables: CODEG_HOST, CODEG_PORT, CODEG_TOKEN, CODEG_DATA_DIR,
-                               CODEG_BRIDGE_PORTS, CODEG_BRIDGE_PUBLIC_HOST
+                               CODEG_BRIDGE_PORTS, CODEG_BRIDGE_PUBLIC_HOST,
+                               CODEG_BRIDGE_HOST_PATTERN
     EOS
   end
 
