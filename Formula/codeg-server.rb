@@ -1,7 +1,7 @@
 class CodegServer < Formula
   desc "Collaborative multi-agent AI coding workspace (server daemon and web UI)"
   homepage "https://github.com/xintaofei/codeg"
-  version "0.30.10"
+  version "0.31.1"
   license "Apache-2.0"
 
   os_name = OS.mac? ? "darwin" : "linux"
@@ -24,6 +24,9 @@ class CodegServer < Formula
     # adapters install into this isolated location deterministically.
     (bin/"codeg-server").write <<~EOS
       #!/bin/sh
+      set -a
+      [ -f "${HOME}/.codeg/.env" ] && . "${HOME}/.codeg/.env"
+      set +a
       export CODEG_STATIC_DIR="${CODEG_STATIC_DIR:-"#{opt_pkgshare}/web"}" \
         NPM_CONFIG_PREFIX="${NPM_CONFIG_PREFIX:-"${HOME}/.codeg/npm-global"}" \
         PATH="${HOME}/.codeg/npm-global/bin:${PATH}"
@@ -54,7 +57,9 @@ class CodegServer < Formula
 
       Customization:
         By default, codeg-server listens on http://127.0.0.1:3080.
-        Environment variables: CODEG_HOST, CODEG_PORT, CODEG_TOKEN, CODEG_DATA_DIR
+        Configuration file: ~/.codeg/.env
+        Environment variables: CODEG_HOST, CODEG_PORT, CODEG_TOKEN, CODEG_DATA_DIR,
+                               CODEG_BRIDGE_PORTS, CODEG_BRIDGE_PUBLIC_HOST
     EOS
   end
 
