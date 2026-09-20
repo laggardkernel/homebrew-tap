@@ -8,11 +8,9 @@ class TmuxOptions < Formula
   license "ISC"
 
   livecheck do
-    url "https://github.com/tmux/tmux/releases/"
-    regex(%r{href=.*?/tag/v?(\d+(?:\.\d+)+-?[a-z]*)["' >]}i)
-    strategy :page_match do |page, regex|
-      page.scan(regex).map { |match| match&.first }
-    end
+    url :stable
+    regex(/v?(\d+(?:\.\d+)+[a-z]?)/i)
+    strategy :github_latest
   end
 
   head do
