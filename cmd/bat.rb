@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 # Adapted from and modified on dev-cmd/cat.rb. Removes hardcoded path to bat.
+require "system_command"
+
 require "abstract_command"
 require "fileutils"
 
@@ -29,8 +31,8 @@ module Homebrew
         cd HOMEBREW_REPOSITORY do
           # TODO: better fix for TERM problem on xterm-kitty
           ENV["TERM"] = "xterm-256color" if ENV["TERM"] == "xterm-kitty"
-          ENV["BAT_CONFIG_PATH"] = Homebrew::EnvConfig.bat_config_path
-          ENV["BAT_THEME"] = Homebrew::EnvConfig.bat_theme
+          ENV["BAT_CONFIG_PATH"] ||= ENV["HOMEBREW_BAT_CONFIG_PATH"] if ENV["HOMEBREW_BAT_CONFIG_PATH"].present?
+          ENV["BAT_THEME"] ||= ENV["HOMEBREW_BAT_THEME"] if ENV["HOMEBREW_BAT_THEME"].present?
           pager = "bat"
 
           args.named.to_paths.each do |path|
@@ -49,7 +51,7 @@ module Homebrew
             return
           end
 
-          safe_system pager, *args.named.to_paths
+          SystemCommand.safe_system pager, *args.named.to_paths
         end
       end
     end
