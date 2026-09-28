@@ -1,7 +1,7 @@
 class CliProxyApiBin < Formula
   desc "Wrap Gemini CLI, Codex, Claude Code, Qwen Code as an API service"
   homepage "https://github.com/router-for-me/CLIProxyAPI"
-  version "7.3.18"
+  version "8.0.3"
   license "MIT"
 
   os_name = OS.mac? ? "darwin" : "linux"
@@ -45,11 +45,6 @@ class CliProxyApiBin < Formula
   end
 
   test do
-    require "pty"
-    PTY.spawn(bin/"cli-proxy-api", "-login", "-no-browser") do |r, _w, pid|
-      sleep 5
-      Process.kill "TERM", pid
-      assert_match "accounts.google.com", r.read_nonblock(1024)
-    end
+    assert_match "CLIProxyAPI Version: #{version}", shell_output("#{bin}/cli-proxy-api --help")
   end
 end
