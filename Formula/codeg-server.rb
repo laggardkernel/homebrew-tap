@@ -1,7 +1,7 @@
 class CodegServer < Formula
   desc "Collaborative multi-agent AI coding workspace (server daemon and web UI)"
   homepage "https://github.com/xintaofei/codeg"
-  version "0.32.2"
+  version "0.33.0"
   license "Apache-2.0"
 
   os_name = OS.mac? ? "darwin" : "linux"
@@ -15,7 +15,7 @@ class CodegServer < Formula
   end
 
   def install
-    libexec.install "codeg-server", "codeg-mcp"
+    libexec.install "codeg-server", "codeg-mcp", "codeg-computer-helper"
     pkgshare.install "web"
 
     # Codeg doesn't bundle Node.js/npm; it relies on the ambient toolchain (Node >= 22).
@@ -33,7 +33,7 @@ class CodegServer < Formula
       exec "#{opt_libexec}/codeg-server" "$@"
     EOS
 
-    bin.install_symlink libexec/"codeg-mcp"
+    bin.install_symlink libexec/"codeg-mcp", libexec/"codeg-computer-helper"
   end
 
   def post_install_steps
@@ -60,7 +60,12 @@ class CodegServer < Formula
         Configuration file: ~/.codeg/.env
         Environment variables: CODEG_HOST, CODEG_PORT, CODEG_TOKEN, CODEG_DATA_DIR,
                                CODEG_BRIDGE_PORTS, CODEG_BRIDGE_PUBLIC_HOST,
-                               CODEG_BRIDGE_HOST_PATTERN
+                               CODEG_BRIDGE_HOST_PATTERN, CODEG_COMPUTER_USE
+
+      Computer Use (Preview):
+        To allow web clients to operate server windows, set CODEG_COMPUTER_USE=1.
+        On macOS, grant Accessibility and Screen Recording permissions to:
+          #{opt_libexec}/codeg-computer-helper
     EOS
   end
 
