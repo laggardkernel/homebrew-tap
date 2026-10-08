@@ -1,7 +1,7 @@
 class RoamgateBin < Formula
   desc "Web and PWA client for Herdr"
   homepage "https://roamgate.dev/"
-  version "0.7.15"
+  version "0.8.0"
   license "MIT"
 
   depends_on :macos
@@ -52,6 +52,8 @@ class RoamgateBin < Formula
 
       Configuration:
         By default, roamgate listens on http://127.0.0.1:8787.
+        Login is required even on loopback. Set ROAMGATE_PASSWORD (15-1024 chars)
+        in ~/.config/roamgate/.env-server, or use the generated auth token.
         For available options and environment variables, see:
           https://github.com/powerfooI/roamgate/blob/main/docs/DEPLOYMENT.md#basic-runtime-configuration
     EOS

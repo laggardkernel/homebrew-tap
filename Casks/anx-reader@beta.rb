@@ -1,5 +1,5 @@
 cask "anx-reader@beta" do
-  version "1.15.0-beta.1"
+  version "1.15.0-beta.3"
   sha256 :no_check
 
   url "https://github.com/Anxcye/anx-reader/releases/download/v#{version}/Anx-Reader-macos-#{version}.zip"
