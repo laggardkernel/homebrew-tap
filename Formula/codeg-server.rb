@@ -1,13 +1,13 @@
 class CodegServer < Formula
   desc "Collaborative multi-agent AI coding workspace (server daemon and web UI)"
-  homepage "https://github.com/xintaofei/codeg"
-  version "0.33.0"
+  homepage "https://github.com/spacering-net/codeg"
+  version "0.34.0"
   license "Apache-2.0"
 
   os_name = OS.mac? ? "darwin" : "linux"
   cpu_arch = Hardware::CPU.arm? ? "arm64" : "x64"
   basename = "codeg-server-#{os_name}-#{cpu_arch}.tar.gz"
-  url "https://github.com/xintaofei/codeg/releases/download/v#{version}/#{basename}"
+  url "https://github.com/spacering-net/codeg/releases/download/v#{version}/#{basename}"
 
   livecheck do
     url :stable
