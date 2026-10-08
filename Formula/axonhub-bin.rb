@@ -1,7 +1,7 @@
 class AxonhubBin < Formula
   desc "OpenAI-compatible API gateway for coding agents and LLM clients"
   homepage "https://github.com/looplj/axonhub"
-  version "1.0.0-beta10"
+  version "1.0.0-beta11"
   license "Apache-2.0"
 
   os_name = OS.mac? ? "darwin" : "linux"
@@ -78,7 +78,7 @@ class AxonhubBin < Formula
       Start service:
         brew services start #{name}
 
-      Example config: https://github.com/looplj/axonhub/blob/release/v0.9.x/config.example.yml
+      Example config: https://github.com/looplj/axonhub/blob/unstable/config.example.yml
     EOS
   end
 
