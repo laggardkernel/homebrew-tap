@@ -1,7 +1,7 @@
 class CodegServer < Formula
   desc "Collaborative multi-agent AI coding workspace (server daemon and web UI)"
   homepage "https://github.com/spacering-net/codeg"
-  version "0.34.0"
+  version "0.35.1"
   license "Apache-2.0"
 
   os_name = OS.mac? ? "darwin" : "linux"
