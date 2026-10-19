@@ -1,14 +1,12 @@
 class DufsBin < Formula
   desc "Static file server"
   homepage "https://github.com/sigoden/dufs"
-  version "0.46.0"
+  version "0.47.0"
   license any_of: ["Apache-2.0", "MIT"]
 
   option "without-prebuilt", "Skip prebuilt binary and build from source"
 
   conflicts_with "dufs", because: "they are variants of the same package"
-
-  depends_on "xz"  # weird running dependency
 
   if build.without?("prebuilt")
     url "https://github.com/sigoden/dufs/archive/v#{version}.tar.gz" # rubocop: disable all
