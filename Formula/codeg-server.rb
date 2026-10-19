@@ -1,7 +1,7 @@
 class CodegServer < Formula
   desc "Collaborative multi-agent AI coding workspace (server daemon and web UI)"
   homepage "https://github.com/spacering-net/codeg"
-  version "0.34.0"
+  version "0.38.0"
   license "Apache-2.0"
 
   os_name = OS.mac? ? "darwin" : "linux"
@@ -15,7 +15,7 @@ class CodegServer < Formula
   end
 
   def install
-    libexec.install "codeg-server", "codeg-mcp", "codeg-computer-helper"
+    libexec.install "codeg-server", "codeg-mcp", "codeg-computer-helper", "codeg-cli"
     pkgshare.install "web"
 
     # Codeg doesn't bundle Node.js/npm; it relies on the ambient toolchain (Node >= 22).
@@ -33,7 +33,7 @@ class CodegServer < Formula
       exec "#{opt_libexec}/codeg-server" "$@"
     EOS
 
-    bin.install_symlink libexec/"codeg-mcp", libexec/"codeg-computer-helper"
+    bin.install_symlink libexec/"codeg-mcp", libexec/"codeg-computer-helper", libexec/"codeg-cli"
   end
 
   def post_install_steps
@@ -78,6 +78,7 @@ class CodegServer < Formula
 
   test do
     assert_match version.to_s, shell_output("#{bin}/codeg-server -V").chomp
+    assert_match version.to_s, shell_output("#{bin}/codeg-cli -V").chomp
 
     port = free_port
     pid = spawn({ "CODEG_PORT" => port.to_s, "CODEG_DATA_DIR" => testpath.to_s }, bin/"codeg-server")
