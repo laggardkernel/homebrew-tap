@@ -7,8 +7,7 @@ Things live here when Homebrew-core/cask will not take them:
 
 - option/patched rebuilds: `aria2-options`, `tmux-options`, `libass-options`,
   `mkcert-custom`
-- upstream binaries packaged differently from core: `*-bin`, `ffmpeg-static`,
-  `neovim-nightly`
+- upstream binaries packaged differently from core: `*-bin`, `ffmpeg-static`.
 - launchd helpers: `openvpn-service`, `rc-local`
 - version-pinned casks official Homebrew will not keep: `*-versioned`,
   `forklift3`
