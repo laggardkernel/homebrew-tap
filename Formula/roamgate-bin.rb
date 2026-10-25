@@ -1,7 +1,7 @@
 class RoamgateBin < Formula
   desc "Web and PWA client for Herdr"
   homepage "https://roamgate.dev/"
-  version "0.8.5"
+  version "0.8.9"
   license "MIT"
 
   depends_on :macos
@@ -76,7 +76,7 @@ class RoamgateBin < Formula
 
     pid = spawn({ "HOME" => testpath.to_s }, bin/"roamgate-server")
     sleep 2
-    assert_match "HTTP/1.1 200 OK", shell_output("curl -sI http://127.0.0.1:#{port}/")
+    assert_match "HTTP/1.1 200 OK", shell_output("curl -sI http://127.0.0.1:#{port}/login")
   ensure
     Process.kill("TERM", pid)
     Process.wait(pid)
