@@ -3,7 +3,7 @@ class FfmpegStatic < Formula
   homepage "https://osxexperts.net/"
   # Display version and filename token disagree on osxexperts.net.
   # e.g. "Download ffmpeg 9.0" links to ffmpeg9arm.zip, not ffmpeg90arm.zip.
-  version "9.0,9"
+  version "9.0.2,902"
   download_version = version.to_s.split(",", 2).second
   url "https://www.osxexperts.net/ffmpeg#{download_version}arm.zip"
 
