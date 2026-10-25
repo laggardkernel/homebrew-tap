@@ -1,7 +1,7 @@
 class CodegServer < Formula
   desc "Collaborative multi-agent AI coding workspace (server daemon and web UI)"
   homepage "https://github.com/spacering-net/codeg"
-  version "0.38.0"
+  version "0.40.0"
   license "Apache-2.0"
 
   os_name = OS.mac? ? "darwin" : "linux"
@@ -60,7 +60,8 @@ class CodegServer < Formula
         Configuration file: ~/.codeg/.env
         Environment variables: CODEG_HOST, CODEG_PORT, CODEG_TOKEN, CODEG_DATA_DIR,
                                CODEG_BRIDGE_PORTS, CODEG_BRIDGE_PUBLIC_HOST,
-                               CODEG_BRIDGE_HOST_PATTERN, CODEG_COMPUTER_USE
+                               CODEG_BRIDGE_HOST_PATTERN, CODEG_COMPUTER_USE,
+                               CODEG_AUTH
 
       Computer Use (Preview):
         To allow web clients to operate server windows, set CODEG_COMPUTER_USE=1.
