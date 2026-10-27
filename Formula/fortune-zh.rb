@@ -1,50 +1,23 @@
-class VersionFetcher
-  def initialize
-    @url = "https://github.com/ruanyf/fortunes/commits/master"
-  end
-
-  def version
-    require "open3"
-
-    html, status = Open3.capture2("curl", "-sL", "--max-time", "10", @url)
-    raise "curl failed" unless status.success?
-
-    # href in payload json escape " as href href=\"/ruanyf/...
-    # switch to use "oid":"000fb01261e4d119e4e988ce82f49fb8b139fe3c",
-    # or consider using https://api.github.com/repos/ruanyf/fortunes/commits
-    # regex = /href=\\"\/ruanyf\/fortunes\/commit\/([a-z0-9]{7,}+)\\">/
-    regex = /"oid":\s*"([a-z0-9]{7,}+)"/
-    m = html.match(regex)
-    if m
-      m[1][0..6]
-    else
-      "latest"
-    end
-  end
-end
-
 class FortuneZh < Formula
   desc "Infamous electronic fortune-cookie generator, with additional zsh datfiles"
   homepage "https://www.ibiblio.org/pub/linux/games/amusements/fortune/!INDEX.html"
-  # rubocop: disable all
   version "9708,000fb01"
-  revision 1
   url "https://www.ibiblio.org/pub/linux/games/amusements/fortune/fortune-mod-#{version.to_s.split(",").first}.tar.gz"
-  # rubocop: enable all
-  # mirror ""  # link contains hash, don't wanna update it manually
+  license "BSD-4-Clause-UC"
+
+  livecheck do
+    url "https://api.github.com/repos/ruanyf/fortunes/commits/master"
+    strategy :json do |json|
+      sha = json["sha"]
+      next if sha.blank?
+
+      "#{version.to_s.split(",").first},#{sha[0, 7]}"
+    end
+  end
 
   conflicts_with "fortune", because: "they are variants of the same package"
 
-  livecheck do
-    datfile_version = VersionFetcher.new.version.to_s
-    url "https://www.ibiblio.org/pub/linux/games/amusements/fortune/"
-    regex(/href=.*?fortune-mod[._-]v?(\d+(?:\.\d+)*)\.t/i)
-    strategy :page_match do |page, regex|
-      page.scan(regex).map do |match|
-        match&.first&.+ "," + datfile_version
-      end
-    end
-  end
+  patch :DATA
 
   resource "datfile" do
     # TODO: unable to access variable 'version' in resource block
@@ -71,15 +44,9 @@ class FortuneZh < Formula
       s.change_make_var! "REGEXDEFS", "-DHAVE_REGEX_H -DPOSIX_REGEX"
     end
 
-    %w[unstr.c rot.c].each do |f|
-      inreplace "util/#{f}" do |s|
-        s.gsub!(/#include\s+<stdio\.h>/, "#include <stdio.h>\n#include <stdlib.h>")
-      end
-    end
-
     system "make", "install"
 
-    ### Additonal zh datafiles ###
+    ### Additional zh datafiles ###
     # Dropped the idea to create a formula for datafile installation. It doesn't
     # integrate well with formula fortune, users have to reinstall the datafile
     # formula after each fortune upgrade.
@@ -116,3 +83,25 @@ class FortuneZh < Formula
     system bin/"fortune", "-s", "tang300"
   end
 end
+
+__END__
+--- a/util/rot.c
++++ b/util/rot.c
+@@ -5,6 +5,7 @@
+ 
+ #include <stdio.h>
+ #include <ctype.h>
++#include <stdlib.h>
+ 
+ int main(void)
+ {
+--- a/util/unstr.c
++++ b/util/unstr.c
+@@ -96,6 +96,7 @@ static char sccsid[] = "@(#)unstr.c	8.1 (Berkeley) 5/31/93";
+ #include	<ctype.h>
+ #include	<string.h>
+ #include	<unistd.h>
++#include	<stdlib.h>
+ 
+ #ifndef MAXPATHLEN
+ #define	MAXPATHLEN	1024
